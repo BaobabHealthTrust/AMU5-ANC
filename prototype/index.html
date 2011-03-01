@@ -3,64 +3,84 @@
         <title>AMU5 Prototype</title>
         <link type="text/css" href="stylesheets/touch-fancy.css" rel="stylesheet" />
         <link href="stylesheets/mateme.css?1266397276" media="screen" rel="stylesheet" type="text/css" />
+        <link type="text/css" href="stylesheets/dyna-home-tabs.css" rel="stylesheet" />
+        <script type="text/javascript" language="javascript" src="javascripts/dyna-tabs.js" ></script>
         <style type="text/css">
             span {
                 font-size: 1em;
                 font-weight: normal;
             }
+            .touchscreenTextInput{
+                border-top:none;
+                border-left:none;
+                border-right:none;
+                border-bottom: 1px solid #eee;
+                width:100%;
+                font-family:"Nimbus Sans L","Arial Narrow",sans-serif;
+                font-size:2.2em;
+                background:none;
+                padding-left:5px;
+            }
         </style>
         <script type="text/javascript" language="javascript">
             <!--
 
-            function $(id){
-                return document.getElementById(id);
-            }
+            var heading = ["Overview", "Reports", "Administration"];
 
             //-->
         </script>
     </head>
-    <body id='mateme'>
+    <body id='mateme' onload="generateTab(heading, $('tabs'))">
         <div id='container'>
             <div id='content'>
-            <table width="1000px" style="height: 100%; border: 1px solid #ccc;
-                   -moz-border-radius: 10px;" border="0" cellspacing="1">
-                <tr>
-                    <td style="height: 60px;" align="center">
-                        <input type="text" class="touchscreenTextInput" value="" name="id" id="id"
-                               onkeydown="if(event.keyCode == 52){
-                                   window.location = 'dashboard.html?id=' + $('id').value;
-                               }" />
-                    </td>
-                </tr>
-                <tr>
-                    <td style="height: 50px;" align="center">
-                        <button class="blue" onclick="window.location='register.html'">
-                            <span>
-                                Find or Register Patient
-                            </span>
-                        </button>
-                    </td>
-                </tr>
-                <tr>
-                    <td valign="bottom" align="center">
-                        <div style="font-size: 8em; color: #ddd; margin: 30px;">
-                            amu<span style="font-size: 0.75em">5</span>
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td style="background-color: #BBCCD9; -moz-border-radius: 10px; height: 30px;">
-                        <button class="green" style="float: right; margin-right: 8px;"
-                                onclick="if($('id').value.trim().length > 0){
-                                    window.location = 'dashboard.html?id=' + $('id').value;
-                                }">
-                            <span>
-                                Finish
-                            </span>
-                        </button>
-                    </td>
-                </tr>
-            </table>
+                <table width="1000px" style="height: 100%; border: 1px solid #ccc;
+                       -moz-border-radius: 10px;" border="0" cellspacing="1">                    
+                    <tr>
+                        <td style="height: 50px;">
+                            <table width="100%" border="0">
+                                <tr>
+                                    <td valign="bottom" style="font-size: 1.8em; padding-left: 15px; 
+                                        color: silver;padding-bottom: 48px;">
+                                        Scan Patient Barcode :
+                                    </td>
+                                    <td valign="bottom" style="padding-bottom: 55px;">
+                                        <input type="text" class="touchscreenTextInput" value="" name="id" id="id"
+                                               onkeydown="if(event.keyCode == 52){
+                                                   window.location = 'dashboard.html?id=' + $('id').value;
+                                               }" />
+                                    </td>
+                                    <td style="height: 40px; padding-top: 10px;" valign="top">
+                                        <div style="font-size: 5em; color: #ddd; text-align: center; padding: 3px;
+                                             -moz-border-radius: 75px; border: 1px solid #eee; padding-bottom: 9px;">
+                                            amu<span style="font-size: 0.75em">5</span>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td id="tabs">
+                            &nbsp;
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="background-color: #BBCCD9; -moz-border-radius: 10px; height: 30px;">
+                            <button class="red" style="float: left; margin-left: 8px;">
+                                <span>
+                                    Logout
+                                </span>
+                            </button>
+                            <button class="green" onclick="window.location='register.html'"
+                                    style="float: right; margin-right: 8px;">
+                                <span>
+                                    Find or Register Patient
+                                </span>
+                            </button>
+                        </td>
+                    </tr>
+                </table>
 
             </div>
         </div>

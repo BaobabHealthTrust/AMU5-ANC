@@ -8,6 +8,10 @@ function $(id){
 function activate(id){
     for(var i = 0; i < controls.length; i++){
         if(controls[i] == id){
+            var page = $(id).innerHTML.toLowerCase().replace(/\s/, "_");
+
+            $(page).src = "tabpages/" + page + ".html";
+
             $(controls[i]).className = "active-tab";
             $("view_" + controls[i]).style.display = "block";
         } else {
@@ -31,7 +35,7 @@ function activate(id){
  *                       },
  *             [target = control to attach tab to defaulted to document.body]);
 */
-function generateTab(headings, content, target){
+function generateTab(headings, target, content){
     var tabMainContainer = document.createElement("div");
     tabMainContainer.id = "tabMainContainer";
 
@@ -62,7 +66,7 @@ function generateTab(headings, content, target){
             tab.className = "inactive-tab";
             tab.style.marginLeft = "1px";
         }
-        tab.innerHTML = "<span>" + headings[i] + "</span>";
+        tab.innerHTML = headings[i];
         tab.onclick = function(){
             activate(this.id);
         }
@@ -79,14 +83,19 @@ function generateTab(headings, content, target){
             tabPage.style.display = "none";
         }
 
-        if(content[headings[i]]){
-            tabPage.innerHTML = content[headings[i]];
+        if(content){
+            if(content[headings[i]]){
+                tabPage.innerHTML = content[headings[i]];
+            } else {
+                tabPage.innerHTML = "<iframe src='' id='" + headings[i].toLowerCase().replace(/\s/gi, "_") + "'></iframe>";
+            }
         } else {
-            tabPage.innerHTML = "<h3>" + headings[i] + "</h3>";
+            tabPage.innerHTML = "<iframe src='' id='" + headings[i].toLowerCase().replace(/\s/gi, "_") + "'></iframe>";
         }
 
         tabPageContainer.appendChild(tabPage);
     }
+    $(headings[0].toLowerCase().replace(/\s/gi, "_")).src = "tabpages/" + headings[0].toLowerCase().replace(/\s/gi, "_") + ".html";
 }
 
 //window.addEventListener("load", generateTab, false);
