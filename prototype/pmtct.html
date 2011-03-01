@@ -1,0 +1,135 @@
+<html>
+    <head>
+        <title>Pmtct Management</title>
+        <meta http-equiv='content-type' content='text/html;charset=UTF-8' />
+        <script language='javascript' type='text/javascript' src='javascripts/jquery.js'></script>
+        <script language="javascript" type="text/javascript" src="javascripts/jquery.flot.js"></script>
+        <script language="javascript">
+            tstUsername = "";
+            tstCurrentDate = "2010/03/12";
+            tt_cancel_destination = 'dashboard.html';
+            tt_cancel_show = 'dashboard.html';
+        </script>
+        <link href="stylesheets/mateme.css?1266397276" media="screen" rel="stylesheet" type="text/css" />
+        <link href="stylesheets/touch-fancy.css?1266397276" media="screen" rel="stylesheet" type="text/css" />
+        <script src="javascripts/preload.js?1266397276" type="text/javascript"></script>
+        <!-- Uncomment/Comment the line below to enable/disable the Touchscreen Toolkit-->
+        <script src="javascripts/touchscreen.js?1266397276" type="text/javascript"></script>
+        <script src="javascripts/dateselector.js?1266397276" type="text/javascript"></script>
+        <script src="javascripts/utils.js?1266397276" type="text/javascript"></script>
+    </head>
+    <body id='mateme'>
+        <div id='container'>
+            <div id='content'>
+                <div id='description' style='color:#777;position:absolute;margin-top:-70px;'></div><center>
+                    <form action='dashboard.html' method="get">
+                        <table cellpadding=10>
+                            <tr>
+                                <th colspan=2>Pmtct Management</th>
+                            </tr>
+                            <tr>
+                                <td>Enter Who Clinical Stage</td>
+                                <td>
+                                    <input type='text' value='' name='enter_who_clinical_stage' id='enter_who_clinical_stage' helptext='Enter Who Clinical Stage' />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Enter Cd4 Count</td>
+                                <td>
+                                    <input type='text' value='' name='enter_cd4_count' id='enter_cd4_count' helptext='Enter Cd4 Count' />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Enter Date Result Given</td>
+                                <td>
+                                    <input type='text' value='' name='enter_date_result_given' id='enter_date_result_given' helptext='Enter Date Result Given' />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>On Cpt?</td>
+                                <td>
+                                    <select style='width: 100%' name='on_cpt?' id='on_cpt?' helptext='On Cpt?'>
+                                        <option></option>
+                                        <option>Yes</option>
+                                        <option>No</option>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>On Art?</td>
+                                <td>
+                                    <select style='width: 100%' name='on_art?' id='on_art?' helptext='On Art?'>
+                                        <option></option>
+                                        <option>Yes</option>
+                                        <option>No</option>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Arv Prophylaxis Dispensed (no Of Tabs/ml Given)</td>
+                                <td>
+                                    <input type='text' value='' name='arv_prophylaxis_dispensed_(no_of_tabs/ml_given)' id='arv_prophylaxis_dispensed_(no_of_tabs/ml_given)' helptext='Arv Prophylaxis Dispensed (no Of Tabs/ml Given)' />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Enter Number Of Sdnvp Given Mother</td>
+                                <td>
+                                    <input type='text' value='' name='enter_number_of_sdnvp_given_mother' id='enter_number_of_sdnvp_given_mother' helptext='Enter Number Of Sdnvp Given Mother' />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Enter No Of Azt Given To Mother</td>
+                                <td>
+                                    <input type='text' value='' name='enter_no_of_azt_given_to_mother' id='enter_no_of_azt_given_to_mother' helptext='Enter No Of Azt Given To Mother' />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Enter Number Of Nvp Mls Given To Baby</td>
+                                <td>
+                                    <input type='text' value='' name='enter_number_of_nvp_mls_given_to_baby' id='enter_number_of_nvp_mls_given_to_baby' helptext='Enter Number Of Nvp Mls Given To Baby' />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Enter Lmp</td>
+                                <td>
+                                    <input type='text' value='' name='enter_lmp' id='enter_lmp' helptext='Enter Lmp' />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Enter Expected Date Of Delivery</td>
+                                <td>
+                                    <input type='text' value='' name='enter_expected_date_of_delivery' id='enter_expected_date_of_delivery' helptext='Enter Expected Date Of Delivery' />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Week Of First Visit</td>
+                                <td>
+                                    <select style='width: 100%' name='week_of_first_visit' id='week_of_first_visit' helptext='Week Of First Visit'>
+                                        <option></option>
+                                        <option>0-12</option>
+                                        <option>13+</option>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Pre-elampsia</td>
+                                <td>
+                                    <select style='width: 100%' name='pre-elampsia' id='pre-elampsia' helptext='Pre-elampsia'>
+                                        <option></option>
+                                        <option>Yes</option>
+                                        <option>No</option>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td align='center'>
+                                    <input type='submit' value='Finish' />
+                                </td>
+                            </tr>
+                        </table>
+                    </form>
+                </center>
+            </div>
+        </div>
+    </body>
+</html>

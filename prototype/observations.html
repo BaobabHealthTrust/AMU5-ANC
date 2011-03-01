@@ -1,0 +1,125 @@
+<html>
+    <head>
+        <title>Observations</title>
+        <meta http-equiv='content-type' content='text/html;charset=UTF-8' />
+        <script language='javascript' type='text/javascript' src='javascripts/jquery.js'></script>
+        <script language="javascript" type="text/javascript" src="javascripts/jquery.flot.js"></script>
+        <script language="javascript">
+            tstUsername = "";
+            tstCurrentDate = "2010/03/12";
+            tt_cancel_destination = 'dashboard.html';
+            tt_cancel_show = 'dashboard.html';
+        </script>
+        <link href="stylesheets/mateme.css?1266397276" media="screen" rel="stylesheet" type="text/css" />
+        <link href="stylesheets/touch-fancy.css?1266397276" media="screen" rel="stylesheet" type="text/css" />
+        <script src="javascripts/preload.js?1266397276" type="text/javascript"></script>
+        <!-- Uncomment/Comment the line below to enable/disable the Touchscreen Toolkit-->
+        <script src="javascripts/touchscreen.js?1266397276" type="text/javascript"></script>
+        <script src="javascripts/dateselector.js?1266397276" type="text/javascript"></script>
+        <script src="javascripts/utils.js?1266397276" type="text/javascript"></script>
+    </head>
+    <body id='mateme'>
+        <div id='container'>
+            <div id='content'>
+                <div id='description' style='color:#777;position:absolute;margin-top:-70px;'></div><center>
+                    <form action='dashboard.html' method="get">
+                        <table cellpadding=10>
+                            <tr>
+                                <th colspan=2>Observations</th>
+                            </tr>
+                            <tr>
+                                <td>Enter Gravida</td>
+                                <td>
+                                    <input type='text' value='' name='enter_gravida' id='enter_gravida' helptext='Enter Gravida' />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Enter Para</td>
+                                <td>
+                                    <input type='text' value='' name='enter_para' id='enter_para' helptext='Enter Para' />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Enter Gestation Weeks</td>
+                                <td>
+                                    <input type='text' value='' name='enter_gestation_weeks' id='enter_gestation_weeks' helptext='Enter Gestation Weeks' />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Enter Fetal Heart</td>
+                                <td>
+                                    <select style='width: 100%' name='enter_fetal_heart' id='enter_fetal_heart' helptext='Enter Fetal Heart'>
+                                        <option></option>
+                                        <option>YES</option>
+                                        <option>NO</option>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Enter Weight</td>
+                                <td>
+                                    <input type='text' value='' name='enter_weight' id='enter_weight' helptext='Enter Weight' />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Enter Bp</td>
+                                <td>
+                                    <input type='text' value='Text' name='enter_bp' id='enter_bp' helptext='Enter Bp' />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Enter Uterine Protein</td>
+                                <td>
+                                    <input type='text' value='Text' name='enter_uterine_protein' id='enter_uterine_protein' helptext='Enter Uterine Protein' />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Pre-elampsia</td>
+                                <td>
+                                    <select style='width: 100%' name='pre-elampsia' id='pre-elampsia' helptext='Pre-elampsia'>
+                                        <option></option>
+                                        <option>YES</option>
+                                        <option>NO</option>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Fundal Height</td>
+                                <td>
+                                    <input type='text' value='' name='fundal_height' id='fundal_height' helptext='Fundal Height' />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Enter Position And Presentation</td>
+                                <td>
+                                    <input type='text' value='Text' name='enter_position_and_presentation' id='enter_position_and_presentation' helptext='Enter Position And Presentation' />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Enter Syphilis Result</td>
+                                <td>
+                                    <select style='width: 100%' name='enter_syphilis_result' id='enter_syphilis_result' helptext='Enter Syphilis Result'>
+                                        <option>Not Done</option>
+                                        <option>Positive</option>
+                                        <option>Negative</option>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Enter Date Result Was Given</td>
+                                <td>
+                                    <input type='text' value='' name='enter_date_result_was_given' id='enter_date_result_was_given' helptext='Enter Date Result Was Given' />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td align='center'>
+                                    <input type='submit' value='Finish' />
+                                </td>
+                            </tr>
+                        </table>
+                    </form>
+                </center>
+            </div>
+        </div>
+    </body>
+</html>

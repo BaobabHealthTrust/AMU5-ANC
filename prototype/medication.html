@@ -1,0 +1,81 @@
+<html>
+    <head>
+        <title>Preventative Medications</title>
+        <meta http-equiv='content-type' content='text/html;charset=UTF-8' />
+        <script language='javascript' type='text/javascript' src='javascripts/jquery.js'></script>
+        <script language="javascript" type="text/javascript" src="javascripts/jquery.flot.js"></script>
+        <script language="javascript">
+            tstUsername = "";
+            tstCurrentDate = "2010/03/12";
+            tt_cancel_destination = 'dashboard.html';
+            tt_cancel_show = 'dashboard.html';
+        </script>
+        <link href="stylesheets/mateme.css?1266397276" media="screen" rel="stylesheet" type="text/css" />
+        <link href="stylesheets/touch-fancy.css?1266397276" media="screen" rel="stylesheet" type="text/css" />
+        <script src="javascripts/preload.js?1266397276" type="text/javascript"></script>
+        <!-- Uncomment/Comment the line below to enable/disable the Touchscreen Toolkit-->
+        <script src="javascripts/touchscreen.js?1266397276" type="text/javascript"></script>
+        <script src="javascripts/dateselector.js?1266397276" type="text/javascript"></script>
+        <script src="javascripts/utils.js?1266397276" type="text/javascript"></script>
+    </head>
+    <body id='mateme'>
+        <div id='container'>
+            <div id='content'>
+                <div id='description' style='color:#777;position:absolute;margin-top:-70px;'></div><center>
+                    <form action='dashboard.html' method="get">
+                        <table cellpadding=10>
+                            <tr>
+                                <th colspan=2>Preventative Medications</th>
+                            </tr>
+                            <tr>
+                                <td>Preventative Medication: Ttv: Total Previous Doses</td>
+                                <td>
+                                    <input type='text' value='' name='preventative_medication:_ttv:_total_previous_doses' id='preventative_medication:_ttv:_total_previous_doses' helptext='Preventative Medication: Ttv: Total Previous Doses' />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Preventative Medication: Sp: Number Of Tablets Given</td>
+                                <td>
+                                    <input type='text' value='' name='preventative_medication:_sp:_number_of_tablets_given' id='preventative_medication:_sp:_number_of_tablets_given' helptext='Preventative Medication: Sp: Number Of Tablets Given' />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Preventative Medication: Fefo: Number Of Tablets Given</td>
+                                <td>
+                                    <input type='text' value='' name='preventative_medication:_fefo:_number_of_tablets_given' id='preventative_medication:_fefo:_number_of_tablets_given' helptext='Preventative Medication: Fefo: Number Of Tablets Given' />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Preventative Medication: Mebendazole Given?</td>
+                                <td>
+                                    <select style='width: 100%' name='preventative_medication:_mebendazole_given?' id='preventative_medication:_mebendazole_given?' helptext='Preventative Medication: Mebendazole Given?'>
+                                        <option></option>
+                                        <option>YES</option>
+                                        <option>NO</option>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Preventative Medication: Insecticide treated Mosquito Net?</td>
+                                <td>
+                                    <select style='width: 100%' name='preventative_medication:_insecticide_treated_mosquito_net?'
+                                            id='preventative_medication:_insecticide_treated_mosquito_net?'
+                                            helptext='Insecticide treated Mosquito Net?'>
+                                        <option></option>
+                                        <option>YES</option>
+                                        <option>NO</option>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td align='center'>
+                                    <input type='submit' value='Finish' />
+                                </td>
+                            </tr>
+                        </table>
+                    </form>
+                </center>
+            </div>
+        </div>
+    </body>
+</html>

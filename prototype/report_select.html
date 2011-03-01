@@ -1,0 +1,63 @@
+<html>
+    <head>
+        <title>Report Type Selection</title>
+        <link type="text/css" href="stylesheets/touch-fancy.css" rel="stylesheet" />
+        <link href="stylesheets/mateme.css?1266397276" media="screen" rel="stylesheet" type="text/css" />
+        <script language='javascript' type='text/javascript' src='javascripts/jquery.js'></script>
+        <script language="javascript" type="text/javascript" src="javascripts/jquery.flot.js"></script>
+        <script language="javascript">
+            tstUsername = "";
+            tstCurrentDate = "2010/03/12";
+            tt_cancel_destination = 'dashboard.html';
+            tt_cancel_show = 'reports.html';
+        </script>
+        <link href="stylesheets/mateme.css?1266397276" media="screen" rel="stylesheet" type="text/css" />
+        <link href="stylesheets/touch-fancy.css?1266397276" media="screen" rel="stylesheet" type="text/css" />
+        <script src="javascripts/preload.js?1266397276" type="text/javascript"></script>
+        <!-- Uncomment/Comment the line below to enable/disable the Touchscreen Toolkit-->
+        <script src="javascripts/touchscreen.js?1266397276" type="text/javascript"></script>
+        <script src="javascripts/dateselector.js?1266397276" type="text/javascript"></script>
+        <script src="javascripts/utils.js?1266397276" type="text/javascript"></script>
+    </head>
+    <body id='mateme'>
+        <div id='container'>
+            <div id='content' method="get">
+                <form action="reports.html">
+                    <select id="report_type" name="report_type" helptext="Report By">
+                        <option></option>
+                        <option value="day">Day</option>
+                        <option value="week">Week</option>
+                        <option value="month">Month</option>
+                        <option value="year">Year</option>
+                        <option value="range">Range</option>
+                    </select>
+                    <input type="text" name="day" id="day" condition="$('report_type').value=='day'" 
+                           helptext="Select Day of Interest" field_type="date" />
+                    <input type="text" name="week" id="week" condition="$('report_type').value=='week'"
+                           helptext="Select Week Start Day of Interest" field_type="date" />
+                    <select name="month" id="month" condition="$('report_type').value=='month'"
+                            helptext="Select Month of Interest">
+                        <option value="1">Jan</option>
+                        <option value="2">Feb</option>
+                        <option value="3">Mar</option>
+                        <option value="4">Apr</option>
+                        <option value="5">May</option>
+                        <option value="6">Jun</option>
+                        <option value="7">Jul</option>
+                        <option value="8">Aug</option>
+                        <option value="9">Sep</option>
+                        <option value="10">Oct</option>
+                        <option value="11">Nov</option>
+                        <option value="12">Dec</option>
+                    </select>
+                    <input type="text" name="year" id="year" condition="$('report_type').value=='year'"
+                           helptext="Enter Year of Interest" field_type="number" />
+                    <input type="text" name="range_date_1" id="range_date_1" condition="$('report_type').value=='range'"
+                           helptext="Select Start Day of Interest" field_type="date" />
+                    <input type="text" name="range_date_2" id="range_date_2" condition="$('report_type').value=='range'"
+                           helptext="Select End Day of Interest" field_type="date" />
+                </form>
+            </div>
+        </div>
+    </body>
+</html>

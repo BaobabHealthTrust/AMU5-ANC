@@ -1,0 +1,68 @@
+<html>
+    <head>
+        <title>AMU5 Prototype</title>
+        <link type="text/css" href="stylesheets/touch-fancy.css" rel="stylesheet" />
+        <link href="stylesheets/mateme.css?1266397276" media="screen" rel="stylesheet" type="text/css" />
+        <style type="text/css">
+            span {
+                font-size: 1em;
+                font-weight: normal;
+            }
+        </style>
+        <script type="text/javascript" language="javascript">
+            <!--
+
+            function $(id){
+                return document.getElementById(id);
+            }
+
+            //-->
+        </script>
+    </head>
+    <body id='mateme'>
+        <div id='container'>
+            <div id='content'>
+            <table width="1000px" style="height: 100%; border: 1px solid #ccc;
+                   -moz-border-radius: 10px;" border="0" cellspacing="1">
+                <tr>
+                    <td style="height: 60px;" align="center">
+                        <input type="text" class="touchscreenTextInput" value="" name="id" id="id"
+                               onkeydown="if(event.keyCode == 52){
+                                   window.location = 'dashboard.html?id=' + $('id').value;
+                               }" />
+                    </td>
+                </tr>
+                <tr>
+                    <td style="height: 50px;" align="center">
+                        <button class="blue" onclick="window.location='register.html'">
+                            <span>
+                                Find or Register Patient
+                            </span>
+                        </button>
+                    </td>
+                </tr>
+                <tr>
+                    <td valign="bottom" align="center">
+                        <div style="font-size: 8em; color: #ddd; margin: 30px;">
+                            amu<span style="font-size: 0.75em">5</span>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="background-color: #BBCCD9; -moz-border-radius: 10px; height: 30px;">
+                        <button class="green" style="float: right; margin-right: 8px;"
+                                onclick="if($('id').value.trim().length > 0){
+                                    window.location = 'dashboard.html?id=' + $('id').value;
+                                }">
+                            <span>
+                                Finish
+                            </span>
+                        </button>
+                    </td>
+                </tr>
+            </table>
+
+            </div>
+        </div>
+    </body>
+</html>
