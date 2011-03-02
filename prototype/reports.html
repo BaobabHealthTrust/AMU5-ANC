@@ -39,39 +39,93 @@
                                     <script type="text/javascript" language="javascript">
                                         <!--
                                         var fields = [
-                                            ["Total Visits", 0],
-                                            ["Week of First Visit", 0],
-                                            ["Total Pre-Eclampsia", 0],
-                                            ["Total TTV Doses", 0],
-                                            ["Total SP Tablets Given", 0],
-                                            ["Total Iron Tablets Given", 0],
-                                            ["Total Number of Syphilis Test Not Done", 0],
-                                            ["Total Syphilis Test Positive", 0],
-                                            ["Total Syphilis Test Negative", 0],
-                                            ["Total Number of HIV Previous Negative", 0],
-                                            ["Total Number of HIV Previous Positive", 0],
-                                            ["Total Number of HIV New Negative", 0],
-                                            ["Total Number of HIV New Positive", 0],
-                                            ["Total Number of HIV Test Not Done", 0],
-                                            ["Total Number of ART Eligibility Yes", 0],
-                                            ["Total Number of ART Eligibility No", 0],
-                                            ["Total Number of ART Eligibility Unknown", 0],
-                                            ["Total Number of CPT", 0],
-                                            ["Total Number of Not on CPT", 0],
-                                            ["Final PMTCT Regimen Mother", 0],
-                                            ["Total Number None", 0],
-                                            ["Total Number on ART", 0],
-                                            ["Total Number Given sdNVP", 0],
-                                            ["Total Number Given AZT", 0],
-                                            ["Total Number NVP Baby Yes", 0],
-                                            ["Total Number NVP Baby No", 0]
+                                            ["First Visit at",
+                                                [
+                                                    ["0-12 weeks", 0],
+                                                    ["13+ weeks", 0]
+                                                ]
+                                            ],
+                                            ["(Pre-)Eclampsia",
+                                                [
+                                                    ["Total Pre-Eclampsia No", 0],
+                                                    ["Total Pre-Eclampsia Yes", 0]
+                                                ]
+                                            ],
+                                            ["TTV Doses",
+                                                [
+                                                    ["Total TTV Doses 0-1", 0],
+                                                    ["Total TTV Doses 2+", 0]
+                                                ]
+                                            ],
+                                            ["SP Tablets",
+                                                [
+                                                    ["Total SP Tablets Given No", 0],
+                                                    ["Total SP Tablets Given Yes", 0]
+                                                ]
+                                            ],
+                                            ["Iron Tablets",
+                                                [
+                                                    ["Total Iron Tablets Given 0-119", 0],
+                                                    ["Total Iron Tablets Given 120+", 0]
+                                                ]
+                                            ],
+                                            ["Syphilis Status",
+                                                [
+                                                    ["Total Syphilis Test Positive", 0],
+                                                    ["Total Syphilis Test Negative", 0],
+                                                    ["Total Syphilis Test Not Done", 0]
+                                                ]
+                                            ],
+                                            ["HIV Test Results",
+                                                [
+                                                    ["Total Number of HIV Previous Negative", 0],
+                                                    ["Total Number of HIV Previous Positive", 0],
+                                                    ["Total Number of HIV New Negative", 0],
+                                                    ["Total Number of HIV New Positive", 0],
+                                                    ["Total Number of HIV Test Not Done", 0]
+                                                ]
+                                            ],
+                                            ["ART Eligibility",
+                                                [
+                                                    ["Total Number of ART Eligibility Yes", 0],
+                                                    ["Total Number of ART Eligibility No", 0],
+                                                    ["Total Number of ART Eligibility Unknown", 0]
+                                                ]
+                                            ],
+                                            ["On CPT",
+                                                [
+                                                    ["Total Number of CPT", 0],
+                                                    ["Total Number of Not on CPT", 0]
+                                                ]
+                                            ],
+                                            ["Final PMTCT Regimen Mother",
+                                                [
+                                                    ["Total Number None", 0],
+                                                    ["Total Number on ART", 0],
+                                                    ["Total Number Given sdNVP", 0],
+                                                    ["Total Number Given AZT", 0]
+                                                ]
+                                            ],
+                                            ["NVP Syrup Dispensed For Baby",
+                                                [
+                                                    ["Total Number NVP Baby Yes", 0],
+                                                    ["Total Number NVP Baby No", 0]
+                                                ]
+                                            ]
                                         ]
 
                                         for(var i = 0; i < fields.length; i++){
-                                            document.write("<tr>\n<td style=\"padding-left: 20px; border-bottom: 1px solid #ccc;\">" +
-                                                fields[i][0] + "</td>\n<td align='center' style='border-bottom: 1px solid #ccc; " +
-                                                "border-left: 1px solid #ccc;'>" +
-                                                fields[i][1] + "</td>\n</tr>");
+                                            document.write("<tr>\n<th style=\"paddign-left: 30px; " +
+                                                "border-bottom: 1px solid #ccc;\" align='left'>" +
+                                                fields[i][0] + "</th><td style=\"paddign-left: 30px; " +
+                                                "border-bottom: 1px solid #ccc; border-left: 1px solid #ccc;\">&nbsp;</td>\n</tr>");
+
+                                            for(var j = 0; j < fields[i][1].length; j++){
+                                                document.write("<tr>\n<td style=\"padding-left: 50px; border-bottom: 1px solid #ccc;\">" +
+                                                    fields[i][1][j][0] + "</td>\n<td align='center' style='border-bottom: 1px solid #ccc; " +
+                                                    "border-left: 1px solid #ccc;'>" +
+                                                    fields[i][1][j][1] + "</td>\n</tr>");
+                                            }                                            
                                         }
                                 
                                         //-->
@@ -83,11 +137,11 @@
                     </table>
                 </div>
                 <table width="1000px" style="height: 50px; border: 1px solid #ccc;
-                   -moz-border-radius: 10px;" border="0" cellspacing="1">
+                       -moz-border-radius: 10px;" border="0" cellspacing="1">
                     <tr>
                         <td style="background-color: #BBCCD9; -moz-border-radius: 10px; height: 30px;">
                             <button class="green" style="float: right; margin-right: 8px;"
-                                    onclick="window.location = 'dashboard.html';">
+                                    onclick="window.location = 'index.html';">
                                 <span>
                                     Finish
                                 </span>

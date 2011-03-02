@@ -7,8 +7,8 @@
         <script language="javascript">
             tstUsername = "";
             tstCurrentDate = "2010/03/12";
-            tt_cancel_destination = 'dashboard.html';
-            tt_cancel_show = 'dashboard.html';
+            tt_cancel_destination = '';
+            tt_cancel_show = '';
         </script>
         <link href="stylesheets/mateme.css?1266397276" media="screen" rel="stylesheet" type="text/css" />
         <link href="stylesheets/touch-fancy.css?1266397276" media="screen" rel="stylesheet" type="text/css" />
@@ -22,7 +22,7 @@
         <div id='container'>
             <div id='content'>
                 <div id='description' style='color:#777;position:absolute;margin-top:-70px;'></div><center>
-                    <form action='dashboard.html' method="get">
+                    <form action=''>
                         <table cellpadding=10>
                             <tr>
                                 <th colspan=2>Pmtct Management</th>
@@ -66,12 +66,6 @@
                                 </td>
                             </tr>
                             <tr>
-                                <td>Arv Prophylaxis Dispensed (no Of Tabs/ml Given)</td>
-                                <td>
-                                    <input type='text' value='' name='arv_prophylaxis_dispensed_(no_of_tabs/ml_given)' id='arv_prophylaxis_dispensed_(no_of_tabs/ml_given)' helptext='Arv Prophylaxis Dispensed (no Of Tabs/ml Given)' />
-                                </td>
-                            </tr>
-                            <tr>
                                 <td>Enter Number Of Sdnvp Given Mother</td>
                                 <td>
                                     <input type='text' value='' name='enter_number_of_sdnvp_given_mother' id='enter_number_of_sdnvp_given_mother' helptext='Enter Number Of Sdnvp Given Mother' />
@@ -84,15 +78,19 @@
                                 </td>
                             </tr>
                             <tr>
-                                <td>Enter Number Of Nvp Mls Given To Baby</td>
+                                <td>Enter Last Menstrual Period</td>
                                 <td>
-                                    <input type='text' value='' name='enter_number_of_nvp_mls_given_to_baby' id='enter_number_of_nvp_mls_given_to_baby' helptext='Enter Number Of Nvp Mls Given To Baby' />
+                                    <input type='text' value='' name='enter_last_menstrual_period' id='enter_last_menstrual_period' helptext='Enter Last Menstrual Period' />
                                 </td>
                             </tr>
                             <tr>
-                                <td>Enter Lmp</td>
+                                <td>Nvp Baby?</td>
                                 <td>
-                                    <input type='text' value='' name='enter_lmp' id='enter_lmp' helptext='Enter Lmp' />
+                                    <select style='width: 100%' name='nvp_baby?' id='nvp_baby?' helptext='Nvp Baby?'>
+                                        <option></option>
+                                        <option>Yes</option>
+                                        <option>No</option>
+                                    </select>
                                 </td>
                             </tr>
                             <tr>
