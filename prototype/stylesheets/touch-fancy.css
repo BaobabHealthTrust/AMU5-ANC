@@ -101,12 +101,14 @@ form{
 }
 
 .buttonsDiv {
+  background-color: #333333;
   display:block;
   height:80px;
   position:absolute;
-  top:660px;
+  top:670px;
   width:1000px;
   z-index:10;
+  padding-top: 0px;
 }
 
 /*.button {
@@ -428,9 +430,16 @@ button:hover.dark span {
 
 #cancelButton {
   float:left;
+  margin-top: 10px;
 }
 
 #nextButton {
+  margin-top: 10px;
+  margin-right: 10px;
+}
+
+#clearButton {
+  margin-top: 10px;
 }
 
 #backspace, #num, #space, #date, #abc{

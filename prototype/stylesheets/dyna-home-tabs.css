@@ -50,9 +50,22 @@
     background-color: #fff;
 }
 
+#tabContainer2 {
+    width: 99.5%;
+    height: 2.0em;
+    border: 1px solid #fff;
+    -moz-border-radius: 10px;
+    overflow: hidden;
+}
+
+#mainContainer {
+    height: 50px;
+    margin-bottom: 22px;
+}
+
 #tabPageContainer {
     width: 98.5%;
-    height: 89%;
+    height: 82%;
     border-left: 4px outset #666;
     border-right: 4px outset #666;
     border-bottom: 4px outset #666;
@@ -77,4 +90,72 @@ iframe {
     height: 100%;
     width: 100%;
     border: 0px solid #fff;
+}
+
+#banner{
+    background-color: #fff;
+    height: 140px;
+    padding: 10px;
+    border-bottom: 1px dotted #fff;
+}
+
+#scanlabel {
+    float: left;
+    font-size: 1.8em; 
+    padding-left: 15px;
+    color: silver;
+    height: 65%;
+    padding-top: 48px;
+}
+
+#scaninput {
+    float: left;
+    height: 45%;
+    padding-top: 35px;
+    width: 46%;
+    padding-left: 10px;
+}
+
+#barcodeinput{
+    border-top:none;
+    border-left:none;
+    border-right:none;
+    border-bottom: 1px solid #eee;
+    width:100%;
+    font-family:"Nimbus Sans L","Arial Narrow",sans-serif;
+    font-size:2.2em;
+    background:none;
+    padding-left:5px;
+}
+
+#application {
+    float: right;
+    height: 92%;
+    padding-top: 10px;
+}
+
+#applicationname {
+    font-size: 5em;
+    color: #ddd;
+    text-align: center;
+    padding: 3px;
+    -moz-border-radius: 75px;
+    border: 1px solid #eee;
+    padding-bottom: 9px;
+}
+
+#main {
+    background-color: #fff;
+    height: 68%;
+}
+
+#nav {
+    background-color: #333333;
+    border-top:3px solid :#99AAB7;
+    color:#CADCEA;
+    height:80px;
+    width:100%;
+    bottom:0px;
+    position:absolute;
+    overflow:hidden;
 }

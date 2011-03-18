@@ -41,6 +41,20 @@
     overflow: hidden;
 }
 
+#tabContainer2 {
+    width: 99.5%;
+    height: 2.0em;
+    border: 1px solid #fff;
+    -moz-border-radius: 10px;
+    overflow: hidden;
+    padding-left: 5px;
+}
+
+#mainContainer {
+    height: 70px;
+    margin-bottom: 2px;
+}
+
 #tabMainContainer {
     width: 99%;
     height: 98%;
@@ -52,7 +66,7 @@
 
 #tabPageContainer {
     width: 98.5%;
-    height: 89%;
+    height: 80%;
     border-left: 4px outset #578bb3;
     border-right: 4px outset #578bb3;
     border-bottom: 4px outset #578bb3;
@@ -78,3 +92,128 @@ iframe {
     width: 100%;
     border: 0px solid #fff;
 }
+
+#details {
+    background-color: #fff;
+    margin: 10px;
+    width: 40%;
+    height: 160px;
+    border: 1px solid #000;
+    -moz-border-radius: 10px;
+    float: left;
+    overflow: auto;
+}
+
+#application {
+    float: left;
+    height: 160px;
+    padding-top: 10px;
+    margin-left: 50px;
+    padding-top: 30px;
+    margin-bottom: 0px;
+}
+
+#applicationname {
+    font-size: 5em;
+    color: #ddd;
+    text-align: center;
+    padding: 3px;
+    -moz-border-radius: 75px;
+    border: 1px solid #eee;
+    padding: 10px;
+    padding-bottom: 19px;
+}
+
+#links {
+    height: 90%;
+    float: right;
+    width: 26%;
+    background-color: #fff;
+}
+
+#main {
+    float: left;
+    width: 73%;
+    height: 65%;
+    background-color: #fff;
+}
+
+#nav {
+    background-color: #333333;
+    border-top:3px solid :#99AAB7;
+    color:#CADCEA;
+    height:80px;
+    width:100%;
+    bottom:0px;
+    position:absolute;
+    overflow:hidden;
+}
+
+span {
+    font-size: 0.8em;
+    font-weight: normal;
+}
+
+#detailsTopic {
+    font-weight: bold;
+    font-size: 1.5em;
+    margin: 10px;
+    float: left;
+    width: 70%;
+}
+
+#gender {
+    float: right;
+    width: 30px;
+    margin: 10px;
+    height: 30px;
+    -moz-border-radius: 20px;
+    border: 1px #000 solid;
+}
+
+#name {
+    margin: 10px;
+    font-size: 1em;
+    font-weight: bold;
+    float: left;
+    width: 25%;
+}
+
+#namevalue {
+    float: right;
+    width: 60%;
+    margin: 10px;
+}
+
+#residence {
+    margin: 10px;
+    margin-top: 0px;
+    font-size: 1em;
+    font-weight: bold;
+    float: left;
+    width: 25%;
+}
+
+#residencevalue {
+    float: right;
+    width: 60%;
+    margin: 10px;
+    margin-top: 0px;
+}
+
+#age {
+    margin: 10px;
+    margin-top: 0px;
+    font-size: 1em;
+    font-weight: bold;
+    float: left;
+    width: 25%;
+}
+
+#agevalue {
+    float: right;
+    width: 60%;
+    margin: 10px;
+    margin-top: 0px;
+}
+

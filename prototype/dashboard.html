@@ -1,243 +1,80 @@
 <html>
     <head>
-        <title>AMU5 Prototype</title>
+        <title>Dashboard Generator</title>
         <link type="text/css" href="stylesheets/touch-fancy.css" rel="stylesheet" />
         <link href="stylesheets/mateme.css?1266397276" media="screen" rel="stylesheet" type="text/css" />
         <link type="text/css" href="stylesheets/dyna-tabs.css" rel="stylesheet" />
-        <script type="text/javascript" language="javascript" src="javascripts/dyna-tabs.js" ></script>
-        <style type="text/css">
-            span {
-                min-width: 250px;
-                font-size: 0.9em;
-                font-weight: normal;
-            }
-            button {
-                margin: 0px;
-            }
-            button.blue {
-                min-width: 280px;
-            }
-            .active {
-                background-color: #fff;
-                cursor: pointer;
-                border: 1px solid #000;
-                color: #000;
-                -moz-border-radius: 10px;
-            }
-            .disabled {
-                background-color: #578bb3;
-                cursor: pointer;
-                border: 1px solid #000;
-                color: #fff;
-                -moz-border-radius: 10px;
-            }
-            .topic {
-                text-align: center;
-            }
-            
-        </style>
+        <script type="text/javascript" language="javascript" src="javascripts/dashboard.js" ></script>
         <script type="text/javascript" language="javascript">
             <!--
-
-            var heading = ["Visit Summary", "Obstetric History", "Medical History", "Examination", "Visit History"];
-
+            tt_cancel_show = "index.html";
+            tt_cancel_destination = "index.html";
             //-->
         </script>
     </head>
-    <body id='mateme' onload="generateTab(heading, $('graph'))">
-        <div id='container'>
-            <div id='content'>
-                <table width="1000px" style="height: 100%; border: 1px solid #ccc; background-color: #fff;
-                       -moz-border-radius: 10px;"
-                       border="0" cellspacing="0" cellpadding="1">
-                    <tr>
-                        <td width="80%">
-                            <table width="100%" border="0" style="height: 100%;" cellpadding="4">
-                                <tr>
-                                    <td style="height: 30%;" width="50%">
-                                        <table style="border: 1px solid #000; -moz-border-radius: 10px; "
-                                               width="100%"
-                                               cellpadding="3" cellspacing="5">
-                                            <tr>
-                                                <th align="left" colspan="2" style="font-size: 1.5em;
-                                                    -moz-border-radius: 10px;">
-                                                    Patient Details
-                                                </th>
-                                            </tr>
-                                            <tr>
-                                                <td style="font-weight: bold; padding-left: 20px;">
-                                                    Name
-                                                </td>
-                                                <td id="name" style="padding-left: 20px;">
-                                                    &nbsp;
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td style="font-weight: bold; padding-left: 20px;">
-                                                    Residence
-                                                </td>
-                                                <td id="residence" style="padding-left: 20px;">
-                                                    &nbsp;
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td style="font-weight: bold; padding-left: 20px;">
-                                                    Age
-                                                </td>
-                                                <td id="age" style="padding-left: 20px;">
-                                                    &nbsp;
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td style="font-weight: bold; padding-left: 20px;">
-                                                    Occupation
-                                                </td>
-                                                <td id="occupation" style="padding-left: 20px;">
-                                                    &nbsp;
-                                                </td>
-                                            </tr>
-                                        </table>
-                                    </td>
-                                    <td>
-                                        &nbsp;
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td colspan="2" id="graph">
-                                        &nbsp;
-                                    </td>
-                                </tr>
-                            </table>
-                        </td>
-                        <td valign="top">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <button class="blue" onclick="window.location='observations.html'">
-                                            <span>
-                                                Observations
-                                            </span>
-                                        </button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <button class="blue" onclick="window.location='medication.html'">
-                                            <span>
-                                                Preventative Medications
-                                            </span>
-                                        </button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <button class="blue" onclick="window.location='hiv.html'">
-                                            <span>
-                                                HIV Status
-                                            </span>
-                                        </button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <button class="blue" onclick="window.location='pmtct.html'">
-                                            <span>
-                                                PMTCT Management
-                                            </span>
-                                        </button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <button class="blue" onclick="window.location='obstetrics_history.html'">
-                                            <span>
-                                                Obstetric History
-                                            </span>
-                                        </button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <button class="blue" onclick="window.location='medical_history.html'">
-                                            <span>
-                                                Medical History
-                                            </span>
-                                        </button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <button class="blue" onclick="window.location='exams.html'">
-                                            <span>
-                                                Examinations
-                                            </span>
-                                        </button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <button class="blue" onclick="window.location='report_select.html'">
-                                            <span>
-                                                Reports
-                                            </span>
-                                        </button>
-                                    </td>
-                                </tr>
-                            </table>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td style="background-color: #BBCCD9; -moz-border-radius: 10px; height: 30px;" colspan="2">
-                            <button class="green" style="float: right; margin-right: 8px;"
-                                    onclick="window.location = 'index.html';">
-                                <span>
-                                    Finish
-                                </span>
-                            </button>
-                        </td>
-                    </tr>
-                </table>
-            </div>
+    <body>
+        <div id="dashboard">
+            <h1 id="project_name">
+                amu<span style="font-size: 0.75em;">5</span>
+            </h1>
+            <span id="patient_name">
+                Test Patient
+            </span>
+            <span id="patient_residence">
+                18/1453
+            </span>
+            <span id="patient_age">
+                34
+            </span>
+            <span id="patient_gender">
+                Females
+            </span>
+            <select id="links">
+                <option value="observations.html">
+                    Observations
+                </option>
+                <option value="medication.html">
+                    Preventative Medications
+                </option>
+                <option value="hiv.html">
+                    HIV Status
+                </option>
+                <option value="pmtct.html">
+                    PMTCT Management
+                </option>
+                <option value="obstetrics_history.html">
+                    Obstetric History
+                </option>
+                <option value="medical_history.html">
+                    Medical History
+                </option>
+                <option value="exams.html">
+                    Examinations
+                </option>
+                <option value="report_select.html">
+                    Reports
+                </option>
+            </select>
+            <select id="tabs">
+                <option>
+                    Visit Summary
+                </option>
+                <option>
+                    Obstetric History
+                </option>
+                <option>
+                    Medical History
+                </option>
+                <option>
+                    Examination
+                </option>
+                <option value="lab_results.html">
+                    Laboratory Results
+                </option>
+                <option>
+                    Visit History
+                </option>
+            </select>
         </div>
-
-        <script type="text/javascript" language="javascript">
-            <!--
-
-            var data = {
-                "P00001":{
-                    "first_name":"Test",
-                    "last_name":"Patient",
-                    "age":"23",
-                    "place_of_birth":"KCH",
-                    "traditional_authority":"Chanza",
-                    "current_place_of_residence":"33/107",
-                    "phone_number":"unknown",
-                    "occupation":"House Wife"
-                },
-                "P00002":{
-                    "first_name":"Another",
-                    "last_name":"Patient",
-                    "age":"13",
-                    "place_of_birth":"KCH",
-                    "traditional_authority":"Chanza",
-                    "current_place_of_residence":"33/107",
-                    "phone_number":"unknown",
-                    "occupation":"Other"
-                }
-            };
-
-            var id = String(window.location).match(/\?id=(.+)/i);
-            
-            if(id){
-                if(data[id[1]]){
-                    $("name").innerHTML = "<b>:</b>    " + data[id[1]]["first_name"] + " " + data[id[1]]["last_name"];
-                    $("residence").innerHTML = "<b>:</b>    " + data[id[1]]["current_place_of_residence"];
-                    $("age").innerHTML = "<b>:</b>    " + data[id[1]]["age"];
-                    $("occupation").innerHTML = "<b>:</b>    " + data[id[1]]["occupation"];
-                }
-            }
-
-            //-->
-        </script>
     </body>
 </html>
