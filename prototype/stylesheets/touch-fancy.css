@@ -442,6 +442,10 @@ button:hover.dark span {
   margin-top: 10px;
 }
 
+#backButton {
+  margin-top: 10px;
+}
+
 #backspace, #num, #space, #date, #abc{
   padding-left: 0px;
   text-align:center;
