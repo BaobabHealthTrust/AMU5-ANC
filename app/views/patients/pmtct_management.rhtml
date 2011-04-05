@@ -1,0 +1,55 @@
+# pmtct_management.rhtml
+
+<script type="text/javascript" language="javascript">
+	<!--
+		tt_cancel_show = "/patients/show/<%= @patient.id %>";
+		tt_cancel_destination = "/patients/show/<%= @patient.id %>";
+	//-->
+</script>
+
+<% form_tag :controller => "encounters", :action => "create" do |f| %>
+	<%= hidden_field_tag "encounter[encounter_type_name]", "PMTCT MANAGEMENT" %>
+	<%= hidden_field_tag "encounter[patient_id]", @patient.id %>
+	<%= hidden_field_tag "encounter[encounter_datetime]", DateTime.now() %>
+	<%= hidden_field_tag "encounter[provider_id]", session[:user_id] %>
+	<%session_date = session[:datetime] || Time.now() %>
+
+	<%= touch_numeric_tag "WHO CLINICAL STAGE", @patient, nil,
+		{:id => "enter_who_clinical_stage",
+		 :helptext => "Enter Who Clinical Stage" } %>
+	<%= touch_numeric_tag "CD4 COUNT", @patient, nil,
+		{:id => "enter_cd4_count",
+		 :helptext => "Enter Cd4 Count" } %>
+	<%= touch_date_tag "DATE RESULT GIVEN", @patient, nil,
+		{:id => "enter_date_result_given",
+		 :helptext => "Enter Date Result Given" } %>
+	<%= touch_select_tag "ON CPT?", @patient, options_for_select([["", ""], ["Yes", "Yes"], ["No", "No"]]),
+		{:id => "on_cpt?",
+		 :helptext => "On Cpt?" } %>
+	<%= touch_select_tag "ON ART?", @patient, options_for_select([["", ""], ["Yes", "Yes"], ["No", "No"]]),
+		{:id => "on_art?",
+		 :helptext => "On Art?" } %>
+	<%= touch_numeric_tag "NUMBER OF SDNVP GIVEN MOTHER", @patient, nil,
+		{:id => "enter_number_of_sdnvp_given_mother",
+		 :helptext => "Enter Number Of Sdnvp Given Mother" } %>
+	<%= touch_numeric_tag "NUMBER OF AZT GIVEN TO MOTHER", @patient, nil,
+		{:id => "enter_number_of_azt_given_to_mother",
+		 :helptext => "Enter Number Of Azt Given To Mother" } %>
+	<%= touch_date_tag "LAST MENSTRUAL PERIOD", @patient, nil,
+		{:id => "enter_last_menstrual_period",
+		 :helptext => "Enter Last Menstrual Period" } %>
+	<%= touch_select_tag "NVP BABY?", @patient, options_for_select([["", ""], ["Yes", "Yes"], ["No", "No"]]),
+		{:id => "nvp_baby?",
+		 :helptext => "Nvp Baby?" } %>
+	<%= touch_date_tag "EXPECTED DATE OF DELIVERY", @patient, nil,
+		{:id => "enter_expected_date_of_delivery",
+		 :helptext => "Enter Expected Date Of Delivery" } %>
+	<%= touch_select_tag "WEEK OF FIRST VISIT", @patient, options_for_select([["", ""], ["0-12", "0-12"], ["13+", "13+"]]),
+		{:id => "week_of_first_visit",
+		 :helptext => "Week Of First Visit" } %>
+	<%= touch_select_tag "PRE-ECLAMPSIA", @patient, options_for_select([["", ""], ["Yes", "Yes"], ["No", "No"]]),
+		{:id => "pre-eclampsia",
+		 :helptext => "Pre-eclampsia" } %>
+
+	<%= submit_tag 'Finish' %>
+<% end %>

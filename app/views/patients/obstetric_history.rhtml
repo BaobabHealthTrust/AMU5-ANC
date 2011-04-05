@@ -1,0 +1,43 @@
+# obstetric_history.rhtml
+
+<script type="text/javascript" language="javascript">
+	<!--
+		tt_cancel_show = "/patients/show/<%= @patient.id %>";
+		tt_cancel_destination = "/patients/show/<%= @patient.id %>";
+	//-->
+</script>
+
+<% form_tag :controller => "encounters", :action => "create" do |f| %>
+	<%= hidden_field_tag "encounter[encounter_type_name]", "OBSTETRIC HISTORY" %>
+	<%= hidden_field_tag "encounter[patient_id]", @patient.id %>
+	<%= hidden_field_tag "encounter[encounter_datetime]", DateTime.now() %>
+	<%= hidden_field_tag "encounter[provider_id]", session[:user_id] %>
+	<%session_date = session[:datetime] || Time.now() %>
+
+	<%= touch_numeric_tag "NUMBER OF DELIVERIES", @patient, nil,
+		{:id => "enter_number_of_deliveries",
+		 :helptext => "Enter Number Of Deliveries" } %>
+	<%= touch_numeric_tag "NUMBER OF ABORTIONS", @patient, nil,
+		{:id => "enter_number_of_abortions",
+		 :helptext => "Enter Number Of Abortions" } %>
+	<%= touch_select_tag "EVER HAD STILL BIRTHS?", @patient, options_for_select([["", ""], ["Yes", "Yes"], ["No", "No"]]),
+		{:id => "ever_had_still_births?",
+		 :helptext => "Ever Had Still Births?" } %>
+	<%= touch_select_tag "EVER HAD C-SECTIONS?", @patient, options_for_select([["", ""], ["Yes", "Yes"], ["No", "No"]]),
+		{:id => "ever_had_c-sections?",
+		 :helptext => "Ever Had C-sections?" } %>
+	<%= touch_select_tag "EVER HAD A VACUUM EXTRACTION", @patient, options_for_select([["", ""], ["Yes", "Yes"], ["No", "No"]]),
+		{:id => "ever_had_a_vacuum_extraction",
+		 :helptext => "Ever Had A Vacuum Extraction" } %>
+	<%= touch_select_tag "EVER HAD SYMPHYSIOTOMY?", @patient, options_for_select([["", ""], ["Yes", "Yes"], ["No", "No"]]),
+		{:id => "ever_had_symphysiotomy?",
+		 :helptext => "Ever Had Symphysiotomy?" } %>
+	<%= touch_select_tag "HEMORRHAGE", @patient, options_for_select([["", ""], ["No", "No"], ["APH", "APH"], ["PPH", "PPH"]]),
+		{:id => "hemorrhage",
+		 :helptext => "Hemorrhage" } %>
+	<%= touch_select_tag "PRE-ECLAMPSIA", @patient, options_for_select([["", ""], ["Yes", "Yes"], ["No", "No"]]),
+		{:id => "pre-eclampsia",
+		 :helptext => "Pre-eclampsia" } %>
+
+	<%= submit_tag 'Finish' %>
+<% end %>

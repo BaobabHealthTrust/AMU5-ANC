@@ -1,0 +1,79 @@
+<%#= render :partial => 'clinic/nav', :locals => {:active => 'administration', :label => "Administration"} %>
+<script type="text/javascript">
+  jQuery(document).ready(function($) {
+  }) 
+</script>
+<script type="text/javascript" language="javascript">
+  <!--
+  tt_cancel_show = "/clinic";
+  tt_cancel_destination = "/clinic";
+  //-->
+</script>
+<style type="text/css">
+  #stats {
+    width:98%;
+    border:1px solid #fff;
+    margin:10px;    
+    background:white;
+  } 
+  #stats td{
+    text-align:right;
+  }
+
+  #stats a { 
+    width:155px; 
+    float:right;
+  }
+  button.blue {
+    min-width: 250px;
+  }
+</style>
+<%= stylesheet_link_tag 'extra_buttons' %>
+
+<div style="height: 100%;">
+  <div class="panel" style="width:100%;">
+    <h1 style="margin: 20px;">Create/Edit users</h1>
+    <div style="height:970px;overflow:auto;">
+      <table id="stats" style="" cellpadding="10">
+        <tr>
+          <td>
+            <button class='blue' onclick="window.location='/user/change_password/<%=User.current_user.id%>'">
+              <span>
+                Change password
+              </span>
+            </button>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <button class='blue' onclick="window.location='/user/edit/<%=User.current_user.id%>'">
+              <span>
+                Edit name
+              </span>
+            </button> 
+          </td>
+        </tr>
+        <% if User.current_user.admin? %>
+          <tr>
+            <td>
+              <button class='blue' onclick="window.location='/user/new'">
+                <span>
+                  Create user
+                </span>
+              </button>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <button class='blue' onclick="window.location='/user/select_user'">
+                <span>
+                  Edit user
+                </span>
+              </button>
+            </td>
+          </tr>
+        <% end %>
+      </table>
+    </div>
+  </div>        
+</div>

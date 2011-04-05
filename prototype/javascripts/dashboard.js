@@ -32,33 +32,31 @@ function generateHomepage(){
     // Get the application name
     title = fetchTitle();
 
-    document.body.id = "mateme";
-
-    var container = document.createElement("div");
-    container.id = "container";
-
-    document.body.appendChild(container);
-
     var content = document.createElement("div");
     content.id = "content";
 
-    container.appendChild(content);
+    document.body.appendChild(content);
 
     var banner = document.createElement("div");
     banner.id = "banner";
 
     content.appendChild(banner);
 
+    var bannerrow = document.createElement("div");
+    bannerrow.id = "bannerrow";
+
+    banner.appendChild(bannerrow);
+
     var scanlabel = document.createElement("div");
     scanlabel.id = "scanlabel";
     scanlabel.innerHTML = "Scan Patient Barcode :";
 
-    banner.appendChild(scanlabel);
+    bannerrow.appendChild(scanlabel);
 
     var scaninput = document.createElement("div");
     scaninput.id = "scaninput";
 
-    banner.appendChild(scaninput);
+    bannerrow.appendChild(scaninput);
 
     var barcodeinput = document.createElement("input");
     barcodeinput.type = "text";
@@ -79,7 +77,7 @@ function generateHomepage(){
     var application = document.createElement("div");
     application.id = "application";
 
-    banner.appendChild(application);
+    bannerrow.appendChild(application);
 
     var applicationname = document.createElement("div");
     applicationname.id = "applicationname";
@@ -148,77 +146,115 @@ function generateDashboard(){
     // Get the application name
     title = fetchTitle();
 
-    document.body.id = "mateme";
-
-    var container = document.createElement("div");
-    container.id = "container";
-
-    document.body.appendChild(container);
-
     var content = document.createElement("div");
     content.id = "content";
 
-    container.appendChild(content);
+    document.body.appendChild(content);
 
     var details = document.createElement("div");
     details.id = "details";
-    details.innerHTML = "<span id='detailsTopic'>" + ($('patient_name') ? $('patient_name').innerHTML : "") + "</span>";
-
+    
     content.appendChild(details);
 
+    var detailsRow1 = document.createElement("div");
+    detailsRow1.id = "detailsRow1";
+
+    details.appendChild(detailsRow1);
+
+    var detailsRow2 = document.createElement("div");
+    detailsRow2.id = "detailsRow2";
+
+    details.appendChild(detailsRow2);
+
+    var mainTopicContent = document.createElement("div");
+    mainTopicContent.id = "mainTopicContent";
+
+    detailsRow1.appendChild(mainTopicContent);
+
+    var topicRow = document.createElement("div");
+    topicRow.id = "topicRow";
+
+    mainTopicContent.appendChild(topicRow);
+
+    var detailsTopic = document.createElement("div");
+    detailsTopic.id = "detailsTopic";
+    detailsTopic.innerHTML = ($('patient_name') ? $('patient_name').innerHTML : "&nbsp;");
+
+    topicRow.appendChild(detailsTopic);
+
     var gender = document.createElement("div");
-    gender.id = "gender";
+    gender.id = "gendercell";
     if($('patient_gender')){
-        gender.innerHTML = "<img src='images/" +
+        gender.innerHTML = "<div id='gender'><img src='images/" +
         ($('patient_gender').innerHTML.toLowerCase().trim() == "female" ? "female" : "male") +
-        ".gif' height='25px' width='25px' style='padding-left: 3px; padding-top: 2px;' />";
+        ".gif' height='25px' width='25px' style='padding-left: 3px; padding-top: 2px;' /></div>";
     }
 
-    details.appendChild(gender);
+    topicRow.appendChild(gender);
+
+    var mainDetailsContent = document.createElement("div");
+    mainDetailsContent.id = "mainTopicContent";
+
+    detailsRow2.appendChild(mainDetailsContent);
+
+    var nameRow = document.createElement("div");
+    nameRow.id = "nameRow";
+
+    mainDetailsContent.appendChild(nameRow);
 
     var patientid = document.createElement("div");
-    patientid.id = "name";
+    patientid.id = "id";
     patientid.innerHTML = "Patient ID:"
 
-    details.appendChild(patientid);
+    nameRow.appendChild(patientid);
 
     var patientidvalue = document.createElement("div");
-    patientidvalue.id = "namevalue";
+    patientidvalue.id = "idvalue";
     patientidvalue.innerHTML = ":" + ($('patient_id') ? $('patient_id').innerHTML : "");
 
-    details.appendChild(patientidvalue);
+    nameRow.appendChild(patientidvalue);
+
+    var residenceRow = document.createElement("div");
+    residenceRow.id = "residenceRow";
+
+    mainDetailsContent.appendChild(residenceRow);
 
     var residence = document.createElement("div");
     residence.id = "residence";
     residence.innerHTML = "Residence"
 
-    details.appendChild(residence);
+    residenceRow.appendChild(residence);
 
     var residencevalue = document.createElement("div");
     residencevalue.id = "residencevalue";
     residencevalue.innerHTML = ":" + ($('patient_residence') ? $('patient_residence').innerHTML : "");
 
-    details.appendChild(residencevalue);
+    residenceRow.appendChild(residencevalue);
+
+    var ageRow = document.createElement("div");
+    ageRow.id = "ageRow";
+
+    mainDetailsContent.appendChild(ageRow);
 
     var age = document.createElement("div");
     age.id = "age";
     age.innerHTML = "Age"
 
-    details.appendChild(age);
+    ageRow.appendChild(age);
 
     var agevalue = document.createElement("div");
     agevalue.id = "agevalue";
     agevalue.innerHTML = ":" + ($('patient_age') ? $('patient_age').innerHTML : "");
 
-    details.appendChild(agevalue);
+    ageRow.appendChild(agevalue);
 
     var application = document.createElement("div");
-    application.id = "application";
+    application.id = "patient-dashboard-application";
 
     content.appendChild(application);
 
     var applicationname = document.createElement("div");
-    applicationname.id = "applicationname";
+    applicationname.id = "patient-dashboard-applicationname";
     applicationname.innerHTML = title;
 
     application.appendChild(applicationname);
@@ -229,7 +265,7 @@ function generateDashboard(){
     content.appendChild(links);
 
     var main = document.createElement("div");
-    main.id = "main";
+    main.id = "patient-dashboard-main";
 
     content.appendChild(main);
 
@@ -276,7 +312,7 @@ function generateDashboard(){
             heading.push([children[i].innerHTML.trim(), page]);
         }
 
-        generateTab(heading, $("main"))
+        generateTab(heading, $("patient-dashboard-main"))
     }
 
     if($("links")){

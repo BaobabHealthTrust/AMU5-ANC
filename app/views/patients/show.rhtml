@@ -1,0 +1,53 @@
+<script type="text/javascript" language="javascript">
+  <!--
+  tt_cancel_show = "/clinic";
+  tt_cancel_destination = "/clinic";
+  //-->
+</script>
+<form id = 'dashboard' action=''>
+  <table cellpadding=10>
+    <tr>
+      <th colspan=2>Patient Dashboard</th>
+    </tr>
+    <h1 id='project_name'>
+      amu<span style='font-size: 0.75em'>5</span></h1>
+    <span id='patient_name'>
+      <%= @patient.name %>
+    </span>
+    <span id='patient_id'>
+      <%= @patient.national_id %>
+    </span>
+    <span id='patient_residence'>
+      <%= @patient.residence %>
+    </span>
+    <span id='patient_age'>
+      <%= @patient.age %>
+    </span>
+    <span id='patient_gender'>
+      <%= @patient.gender %>
+    </span>
+    <select id="links">
+      <option value='/patients/observations/?patient_id=<%= @patient.id  %>'>Observations</option>
+      <option value='/patients/preventative_medications/?patient_id=<%= @patient.id  %>'>Preventative Meds</option>
+      <option value='/patients/hiv_status/?patient_id=<%= @patient.id  %>'>HIV Status</option>
+      <option value='/patients/pmtct_management/?patient_id=<%= @patient.id  %>'>PMTCT</option>
+      <option value='/patients/obstetric_history/?patient_id=<%= @patient.id  %>'>Obstetric History</option>
+      <option value='/patients/medical_history/?patient_id=<%= @patient.id  %>'>Medical History</option>
+      <option value='/patients/examination_management/?patient_id=<%= @patient.id  %>'>Examination</option>
+      <!--option value='/patients/lab_results/?patient_id=<%= @patient.id  %>'>Lab Results</option-->
+    </select>
+    <select id="tabs">
+      <option value='/patients/tab_visit_summary?patient_id=<%= @patient.id  %>'>Visit Summary</option>
+      <option value='/patients/tab_obstetric_history?patient_id=<%= @patient.id  %>'>Obstetric History</option>
+      <option value='/patients/tab_medical_history?patient_id=<%= @patient.id  %>'>Medical History</option>
+      <option value='/patients/tab_examinations_management?patient_id=<%= @patient.id  %>'>Examinations Management</option>
+      <option value='/patients/tab_lab_results?patient_id=<%= @patient.id  %>'>Lab Results</option>
+      <option value='/patients/tab_visit_history?patient_id=<%= @patient.id  %>'>Visit History</option>
+    </select>
+    <tr>
+      <td align='center'>
+        <input type='submit' value='Finish' />
+      </td>
+    </tr>
+  </table>
+</form>

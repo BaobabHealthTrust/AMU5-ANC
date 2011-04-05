@@ -1,0 +1,26 @@
+# hiv_status.rhtml
+
+<script type="text/javascript" language="javascript">
+	<!--
+		tt_cancel_show = "/patients/show/<%= @patient.id %>";
+		tt_cancel_destination = "/patients/show/<%= @patient.id %>";
+	//-->
+</script>
+
+<% form_tag :controller => "encounters", :action => "create" do |f| %>
+	<%= hidden_field_tag "encounter[encounter_type_name]", "HIV STATUS" %>
+	<%= hidden_field_tag "encounter[patient_id]", @patient.id %>
+	<%= hidden_field_tag "encounter[encounter_datetime]", DateTime.now() %>
+	<%= hidden_field_tag "encounter[provider_id]", session[:user_id] %>
+	<%session_date = session[:datetime] || Time.now() %>
+
+	<%= touch_select_tag "PREVIOUS TEST STATUS FROM BEFORE CURRRENT FACILITY VISIT", @patient, options_for_select([["", ""], ["Negative in the last 3 months", "Negative in the last 3 months"], ["Positive Ever", "Positive Ever"], ["Unknown", "Unknown"]]),
+		{:id => "previous_test_status_from_before_currrent_facility_visit",
+		 :helptext => "Previous Test Status From Before Currrent Facility Visit" } %>
+	<%= touch_select_tag "NEW TEST RESULT AT CURRENT FACILITY", @patient, options_for_select([["", ""], ["Negative", "Negative"], ["Positive", "Positive"], ["Not Done", "Not Done"]]),
+		{:id => "new_test_result_at_current_facility",
+		 :helptext => "New Test Result At Current Facility",
+		:condition => '$("previous_test_status_from_before_currrent_facility_visit").value == "Unknown"' } %>
+
+	<%= submit_tag 'Finish' %>
+<% end %>

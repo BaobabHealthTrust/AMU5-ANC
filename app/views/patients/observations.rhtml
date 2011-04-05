@@ -1,0 +1,58 @@
+# observations.rhtml
+
+<script type="text/javascript" language="javascript">
+	<!--
+		tt_cancel_show = "/patients/show/<%= @patient.id %>";
+		tt_cancel_destination = "/patients/show/<%= @patient.id %>";
+	//-->
+</script>
+
+<% form_tag :controller => "encounters", :action => "create" do |f| %>
+	<%= hidden_field_tag "encounter[encounter_type_name]", "OBSERVATIONS" %>
+	<%= hidden_field_tag "encounter[patient_id]", @patient.id %>
+	<%= hidden_field_tag "encounter[encounter_datetime]", DateTime.now() %>
+	<%= hidden_field_tag "encounter[provider_id]", session[:user_id] %>
+	<%session_date = session[:datetime] || Time.now() %>
+
+	<%= touch_numeric_tag "GRAVIDA", @patient, nil,
+		{:id => "enter_gravida",
+		 :helptext => "Enter Gravida" } %>
+	<%= touch_numeric_tag "PARITY", @patient, nil,
+		{:id => "enter_parity",
+		 :helptext => "Enter Parity" } %>
+	<%= touch_numeric_tag "GESTATION WEEKS", @patient, nil,
+		{:id => "enter_gestation_weeks",
+		 :helptext => "Enter Gestation Weeks" } %>
+	<%= touch_select_tag "FETAL HEART", @patient, options_for_select([["", ""], ["Yes", "Yes"], ["No", "No"]]),
+		{:id => "enter_fetal_heart",
+		 :helptext => "Enter Fetal Heart" } %>
+	<%= touch_numeric_tag "WEIGHT", @patient, nil,
+		{:id => "enter_weight",
+		 :helptext => "Enter Weight" } %>
+	<%= touch_text_field_tag "BP", @patient, nil,
+		{:id => "enter_bp",
+		 :helptext => "Enter Bp" } %>
+	<%= touch_numeric_tag "URINE PROTEIN", @patient, nil,
+		{:id => "enter_urine_protein",
+		 :helptext => "Enter Urine Protein" } %>
+	<%= touch_select_tag "PRE-ECLAMPSIA", @patient, options_for_select([["", ""], ["Yes", "Yes"], ["No", "No"]]),
+		{:id => "pre-eclampsia",
+		 :helptext => "Pre-eclampsia" } %>
+	<%= touch_numeric_tag "FUNDAL HEIGHT", @patient, nil,
+		{:id => "enter_fundal_height",
+		 :helptext => "Enter Fundal Height" } %>
+	<%= touch_text_field_tag "POSITION", @patient, nil,
+		{:id => "enter_position",
+		 :helptext => "Enter Position" } %>
+	<%= touch_text_field_tag "PRESENTATION", @patient, nil,
+		{:id => "enter_presentation",
+		 :helptext => "Enter Presentation" } %>
+	<%= touch_select_tag "SYPHILIS RESULT", @patient, options_for_select([["", ""], ["Not Done", "Not Done"], ["Positive", "Positive"], ["Negative", "Negative"]]),
+		{:id => "syphilis_result",
+		 :helptext => "Syphilis Result" } %>
+	<%= touch_date_tag "DATE RESULT GIVEN", @patient, nil,
+		{:id => "enter_date_result_given", 
+		 :helptext => "Enter Date Result Given" } %>
+
+	<%= submit_tag 'Finish' %>
+<% end %>

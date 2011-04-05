@@ -1,0 +1,64 @@
+<style type="text/css">
+  body{
+    font-family: "Nimbus Sans L", "Arial Narrow", sans-serif;
+  }
+  ul.list {
+    font-size:0.9em;
+    border:1px solid #eee;
+    padding:0px;
+    overflow:auto;
+    margin: 0px;
+  }
+  ul.list li.data {
+    vertical-align:top;
+    display:block;
+    list-style: none;
+    padding-left:8px;
+    padding-top:8px;
+    line-height:0.7em;
+  }
+  ul.list li.data .summary {
+    padding:3px;
+    padding-left:10px;
+    font-size:0.6em;
+    color:#444;
+  }
+  ul.list li.odd {
+    background:#eee;
+  }
+
+</style>
+
+<table width="100%" border="0" style="height: 100%; margin: 0px;" cellpadding="5">
+  <tr>
+    <th style="height: 30px; font-size: 1.4em;" align="left">
+      Visit Summary
+    </th>
+  </tr>
+  <tr>
+    <td valign="top">
+      <div style="width: 100%; height: 100%; overflow: hidden;">
+        <ul class="list" style="height: 270px;">
+          <%@encounter_names.each{|encounter_name|
+            header = 'true'
+            for encounter in @encounters do %>
+              <%if encounter.name == encounter_name%>
+                <li class="data <%= cycle('even', 'odd') %>">
+                  <div style="float:right;padding:7px;">
+                    <%= img_button_submit_to "/patients/void/#{@patient.patient_id}", "/images/cancel_flat_small.png",
+                    {:confirm => "Are you sure you want to void this prescription?"}, {:encounter_id => encounter.encounter_id} -%>
+                  </div>
+                  <%if header == 'true' %><div style="float:left; padding: 14px;"><%=h encounter.name.titleize %></div><%end; header = 'false'%>
+                  <div style="clear:left; font-size:9pt; padding: 5px;" class="summary"><span style="padding: 5px;"><%= encounter.to_s.lstrip.gsub(/\n/, '<br/>') -%></span>
+                    <span style ="font-size:9pt;"><%=encounter.encounter_datetime.strftime("%d-%b-%y %H:%M") %></span>
+                  </div>
+                </li>
+              <%end
+            end
+          }%>
+        </ul>
+      </div>
+    </td>
+  </tr>
+</table>
+
