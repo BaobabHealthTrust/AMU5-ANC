@@ -189,12 +189,6 @@ function generateDashboard(){
 
     mainTopicContent.appendChild(topicRow);
 
-    var detailsTopic = document.createElement("div");
-    detailsTopic.id = "detailsTopic";
-    detailsTopic.innerHTML = (__$('patient_name') ? __$('patient_name').innerHTML : "&nbsp;");
-
-    topicRow.appendChild(detailsTopic);
-
     var gender = document.createElement("div");
     gender.id = "gendercell";
     if(__$('patient_gender')){
@@ -204,6 +198,12 @@ function generateDashboard(){
     }
 
     topicRow.appendChild(gender);
+
+    var detailsTopic = document.createElement("div");
+    detailsTopic.id = "detailsTopic";
+    detailsTopic.innerHTML = (__$('patient_name') ? __$('patient_name').innerHTML : "&nbsp;");
+
+    topicRow.appendChild(detailsTopic);
 
     var mainDetailsContent = document.createElement("div");
     mainDetailsContent.id = "mainTopicContent";
