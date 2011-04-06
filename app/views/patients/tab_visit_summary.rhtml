@@ -55,7 +55,18 @@
                 </li>
               <%end
             end
-          }%>
+
+          }
+            
+            if @encounter_names.length <= 0
+              %>
+
+                <li style="padding: 10px; font-style: italic; font-size: 12pt;">
+                  No encounters for today yet for this patient
+                </li>
+
+                <%
+            end%>
         </ul>
       </div>
     </td>

@@ -20,6 +20,9 @@
 	<%= touch_select_tag "EVER HAD HYPERTENSION?", @patient, options_for_select([["", ""], ["Yes", "Yes"], ["No", "No"]]),
 		{:id => "ever_had_hypertension?",
 		 :helptext => "Ever Had Hypertension?" } %>
+	<%= touch_select_tag "EVER HAD DIABETES?", @patient, options_for_select([["", ""], ["Yes", "Yes"], ["No", "No"]]),
+		{:id => "ever_had_diabetes?",
+		 :helptext => "Ever Had Diabetes?" } %>
 	<%= touch_select_tag "EVER HAD EPILEPSY?", @patient, options_for_select([["", ""], ["Yes", "Yes"], ["No", "No"]]),
 		{:id => "ever_had_epilepsy?",
 		 :helptext => "Ever Had Epilepsy?" } %>

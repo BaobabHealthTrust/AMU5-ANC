@@ -1,3 +1,11 @@
+<style type="text/css">
+  .selected{
+    border: 1px solid #00f;
+    -moz-border-radius: 10px;
+    width:20px;
+  }
+</style>
+
 <table width="100%" border="0" cellpadding="5">
     <tr>
         <th style="height: 30px; font-size: 1.4em;" align="left">
@@ -19,13 +27,17 @@
                         border-left: 1px solid #000;
                         border-bottom: 1px solid #000;"
                         align="center" colspan="2">
+                      <div class="<%= "#{(@height >= 150 ? "selected" : "")}"  %>" >
                         150cm +
+                      </div>
                     </td>
                     <td style="color: #f00; border-top: 1px solid #000;
                         border-bottom: 1px solid #000;
                         border-right: 1px solid #000;" colspan="2"
                         align="center">
+                      <div class="<%= "#{(@height < 150 ? "selected" : "")}"  %>" >
                         < 150cm
+                      </div>
                     </td>
                 </tr>
                 <tr>
@@ -35,12 +47,16 @@
                     <td style="border-left: 1px solid #000;
                         border-bottom: 1px solid #000;"
                         align="center" colspan="2">
+                      <div class="<%= "#{(@multiple == "NO" ? "selected" : "")}"  %>" >
                         N
+                      </div>
                     </td>
                     <td style="color: #f00; border-bottom: 1px solid #000;
                         border-right: 1px solid #000;" colspan="2"
                         align="center">
+                      <div class="<%= "#{(@multiple == "YES" ? "selected" : "")}"  %>" >
                         Y
+                      </div>
                     </td>
                 </tr>
                 <tr>
@@ -50,19 +66,27 @@
                     <td style="border-left: 1px solid #000;
                         border-bottom: 1px solid #000;"
                         align="center">
+                      <div class="<%= "#{(@who == 1 ? "selected" : "")}"  %>" >
                         1
+                      </div>
                     </td>
                     <td style="border-bottom: 1px solid #000;"
                         align="center">
+                      <div class="<%= "#{(@who == 2 ? "selected" : "")}"  %>" >
                         2
+                      </div>
                     </td>
                     <td style="border-bottom: 1px solid #000;"
                         align="center">
+                      <div class="<%= "#{(@who == 3 ? "selected" : "")}"  %>" >
                         3
+                      </div>
                     </td>
                     <td style="border-bottom: 1px solid #000;
                         border-right: 1px solid #000;" align="center">
+                      <div class="<%= "#{(@who == 4 ? "selected" : "")}"  %>" >
                         4
+                      </div>
                     </td>
                 </tr>
             </table>
