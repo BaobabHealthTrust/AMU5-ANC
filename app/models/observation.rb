@@ -5,7 +5,8 @@ class Observation < ActiveRecord::Base
   belongs_to :encounter, :conditions => {:voided => 0}
   belongs_to :order, :conditions => {:voided => 0}
   belongs_to :concept, :conditions => {:retired => 0}
-  belongs_to :concept_name, :class_name => "ConceptName", :foreign_key => "concept_name", :conditions => {:voided => 0}
+  belongs_to :concept_name, :class_name => "ConceptName", :foreign_key => "concept_name",
+    :conditions => {:voided => 0}
   belongs_to :answer_concept, :class_name => "Concept", :foreign_key => "value_coded", :conditions => {:retired => 0}
   belongs_to :answer_concept_name, :class_name => "ConceptName", :foreign_key => "value_coded_name_id", :conditions => {:voided => 0}
   has_many :concept_names, :through => :concept
@@ -94,6 +95,14 @@ class Observation < ActiveRecord::Base
     formatted_name ||= self.concept.concept_names.tagged(tags).first.name rescue nil
     formatted_name ||= self.concept.concept_names.first.name rescue 'Unknown concept name'
     "#{formatted_name}: #{self.answer_string(tags)}"
+  end
+
+  def to_a(tags=[])
+    formatted_name = self.concept_name.tagged(tags).name rescue nil
+    formatted_name ||= self.concept_name.name rescue nil
+    formatted_name ||= self.concept.concept_names.tagged(tags).first.name rescue nil
+    formatted_name ||= self.concept.concept_names.first.name rescue 'Unknown concept name'
+    [formatted_name, self.answer_string(tags)]
   end
 
   def answer_string(tags=[])

@@ -381,6 +381,24 @@ class PatientsController < ApplicationController
   end
 
   def tab_visit_history
+    @patient = Patient.find(params[:patient_id]  || params[:id] || session[:patient_id]) rescue nil
+
+    @encounters = {}
+
+    @patient.encounters.collect{|e| @encounters[e.encounter_datetime.strftime("%Y-%m-%d")] = {}}
+
+    @patient.encounters.collect{|e| 
+      @encounters[e.encounter_datetime.strftime("%Y-%m-%d")][e.type.name] = {}
+    }
+
+    @patient.encounters.collect{|e| 
+      e.observations.each{|o| 
+        @encounters[e.encounter_datetime.strftime("%Y-%m-%d")][e.type.name][o.to_a[0]] = o.to_a[1]
+      }
+    }
+
+    # raise @encounters.to_yaml
+
     render :layout => false
   end
 
