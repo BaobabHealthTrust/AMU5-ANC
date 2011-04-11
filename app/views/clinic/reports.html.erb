@@ -1,35 +1,40 @@
-<%#= render :partial => 'clinic/nav', :locals => {:active => 'reports', :label => "Reports"} %>
+<%#= render :partial => 'clinic/nav', :locals => {:active => 'administration', :label => "Administration"} %>
 <script type="text/javascript">
   jQuery(document).ready(function($) {
-  }) 
+  })
 </script>
 <style type="text/css">
   #stats {
     width:98%;
     border:1px solid black;
-    margin:10px;    
+    margin:10px;
     background:white;
-  } 
+  }
   #stats td{
-    text-align:right;
+    text-align:center;
   }
 
-  #stats a { 
-    width:155px; 
+  #stats a {
+    width:175px;
     float:right;
   }
+
 </style>
 <%= stylesheet_link_tag 'extra_buttons' %>
 
 <div id="tab" style="height: 100%; width: 100%; overflow: auto;">
-    <h2 style="margin-left: 8px;">Select report to view</h2>
-    <table id="stats" style="height: 303px;" cellpadding="10">
-      <% if  Encounter.count > 0 %>
-        <% (@reports || []).each do |name,path| %>
+    <h2 style="margin-left: 8px;">Select administrative task</h2>
+      <table id="stats" style="height: 303px;" cellpadding="10">
+        <% @reports.each do |path,report_name| %>
           <tr>
-            <td><a href="<%=path%>" class='report_button'><%=name%></a></td>
+            <td>
+              <button onclick="window.parent.location='<%="#{path}"%>'"
+                        class='blue'>
+                <span><%=report_name%></span>
+              </button>
+            </td>
           </tr>
         <%end%>
-      <%end%>
-    </table> 
+      </table>
 </div>
+

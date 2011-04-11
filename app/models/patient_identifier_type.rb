@@ -7,7 +7,7 @@ class PatientIdentifierType < ActiveRecord::Base
     return nil unless options[:patient]
     case self.name
       when "National id"
-        health_center_id = Location.current_location.site_id
+        health_center_id = Location.current_health_center.id.to_s # Location.current_location.site_id
         national_id_version = "1"
         national_id_prefix = "P#{national_id_version}#{health_center_id.rjust(3,"0")}"
 

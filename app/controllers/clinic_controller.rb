@@ -10,7 +10,7 @@ class ClinicController < ApplicationController
   end
 
   def reports
-    @reports = [["Cohort","/cohort_tool/cohort_menu"],["Supervision","/clinic/supervision"], ["Data Cleaning Tools", "/report/data_cleaning"], ["Stock report","/drug/date_select"]]
+    @reports = [['/reports/select/','Reports']]
     render :template => 'clinic/reports', :layout => 'clinic' 
   end
 
