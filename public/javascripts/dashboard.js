@@ -46,6 +46,49 @@ function generateHomepage(){
 
     document.body.appendChild(content);
 
+    var siteinfo = document.createElement("div");
+    siteinfo.id = "siteinfo";
+
+    content.appendChild(siteinfo);
+
+    var sitetable = document.createElement("div");
+    sitetable.id = "sitetable";
+
+    siteinfo.appendChild(sitetable);
+
+    var siterow = document.createElement("div");
+    siterow.id = "siterow";
+
+    sitetable.appendChild(siterow);
+
+    var sitecol1 = document.createElement("div");
+    sitecol1.id = "sitecol1";
+    sitecol1.innerHTML = (__$("facility") ? __$("facility").innerHTML : "&nbsp;");
+
+    siterow.appendChild(sitecol1);
+
+    var sitecol2 = document.createElement("div");
+    sitecol2.id = "sitecol2";
+    sitecol2.innerHTML = (__$("location") ? __$("location").innerHTML : "&nbsp;");
+
+    siterow.appendChild(sitecol2);
+
+    var logininfo = document.createElement("div");
+    logininfo.id = "logininfo";
+
+    content.appendChild(logininfo);
+
+    var datenow = new Date();
+
+    datenow = datenow.getFullYear() + "/" + (datenow.getMonth() + 1) + "/" + datenow.getDate();
+
+    var login = document.createElement("div");
+    login.id = "login";
+    login.innerHTML = (__$("date") ? __$("date").innerHTML : datenow) + "<br /><div id='user'>" +
+        (__$("user") ? __$("user").innerHTML : "&nbsp;") + "</div>";
+
+    logininfo.appendChild(login);
+
     var banner = document.createElement("div");
     banner.id = "banner";
 
@@ -205,73 +248,125 @@ function generateDashboard(){
 
     topicRow.appendChild(detailsTopic);
 
+    var detailscontainer = document.createElement("div");
+    detailscontainer.id = "detailscontainer";
+
+    detailsRow2.appendChild(detailscontainer);
+
     var mainDetailsContent = document.createElement("div");
     mainDetailsContent.id = "mainTopicContent";
 
-    detailsRow2.appendChild(mainDetailsContent);
+    detailscontainer.appendChild(mainDetailsContent);
 
     var nameRow = document.createElement("div");
     nameRow.id = "nameRow";
 
     mainDetailsContent.appendChild(nameRow);
 
-    var patientid = document.createElement("div");
-    patientid.id = "id";
-    patientid.innerHTML = "Patient ID"
+    if(__$('patient_id')){
+        var patientid = document.createElement("div");
+        patientid.id = "id";
+        patientid.innerHTML = "Patient ID"
 
-    nameRow.appendChild(patientid);
+        nameRow.appendChild(patientid);
 
-    var patientidvalue = document.createElement("div");
-    patientidvalue.id = "idvalue";
-    patientidvalue.innerHTML = ":&nbsp;&nbsp;" + (__$('patient_id') ? __$('patient_id').innerHTML : "");
+        var patientidvalue = document.createElement("div");
+        patientidvalue.id = "idvalue";
+        patientidvalue.innerHTML = ":&nbsp;&nbsp;" + (__$('patient_id') ? __$('patient_id').innerHTML : "");
 
-    nameRow.appendChild(patientidvalue);
+        nameRow.appendChild(patientidvalue);
+    }
+    
+    if(__$('patient_residence')){
+        var residenceRow = document.createElement("div");
+        residenceRow.id = "residenceRow";
 
-    var residenceRow = document.createElement("div");
-    residenceRow.id = "residenceRow";
+        mainDetailsContent.appendChild(residenceRow);
 
-    mainDetailsContent.appendChild(residenceRow);
+        var residence = document.createElement("div");
+        residence.id = "residence";
+        residence.innerHTML = "Residence"
 
-    var residence = document.createElement("div");
-    residence.id = "residence";
-    residence.innerHTML = "Residence"
+        residenceRow.appendChild(residence);
 
-    residenceRow.appendChild(residence);
+        var residencevalue = document.createElement("div");
+        residencevalue.id = "residencevalue";
+        residencevalue.innerHTML = ":&nbsp;&nbsp;" + (__$('patient_residence') ? __$('patient_residence').innerHTML : "");
 
-    var residencevalue = document.createElement("div");
-    residencevalue.id = "residencevalue";
-    residencevalue.innerHTML = ":&nbsp;&nbsp;" + (__$('patient_residence') ? __$('patient_residence').innerHTML : "");
+        residenceRow.appendChild(residencevalue);
+    }
+    
+    if(__$('patient_age')){
+        var ageRow = document.createElement("div");
+        ageRow.id = "ageRow";
+        ageRow.className = "patientLabelRow";
 
-    residenceRow.appendChild(residencevalue);
+        mainDetailsContent.appendChild(ageRow);
 
-    var ageRow = document.createElement("div");
-    ageRow.id = "ageRow";
+        var age = document.createElement("div");
+        age.id = "age";
+        age.innerHTML = "Age";
+        age.className = "patientLabel";
 
-    mainDetailsContent.appendChild(ageRow);
+        ageRow.appendChild(age);    
 
-    var age = document.createElement("div");
-    age.id = "age";
-    age.innerHTML = "Age"
+        var agevalue = document.createElement("div");
+        agevalue.id = "agevalue";
+        agevalue.className = "patientLabelValue";
+        agevalue.innerHTML = ":&nbsp;&nbsp;" + (__$('patient_age') ? __$('patient_age').innerHTML : "");
 
-    ageRow.appendChild(age);
+        ageRow.appendChild(agevalue);
+    }
 
-    var agevalue = document.createElement("div");
-    agevalue.id = "agevalue";
-    agevalue.innerHTML = ":&nbsp;&nbsp;" + (__$('patient_age') ? __$('patient_age').innerHTML : "");
+    if(__$('project_name')){
+        var application = document.createElement("div");
+        application.id = "patient-dashboard-application";
 
-    ageRow.appendChild(agevalue);
+        content.appendChild(application);
 
-    var application = document.createElement("div");
-    application.id = "patient-dashboard-application";
+        var applicationname = document.createElement("div");
+        applicationname.id = "patient-dashboard-applicationname";
+        applicationname.innerHTML = title;
 
-    content.appendChild(application);
+        application.appendChild(applicationname);
+    }
+    
+    if(__$('patient_card')){
+        var opts = __$('patient_card').getElementsByTagName("span");
 
-    var applicationname = document.createElement("div");
-    applicationname.id = "patient-dashboard-applicationname";
-    applicationname.innerHTML = title;
+        if(opts.length > 0){
+            
+        } else {
+            opts = __$('patient_card').getElementsByTagName("div");
+        }
 
-    application.appendChild(applicationname);
+        var extrarow = {};
+        var extralabel = {};
+        var extravalue = {};
+        
+        for(var o = 0; o < opts.length; o++){
+            extrarow[o] = document.createElement("div");
+            extrarow[o].id = "extrarow_" + o;
+            extrarow[o].className = "patientLabelRow";
 
+            mainDetailsContent.appendChild(extrarow[o]);
+
+            extralabel[o] = document.createElement("div");
+            extralabel[o].id = "extralabel_" + o;
+            extralabel[o].className = "patientLabel";
+            extralabel[o].innerHTML = opts[o].innerHTML;   // opts.getAttribute("value");
+
+            extrarow[o].appendChild(extralabel[o]);
+
+            extravalue[o] = document.createElement("div");
+            extravalue[o].id = "agevalue";
+            extravalue[o].className = "patientLabelValue";
+            extravalue[o].innerHTML = ":&nbsp;&nbsp;" + opts[o].getAttribute("value");
+
+            extrarow[o].appendChild(extravalue[o]);
+        }
+    }
+    
     var links = document.createElement("div");
     links.id = "links";
 
@@ -623,7 +718,7 @@ function checkForBarcode(validAction){
                 window.location = '/people/search?identifier=' + barcode_element.value;
             }
         }
-        //document.getElementById('barcodeForm').submit();
+    //document.getElementById('barcodeForm').submit();
     }
     window.setTimeout("checkForBarcode('" + validAction + "')", checkForBarcodeTimeout);
 }

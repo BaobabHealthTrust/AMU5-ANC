@@ -26,6 +26,10 @@
     <span id='patient_gender'>
       <%= @patient.gender %>
     </span>
+    <!--div id="patient_card">
+      <div value="AZT">Regimen</div>
+      <div value="No">On CPT?</div>
+    </div-->
     <select id="links">
       <option value='/patients/observations/?patient_id=<%= @patient.id  %>'>Observations</option>
       <option value='/patients/preventative_medications/?patient_id=<%= @patient.id  %>'>Preventative Meds</option>
