@@ -1,0 +1,175 @@
+mary_obs_gravida:    
+  obs_id: 1 
+  person_id: 1 
+  concept_id: 1755 
+  encounter_id: 61
+  order_id: 
+  obs_datetime: 2011-04-28 11:02:00
+  location_id: 2
+  value_numeric: 2 
+  value_text: 
+  creator: 1
+  date_created: 2011-04-28 11:02:00
+  voided: 0 
+  uuid: 2dc58982-7176-11e0-9ea5-544249152fc0
+mary_obs_parity:    
+  obs_id: 2
+  person_id: 1 
+  concept_id: 1053 
+  encounter_id: 61
+  order_id: 
+  obs_datetime: 2011-04-28 11:02:00
+  location_id: 2
+  value_numeric: 2 
+  value_text: 
+  creator: 1
+  date_created: 2011-04-28 11:02:00
+  voided: 0 
+  uuid: 2dc58982-8176-11e0-9ea5-544249152fc0
+mary_obs_weight:    
+  obs_id: 3
+  person_id: 1 
+  concept_id: 5089 
+  encounter_id: 61
+  order_id: 
+  obs_datetime: 2011-04-28 11:02:00
+  location_id: 2
+  value_numeric: 165 
+  value_text: 
+  value_datetime: 
+  creator: 1
+  date_created: 2011-04-28 11:02:00
+  voided: 0 
+  uuid: 2de58982-7176-11e0-9eq5-544249152fc0
+mary_obs_date_of_result_given:    
+  obs_id: 4
+  person_id: 1 
+  concept_id: 7767 
+  encounter_id: 61
+  order_id: 
+  obs_datetime: 2011-04-28 11:02:00
+  location_id: 2
+  value_numeric:  
+  value_text: 
+  value_datetime: 2011-04-03 00:00:00
+  creator: 1
+  date_created: 2011-04-28 11:02:00
+  voided: 0 
+  uuid: 2df58982-7176-11e0-9ed5-544249152fc0
+mary_obs_urine_protein:    
+  obs_id: 5
+  person_id: 1 
+  concept_id: 6447 
+  encounter_id: 61
+  order_id: 
+  obs_datetime: 2011-04-28 11:02:00
+  location_id: 2
+  value_numeric: 3 
+  value_text: 
+  creator: 1
+  date_created: 2011-04-28 11:02:00
+  voided: 0 
+  uuid: 2dc58982-8276-11e0-9we5-544249152fc0
+mary_obs_gestation_weeks:    
+  obs_id: 6
+  person_id: 1 
+  concept_id: 7415 
+  encounter_id: 61
+  order_id: 
+  obs_datetime: 2011-04-28 11:02:00
+  location_id: 2
+  value_numeric: 40 
+  value_text: 
+  creator: 1
+  date_created: 2011-04-28 11:02:00
+  voided: 0 
+  uuid: 2dc58982-7776-11e0-9ea5-544249652fc0
+mary_obs_presentation:    
+  obs_id: 7
+  person_id: 1 
+  concept_id: 7433 
+  encounter_id: 61
+  order_id: 
+  obs_datetime: 2011-04-28 11:02:00
+  location_id: 2
+  value_numeric:  
+  value_text: Right
+  creator: 1
+  date_created: 2011-04-28 11:02:00
+  voided: 0 
+  uuid: 2dc58982-8976-11e0-9ea5-544249152fc7
+mary_obs_position:    
+  obs_id: 8
+  person_id: 1 
+  concept_id: 7766 
+  encounter_id: 61
+  order_id: 
+  obs_datetime: 2011-04-28 11:02:00
+  location_id: 2
+  value_numeric:  
+  value_text: Right
+  creator: 1
+  date_created: 2011-04-28 11:02:00
+  voided: 0 
+  uuid: 2dc58982-8976-11e0-9ea5-544249152ed0
+mary_obs_fetal_heart:    
+  obs_id: 9
+  person_id: 1 
+  concept_id: 7762 
+  encounter_id: 61
+  order_id: 
+  obs_datetime: 2011-04-28 11:02:00
+  location_id: 2
+  value_numeric:  
+  value_coded:  1066
+  value_coded_name_id: 1103
+  value_text: 
+  creator: 1
+  date_created: 2011-04-28 11:02:00
+  voided: 0 
+  uuid: 2dc58982-8976-11e0-9ea5-544248952fc0
+mary_obs_bp:    
+  obs_id: 10
+  person_id: 1 
+  concept_id: 7763 
+  encounter_id: 61
+  order_id: 
+  obs_datetime: 2011-04-28 11:02:00
+  location_id: 2
+  value_numeric:  
+  value_text: 90/100
+  creator: 1
+  date_created: 2011-04-28 11:02:00
+  voided: 0 
+  uuid: 2dc58982-8976-11e0-9ea5-544249952fc0
+mary_obs_fundal_height:    
+  obs_id: 11
+  person_id: 1 
+  concept_id: 7764 
+  encounter_id: 61
+  order_id: 
+  obs_datetime: 2011-04-28 11:02:00
+  location_id: 2
+  value_numeric:  5.3  
+  value_text: 
+  creator: 1
+  date_created: 2011-04-28 11:02:00
+  voided: 0 
+  uuid: 2dc58982-8976-11e0-9ea5-545649152fc0
+mary_obs_syphilis_result:    
+  obs_id: 12
+  person_id: 1 
+  concept_id: 7768 
+  encounter_id: 61
+  order_id: 
+  obs_datetime: 2011-04-28 11:02:00
+  location_id: 2
+  value_numeric:  
+  value_text: 
+  value_coded:  703
+  value_coded_name_id: 718 
+  creator: 1
+  date_created: 2011-04-28 11:02:00
+  voided: 0 
+  uuid: 2dc58982-8976-11e0-9ea5-544849152fc0
+

@@ -1,0 +1,36 @@
+--- 
+national_id: 
+  name: National id
+  format: ""
+  date_created: 2011-04-19 22:12:34 +02:00
+  creator: 1
+  check_digit: 0
+  description: National ID number developed by Baobab
+  patient_identifier_type_id: 3
+  required: 0
+  format_description: P-175-0000004-5
+  uuid: 1ff4a9be-268f-102d-a2b3-16da04859148
+ds_number: 
+  name: DS Number
+  format: 
+  date_created: 2008-04-30 22:28:52 +02:00
+  creator: 1
+  check_digit: 0
+  description: Diabetes Study Number
+  patient_identifier_type_id: 6
+  required: 0
+  format_description: 
+  uuid: 1ff4da88-268f-102d-a2b3-16da04859145
+unknown_id: 
+  name: Unknown ID
+  format: 
+  date_created: 2008-04-30 22:28:52 +02:00
+  creator: 1
+  check_digit: 0
+  description: Identifier that was recorded for this patient but with unknown provenance
+  patient_identifier_type_id: 6
+  required: 0
+  format_description: 
+  uuid: 1ff4da88-268f-102d-a2b3-16da04859146
+
+  

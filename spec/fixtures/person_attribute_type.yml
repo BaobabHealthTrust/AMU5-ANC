@@ -1,0 +1,13 @@
+--- 
+cell_phone_number:
+  name: Cell Phone Number
+  person_attribute_type_id: 12
+  uuid: 8d87236c-c2cc-11de-8d13-0010c6dffd0f
+place_of_birth:
+  name: Place Of Birth
+  person_attribute_type_id: 16
+  uuid: b9d07258-1fd6-11e0-9030-af29bd39e5d4
+occupation:
+  name: Occupation
+  person_attribute_type_id: 13
+  uuid: b9d07258-1fd6-11e0-9030-af29bd39e5d5

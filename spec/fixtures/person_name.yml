@@ -1,0 +1,55 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+mary_name:
+  person_name_id: 1
+  preferred: 0
+  person_id: 1
+  prefix: 0
+  given_name: mary 
+  middle_name: 
+  family_name_prefix: 
+  family_name: banda
+  family_name2: 
+  family_name_suffix: 
+  degree: 
+  creator: 1
+  date_created: 2011-04-18 00:00:00
+  changed_by: 1
+  date_changed: 2011-04-18 00:00:00
+  uuid: 1ff85fd2-268f-102d-a2b3-16da04859145
+
+maria_name:
+  person_name_id: 2
+  preferred: 0
+  person_id: 2
+  prefix: 0
+  given_name: maria 
+  middle_name: 
+  family_name_prefix: 
+  family_name: bandawe
+  family_name2: 
+  family_name_suffix: 
+  degree: 
+  creator: 1
+  date_created: 2011-04-18 00:00:00
+  changed_by: 1
+  date_changed: 2011-04-18 00:00:00
+  uuid: 1ff85fd2-268f-102d-a2b3-16da04859146
+
+marieta_name:
+  person_name_id: 3
+  preferred: 0
+  person_id: 3
+  prefix: 0
+  given_name: mary 
+  middle_name: 
+  family_name_prefix: 
+  family_name: chirwa
+  family_name2: 
+  family_name_suffix: 
+  degree: 
+  creator: 1
+  date_created: 2011-04-18 00:00:00
+  changed_by: 1
+  date_changed: 2011-04-18 00:00:00
+  uuid: 1ff85fd2-268f-102d-a2b3-16da04859147

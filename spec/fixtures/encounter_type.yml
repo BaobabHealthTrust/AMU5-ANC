@@ -1,0 +1,58 @@
+--- 
+preventive_medications: 
+  name: PREVENTATIVE MEDICATIONS
+  date_created: 2008-03-24 00:00:00 +02:00
+  creator: 1
+  encounter_type_id: 73
+  description: ""
+  uuid: 1fe21fa6-268f-102d-a2b3-16da04859145
+registration: 
+  name: REGISTRATION
+  date_created: 2011-03-30 22:44:08 +02:00
+  creator: 1
+  encounter_type_id: 7
+  description: ""
+  uuid: 1fe2c1fe-268f-102d-a2b3-16da04859146
+pmtct_management: 
+  name: PMTCT MANAGEMENT
+  date_created: 2005-02-24 00:00:00 +02:00
+  creator: 1
+  encounter_type_id: 75
+  description: Outpatient Adult Initial Visit
+  uuid: 1fe303bc-268f-102d-a2b3-16da04859147
+obsteric_history: 
+  name: OBSTETRIC HISTORY
+  date_created: 2005-02-24 00:00:00 +02:00
+  creator: 1
+  encounter_type_id: 76
+  description: Outpatient Adult Return Visit
+  uuid: 1fe310dc-268f-102d-a2b3-16da04859148
+observations: 
+  name: OBSERVATIONS
+  date_created: 2011-04-24 00:00:00 +02:00
+  creator: 1
+  encounter_type_id: 61
+  description: Outpatient Pediatric Initial Visit
+  uuid: 1fe31c4e-268f-102d-a2b3-16da04859149
+hiv_status: 
+  name: HIV STATUS
+  date_created: 2011-04-23 00:00:00 +02:00
+  creator: 1
+  encounter_type_id: 74
+  description: Outpatient Pediatric Return Visit
+  uuid: 1fe32766-268f-102d-a2b3-16da04859150
+medical_history: 
+  name: MEDICAL HISTORY
+  date_created: 2011-04-24 00:00:00 +02:00
+  creator: 1
+  encounter_type_id: 30
+  description: ""
+  uuid: 1fe331fc-268f-102d-a2b3-16da04859151
+examination: 
+  name: EXAMINATION
+  date_created: 2011-04-25 00:00:00 +02:00
+  creator: 1
+  encounter_type_id: 28
+  description: ""
+  uuid: 1fe33c24-268f-102d-a2b3-16da04859152
+

@@ -1,0 +1,85 @@
+--- 
+gravida: 
+  name: GRAVIDA
+  concept_id: 1755
+  date_created: 2011-03-30 15:35:58 +02:00
+  creator: 2053
+  locale: en
+parity: 
+  name: PARITY
+  concept_id: 1053
+  date_created: 2011-01-02 15:27:59 +02:00
+  creator: 2053
+  locale: en
+gestation_weeks: 
+  name: GESTATION WEEKS
+  concept_id: 7415
+  date_created: 2011-04-21 15:08:47 +02:00
+  creator: 15878
+  locale: en
+fetal_heart: 
+  name: FETAL HEART
+  concept_id: 7762
+  date_created: 2010-02-25 11:32:55 +02:00
+  creator: 2
+  locale: en
+height: 
+  name: HEIGHT
+  concept_id: 5089
+  date_created: 2010-10-25 13:39:28 +02:00
+  creator: 7
+  locale: en
+bp: 
+  name: BP
+  concept_id: 7763
+  date_created: 2010-01-18 12:24:33 +02:00
+  creator: 15877
+  locale: en
+urine_protein: 
+  name: URINE PROTEIN
+  concept_id: 6447
+  date_created: 2004-08-12 00:00:00 +02:00
+  creator: 2
+  locale: en
+pre-eclampsia: 
+  name: PRE-ECLAMPSIA
+  concept_id: 7765
+  date_created: 2010-02-22 20:46:03 +02:00
+  creator: 2
+  locale: en
+fundal_height: 
+  name: FUNDAL HEIGHT
+  concept_id: 7764
+  date_created: 2010-05-23 16:26:14 +02:00
+  creator: 7
+  locale: en
+position: 
+  name: POSITION
+  concept_id: 7766
+  date_created: 2010-06-23 16:26:14 +02:00
+  creator: 7
+  locale: en
+weight: 
+  name: WEIGHT
+  concept_id: 5089
+  date_created: 2010-06-23 16:26:14 +02:00
+  creator: 7
+  locale: en
+presentation: 
+  name: PRESENTATION
+  concept_id: 7433
+  date_created: 2011-01-20 00:00:00 +02:00
+  creator: 2
+  locale: en  
+syphilis_result: 
+  name: SYPHILIS RESULT
+  concept_id: 7768
+  date_created: 2010-08-20 00:00:00 +02:00
+  creator: 2
+  locale: en  
+previous_status_from_before_first_anc_visit: 
+  name: PREVIOUS STATUS FROM BEFORE FIRST ANC VISIT
+  concept_id: 7769
+  date_created: 2010-12-20 00:00:00 +02:00
+  creator: 2
+  locale: en  

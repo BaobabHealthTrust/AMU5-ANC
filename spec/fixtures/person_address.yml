@@ -1,0 +1,20 @@
+mary_address:
+  person_address_id: 1
+  person_id: 1
+  preferred: 0
+  address1: 
+  address2: Rumphi
+  city_village: Mlongoti
+  state_province: 
+  postal_code: 
+  country: 
+  latitude: 
+  longitude: 
+  creator: 1
+  date_created: 2011-04-18 00:00:00
+  county_district: Chiokulamayembe
+  neighborhood_cell: 
+  region: Southern
+  subregion: 
+  township_division: 
+  uuid: 1ff746d8-268f-102d-a2b3-16da04859145
