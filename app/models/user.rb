@@ -10,7 +10,16 @@ class User < ActiveRecord::Base
 
   cattr_accessor :current_user
   attr_accessor :plain_password
-
+  
+  validates_presence_of     :username, :message => "cannot be blank, please check!"
+  validates_uniqueness_of   :username
+  validates_length_of :username, :minimum => 4,
+                      :message => "length cannot be less than 4 characters long"
+  validates_presence_of     :password
+  validates_length_of :password, :minimum => 4, 
+                      :message => "length cannot be less than 4 characters long"
+  validates_confirmation_of :password
+  
   has_many :user_properties, :foreign_key => :user_id # no default scope
   has_many :user_roles, :foreign_key => :user_id, :dependent => :delete_all # no default scope
   has_many :names, :class_name => 'PersonName', :foreign_key => :person_id, :dependent => :destroy, :order => 'person_name.preferred DESC', :conditions => {:voided =>  0}

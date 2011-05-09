@@ -7,7 +7,7 @@
 	//-->
 </script>
 
-<% form_tag :controller => "encounters", :action => "create" do |f| %>
+<% form_tag :controller => "encounters", :action => "create" do %>
 	<%= hidden_field_tag "encounter[encounter_type_name]", "PREVENTATIVE MEDICATIONS" %>
 	<%= hidden_field_tag "encounter[patient_id]", @patient.id %>
 	<%= hidden_field_tag "encounter[encounter_datetime]", DateTime.now() %>

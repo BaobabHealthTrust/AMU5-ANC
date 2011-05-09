@@ -1,3 +1,4 @@
+=begin
 class Obs < OpenMRS
   set_table_name "obs"
   set_primary_key "obs_id"
@@ -13,3 +14,4 @@ class Obs < OpenMRS
   belongs_to :location, :foreign_key => :location_id
   belongs_to :answer_concept, :class_name => "Concept", :foreign_key => :value_coded
 end
+=end

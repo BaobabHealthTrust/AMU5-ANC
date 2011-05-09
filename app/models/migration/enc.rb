@@ -1,4 +1,5 @@
-class Enc < OpenMRS
+=begin
+class Enc #< OpenMRS
   set_table_name "encounter"
 
   def name
@@ -10,3 +11,4 @@ class Enc < OpenMRS
   end
 
 end
+=end
