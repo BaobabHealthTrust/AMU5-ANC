@@ -30,7 +30,7 @@ describe UserController do
     end
     
     #supposed to flash notice if password mismatched
-    it "should not create if password mismatch" do
+    it "should not create user if password mismatch" do
       get :create, {"person_name"=>{"voided"=>0,"family_name"=>"admin","given_name"=>"test"},
                          "user"=>{"username"=>"admin", "user_id"=>50, "password"=>"banda"},
                          "user_role"=>{"role_id"=>"Clinician"},
@@ -39,7 +39,7 @@ describe UserController do
       response.should redirect_to"user/new"
     end
     
-    it "should create a new valid user with valid attributes" do
+    it "should create a user with valid attributes" do
      get :create, {"person_name"=>{"family_name"=>"banda","given_name"=>"john"},
                     "user"=>{"username"=>"joebanda", "user_id"=>50, "password"=>"banda"},
                     "user_role"=>{"role_id"=>"Clinician"},
@@ -109,7 +109,7 @@ describe UserController do
     it "should save changes made to an existing user" do
       @user = User.find(users(:mary_banda).id)
       
-      params[:user][:username] = "marbanda"
+      params[:user][:username] = "mbanda"
       post :edit, {:id => users(:mary_banda).user_id }
      
       User.find_by_username('mbanda').should_not be_nil
@@ -122,7 +122,7 @@ describe UserController do
       response.should be_success
     end
     
-    it "should redirect to new user form if password mismatch" do
+    it "should not save password changes if password mismatch" do
       post :change_password, {"id"=>"1", 
                               "user_confirm"=>{"password"=>"test"},
                               "user"=>{"password"=>"testing"}}
@@ -140,7 +140,7 @@ describe UserController do
       response.should redirect_to("user/show/1")
     end
     
-    it "should not save changes if password characters less than four characters " do
+    it "should not save changes if password characters are less than four" do
       post :change_password, {"id"=>"1", 
                               "user_confirm"=>{"password"=>"tes"},
                               "user"=>{"password"=>"tes"}}
@@ -182,6 +182,5 @@ describe UserController do
       response.should be_success
     end
   end
-  
-  
+
 end

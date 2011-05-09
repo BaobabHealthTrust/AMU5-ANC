@@ -72,19 +72,6 @@ describe PeopleController do
   end
 
   describe "GET 'create'" do
-    before(:each) do
-      @person = {:birth_year => 1982,:birth_month => 8,:birth_day => 22,
-                             :gender => 'F',:cell_phone_number => 'Unknown',
-                             :names => {:given_name => 'Mary', 
-                                        :family_name2 => 'Nazimbiri',
-                                        :family_name => 'Mbewe'},
-                             :addresses => {:county_district => 'Gomani', 
-                                            :city_village => 'Area 25A',
-                                            :address1 => 'Ntcheu'},
-                             :occupation => 'House Wife'}
-         
-     end
-
     it "should create patient" do
       get :create, :person => {:birth_year => 1982,:birth_month => 8,:birth_day => 22,
                              :gender => 'F',:cell_phone_number => 'Unknown',
