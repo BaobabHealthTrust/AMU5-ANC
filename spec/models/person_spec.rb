@@ -3,22 +3,29 @@ require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 describe Person do
   fixtures :person
 
-  before(:each) do
-     @invalid_person = {:person_id => "2", :gender => "M", :birthdate => "",
-                        :birthdate_estimated => 13, :dead => "#{0}", :death_date => "",
-                        :cause_of_death => "#{0}", :creator => "#{1}",
-                        :date_created => "2011-04-18 00:00:00",
-                        :changed_by => "#{1}", :date_changed => "2011-04-18 00:00:00",
-                        :voided => "#{0}", :uuid => "1ff5df82-268f-102d-a2b3-16da04859146"}
-  end
-
-  it "should exist" do
-    Person.exists?.should be_true
+  it "should find person details" do
+   @person = Person.find(person(:mary))
+   @person.should_not be_blank
   end
 
   it "should not have age below 13" do
     @age = ((Date.today.year) - (person(:mary).birthdate.year))
     @age.should_not <= 13
+  end
+
+  it "should not have a blank year of birth" do
+   @year_of_birth = person(:mary).birthdate.year
+   @year_of_birth.should_not be_blank
+  end
+
+  it "should not have year of birth less than 1940" do
+   @year_of_birth = person(:mary).birthdate.year
+   @year_of_birth.should_not <= 1940
+  end
+
+  it "should not have year of birth greater than today" do
+   @year_of_birth = person(:mary).birthdate.year
+   @year_of_birth.should_not >= Date.today.year
   end
 
   it "should not have gender as male" do

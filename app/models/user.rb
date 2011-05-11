@@ -45,9 +45,9 @@ class User < ActiveRecord::Base
     # We expect that the default OpenMRS interface is used to create users
     self.password = encrypt(self.plain_password, self.salt) if self.plain_password
   end
-   
+
   def self.authenticate(login, password)
-    u = find :first, :conditions => {:username => login} 
+    u = find :first, :conditions => {:username => login}
     u && u.authenticated?(password) ? u : nil
   end
       
@@ -90,7 +90,7 @@ class User < ActiveRecord::Base
   def self.encrypt(password,salt)
     Digest::SHA1.hexdigest(password+salt)
   end
- 
+
   # This goes away after 1.6 is here I think, but the users table in 1.5 has no
   # auto-increment
   def self.auto_increment
