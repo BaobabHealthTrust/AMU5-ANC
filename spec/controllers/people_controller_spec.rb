@@ -56,14 +56,14 @@ describe PeopleController do
     end
     
     it "should find patient using a valid national_id" do
-     @person_identifier = PatientIdentifier.find_by_identifier('P1701210013') 
+     @person_identifier = PatientIdentifier.find_by_identifier('P100200000158')
      @person_identifier.should be_valid
     end
     
     it "should redirect to create patient using an invalid national_id" do
-     @person_identifier = PatientIdentifier.find_by_identifier('P1701211562') 
+     @person_identifier = PatientIdentifier.find_by_identifier('P1701211562')
      @person_identifier.should be_nil
-     response.should render_template("search")  
+     response.should render_template("search")
     end
   end
   
@@ -71,7 +71,7 @@ describe PeopleController do
    it "should get edit demographics successfully" do
     get :demographics
     response.should be_success
-   end 
+   end
   end
 
   describe "GET 'create'" do

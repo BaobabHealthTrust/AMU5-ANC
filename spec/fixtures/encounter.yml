@@ -7,7 +7,7 @@ mary_observations:
   form_id: 1
   encounter_datetime: 2011-01-01 00:00:00
   creator: 1
-  date_created: 2000-01-01 00:00:00
+  date_created: 2011-01-01 00:00:00
   uuid: 1fe0c840-268f-102d-a2b3-16da04859245
 mary_hiv_status:
   encounter_id: 2
@@ -16,9 +16,9 @@ mary_hiv_status:
   provider_id: 1
   location_id: 1
   form_id: 1
-  encounter_datetime: 2001-01-01 00:00:00
+  encounter_datetime: 2011-01-01 00:00:00
   creator: 1
-  date_created: 2000-01-01 00:00:00
+  date_created: 2011-01-01 00:00:00
   uuid: 1fe0c840-268f-102d-a2b3-16da04859144
 mary_medical_history:
   encounter_id: 3
@@ -27,9 +27,9 @@ mary_medical_history:
   provider_id: 1
   location_id: 1
   form_id: 1
-  encounter_datetime: 2001-01-01 00:00:00
+  encounter_datetime: 2011-01-01 00:00:00
   creator: 1
-  date_created: 2000-01-01 00:00:00
+  date_created: 2011-01-01 00:00:00
   uuid: 1fe0c840-268f-132d-a2b3-16da04859146  
 mary_examination:
   encounter_id: 4
@@ -40,7 +40,7 @@ mary_examination:
   form_id: 1
   encounter_datetime: 2011-01-01 00:00:00
   creator: 1
-  date_created: 2000-01-01 00:00:00
+  date_created: 2011-01-01 00:00:00
   uuid: 1fe0c840-268f-112d-a2b3-16da04859147
 mary_preventative_medications:
   encounter_id: 5
@@ -49,9 +49,9 @@ mary_preventative_medications:
   provider_id: 1
   location_id: 1
   form_id: 1
-  encounter_datetime: 2001-01-01 00:00:00
+  encounter_datetime: 2011-01-01 00:00:00
   creator: 1
-  date_created: 2000-01-01 00:00:00
+  date_created: 2011-01-01 00:00:00
   uuid: 1fe0c840-268f-102d-a2b4-16da04859148
 mary_obstetric_history:
   encounter_id: 6
@@ -60,9 +60,9 @@ mary_obstetric_history:
   provider_id: 1
   location_id: 1
   form_id: 1
-  encounter_datetime: 2001-01-01 00:00:00
+  encounter_datetime: 2011-01-02 00:00:00
   creator: 1
-  date_created: 2000-01-01 00:00:00
+  date_created: 2011-01-01 00:00:00
   uuid: 1fe0c840-268f-102d-a2b3-16da04858149
 mary_pmtct_management:
   encounter_id: 7
@@ -71,8 +71,7 @@ mary_pmtct_management:
   provider_id: 1
   location_id: 1
   form_id: 1
-  encounter_datetime: 2001-01-01 00:00:00
+  encounter_datetime: 2011-01-02 00:00:00
   creator: 1
-  date_created: 2000-01-01 00:00:00
+  date_created: 2011-01-01 00:00:00
   uuid: 1fe0c840-268f-102d-a2b3-16da04859150
-

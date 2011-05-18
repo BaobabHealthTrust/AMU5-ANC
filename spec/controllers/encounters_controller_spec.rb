@@ -3,7 +3,8 @@ require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 describe EncountersController do
   integrate_views
   fixtures :person, :person_name, :person_name_code, :person_address,
-           :patient, :patient_identifier, :concept, :concept_name, :concept_class,
+           :patient, :patient_identifier, :patient_identifier_type,
+           :concept, :concept_name, :concept_class,
            :encounter, :obs, :users
 
   before(:each) do

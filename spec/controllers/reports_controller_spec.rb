@@ -3,7 +3,7 @@ require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 describe ReportsController do
 
   integrate_views
-  fixtures :users
+  fixtures :users, :encounter, :encounter_type, :obs, :concept_name, :patient
 
   before(:each) do
     session[:user_id] = users(:admin).id

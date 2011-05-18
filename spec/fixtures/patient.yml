@@ -1,6 +1,6 @@
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
 
-Mary:
+mary:
   patient_id: 1
   creator: 1
   date_created: 2011-04-18 00:00:00

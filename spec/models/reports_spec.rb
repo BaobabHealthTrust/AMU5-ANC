@@ -1,10 +1,7 @@
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
 describe Reports do
-  before(:each) do
-    @valid_attributes = {
-    }
-  end
+  fixtures :users, :encounter, :encounter_type, :obs, :concept_name, :patient
 
   it "should create a new instance given valid attributes" do
     #Reports.create!(@valid_attributes)

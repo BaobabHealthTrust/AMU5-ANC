@@ -147,7 +147,6 @@ class ReportsController < ApplicationController
 
 		@observations_3 = report.observations_3
 
-
 		@observations_4 = report.observations_4
 
 		@observations_5 = report.observations_5
