@@ -1,0 +1,113 @@
+--- 
+diagnosis: 
+  datatype_id: 2
+  concept_id: 6098
+  date_created: 2008-03-21 15:02:19 +02:00
+  creator: 15878
+  is_set: 0
+  class_id: 7
+  changed_by: 
+  version: 
+  description: 
+  short_name: 
+  default_charge: 
+  date_changed: 
+  form_text: 
+  retired: 0
+alcohol_counseling: 
+  datatype_id: 4
+  concept_id: 1288
+  date_created: 2005-02-25 11:32:55 +02:00
+  creator: 2
+  is_set: 0
+  class_id: 11
+  changed_by: 
+  version: ""
+  description: "Counseling for people addicted to alcohol"
+  short_name: ""
+  default_charge: 
+  date_changed: 
+  form_text: 
+  retired: 0
+height: 
+  datatype_id: 1
+  concept_id: 5090
+  date_created: 2004-08-12 00:00:00 +02:00
+  creator: 2
+  is_set: 0
+  class_id: 1
+  changed_by: 2
+  version: ""
+  description: ""
+  short_name: HT
+  default_charge: 
+  date_changed: 2005-02-25 11:43:34 +02:00
+  form_text: 
+  retired: 0
+referrals_ordered: 
+  datatype_id: 2
+  concept_id: 1272
+  date_created: 2005-02-22 20:46:03 +02:00
+  creator: 2
+  is_set: 0
+  class_id: 7
+  changed_by: 2
+  version: ""
+  description: "Kinds of referrals"
+  short_name: ""
+  default_charge: 
+  date_changed: 2006-02-13 21:45:19 +02:00
+  form_text: 
+  retired: 0
+treatment: 
+  datatype_id: 4
+  concept_id: 1185
+  date_created: 2005-02-09 00:00:00 +02:00
+  creator: 2
+  is_set: 0
+  class_id: 11
+  changed_by: 
+  version: ""
+  description: ""
+  short_name: ""
+  default_charge: 
+  date_changed: 
+  form_text: 
+  retired: 0
+  
+systolic_blood_pressure: 
+  retire_reason: 
+  retired_by: 
+  is_set: 0
+  changed_by: 1
+  creator: 2
+  date_retired: 
+  class_id: 1
+  version: ""
+  short_name: SBP
+  default_charge: 
+  date_changed: 2006-06-07 21:13:50 -07:00
+  form_text: 
+  description: ""
+  retired: 0
+  datatype_id: 1
+  concept_id: 5085
+  date_created: 2004-08-12 00:00:00 -07:00
+diastolic_blood_pressure: 
+  retire_reason: 
+  retired_by: 
+  is_set: 0
+  changed_by: 1
+  creator: 2
+  date_retired: 
+  class_id: 1
+  version: ""
+  short_name: DBP
+  default_charge: 
+  date_changed: 2006-06-07 21:13:50 -07:00
+  form_text: 
+  description: ""
+  retired: 0
+  datatype_id: 1
+  concept_id: 5086
+  date_created: 2004-08-12 00:00:00 -07:00

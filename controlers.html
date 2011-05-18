@@ -1,0 +1,778 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html 
+  PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>RSpec results</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Expires" content="-1" />
+  <meta http-equiv="Pragma" content="no-cache" />
+  <style type="text/css">
+  body {
+    margin: 0;
+    padding: 0;
+    background: #fff;
+    font-size: 80%;
+  }
+  </style>
+  <script type="text/javascript">
+    // <![CDATA[
+function moveProgressBar(percentDone) {
+  document.getElementById("rspec-header").style.width = percentDone +"%";
+}
+function makeRed(element_id) {
+  document.getElementById(element_id).style.background = '#C40D0D';
+  document.getElementById(element_id).style.color = '#FFFFFF';
+}
+
+function makeYellow(element_id) {
+  if (element_id == "rspec-header" && document.getElementById(element_id).style.background != '#C40D0D')
+  {
+    document.getElementById(element_id).style.background = '#FAF834';
+    document.getElementById(element_id).style.color = '#000000';
+  }
+  else
+  {
+    document.getElementById(element_id).style.background = '#FAF834';
+    document.getElementById(element_id).style.color = '#000000';
+  }
+}
+
+    // ]]>
+  </script>
+  <style type="text/css">
+#rspec-header {
+  background: #65C400; color: #fff; height: 4em;
+}
+
+.rspec-report h1 {
+  margin: 0px 10px 0px 10px;
+  padding: 10px;
+  font-family: "Lucida Grande", Helvetica, sans-serif;
+  font-size: 1.8em;
+  position: absolute;
+}
+
+#summary {
+  margin: 0; padding: 5px 10px;
+  font-family: "Lucida Grande", Helvetica, sans-serif;
+  text-align: right;
+  top: 0px;
+  right: 0px;
+  float:right;
+}
+
+#summary p {
+  margin: 0 0 0 2px;
+}
+
+#summary #totals {
+  font-size: 1.2em;
+}
+
+.example_group {
+  margin: 0 10px 5px;
+  background: #fff;
+}
+
+dl {
+  margin: 0; padding: 0 0 5px;
+  font: normal 11px "Lucida Grande", Helvetica, sans-serif;
+}
+
+dt {
+  padding: 3px;
+  background: #65C400;
+  color: #fff;
+  font-weight: bold;
+}
+
+dd {
+  margin: 5px 0 5px 5px;
+  padding: 3px 3px 3px 18px;
+}
+
+dd.spec.passed {
+  border-left: 5px solid #65C400;
+  border-bottom: 1px solid #65C400;
+  background: #DBFFB4; color: #3D7700;
+}
+
+dd.spec.failed {
+  border-left: 5px solid #C20000;
+  border-bottom: 1px solid #C20000;
+  color: #C20000; background: #FFFBD3;
+}
+
+dd.spec.not_implemented {
+  border-left: 5px solid #FAF834;
+  border-bottom: 1px solid #FAF834;
+  background: #FCFB98; color: #131313;
+}
+
+dd.spec.pending_fixed {
+  border-left: 5px solid #0000C2;
+  border-bottom: 1px solid #0000C2;
+  color: #0000C2; background: #D3FBFF;
+}
+
+.backtrace {
+  color: #000;
+  font-size: 12px;
+}
+
+a {
+  color: #BE5C00;
+}
+
+/* Ruby code, style similar to vibrant ink */
+.ruby {
+  font-size: 12px;
+  font-family: monospace;
+  color: white;
+  background-color: black;
+  padding: 0.1em 0 0.2em 0;
+}
+
+.ruby .keyword { color: #FF6600; }
+.ruby .constant { color: #339999; }
+.ruby .attribute { color: white; }
+.ruby .global { color: white; }
+.ruby .module { color: white; }
+.ruby .class { color: white; }
+.ruby .string { color: #66FF00; }
+.ruby .ident { color: white; }
+.ruby .method { color: #FFCC00; }
+.ruby .number { color: white; }
+.ruby .char { color: white; }
+.ruby .comment { color: #9933CC; }
+.ruby .symbol { color: white; }
+.ruby .regex { color: #44B4CC; }
+.ruby .punct { color: white; }
+.ruby .escape { color: white; }
+.ruby .interp { color: white; }
+.ruby .expr { color: white; }
+
+.ruby .offending { background-color: gray; }
+.ruby .linenum {
+  width: 75px;
+  padding: 0.1em 1em 0.2em 0;
+  color: #000000;
+  background-color: #FFFBD3;
+}
+
+  </style>
+</head>
+<body>
+<div class="rspec-report">
+
+<div id="rspec-header">
+  <div id="label">
+    <h1>RSpec Code Examples</h1>
+  </div>
+
+  <div id="summary">
+    <p id="totals">&nbsp;</p>
+    <p id="duration">&nbsp;</p>
+  </div>
+</div>
+
+<div class="results">
+<div class="example_group">
+  <dl>
+  <dt id="example_group_1">PatientsHelper</dt>
+    <script type="text/javascript">moveProgressBar('0.8');</script>
+    <dd class="spec passed"><span class="passed_spec_name">should be included in the object returned by #helper</span></dd>
+  </dl>
+</div>
+<div class="example_group">
+  <dl>
+  <dt id="example_group_2">PeopleHelper</dt>
+    <script type="text/javascript">moveProgressBar('1.7');</script>
+    <dd class="spec passed"><span class="passed_spec_name">should be included in the object returned by #helper</span></dd>
+  </dl>
+</div>
+<div class="example_group">
+  <dl>
+  <dt id="example_group_3">EncountersHelper</dt>
+    <script type="text/javascript">moveProgressBar('2.6');</script>
+    <dd class="spec passed"><span class="passed_spec_name">should be included in the object returned by #helper</span></dd>
+  </dl>
+</div>
+<div class="example_group">
+  <dl>
+  <dt id="example_group_4">SessionsHelper</dt>
+    <script type="text/javascript">moveProgressBar('3.5');</script>
+    <dd class="spec passed"><span class="passed_spec_name">should be included in the object returned by #helper</span></dd>
+  </dl>
+</div>
+<div class="example_group">
+  <dl>
+  <dt id="example_group_5">PersonHelper</dt>
+    <script type="text/javascript">moveProgressBar('4.4');</script>
+    <dd class="spec passed"><span class="passed_spec_name">should be included in the object returned by #helper</span></dd>
+  </dl>
+</div>
+<div class="example_group">
+  <dl>
+  <dt id="example_group_6">UserHelper</dt>
+    <script type="text/javascript">moveProgressBar('5.3');</script>
+    <dd class="spec passed"><span class="passed_spec_name">should be included in the object returned by #helper</span></dd>
+  </dl>
+</div>
+<div class="example_group">
+  <dl>
+  <dt id="example_group_7">UserController</dt>
+    <script type="text/javascript">moveProgressBar('6.1');</script>
+    <dd class="spec passed"><span class="passed_spec_name">should use UserController</span></dd>
+  </dl>
+</div>
+<div class="example_group">
+  <dl>
+  <dt id="example_group_8">UserController GET 'create'</dt>
+    <script type="text/javascript">moveProgressBar('7.0');</script>
+    <dd class="spec passed"><span class="passed_spec_name">should not create an already existing user</span></dd>
+    <script type="text/javascript">moveProgressBar('7.9');</script>
+    <dd class="spec passed"><span class="passed_spec_name">should not create user if password mismatch</span></dd>
+    <script type="text/javascript">moveProgressBar('8.8');</script>
+    <dd class="spec passed"><span class="passed_spec_name">should create a user with valid attributes</span></dd>
+  </dl>
+</div>
+<div class="example_group">
+  <dl>
+  <dt id="example_group_9">UserController GET 'login'</dt>
+    <script type="text/javascript">moveProgressBar('9.7');</script>
+    <dd class="spec passed"><span class="passed_spec_name">should get the login action</span></dd>
+    <script type="text/javascript">moveProgressBar('10.6');</script>
+    <dd class="spec passed"><span class="passed_spec_name">should login a valid user</span></dd>
+  </dl>
+</div>
+<div class="example_group">
+  <dl>
+  <dt id="example_group_10">UserController GET 'new'</dt>
+    <script type="text/javascript">moveProgressBar('11.5');</script>
+    <dd class="spec passed"><span class="passed_spec_name">should get the new action successfully</span></dd>
+    <script type="text/javascript">moveProgressBar('12.3');</script>
+    <dd class="spec passed"><span class="passed_spec_name">should create new user</span></dd>
+  </dl>
+</div>
+<div class="example_group">
+  <dl>
+  <dt id="example_group_11">UserController GET 'update'</dt>
+    <script type="text/javascript">moveProgressBar('13.2');</script>
+    <dd class="spec passed"><span class="passed_spec_name">should save the changes made to user</span></dd>
+  </dl>
+</div>
+<div class="example_group">
+  <dl>
+  <dt id="example_group_12">UserController GET 'show'</dt>
+    <script type="text/javascript">moveProgressBar('14.1');</script>
+    <dd class="spec passed"><span class="passed_spec_name">should get the show action</span></dd>
+  </dl>
+</div>
+<div class="example_group">
+  <dl>
+  <dt id="example_group_13">UserController GET 'edit'</dt>
+    <script type="text/javascript">moveProgressBar('15.0');</script>
+    <dd class="spec passed"><span class="passed_spec_name">should get the edit action successfully</span></dd>
+    <script type="text/javascript">moveProgressBar('15.9');</script>
+    <dd class="spec passed"><span class="passed_spec_name">should save changes made to an existing user</span></dd>
+  </dl>
+</div>
+<div class="example_group">
+  <dl>
+  <dt id="example_group_14">UserController GET 'change_password'</dt>
+    <script type="text/javascript">moveProgressBar('16.8');</script>
+    <dd class="spec passed"><span class="passed_spec_name">should get change password action successfully</span></dd>
+    <script type="text/javascript">moveProgressBar('17.6');</script>
+    <dd class="spec passed"><span class="passed_spec_name">should not save password changes if password mismatch</span></dd>
+    <script type="text/javascript">moveProgressBar('18.5');</script>
+    <dd class="spec passed"><span class="passed_spec_name">should save changes if password match</span></dd>
+    <script type="text/javascript">moveProgressBar('19.4');</script>
+    <dd class="spec passed"><span class="passed_spec_name">should not save changes if password characters are less than four</span></dd>
+  </dl>
+</div>
+<div class="example_group">
+  <dl>
+  <dt id="example_group_15">UserController GET 'select_user'</dt>
+    <script type="text/javascript">moveProgressBar('20.3');</script>
+    <dd class="spec passed"><span class="passed_spec_name">should get the search_user action successfully</span></dd>
+    <script type="text/javascript">moveProgressBar('21.2');</script>
+    <dd class="spec passed"><span class="passed_spec_name">should display the user details</span></dd>
+  </dl>
+</div>
+<div class="example_group">
+  <dl>
+  <dt id="example_group_16">UserController GET 'logout'</dt>
+    <script type="text/javascript">moveProgressBar('22.1');</script>
+    <dd class="spec passed"><span class="passed_spec_name">should get the log_out action successfully</span></dd>
+  </dl>
+</div>
+<div class="example_group">
+  <dl>
+  <dt id="example_group_17">UserController GET 'signup'</dt>
+    <script type="text/javascript">moveProgressBar('23.0');</script>
+    <dd class="spec passed"><span class="passed_spec_name">should get the signup action successfully</span></dd>
+  </dl>
+</div>
+<div class="example_group">
+  <dl>
+  <dt id="example_group_18">UserController GET 'user_menu'</dt>
+    <script type="text/javascript">moveProgressBar('23.8');</script>
+    <dd class="spec passed"><span class="passed_spec_name">should get the user_menu action successfully</span></dd>
+  </dl>
+</div>
+<div class="example_group">
+  <dl>
+  <dt id="example_group_19">UserController GET 'username'</dt>
+    <script type="text/javascript">moveProgressBar('24.7');</script>
+    <dd class="spec passed"><span class="passed_spec_name">should get the username action successfully</span></dd>
+  </dl>
+</div>
+<div class="example_group">
+  <dl>
+  <dt id="example_group_20">ReportsController</dt>
+    <script type="text/javascript">moveProgressBar('25.6');</script>
+    <dd class="spec passed"><span class="passed_spec_name">should use ReportsController</span></dd>
+  </dl>
+</div>
+<div class="example_group">
+  <dl>
+  <dt id="example_group_21">ReportsController GET 'index'</dt>
+    <script type="text/javascript">moveProgressBar('26.5');</script>
+    <dd class="spec passed"><span class="passed_spec_name">should get the index action</span></dd>
+  </dl>
+</div>
+<div class="example_group">
+  <dl>
+  <dt id="example_group_22">ReportsController GET 'report'</dt>
+    <script type="text/javascript">moveProgressBar('27.4');</script>
+    <dd class="spec passed"><span class="passed_spec_name">should get the report action</span></dd>
+  </dl>
+</div>
+<div class="example_group">
+  <dl>
+  <dt id="example_group_23">ReportsController GET 'select'</dt>
+    <script type="text/javascript">moveProgressBar('28.3');</script>
+    <dd class="spec passed"><span class="passed_spec_name">should get the select action</span></dd>
+  </dl>
+</div>
+<div class="example_group">
+  <dl>
+  <dt id="example_group_24">PeopleController</dt>
+    <script type="text/javascript">moveProgressBar('29.2');</script>
+    <dd class="spec passed"><span class="passed_spec_name">should use PeopleController</span></dd>
+  </dl>
+</div>
+<div class="example_group">
+  <dl>
+  <dt id="example_group_25">PeopleController GET 'index'</dt>
+    <script type="text/javascript">moveProgressBar('30.0');</script>
+    <dd class="spec passed"><span class="passed_spec_name">should redirect to clinic page successfully</span></dd>
+  </dl>
+</div>
+<div class="example_group">
+  <dl>
+  <dt id="example_group_26">PeopleController GET 'new'</dt>
+    <script type="text/javascript">moveProgressBar('30.9');</script>
+    <dd class="spec passed"><span class="passed_spec_name">should get the new action successfully</span></dd>
+  </dl>
+</div>
+<div class="example_group">
+  <dl>
+  <dt id="example_group_27">PeopleController GET 'search'</dt>
+    <script type="text/javascript">moveProgressBar('31.8');</script>
+    <dd class="spec passed"><span class="passed_spec_name">should get search action</span></dd>
+    <script type="text/javascript">moveProgressBar('32.7');</script>
+    <dd class="spec passed"><span class="passed_spec_name">should find patient by given_name</span></dd>
+    <script type="text/javascript">moveProgressBar('33.6');</script>
+    <dd class="spec passed"><span class="passed_spec_name">should find patient by family_name</span></dd>
+    <script type="text/javascript">moveProgressBar('34.5');</script>
+    <dd class="spec passed"><span class="passed_spec_name">should find patient using a valid national_id</span></dd>
+    <script type="text/javascript">moveProgressBar('35.3');</script>
+    <dd class="spec passed"><span class="passed_spec_name">should redirect to create patient using an invalid national_id</span></dd>
+  </dl>
+</div>
+<div class="example_group">
+  <dl>
+  <dt id="example_group_28">PeopleController GET 'demographics'</dt>
+    <script type="text/javascript">moveProgressBar('36.2');</script>
+    <dd class="spec passed"><span class="passed_spec_name">should get edit demographics successfully</span></dd>
+  </dl>
+</div>
+<div class="example_group">
+  <dl>
+  <dt id="example_group_29">PeopleController GET 'create'</dt>
+    <script type="text/javascript">moveProgressBar('37.1');</script>
+    <dd class="spec passed"><span class="passed_spec_name">should create patient</span></dd>
+  </dl>
+</div>
+<div class="example_group">
+  <dl>
+  <dt id="example_group_30">PeopleController GET 'select'</dt>
+    <script type="text/javascript">moveProgressBar('38.0');</script>
+    <dd class="spec passed"><span class="passed_spec_name">should get select action successfully</span></dd>
+  </dl>
+</div>
+<div class="example_group">
+  <dl>
+  <dt id="example_group_31">PeopleController GET 'set_datetime'</dt>
+    <script type="text/javascript">moveProgressBar('38.9');</script>
+    <dd class="spec passed"><span class="passed_spec_name">should get the set_datetime action successfully</span></dd>
+  </dl>
+</div>
+<div class="example_group">
+  <dl>
+  <dt id="example_group_32">PeopleController GET 'reset_datetime'</dt>
+    <script type="text/javascript">moveProgressBar('39.8');</script>
+    <dd class="spec passed"><span class="passed_spec_name">should get the reset_datetime action successfully</span></dd>
+  </dl>
+</div>
+<div class="example_group">
+  <dl>
+  <dt id="example_group_33">PeopleController GET 'identifiers'</dt>
+    <script type="text/javascript">moveProgressBar('40.7');</script>
+    <dd class="spec passed"><span class="passed_spec_name">should get the identifiers action successfully</span></dd>
+  </dl>
+</div>
+<div class="example_group">
+  <dl>
+  <dt id="example_group_34">EncountersController</dt>
+    <script type="text/javascript">moveProgressBar('41.5');</script>
+    <dd class="spec passed"><span class="passed_spec_name">should use EncountersController</span></dd>
+  </dl>
+</div>
+<div class="example_group">
+  <dl>
+  <dt id="example_group_35">EncountersController GET 'new'</dt>
+    <script type="text/javascript">moveProgressBar('42.4');</script>
+    <dd class="spec passed"><span class="passed_spec_name">should get the new action</span></dd>
+  </dl>
+</div>
+<div class="example_group">
+  <dl>
+  <dt id="example_group_36">EncountersController GET 'create'</dt>
+    <script type="text/javascript">moveProgressBar('43.3');</script>
+    <dd class="spec passed"><span class="passed_spec_name">should create an encounter successfully</span></dd>
+  </dl>
+</div>
+<div class="example_group">
+  <dl>
+  <dt id="example_group_37">EncountersController GET 'void'</dt>
+    <script type="text/javascript">moveProgressBar('44.2');</script>
+    <dd class="spec passed"><span class="passed_spec_name">should void encounter successfully</span></dd>
+  </dl>
+</div>
+<div class="example_group">
+  <dl>
+  <dt id="example_group_38">PatientsController</dt>
+    <script type="text/javascript">moveProgressBar('45.1');</script>
+    <dd class="spec passed"><span class="passed_spec_name">should use PatientsController</span></dd>
+  </dl>
+</div>
+<div class="example_group">
+  <dl>
+  <dt id="example_group_39">PatientsController GET 'show'</dt>
+    <script type="text/javascript">moveProgressBar('46.0');</script>
+    <dd class="spec passed"><span class="passed_spec_name">should show patient details</span></dd>
+    <script type="text/javascript">moveProgressBar('46.9');</script>
+    <dd class="spec passed"><span class="passed_spec_name">should get the patient_id</span></dd>
+  </dl>
+</div>
+<div class="example_group">
+  <dl>
+  <dt id="example_group_40">PatientsController GET 'tab_lab_results'</dt>
+    <script type="text/javascript">moveProgressBar('47.7');</script>
+    <dd class="spec passed"><span class="passed_spec_name">should display patient's lab results</span></dd>
+  </dl>
+</div>
+<div class="example_group">
+  <dl>
+  <dt id="example_group_41">PatientsController GET 'tab_examinations_management'</dt>
+    <script type="text/javascript">moveProgressBar('48.6');</script>
+    <dd class="spec passed"><span class="passed_spec_name">should display patient's examinations management results</span></dd>
+  </dl>
+</div>
+<div class="example_group">
+  <dl>
+  <dt id="example_group_42">PatientsController GET 'tab_medical_history'</dt>
+    <script type="text/javascript">moveProgressBar('49.5');</script>
+    <dd class="spec passed"><span class="passed_spec_name">should display patient's medical history summary</span></dd>
+  </dl>
+</div>
+<div class="example_group">
+  <dl>
+  <dt id="example_group_43">PatientsController GET 'tab_obstetric_history'</dt>
+    <script type="text/javascript">moveProgressBar('50.4');</script>
+    <dd class="spec passed"><span class="passed_spec_name">should display patient's obstetric history summary</span></dd>
+  </dl>
+</div>
+<div class="example_group">
+  <dl>
+  <dt id="example_group_44">PatientsController GET 'tab_visit_summary'</dt>
+    <script type="text/javascript">moveProgressBar('51.3');</script>
+    <dd class="spec passed"><span class="passed_spec_name">should display patient's visit summary successfully</span></dd>
+  </dl>
+</div>
+<div class="example_group">
+  <dl>
+  <dt id="example_group_45">PatientsController GET 'observations'</dt>
+    <script type="text/javascript">moveProgressBar('52.2');</script>
+    <dd class="spec passed"><span class="passed_spec_name">should display patient's observations summary</span></dd>
+  </dl>
+</div>
+<div class="example_group">
+  <dl>
+  <dt id="example_group_46">PatientsController GET 'preventative_medications'</dt>
+    <script type="text/javascript">moveProgressBar('53.0');</script>
+    <dd class="spec passed"><span class="passed_spec_name">should display patient's preventative medications summary</span></dd>
+  </dl>
+</div>
+<div class="example_group">
+  <dl>
+  <dt id="example_group_47">PatientsController GET 'hiv_status'</dt>
+    <script type="text/javascript">moveProgressBar('53.9');</script>
+    <dd class="spec passed"><span class="passed_spec_name">should display patient's hiv status summary</span></dd>
+  </dl>
+</div>
+<div class="example_group">
+  <dl>
+  <dt id="example_group_48">PatientsController GET 'pmtct_management'</dt>
+    <script type="text/javascript">moveProgressBar('54.8');</script>
+    <dd class="spec passed"><span class="passed_spec_name">should display patient's pmtct management  action successfully</span></dd>
+  </dl>
+</div>
+<div class="example_group">
+  <dl>
+  <dt id="example_group_49">PatientsController GET 'obstetric_history'</dt>
+    <script type="text/javascript">moveProgressBar('55.7');</script>
+    <dd class="spec passed"><span class="passed_spec_name">should get the obstetric_history action successfully</span></dd>
+  </dl>
+</div>
+<div class="example_group">
+  <dl>
+  <dt id="example_group_50">PatientsController GET 'medical_history'</dt>
+    <script type="text/javascript">moveProgressBar('56.6');</script>
+    <dd class="spec passed"><span class="passed_spec_name">should get the medical_history action successfully</span></dd>
+  </dl>
+</div>
+<div class="example_group">
+  <dl>
+  <dt id="example_group_51">PatientsController GET 'examinations_management'</dt>
+    <script type="text/javascript">moveProgressBar('57.5');</script>
+    <dd class="spec passed"><span class="passed_spec_name">should get the examinations_management action successfully</span></dd>
+  </dl>
+</div>
+<div class="example_group">
+  <dl>
+  <dt id="example_group_52">PatientsController GET 'lab_results'</dt>
+    <script type="text/javascript">moveProgressBar('58.4');</script>
+    <dd class="spec passed"><span class="passed_spec_name">should get the lab_results action successfully</span></dd>
+  </dl>
+</div>
+<div class="example_group">
+  <dl>
+  <dt id="example_group_53">PersonNamesController</dt>
+    <script type="text/javascript">moveProgressBar('59.2');</script>
+    <dd class="spec passed"><span class="passed_spec_name">should use PersonNamesController</span></dd>
+  </dl>
+</div>
+<div class="example_group">
+  <dl>
+  <dt id="example_group_54">PersonNamesController GET 'family_names'</dt>
+    <script type="text/javascript">moveProgressBar('60.1');</script>
+    <dd class="spec passed"><span class="passed_spec_name">should get the family names action</span></dd>
+  </dl>
+</div>
+<div class="example_group">
+  <dl>
+  <dt id="example_group_55">PersonNamesController GET 'given_names'</dt>
+    <script type="text/javascript">moveProgressBar('61.0');</script>
+    <dd class="spec passed"><span class="passed_spec_name">should get the family action</span></dd>
+  </dl>
+</div>
+<div class="example_group">
+  <dl>
+  <dt id="example_group_56">PersonNamesController GET 'family_names2'</dt>
+    <script type="text/javascript">moveProgressBar('61.9');</script>
+    <dd class="spec passed"><span class="passed_spec_name">should get the mother's name action</span></dd>
+  </dl>
+</div>
+<div class="example_group">
+  <dl>
+  <dt id="example_group_57">PersonController</dt>
+    <script type="text/javascript">moveProgressBar('62.8');</script>
+    <dd class="spec passed"><span class="passed_spec_name">should use PersonController</span></dd>
+  </dl>
+</div>
+<div class="example_group">
+  <dl>
+  <dt id="example_group_58">SessionsController</dt>
+    <script type="text/javascript">moveProgressBar('63.7');</script>
+    <dd class="spec passed"><span class="passed_spec_name">should use SessionsController</span></dd>
+  </dl>
+</div>
+<div class="example_group">
+  <dl>
+  <dt id="example_group_59">SessionsController GET 'create'</dt>
+    <script type="text/javascript">moveProgressBar('64.6');</script>
+    <dd class="spec passed"><span class="passed_spec_name">should get the login action successfully</span></dd>
+    <script type="text/javascript">moveProgressBar('65.4');</script>
+    <dd class="spec passed"><span class="passed_spec_name">should login a valid user</span></dd>
+  </dl>
+</div>
+<div class="example_group">
+  <dl>
+  <dt id="example_group_60">SessionsController GET 'destroy'</dt>
+    <script type="text/javascript">moveProgressBar('66.3');</script>
+    <dd class="spec passed"><span class="passed_spec_name">should logout a valid user</span></dd>
+  </dl>
+</div>
+<div class="example_group">
+  <dl>
+  <dt id="example_group_61">PatientIdentifier</dt>
+    <script type="text/javascript">moveProgressBar('67.2');</script>
+    <dd class="spec passed"><span class="passed_spec_name">should exist</span></dd>
+  </dl>
+</div>
+<div class="example_group">
+  <dl>
+  <dt id="example_group_62">PersonAttributeType</dt>
+    <script type="text/javascript">moveProgressBar('68.1');</script>
+    <dd class="spec passed"><span class="passed_spec_name">should create a new instance given valid attributes</span></dd>
+  </dl>
+</div>
+<div class="example_group">
+  <dl>
+  <dt id="example_group_63">Concept</dt>
+    <script type="text/javascript">moveProgressBar('69.0');</script>
+    <dd class="spec passed"><span class="passed_spec_name">should create a new instance given valid attributes</span></dd>
+  </dl>
+</div>
+<div class="example_group">
+  <dl>
+  <dt id="example_group_64">Encounter</dt>
+    <script type="text/javascript">moveProgressBar('69.9');</script>
+    <dd class="spec passed"><span class="passed_spec_name">should exist</span></dd>
+    <script type="text/javascript">moveProgressBar('70.7');</script>
+    <dd class="spec passed"><span class="passed_spec_name">should find encounter by encounter_type</span></dd>
+  </dl>
+</div>
+<div class="example_group">
+  <dl>
+  <dt id="example_group_65">PatientIdentifierType</dt>
+    <script type="text/javascript">moveProgressBar('71.6');</script>
+    <dd class="spec passed"><span class="passed_spec_name">should create a new instance given valid attributes</span></dd>
+  </dl>
+</div>
+<div class="example_group">
+  <dl>
+  <dt id="example_group_66">Reports</dt>
+    <script type="text/javascript">moveProgressBar('72.5');</script>
+    <dd class="spec passed"><span class="passed_spec_name">should create a new instance given valid attributes</span></dd>
+  </dl>
+</div>
+<div class="example_group">
+  <dl>
+  <dt id="example_group_67">ConceptName</dt>
+    <script type="text/javascript">moveProgressBar('73.4');</script>
+    <dd class="spec passed"><span class="passed_spec_name">should create a new instance given valid attributes</span></dd>
+    <script type="text/javascript">moveProgressBar('74.3');</script>
+    <dd class="spec passed"><span class="passed_spec_name">should find a saved concept_name</span></dd>
+  </dl>
+</div>
+<div class="example_group">
+  <dl>
+  <dt id="example_group_68">PersonName</dt>
+    <script type="text/javascript">moveProgressBar('75.2');</script>
+    <dd class="spec passed"><span class="passed_spec_name">should create a new instance given valid attributes</span></dd>
+    <script type="text/javascript">moveProgressBar('76.1');</script>
+    <dd class="spec passed"><span class="passed_spec_name">should not have a blank surname</span></dd>
+    <script type="text/javascript">moveProgressBar('76.9');</script>
+    <dd class="spec passed"><span class="passed_spec_name">should not have a blank first name</span></dd>
+    <script type="text/javascript">moveProgressBar('77.8');</script>
+    <dd class="spec passed"><span class="passed_spec_name">should not have a blank mother's surname</span></dd>
+    <script type="text/javascript">moveProgressBar('78.7');</script>
+    <dd class="spec passed"><span class="passed_spec_name">should be valid after saving</span></dd>
+  </dl>
+</div>
+<div class="example_group">
+  <dl>
+  <dt id="example_group_69">PersonAttribute</dt>
+    <script type="text/javascript">moveProgressBar('79.6');</script>
+    <dd class="spec passed"><span class="passed_spec_name">should create a new instance given valid attributes</span></dd>
+  </dl>
+</div>
+<div class="example_group">
+  <dl>
+  <dt id="example_group_70">Person</dt>
+    <script type="text/javascript">moveProgressBar('80.5');</script>
+    <dd class="spec passed"><span class="passed_spec_name">should find person details</span></dd>
+    <script type="text/javascript">moveProgressBar('81.4');</script>
+    <dd class="spec passed"><span class="passed_spec_name">should not have age below 13</span></dd>
+    <script type="text/javascript">moveProgressBar('82.3');</script>
+    <dd class="spec passed"><span class="passed_spec_name">should not have a blank year of birth</span></dd>
+    <script type="text/javascript">moveProgressBar('83.1');</script>
+    <dd class="spec passed"><span class="passed_spec_name">should not have year of birth less than 1940</span></dd>
+    <script type="text/javascript">moveProgressBar('84.0');</script>
+    <dd class="spec passed"><span class="passed_spec_name">should not have year of birth greater than today</span></dd>
+    <script type="text/javascript">moveProgressBar('84.9');</script>
+    <dd class="spec passed"><span class="passed_spec_name">should not have gender as male</span></dd>
+  </dl>
+</div>
+<div class="example_group">
+  <dl>
+  <dt id="example_group_71">Patient</dt>
+    <script type="text/javascript">moveProgressBar('85.8');</script>
+    <dd class="spec passed"><span class="passed_spec_name">should exist</span></dd>
+  </dl>
+</div>
+<div class="example_group">
+  <dl>
+  <dt id="example_group_72">PersonAddress</dt>
+    <script type="text/javascript">moveProgressBar('86.7');</script>
+    <dd class="spec passed"><span class="passed_spec_name">should find valid person's address</span></dd>
+    <script type="text/javascript">moveProgressBar('87.6');</script>
+    <dd class="spec passed"><span class="passed_spec_name">should not have a blank home village</span></dd>
+    <script type="text/javascript">moveProgressBar('88.4');</script>
+    <dd class="spec passed"><span class="passed_spec_name">should not have a blank current traditional authority</span></dd>
+    <script type="text/javascript">moveProgressBar('89.3');</script>
+    <dd class="spec passed"><span class="passed_spec_name">should not have a blank current residence</span></dd>
+  </dl>
+</div>
+<div class="example_group">
+  <dl>
+  <dt id="example_group_73">User</dt>
+    <script type="text/javascript">moveProgressBar('90.2');</script>
+    <dd class="spec passed"><span class="passed_spec_name">should exist</span></dd>
+    <script type="text/javascript">moveProgressBar('91.1');</script>
+    <dd class="spec passed"><span class="passed_spec_name">should not have a blank username</span></dd>
+    <script type="text/javascript">moveProgressBar('92.0');</script>
+    <dd class="spec passed"><span class="passed_spec_name">should have username with more than 4 characters</span></dd>
+    <script type="text/javascript">moveProgressBar('92.9');</script>
+    <dd class="spec passed"><span class="passed_spec_name">should not have a blank password</span></dd>
+    <script type="text/javascript">moveProgressBar('93.8');</script>
+    <dd class="spec passed"><span class="passed_spec_name">should have password with more than 4 characters</span></dd>
+    <script type="text/javascript">moveProgressBar('94.6');</script>
+    <dd class="spec passed"><span class="passed_spec_name">should have password matching user_confirm password</span></dd>
+    <script type="text/javascript">moveProgressBar('95.5');</script>
+    <dd class="spec passed"><span class="passed_spec_name">should encrypt password</span></dd>
+    <script type="text/javascript">moveProgressBar('96.4');</script>
+    <dd class="spec passed"><span class="passed_spec_name">should not have a blank role</span></dd>
+    <script type="text/javascript">moveProgressBar('97.3');</script>
+    <dd class="spec passed"><span class="passed_spec_name">should have a valid role</span></dd>
+    <script type="text/javascript">moveProgressBar('98.2');</script>
+    <dd class="spec passed"><span class="passed_spec_name">should be valid after saving</span></dd>
+    <script type="text/javascript">moveProgressBar('99.1');</script>
+    <dd class="spec passed"><span class="passed_spec_name">should be authenticated on login</span></dd>
+    <script type="text/javascript">moveProgressBar('100.0');</script>
+    <dd class="spec passed"><span class="passed_spec_name">should create a salt of length not less than 40</span></dd>
+  </dl>
+</div>
+<script type="text/javascript">document.getElementById('duration').innerHTML = "Finished in <strong>3.887906 seconds</strong>";</script>
+<script type="text/javascript">document.getElementById('totals').innerHTML = "113 examples, 0 failures";</script>
+</div>
+</div>
+</body>
+</html>
