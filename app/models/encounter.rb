@@ -53,7 +53,8 @@ class Encounter < ActiveRecord::Base
     if name == 'REGISTRATION'
       "Patient was seen at the registration desk at #{encounter_datetime.strftime('%I:%M')}" 
     elsif name == 'TREATMENT'
-      o = orders.collect{|order| order.to_s}.join("\n")
+      o = orders.collect{|order| order.drug_order}.join(", ")
+      # o = "TREATMENT NOT DONE" if self.patient.treatment_not_done
       o = "No prescriptions have been made" if o.blank?
       o
     elsif name == 'VITALS'
@@ -61,12 +62,28 @@ class Encounter < ActiveRecord::Base
       weight = observations.select {|obs| obs.concept.concept_names.map(&:name).include?("WEIGHT (KG)") && "#{obs.answer_string}".upcase != '0.0' }
       height = observations.select {|obs| obs.concept.concept_names.map(&:name).include?("HEIGHT (CM)") && "#{obs.answer_string}".upcase != '0.0' }
       vitals = [weight_str = weight.first.answer_string + 'KG' rescue 'UNKNOWN WEIGHT',
-                height_str = height.first.answer_string + 'CM' rescue 'UNKNOWN HEIGHT']
+        height_str = height.first.answer_string + 'CM' rescue 'UNKNOWN HEIGHT']
       temp_str = temp.first.answer_string + '°C' rescue nil
       vitals << temp_str if temp_str                          
       vitals.join(', ')
+    elsif name == 'OUTPATIENT DIAGNOSIS'
+      diagnosis_array = []
+      observations.each{|observation|
+        next if observation.obs_group_id != nil
+        observation_string =  observation.answer_string
+        child_ob = observation.child_observation
+        while child_ob != nil
+          observation_string += " #{child_ob.answer_string}" if !child_ob.answer_string.blank? && (!Date.parse(child_ob.answer_string) rescue true)
+          child_ob = child_ob.child_observation if !child_ob.answer_string.blank? && (!Date.parse(child_ob.answer_string) rescue true)
+        end
+        if !observation_string.nil?
+          diagnosis_array << observation_string if !observation_string.blank? && (!Date.parse(observation_string) rescue true)
+          diagnosis_array << " : " if !observation_string.blank? && (!Date.parse(observation_string) rescue true)
+        end
+      }
+      diagnosis_array.uniq.compact.to_s.gsub(/ : $/, "").titleize    
     else  
-      observations.collect{|observation| observation.answer_string}.join(", ")
+      observations.collect{|observation| observation.to_s.titleize}.join(", ")
     end  
   end
 
@@ -88,17 +105,17 @@ class Encounter < ActiveRecord::Base
     encounter_types_hash = encounter_types.inject({}) {|result, row| result[row.encounter_type_id] = row.name; result }
     with_scope(:find => opts) do
       rows = self.all(
-         :select => 'count(*) as number, encounter_type', 
-         :group => 'encounter.encounter_type',
-         :conditions => ['encounter_type IN (?)', encounter_types.map(&:encounter_type_id)]) 
+        :select => 'count(*) as number, encounter_type',
+        :group => 'encounter.encounter_type',
+        :conditions => ['encounter_type IN (?)', encounter_types.map(&:encounter_type_id)])
       return rows.inject({}) {|result, row| result[encounter_types_hash[row['encounter_type']]] = row['number']; result }
     end     
   end
 
   def self.visits_by_day(start_date,end_date)
     required_encounters = ["ART ADHERENCE", "ART_FOLLOWUP",   "ART_INITIAL",
-                           "ART VISIT",     "HIV RECEPTION",  "HIV STAGING",
-                           "PART_FOLLOWUP", "PART_INITIAL",   "VITALS"]
+      "ART VISIT",     "HIV RECEPTION",  "HIV STAGING",
+      "PART_FOLLOWUP", "PART_INITIAL",   "VITALS"]
 
     required_encounters_ids = required_encounters.inject([]) do |encounters_ids, encounter_type|
       encounters_ids << EncounterType.find_by_name(encounter_type).id rescue nil
@@ -109,7 +126,7 @@ class Encounter < ActiveRecord::Base
 
     Encounter.find(:all,
       :joins      => ["INNER JOIN obs     ON obs.encounter_id    = encounter.encounter_id",
-                      "INNER JOIN patient ON patient.patient_id  = encounter.patient_id"],
+        "INNER JOIN patient ON patient.patient_id  = encounter.patient_id"],
       :conditions => ["obs.voided = 0 AND encounter_type IN (?) AND encounter_datetime >=? AND encounter_datetime <=?",required_encounters_ids,start_date,end_date],
       :group      => "encounter.patient_id,DATE(encounter_datetime)",
       :order      => "encounter.encounter_datetime ASC")

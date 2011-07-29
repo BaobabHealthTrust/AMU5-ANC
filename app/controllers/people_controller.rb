@@ -52,7 +52,7 @@ class PeopleController < ApplicationController
       unless (params[:relation].blank?)
         print_and_redirect("/patients/national_id_label/?patient_id=#{person.patient.id}", search_complete_url(person.id, params[:relation]))      
       else
-        print_and_redirect("/patients/national_id_label/?patient_id=#{person.patient.id}", next_task(person.patient))
+        print_and_redirect("/patients/national_id_label/?patient_id=#{person.patient.id}", "/people")# next_task(person.patient))
       end  
     else
       # Does this ever get hit?

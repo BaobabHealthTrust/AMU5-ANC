@@ -4,37 +4,70 @@
   })
 </script>
 <style type="text/css">
-  #stats {
-    width:98%;
-    border:1px solid black;
-    margin:10px;
-    background:white;
-  }
-  #stats td{
-    text-align:center;
+  body {
+    -moz-user-select:none;
   }
 
-  #stats a {
-    width:175px;
-    float:right;
+  #stats {
+    width:98%;
+    border:1px solid #eee;
+    margin:10px;
+    margin-top: 0px;
+    background:white;
+  }
+  #stats td, #stats th {
+    text-align:center;
+  }
+  .odd {
+    background-color: #eeeef7;
+  }
+  .even {
+    background-color: #fff;
+  }
+
+  #table_div {
+    overflow:auto;
+    height: 320px;
+    background-color: white;
+    border: solid 1px #eee;
+    border-width: 1px;
+    overflow: hidden;
+  }
+
+  button {
+    min-height: 50px;
+    min-width: 350px;
+    margin: 5px;
+    margin-bottom: 10px;
+    font-size: 1.2em;
+    background-color: #6281a7;
+    color: #FFF;
+    font-weight: normal;
+    -moz-border-radius: 30px;
+    border: 5px outset #000;
+    padding: 10px;
+    cursor: pointer;
   }
 
 </style>
-<%= stylesheet_link_tag 'extra_buttons' %>
+<%#= stylesheet_link_tag 'extra_buttons' %>
 
-<div id="tab" style="height: 100%; width: 100%; overflow: auto;">
-    <h2 style="margin-left: 8px;">Select administrative task</h2>
-      <table id="stats" style="height: 303px;" cellpadding="10">
-        <% @reports.each do |path,report_name| %>
-          <tr>
-            <td>
-              <button onclick="window.parent.location='<%="#{path}"%>'"
-                        class='blue'>
-                <span><%=report_name%></span>
-              </button>
-            </td>
-          </tr>
-        <%end%>
-      </table>
+<div id="tab" style="background-color: #fff; border-top: 1px #fff solid; margin-top: 0px;">
+  <h2 style="text-align: center; color: #6281a7; margin-top: 10px;">Select task</h2>
+  <table id="stats" style="height: 300px; margin-bottom: 8px;" cellpadding="5">
+    <tr style="color: #fff; background-color: #6281a7;  height: 35px;">
+      <th>&nbsp;</th>
+    </tr>
+    <% @reports.each do |path,report_name| %>
+      <tr>
+        <td valign="top">
+          <button onclick="window.parent.location='<%="#{path}"%>'"
+                  class='blue'>
+            <span><%=report_name%></span>
+          </button>
+        </td>
+      </tr>
+    <%end%>
+  </table>
 </div>
 

@@ -1,58 +1,204 @@
 # observations.rhtml
 
 <script type="text/javascript" language="javascript">
-	<!--
-		tt_cancel_show = "/patients/show/<%= @patient.id %>";
-		tt_cancel_destination = "/patients/show/<%= @patient.id %>";
-	//-->
+  <!--
+  tt_cancel_show = "/patients/show/<%= @patient.id %>";
+  tt_cancel_destination = "/patients/show/<%= @patient.id %>";
+  var timedEvent;
+
+  function calculateBP(pos){
+    var bp;
+
+    if(!$('bp')){
+      var div = document.createElement("div");
+      div.id = "bp";
+      div.className = "statusLabel";
+
+      $("inputFrame" + tstCurrentPage).appendChild(div);
+    }
+
+    if(pos == 1){
+      bp = ($("touchscreenInput" + tstCurrentPage).value.trim().length > 0 ? $("touchscreenInput" +
+        tstCurrentPage).value.trim() : "?") +
+        "/" + ($("diastolic_blood_pressure").value.trim().length > 0 ? $("diastolic_blood_pressure").value.trim() : "?");
+    } else if(pos == 2){
+      bp = ($("systolic_blood_pressure").value.trim().length > 0 ? $("systolic_blood_pressure").value.trim() : "?") +
+        "/" + ($("touchscreenInput" + tstCurrentPage).value.trim().length > 0 ? $("touchscreenInput" +
+        tstCurrentPage).value.trim() : "?");
+    }
+
+    $("bp").innerHTML = "Blood Pressure: <i style='font-size: 1.2em; float: right;'>" + bp + "</i>";
+
+    timedEvent = setTimeout('calculateBP(' + pos + ')', 500);
+  }
+
+  //-->
 </script>
 
+<style type="text/css">
+  .showPlus #plus {
+    display: block;
+    float: right;
+  }
+
+</style>
+
 <% form_tag :controller => "encounters", :action => "create" do |f| %>
-	<%= hidden_field_tag "encounter[encounter_type_name]", "OBSERVATIONS" %>
-	<%= hidden_field_tag "encounter[patient_id]", @patient.id %>
-	<%= hidden_field_tag "encounter[encounter_datetime]", DateTime.now() %>
-	<%= hidden_field_tag "encounter[provider_id]", session[:user_id] %>
-	<%session_date = session[:datetime] || Time.now() %>
+  <%= hidden_field_tag "encounter[encounter_type_name]", "OBSERVATIONS" %>
+  <%= hidden_field_tag "encounter[patient_id]", @patient.id %>
+  <%= hidden_field_tag "encounter[encounter_datetime]", DateTime.now() %>
+  <%= hidden_field_tag "encounter[provider_id]", session[:user_id] %>
+  <%session_date = session[:datetime] || Time.now() %>
 
-	<%= touch_numeric_tag "GRAVIDA", @patient, nil,
-		{:id => "enter_gravida",
-		 :helptext => "Enter Gravida" } %>
-	<%= touch_numeric_tag "PARITY", @patient, nil,
-		{:id => "enter_parity",
-		 :helptext => "Enter Parity" } %>
-	<%= touch_numeric_tag "GESTATION WEEKS", @patient, nil,
-		{:id => "enter_gestation_weeks",
-		 :helptext => "Enter Gestation Weeks" } %>
-	<%= touch_select_tag "FETAL HEART", @patient, options_for_select([["", ""], ["Yes", "Yes"], ["No", "No"]]),
-		{:id => "enter_fetal_heart",
-		 :helptext => "Enter Fetal Heart" } %>
-	<%= touch_numeric_tag "WEIGHT", @patient, nil,
-		{:id => "enter_weight",
-		 :helptext => "Enter Weight" } %>
-	<%= touch_text_field_tag "BP", @patient, nil,
-		{:id => "enter_bp",
-		 :helptext => "Enter Bp" } %>
-	<%= touch_numeric_tag "URINE PROTEIN", @patient, nil,
-		{:id => "enter_urine_protein",
-		 :helptext => "Enter Urine Protein" } %>
-	<%= touch_select_tag "PRE-ECLAMPSIA", @patient, options_for_select([["", ""], ["Yes", "Yes"], ["No", "No"]]),
-		{:id => "pre-eclampsia",
-		 :helptext => "Pre-eclampsia" } %>
-	<%= touch_numeric_tag "FUNDAL HEIGHT", @patient, nil,
-		{:id => "enter_fundal_height",
-		 :helptext => "Enter Fundal Height" } %>
-	<%= touch_text_field_tag "POSITION", @patient, nil,
-		{:id => "enter_position",
-		 :helptext => "Enter Position" } %>
-	<%= touch_text_field_tag "PRESENTATION", @patient, nil,
-		{:id => "enter_presentation",
-		 :helptext => "Enter Presentation" } %>
-	<%= touch_select_tag "SYPHILIS RESULT", @patient, options_for_select([["", ""], ["Not Done", "Not Done"], ["Positive", "Positive"], ["Negative", "Negative"]]),
-		{:id => "syphilis_result",
-		 :helptext => "Syphilis Result" } %>
-	<%= touch_date_tag "DATE RESULT GIVEN", @patient, nil,
-		{:id => "enter_date_result_given", 
-		 :helptext => "Enter Date Result Given" } %>
+  <%#= touch_numeric_tag "GRAVIDA", @patient, nil,
+  {:id => "enter_gravida",
+  :helptext => "Enter Gravida" } %>
+  <%#= touch_numeric_tag "PARITY", @patient, nil,
+  {:id => "enter_parity",
+  :helptext => "Enter Parity" } %>
+  <%#= touch_numeric_tag "GESTATION WEEKS", @patient, nil,
+  {:id => "enter_gestation_weeks",
+  :helptext => "Enter Gestation Weeks" } %>
 
-	<%= submit_tag 'Finish' %>
+  <%= touch_select_tag "FETAL HEART BEAT", @patient, options_for_select([["", ""], ["Yes", "Yes"], ["No", "No"]]),
+    {:id => "enter_fetal_heart",
+    :helptext => "Fetal Heart Beat" } %>
+
+  <%= touch_numeric_tag "WEIGHT", @patient, nil,
+    {:id => "enter_weight",
+    :helptext => "Weight",
+    :tt_pageStyleClass => "NumbersWithUnknownAndDecimal" } %>
+
+  <%= touch_text_field_tag "SYSTOLIC BLOOD PRESSURE", @patient, nil,
+    {:id => "systolic_blood_pressure",
+    :helptext => "Systolic Blood Pressure",
+    :field_type => "number",
+    :tt_pageStyleClass => "NumbersWithUnknown",
+    :tt_onLoad => "timedEvent = setTimeout('calculateBP(1)', 100);",
+    :tt_onUnLoad => "clearTimeout(timedEvent);",
+    :absoluteMin => 0,
+    :max => 250 } %>
+
+  <%= touch_text_field_tag "DIASTOLIC BLOOD PRESSURE", @patient, nil,
+    {:id => "diastolic_blood_pressure",
+    :helptext => "Diastolic Blood Pressure",
+    :field_type => "number",
+    :tt_pageStyleClass => "NumbersWithUnknown",
+    :tt_onLoad => "timedEvent = setTimeout('calculateBP(2)', 100);",
+    :tt_onUnLoad => "clearTimeout(timedEvent);",
+    :absoluteMin => 0,
+    :max => 180 } %>
+
+  <%= touch_numeric_tag "URINE PROTEIN", @patient, nil,
+    {:id => "enter_urine_protein",
+    :helptext => "Enter Urine Protein",
+    :tt_pageStyleClass => "NumbersWithUnknown showPlus" } %>
+
+  <%= touch_numeric_tag "FUNDUS", @patient, nil,
+    {:id => "enter_fundal_height",
+    :helptext => "Fundus (weeks)",
+    :tt_pageStyleClass => "NumbersWithUnknownAndDecimal" } %>
+
+  <%= touch_select_tag "Week of First Visit", @patient, options_for_select([["", ""], ["0-12", "0-12"], ["13+", "13+"]]),
+    {:id => "week_of_first_visit",
+    :helptext => "Week of First Visit" } %>
+
+  <% @presentation = ["", "Compound", "Cephalic", "Breech", "Face", "Footling", "Cord", "Brow"] %>
+
+  <%= touch_select_tag "PRESENTATION", @patient, options_for_select(@presentation),
+    {:id => "presentation",
+    :helptext => "Enter Presentation",
+    :tt_pageStyleClass => "NoKeyboard" } %>
+
+  <% @position = ["", "Vertex",
+    "Breech",
+    "Face",
+    "Shoulder"] %>
+
+  <%= touch_select_tag "POSITION", @patient, options_for_select(@position),
+    {:id => "position",
+    :helptext => "Enter Position",
+    :tt_pageStyleClass => "NoKeyboard" } %>
+
+
+  <%#--------------------------------------------------------%>
+
+  <% @vertex = ["", "Left Occipito Anterior",
+    "Left Occipito Transverse",
+    "Left Occipito Posterior",
+    "Right Occipito Anterior",
+    "Right Occipito Transverse",
+    "Right Occipito Posterior"] %>
+
+  <%= touch_select_tag "VERTEX", @patient, options_for_select(@vertex),
+    {:id => "vertex",
+    :helptext => "Vertex Position Type",
+    :field_type => "text",
+    :condition => "$('position').value.trim().toUpperCase() == 'VERTEX';",
+    :tt_pageStyleClass => "NoKeyboard" } %>
+
+
+  <% @breech = ["", "Left Sacro Anterior",
+    "Left Sacro Transverse",
+    "Left Sacro Posterior",
+    "Right Sacro Anterior",
+    "Right Sacro Transverse",
+    "Right Sacro Posterior"] %>
+
+  <%= touch_select_tag "BREECH", @patient, options_for_select(@breech),
+    {:id => "breech",
+    :helptext => "Breech Position Type",
+    :field_type => "text",
+    :condition => "$('position').value.trim().toUpperCase() == 'BREECH';",
+    :tt_pageStyleClass => "NoKeyboard" } %>
+
+
+  <% @face = ["", "Left Mento Anterior",
+    "Left Mento Transverse",
+    "Left Mento Posterior",
+    "Right Mento Anterior",
+    "Right Mento Transverse",
+    "Right Mento Posterior"] %>
+
+  <%= touch_select_tag "FACE", @patient, options_for_select(@face),
+    {:id => "face",
+    :helptext => "Face Position Type",
+    :field_type => "text",
+    :condition => "$('position').value.trim().toUpperCase() == 'FACE';",
+    :tt_pageStyleClass => "NoKeyboard" } %>
+
+
+  <% @shoulder = ["", "Left Acromion Dorsal Anterior",
+    "Left Acromion Dorsal Posterior",
+    "Right Acromion Dorsal Anterior",
+    "Right Acromion Dorsal Posterior"] %>
+
+  <%= touch_select_tag "SHOULDER", @patient, options_for_select(@face),
+    {:id => "shoulder",
+    :helptext => "Shoulder Position Type",
+    :field_type => "text",
+    :condition => "$('position').value.trim().toUpperCase() == 'SHOULDER';",
+    :tt_pageStyleClass => "NoKeyboard" } %>
+
+  <%#--------------------------------------------------------%>
+
+
+  <%= touch_select_tag "HB1 Test Request", @patient, options_for_select([["", ""], ["Yes", "Yes"], ["No", "No"]]),
+    {:id => "hb1_test_request",
+    :helptext => "Is patient going for HB1 Test?" } %>
+
+  <%= touch_select_tag "Syphilis Test Request", @patient, options_for_select([["", ""], ["Yes", "Yes"], ["No", "No"]]),
+    {:id => "syphilis_test_request",
+    :helptext => "Is patient going for Syphilis Test?" } %>
+
+
+  <%#= touch_select_tag "SYPHILIS RESULT", @patient, options_for_select([["", ""], ["Not Done", "Not Done"], ["Positive", "Positive"], ["Negative", "Negative"]]),
+    {:id => "syphilis_result",
+    :helptext => "Syphilis Result" } %>
+
+  <%#= touch_date_tag "DATE RESULT GIVEN", @patient, nil,
+    {:id => "enter_date_result_given",
+    :helptext => "Enter Date Result Given" } %>
+
+  <%= submit_tag 'Finish' %>
 <% end %>

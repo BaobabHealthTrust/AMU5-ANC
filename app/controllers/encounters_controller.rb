@@ -1,6 +1,8 @@
 class EncountersController < ApplicationController
 
   def create
+    # raise params.to_yaml
+    
     if params['encounter']['encounter_type_name'] == 'ART_INITIAL'
       if params[:observations][0]['concept_name'] == 'EVER RECEIVED ART' and params[:observations][0]['value_coded_or_text'] == 'NO'
         observations = []
@@ -112,6 +114,7 @@ class EncountersController < ApplicationController
   def new
     @patient = Patient.find(params[:patient_id] || session[:patient_id])
 
+=begin
     use_regimen_short_names = GlobalProperty.find_by_property(
       "use_regimen_short_names").property_value rescue "false"
     show_other_regimen = GlobalProperty.find_by_property(
@@ -120,6 +123,8 @@ class EncountersController < ApplicationController
     @answer_array = arv_regimen_answers(:patient => @patient,
       :use_short_names    => use_regimen_short_names == "true",
       :show_other_regimen => show_other_regimen      == "true")
+=end
+    
     redirect_to "/" and return unless @patient
 
     redirect_to next_task(@patient) and return unless params[:encounter_type]
@@ -130,24 +135,15 @@ class EncountersController < ApplicationController
   end
 
   def diagnoses
-    search_string = (params[:search_string] || '').upcase
-    filter_list = params[:filter_list].split(/, */) rescue []
-    outpatient_diagnosis = ConceptName.find_by_name("DIAGNOSIS").concept
-    diagnosis_concepts = ConceptClass.find_by_name("Diagnosis", :include => {:concepts => :name}).concepts rescue []    
-    # TODO Need to check a global property for which concept set to limit things to
-    if (false)
-      diagnosis_concept_set = ConceptName.find_by_name('MALAWI NATIONAL DIAGNOSIS').concept
-      diagnosis_concepts = Concept.find(:all, :joins => :concept_sets, :conditions => ['concept_set = ?', concept_set.id], :include => [:name])
-    end  
-    valid_answers = diagnosis_concepts.map{|concept| 
-      name = concept.fullname rescue nil
-      name.match(search_string) ? name : nil rescue nil
-    }.compact
-    previous_answers = []
-    # TODO Need to check global property to find out if we want previous answers or not (right now we)
-    previous_answers = Observation.find_most_common(outpatient_diagnosis, search_string)
-    @suggested_answers = (previous_answers + valid_answers).reject{|answer| filter_list.include?(answer) }.uniq[0..10] 
-    render :text => "<li>" + @suggested_answers.join("</li><li>") + "</li>"
+
+    search_string         = (params[:search_string] || '').upcase
+
+    diagnosis_concepts    = Concept.find_by_name("MATERNITY DIAGNOSIS LIST").concept_members_names.sort.uniq # rescue []
+
+    @results = diagnosis_concepts.collect{|e| e}.delete_if{|x| !x.match(/^#{search_string}/)}
+
+    render :text => "<li>" + @results.join("</li><li>") + "</li>"
+    
   end
 
   def treatment
@@ -220,4 +216,18 @@ class EncountersController < ApplicationController
 
     # raise answer_array.inspect
   end
+  
+  def static_locations
+    search_string = (params[:search_string] || "").upcase
+
+    locations = []
+
+    File.open(RAILS_ROOT + "/public/data/locations.txt", "r").each{ |loc|
+      locations << loc if loc.upcase.strip.match(search_string)
+    }
+
+    render :text => "<li " + locations.map{|location| "value=\"#{location}\">#{location}" }.join("</li><li ") + "</li>"
+
+  end
+
 end

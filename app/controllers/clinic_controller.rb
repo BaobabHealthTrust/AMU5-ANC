@@ -6,12 +6,24 @@ class ClinicController < ApplicationController
     @today = Encounter.statistics(@types, :conditions => ['DATE(encounter_datetime) = DATE(NOW())'])
     @year = Encounter.statistics(@types, :conditions => ['YEAR(encounter_datetime) = YEAR(NOW())'])
     @ever = Encounter.statistics(@types)
+
+    @facility = Location.current_health_center.name rescue ''
+
+    @location = Location.find(session[:location_id]).name rescue ""
+
+    @date = (session[:datetime].to_date rescue Date.today).strftime("%Y-%m-%d")
+
+    @user = User.find(session[:user_id]).name rescue ""
+
+    @roles = User.find(session[:user_id]).user_roles.collect{|r| r.role} rescue []
+
     render :layout => 'dynamic-dashboard'
   end
 
   def reports
     @reports = [['/reports/select/','Reports']]
-    render :template => 'clinic/reports', :layout => 'clinic' 
+    # render :template => 'clinic/reports', :layout => 'clinic'
+    render :layout => false
   end
 
   def supervision
@@ -40,7 +52,8 @@ class ClinicController < ApplicationController
   def administration
     @reports = [['/clinic/users','User accounts/settings']]
     @landing_dashboard = 'clinic_administration'
-    render :template => 'clinic/administration', :layout => 'clinic'
+    # render :template => 'clinic/administration', :layout => 'clinic'
+    render :layout => false
   end
 
   def overview
@@ -50,7 +63,8 @@ class ClinicController < ApplicationController
     @today = Encounter.statistics(@types, :conditions => ['DATE(encounter_datetime) = DATE(NOW())'])
     @year = Encounter.statistics(@types, :conditions => ['YEAR(encounter_datetime) = YEAR(NOW())'])
     @ever = Encounter.statistics(@types)
-    render :template => 'clinic/overview', :layout => 'clinic'
+    # render :template => 'clinic/overview', :layout => 'clinic'
+    render :layout => false
   end
 
 end

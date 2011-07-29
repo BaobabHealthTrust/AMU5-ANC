@@ -94,8 +94,8 @@ DateSelector.prototype = {
 				<button id="dateselector_preDay" onmousedown="ds.decrementDay();"><span>-</span></button> \
 			</div> \
 			</td><td> \
-			<button id="num" onmousedown="updateKeyColor(this);press(this.id);" style="width: 130px;"><span>Num</span></button> \
-			<button id="Unknown" onmousedown="updateKeyColor(this);press(this.id);" style="width: 130px;"><span>Unknown</span></button> \
+			<button id="num" onmousedown="updateKeyColor(this);press(this.id);" style="width: 150px;"><span>Num</span></button> \
+			<button id="Unknown" onmousedown="updateKeyColor(this);press(this.id);" style="width: 150px;"><span>Unknown</span></button> \
 			</tr></table> \
 			</div> \
 		';

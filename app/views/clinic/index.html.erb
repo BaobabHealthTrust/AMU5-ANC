@@ -1,6 +1,8 @@
 <div id="home">
   <h1 id="project_name">
-    amu<span style="font-size: 0.75em;">5</span>
+    <div style="margin-top: 10px;">
+      amu<span style="font-size: 0.75em;">5</span>
+    </div>
   </h1>
   <select id="tabs">
     <option value="/clinic/overview">
@@ -12,39 +14,19 @@
     <option value="/clinic/administration">
       Administration
     </option>
-    <!--option value="/clinic/administration">
-      Administration2
-    </option>
-    <option value="/clinic/administration">
-      Administration3
-    </option>
-    <option value="/clinic/administration">
-      Administration4
-    </option>
-    <option value="/clinic/administration">
-      Administration5
-    </option>
-    <option value="/clinic/administration">
-      Administration6
-    </option>
-    <option value="/clinic/administration">
-      Administration7
-    </option>
-    <option value="/clinic/administration">
-      Administration8
-    </option>
-    <option value="/clinic/administration">
-      Administration9
-    </option>
-    <option value="/clinic/administration">
-      Administration10
-    </option-->
   </select>
 
-  <span id="facility">Bwaila District Hospital</span>
-  <span id="user">F. Magombo</span>
-  <span id="location">Maternity Wing</span>
-  <span id="date"><span style="color: #f00;">2010/12/15</span></span>
+  <div id="facility"><%= @facility rescue "" %></div>
+  <div id="location"><%= @location rescue "" %></div>
+
+  <div id="date"><%= @date rescue "" %></div>
+  <div id="user"><%= @user rescue "" %></div>
+
+  <select id="links">
+    <option value='/logout' link='/logout'>Logout</option>
+    <option value='/people/search' link='/people/search' ttSize="290px">Find / Register Patient</option>
+  </select>
+
 </div>
 <script type="text/javascript" language="javascript">
   <!--

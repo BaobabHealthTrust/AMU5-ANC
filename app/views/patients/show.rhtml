@@ -31,14 +31,18 @@
       <div value="No">On CPT?</div>
     </div-->
     <select id="links">
-      <option value='/patients/observations/?patient_id=<%= @patient.id  %>'>Observations</option>
-      <option value='/patients/preventative_medications/?patient_id=<%= @patient.id  %>'>Preventative Meds</option>
-      <option value='/patients/hiv_status/?patient_id=<%= @patient.id  %>'>HIV Status</option>
-      <option value='/patients/pmtct_management/?patient_id=<%= @patient.id  %>'>PMTCT</option>
+      <option value='/patients/observations/?patient_id=<%= @patient.id  %>'>ANC Examinations</option>
+      <option value='/patients/lab_results/?patient_id=<%= @patient.id  %>'>Lab Results</option>
+      <option value='/encounters/new/outpatient_diagnosis/?patient_id=<%= @patient.id  %>'>Diagnosis</option>
+      <option value='/prescriptions/give_drugs/?patient_id=<%= @patient.id  %>'>Give Drugs</option>
+      <option value='/patients/outcome/?patient_id=<%= @patient.id  %>'>Update Outcome</option>
+      <option value='/patients/hiv_status/?patient_id=<%= @patient.id  %>'>Update HIV Status</option>
       <option value='/patients/obstetric_history/?patient_id=<%= @patient.id  %>'>Obstetric History</option>
       <option value='/patients/medical_history/?patient_id=<%= @patient.id  %>'>Medical History</option>
-      <option value='/patients/examination_management/?patient_id=<%= @patient.id  %>'>Examination</option>
-      <!--option value='/patients/lab_results/?patient_id=<%= @patient.id  %>'>Lab Results</option-->
+      <option value='/patients/current_pregnancy/?patient_id=<%= @patient.id  %>'>Current Pregnancy</option>
+      <option value='/patients/pregnancy_history/?patient_id=<%= @patient.id  %>'>Pregnancy History</option>
+      <!--option value='/patients/pmtct_management/?patient_id=<%= @patient.id  %>'>PMTCT</option-->
+      <!--option value='/patients/examination_management/?patient_id=<%= @patient.id  %>'>Examination</option-->
     </select>
     <select id="tabs">
       <option value='/patients/tab_visit_summary?patient_id=<%= @patient.id  %>'>Visit Summary</option>
@@ -46,7 +50,7 @@
       <option value='/patients/tab_medical_history?patient_id=<%= @patient.id  %>'>Medical History</option>
       <option value='/patients/tab_examinations_management?patient_id=<%= @patient.id  %>'>Examinations Management</option>
       <option value='/patients/tab_lab_results?patient_id=<%= @patient.id  %>'>Lab Results</option>
-      <option value='/patients/tab_visit_history?patient_id=<%= @patient.id  %>'>Visit History</option>
+      <option value='/patients/tab_visit_history?patient_id=<%= @patient.id  %>'>Current Pregnancy Visit History</option>
     </select>
     <tr>
       <td align='center'>

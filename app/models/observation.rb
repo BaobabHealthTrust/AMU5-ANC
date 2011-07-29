@@ -2,6 +2,8 @@ class Observation < ActiveRecord::Base
   set_table_name :obs
   set_primary_key :obs_id
   include Openmrs
+  
+  named_scope :active, :conditions => ['obs.voided = 0']
   belongs_to :encounter, :conditions => {:voided => 0}
   belongs_to :order, :conditions => {:voided => 0}
   belongs_to :concept, :conditions => {:retired => 0}
@@ -90,11 +92,11 @@ class Observation < ActiveRecord::Base
   end
 
   def to_s(tags=[])
-    formatted_name = self.concept_name.tagged(tags).name rescue nil
-    formatted_name ||= self.concept_name.name rescue nil
-    formatted_name ||= self.concept.concept_names.tagged(tags).first.name rescue nil
-    formatted_name ||= self.concept.concept_names.first.name rescue 'Unknown concept name'
-    "#{formatted_name}: #{self.answer_string(tags)}"
+    formatted_name = self.concept_name.tagged(tags).name.titleize rescue nil
+    formatted_name ||= self.concept_name.name.titleize rescue nil
+    formatted_name ||= self.concept.concept_names.tagged(tags).first.name.titleize rescue nil
+    formatted_name ||= self.concept.concept_names.first.name.titleize rescue 'Unknown concept name'
+    "#{formatted_name}: #{self.answer_string(tags).titleize}"
   end
 
   def to_a(tags=[])
@@ -139,4 +141,9 @@ class Observation < ActiveRecord::Base
 
     patients_data
   end
+  
+  def child_observation
+    Observation.active.find(:first, :conditions => ["obs_group_id =?", self.id])
+  end
+
 end

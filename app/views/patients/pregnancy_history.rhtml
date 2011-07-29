@@ -1,0 +1,25 @@
+<script type="text/javascript" language="javascript">
+  <!--
+  tt_cancel_show = "/patients/show/<%= @patient.id %>";
+  tt_cancel_destination = "/patients/show/<%= @patient.id %>";
+  //-->
+</script>
+<div id="general_dashboard" style="margin: 2px; border: 1px #ccc solid; padding: 10px;">
+  <h2 style="margin-top: 5px; margin-left: 15px;">Pregnancy Visit History</h2>
+  <select id="tabs">
+    <option value='/patients/tab_visit_history?patient_id=<%= @patient.id  %>'>11<sup>th</sup></option>
+    <option value='/patients/tab_visit_history?patient_id=<%= @patient.id  %>'>10<sup>th</sup></option>
+    <option value='/patients/tab_visit_history?patient_id=<%= @patient.id  %>'>9<sup>th</sup></option>
+    <option value='/patients/tab_visit_history?patient_id=<%= @patient.id  %>'>8<sup>th</sup></option>
+    <option value='/patients/tab_visit_history?patient_id=<%= @patient.id  %>'>7<sup>th</sup></option>
+    <option value='/patients/tab_visit_history?patient_id=<%= @patient.id  %>'>6<sup>th</sup></option>
+    <option value='/patients/tab_visit_history?patient_id=<%= @patient.id  %>'>5<sup>th</sup></option>
+    <option value='/patients/tab_visit_history?patient_id=<%= @patient.id  %>'>4<sup>th</sup></option>
+    <option value='/patients/tab_visit_history?patient_id=<%= @patient.id  %>'>3<sup>rd</sup></option>
+    <option value='/patients/tab_visit_history?patient_id=<%= @patient.id  %>'>2<sup>nd</sup></option>
+    <option value='/patients/tab_visit_history?patient_id=<%= @patient.id  %>'>1<sup>st</sup></option>
+  </select>
+
+  <div id="tabBucket" style="height: 526px;">
+  </div>
+</div>

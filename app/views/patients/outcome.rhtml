@@ -1,0 +1,36 @@
+<script type="text/javascript" language="javascript">
+  <!--
+  tt_cancel_show = "/patients/show/<%= @patient.id %>";
+  tt_cancel_destination = "/patients/show/<%= @patient.id %>";
+
+  //-->
+</script>
+
+<% form_tag :controller => "encounters", :action => "create" do |f| %>
+  <%= hidden_field_tag "encounter[encounter_type_name]", "UPDATE OUTCOME" %>
+  <%= hidden_field_tag "encounter[patient_id]", @patient.id %>
+  <%= hidden_field_tag "encounter[encounter_datetime]", DateTime.now() %>
+  <%= hidden_field_tag "encounter[provider_id]", session[:user_id] %>
+  <%  session_date = session[:datetime] || Time.now() %>
+
+  <%= touch_select_tag "OUTCOME", @patient,
+    options_for_select([["", ""], ["Discharged", "Discharged"], ["Admitted", "Admitted"], 
+      ["Referred", "Referred"], ["Abortion", "Abortion"], ["Patient Died", "Patient Died"]]),
+    {:id => "outcome",
+    :helptext => "Outcome" } %>
+
+  <%= touch_select_tag "Admission Section", @patient,
+    options_for_select([["", ""], ["Labour Ward", "Labour Ward"], ["AnteNatal Ward", "AnteNatal Ward"],
+      ["Gynaecology Ward", "Gynaecology Ward"], ["Theatre", "Theatre"]]),
+    {:id => "section",
+    :helptext => "Admission Section",
+    :condition => "__$('outcome').value == 'Admitted'" } %>
+
+  <%= touch_select_tag "REFERRAL CLINIC IF REFERRED", @patient, nil,
+    {:id => "referral",
+    :helptext => "Referral Facility",
+    :condition => "__$('outcome').value == 'Referred'",
+    :ajaxURL => "/encounters/static_locations?search_string=" } %>
+
+  <%= submit_tag 'Finish' %>
+<% end %>

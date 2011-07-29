@@ -1,0 +1,78 @@
+# medical_history.rhtml
+
+<script type="text/javascript" language="javascript">
+  <!--
+  tt_cancel_show = "/patients/show/<%= @patient.id %>";
+  tt_cancel_destination = "/patients/show/<%= @patient.id %>";
+  var timedEvent;
+
+
+  function calculateEDOD(){
+    var edod = "";
+    var gestation = "";
+    var month = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+
+    if(!$('expected_date_of_delivery')){
+      var div = document.createElement("div");
+      div.id = "expected_date_of_delivery";
+      div.className = "statusLabel";
+
+      $("inputFrame" + tstCurrentPage).appendChild(div);
+    }
+
+    if($("touchscreenInput" + tstCurrentPage).value.trim().length > 0 &&
+      $("touchscreenInput" + tstCurrentPage).value.trim() != "Unknown"){
+
+      var theDate = new Date($("touchscreenInput" + tstCurrentPage).value.trim());
+
+      theDate.setDate(theDate.getDate() + 7);
+
+      var today = new Date();
+
+      var s = today - theDate;
+
+      gestation = String(Math.floor(s / (24 * 60 * 60 * 7 * 1000)));
+
+      theDate.setMonth(theDate.getMonth() + 9);
+
+      edod = (theDate.getDate() + "-" + month[theDate.getMonth()] + "-" + theDate.getFullYear());
+
+    }
+
+    $("expected_date_of_delivery").innerHTML = "Expected Date Of Delivery: <i style='font-size: 1.2em; float: right;'>" +
+      edod + "</i><br /><br />Gestation Weeks: " + (gestation < 32 &&
+      gestation.trim().length > 0 ? "<i style='color: red'>(Premature)</i>" : "") +
+      "<i style='font-size: 1.2em; float: right; width: 100px;'>" + gestation + "</i>";
+
+    timedEvent = setTimeout('calculateEDOD()', 500);
+  }
+
+  //-->
+</script>
+
+<style type="text/css">
+  .Date #num {
+    display: none;
+  }
+</style>
+
+<% form_tag :controller => "encounters", :action => "create" do |f| %>
+  <%= hidden_field_tag "encounter[encounter_type_name]", "CURRENT PREGNANCY" %>
+  <%= hidden_field_tag "encounter[patient_id]", @patient.id %>
+  <%= hidden_field_tag "encounter[encounter_datetime]", DateTime.now() %>
+  <%= hidden_field_tag "encounter[provider_id]", session[:user_id] %>
+  <%session_date = session[:datetime] || Time.now() %>
+
+  <%= touch_date_tag "LAST MENSTRUAL PERIOD", @patient, nil,
+    {:id => "lmp",
+    :helptext => "Last Menstrual Period",
+    :tt_onLoad => "timedEvent = setTimeout('calculateEDOD()', 100);",
+    :tt_onUnLoad => "clearTimeout(timedEvent);" } %>
+
+  <%= touch_select_tag "Planned delivery place", @patient, options_for_select([["", ""]]),
+    {:id => "planned_delivery_place",
+    :helptext => "Planned delivery place",
+    :ajaxURL => "/encounters/static_locations?search_string=" } %>
+
+  <%= submit_tag 'Finish' %>
+<% end %>
