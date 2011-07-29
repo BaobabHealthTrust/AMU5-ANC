@@ -1,0 +1,30 @@
+admin:
+  user_id: 1
+  username: admin
+  salt: 6cb0cf93fadc3f612939f942e5a79b818bacb09a
+  password: 6cb0cf93fadc3f612939f942e5a79b818bacb09a # test
+  date_created: <%= DateTime.now %>
+  date_changed: <%= DateTime.now %>
+  creator: 1
+  changed_by: 1
+  system_id: 1-8
+mary_banda:
+  user_id: 2
+  username: mbanda
+  salt: c788c6ad82a157b712392ca695dfcf2eed193d7f
+  password: 4a1750c8607d0fa237de36c6305715c223415189 # test
+  date_created: <%= DateTime.now %>
+  date_changed: <%= DateTime.now %>
+  creator: 1
+  changed_by: 1
+  system_id: 1-8
+baobab_health:
+  user_id: 3
+  username: baobab
+  salt: c788c6ad82a157b712392ca695dfcf2eed193d7f
+  password: 4a1750c8607d0fa237de36c6305715c223415189 # test
+  date_created: <%= DateTime.now %>
+  date_changed: <%= DateTime.now %>
+  creator: 1
+  changed_by: 1
+  system_id: 1-8

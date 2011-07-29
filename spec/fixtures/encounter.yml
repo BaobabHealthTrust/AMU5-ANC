@@ -1,0 +1,77 @@
+mary_observations:
+  encounter_id: 1
+  encounter_type: 61
+  patient_id: 1
+  provider_id: 1
+  location_id: 1
+  form_id: 1
+  encounter_datetime: 2011-01-01 00:00:00
+  creator: 1
+  date_created: 2011-01-01 00:00:00
+  uuid: 1fe0c840-268f-102d-a2b3-16da04859245
+mary_hiv_status:
+  encounter_id: 2
+  encounter_type: 74
+  patient_id: 1
+  provider_id: 1
+  location_id: 1
+  form_id: 1
+  encounter_datetime: 2011-01-01 00:00:00
+  creator: 1
+  date_created: 2011-01-01 00:00:00
+  uuid: 1fe0c840-268f-102d-a2b3-16da04859144
+mary_medical_history:
+  encounter_id: 3
+  encounter_type: 30
+  patient_id: 1
+  provider_id: 1
+  location_id: 1
+  form_id: 1
+  encounter_datetime: 2011-01-01 00:00:00
+  creator: 1
+  date_created: 2011-01-01 00:00:00
+  uuid: 1fe0c840-268f-132d-a2b3-16da04859146  
+mary_examination:
+  encounter_id: 4
+  encounter_type: 28
+  patient_id: 1
+  provider_id: 1
+  location_id: 1
+  form_id: 1
+  encounter_datetime: 2011-01-01 00:00:00
+  creator: 1
+  date_created: 2011-01-01 00:00:00
+  uuid: 1fe0c840-268f-112d-a2b3-16da04859147
+mary_preventative_medications:
+  encounter_id: 5
+  encounter_type: 73
+  patient_id: 1
+  provider_id: 1
+  location_id: 1
+  form_id: 1
+  encounter_datetime: 2011-01-01 00:00:00
+  creator: 1
+  date_created: 2011-01-01 00:00:00
+  uuid: 1fe0c840-268f-102d-a2b4-16da04859148
+mary_obstetric_history:
+  encounter_id: 6
+  encounter_type: 76
+  patient_id: 1
+  provider_id: 1
+  location_id: 1
+  form_id: 1
+  encounter_datetime: 2011-01-02 00:00:00
+  creator: 1
+  date_created: 2011-01-01 00:00:00
+  uuid: 1fe0c840-268f-102d-a2b3-16da04858149
+mary_pmtct_management:
+  encounter_id: 7
+  encounter_type: 75
+  patient_id: 1
+  provider_id: 1
+  location_id: 1
+  form_id: 1
+  encounter_datetime: 2011-01-02 00:00:00
+  creator: 1
+  date_created: 2011-01-01 00:00:00
+  uuid: 1fe0c840-268f-102d-a2b3-16da04859150

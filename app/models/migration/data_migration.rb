@@ -1,3 +1,4 @@
+=begin
 class DataMigration
 National_ID = PatientIdentifierType.find_by_name('National id')
 ARV_Number = PatientIdentifierType.find_by_name('ARV Number')
@@ -290,3 +291,4 @@ EOF
   end
 
 end
+=end

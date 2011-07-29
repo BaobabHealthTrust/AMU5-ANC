@@ -1,0 +1,49 @@
+--- 
+preventive_medications: 
+  name: PREVENTATIVE MEDICATIONS
+  date_created: 2008-03-24 00:00:00 +02:00
+  creator: 1
+  encounter_type_id: 73
+  description: ""
+registration: 
+  name: REGISTRATION
+  date_created: 2011-03-30 22:44:08 +02:00
+  creator: 1
+  encounter_type_id: 7
+  description: ""
+pmtct_management: 
+  name: PMTCT MANAGEMENT
+  date_created: 2005-02-24 00:00:00 +02:00
+  creator: 1
+  encounter_type_id: 75
+  description: ""
+obsteric_history: 
+  name: OBSTETRIC HISTORY
+  date_created: 2005-02-24 00:00:00 +02:00
+  creator: 1
+  encounter_type_id: 76
+  description: ""
+observations: 
+  name: OBSERVATIONS
+  date_created: 2011-04-24 00:00:00 +02:00
+  creator: 1
+  encounter_type_id: 61
+  description: ""
+hiv_status: 
+  name: HIV STATUS
+  date_created: 2011-04-23 00:00:00 +02:00
+  creator: 1
+  encounter_type_id: 74
+  description: ""
+medical_history: 
+  name: MEDICAL HISTORY
+  date_created: 2011-04-24 00:00:00 +02:00
+  creator: 1
+  encounter_type_id: 30
+  description: ""
+examination: 
+  name: EXAMINATION
+  date_created: 2011-04-25 00:00:00 +02:00
+  creator: 1
+  encounter_type_id: 28
+  description: ""

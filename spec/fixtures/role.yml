@@ -1,0 +1,12 @@
+superuser:
+  role: Superuser
+  description: This is a user who has access to all Baobab developed applications' functionality
+clinician:
+  role: Clinician
+  description:  Users who are a part of direct patient care
+informatics_manager:
+  role: Informatics Manager
+  description:  User who maintains the local installation of the OpenMRS repository
+adults:
+  role: Adults
+  description:  OPD user group for adults entries

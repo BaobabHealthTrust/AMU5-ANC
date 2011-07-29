@@ -1,0 +1,235 @@
+--- 
+gravida:
+  name: GRAVIDA
+  concept_id: 1755
+  date_created: 2011-03-30 15:35:58 +02:00
+  creator: 2053
+  locale: en
+parity:
+  name: PARITY
+  concept_id: 1053
+  date_created: 2011-01-02 15:27:59 +02:00
+  creator: 2053
+  locale: en
+gestation_weeks:
+  name: GESTATION WEEKS
+  concept_id: 7415
+  date_created: 2011-04-21 15:08:47 +02:00
+  creator: 15878
+  locale: en
+fetal_heart:
+  name: FETAL HEART
+  concept_id: 7762
+  date_created: 2010-02-25 11:32:55 +02:00
+  creator: 2
+  locale: en
+height:
+  name: HEIGHT
+  concept_id: 5089
+  date_created: 2010-10-25 13:39:28 +02:00
+  creator: 7
+  locale: en
+bp:
+  name: BP
+  concept_id: 7763
+  date_created: 2010-01-18 12:24:33 +02:00
+  creator: 15877
+  locale: en
+urine_protein:
+  name: URINE PROTEIN
+  concept_id: 6447
+  date_created: 2004-08-12 00:00:00 +02:00
+  creator: 2
+  locale: en
+pre-eclampsia:
+  name: PRE-ECLAMPSIA
+  concept_id: 7765
+  date_created: 2010-02-22 20:46:03 +02:00
+  creator: 2
+  locale: en
+fundal_height:
+  name: FUNDAL HEIGHT
+  concept_id: 7764
+  date_created: 2010-05-23 16:26:14 +02:00
+  creator: 7
+  locale: en
+position:
+  name: POSITION
+  concept_id: 7766
+  date_created: 2010-06-23 16:26:14 +02:00
+  creator: 7
+  locale: en
+weight:
+  name: WEIGHT
+  concept_id: 5089
+  date_created: 2010-06-23 16:26:14 +02:00
+  creator: 7
+  locale: en
+presentation:
+  name: PRESENTATION
+  concept_id: 7433
+  date_created: 2011-01-20 00:00:00 +02:00
+  creator: 2
+  locale: en  
+syphilis_result:
+  name: SYPHILIS RESULT
+  concept_id: 7768
+  date_created: 2010-08-20 00:00:00 +02:00
+  creator: 2
+  locale: en  
+previous_status_from_before_first_anc_visit:
+  name: PREVIOUS STATUS FROM BEFORE FIRST ANC VISIT
+  concept_id: 7769
+  date_created: 2010-12-20 00:00:00 +02:00
+  creator: 2
+  locale: en
+number_of_deliveries:
+  name: NUMBER OF DELIVERIES
+  concept_id: 7784
+  date_created: 2010-12-20 00:00:00 +02:00
+  creator: 2
+  locale: en
+number_of_abortions:
+  name: NUMBER OF ABORTIONS
+  concept_id: 7785
+  date_created: 2010-12-20 00:00:00 +02:00
+  creator: 2
+  locale: en
+ever_had_still_births:
+  name: EVER HAD STILL BIRTHS?
+  concept_id: 7786
+  date_created: 2010-12-20 00:00:00 +02:00
+  creator: 2
+  locale: en
+ever_had_c_sections:
+  name: EVER HAD C-SECTIONS?
+  concept_id: 7787
+  date_created: 2010-12-20 00:00:00 +02:00
+  creator: 2
+  locale: en
+ever_had_a_vacuum_extraction:
+  name: EVER HAD A VACUUM EXTRACTION
+  concept_id: 7788
+  date_created: 2010-12-20 00:00:00 +02:00
+  creator: 2
+  locale: en
+ever_had_symphysiotomy:
+  name: EVER HAD SYMPHYSIOTOMY?
+  concept_id: 7789
+  date_created: 2010-12-20 00:00:00 +02:00
+  creator: 2
+  locale: en
+hemorrhage:
+  name: HEMORRHAGE
+  concept_id: 7790
+  date_created: 2010-12-20 00:00:00 +02:00
+  creator: 2
+  locale: en
+pre_eclampsia:
+  name: PRE-ECLAMPSIA
+  concept_id: 7765
+  date_created: 2010-12-20 00:00:00 +02:00
+  creator: 2
+  locale: en
+ever_had_asthma:
+  name: EVER HAD ASTHMA?
+  concept_id: 7793
+  date_created: 2010-12-20 00:00:00 +02:00
+  creator: 2
+  locale: en
+ever_had_hypertension:
+  name: EVER HAD HYPERTENSION?
+  concept_id: 7794
+  date_created: 2010-12-20 00:00:00 +02:00
+  creator: 2
+  locale: en
+ever_had_diabetes:
+  name: EVER HAD DIABETES?
+  concept_id: 7808
+  date_created: 2010-12-20 00:00:00 +02:00
+  creator: 2
+  locale: en
+ever_had_epilepsy:
+  name: EVER HAD EPILEPSY?
+  concept_id: 7795
+  date_created: 2010-12-20 00:00:00 +02:00
+  creator: 2
+  locale: en
+ever_had_renal_disease:
+  name: EVER HAD RENAL DISEASE?
+  concept_id: 7796
+  date_created: 2010-12-20 00:00:00 +02:00
+  creator: 2
+  locale: en
+ever_had_a_fistula_repair:
+  name: EVER HAD FISTULA REPAIR?
+  concept_id: 7797
+  date_created: 2010-12-20 00:00:00 +02:00
+  creator: 2
+  locale: en
+do_you_have_a_spine_or_leg_deform:
+  name: DO YOU HAVE A SPINE OR LEG DEFORM?
+  concept_id: 7798
+  date_created: 2010-12-20 00:00:00 +02:00
+  creator: 2
+  locale: en
+syphilis_result_test_date:
+  name: SYPHILIS RESULT TEST DATE
+  concept_id: 7813
+  date_created: 2010-12-20 00:00:00 +02:00
+  creator: 2
+  locale: en
+hb_1_result:
+  name: HB 1 RESULT
+  concept_id: 7812
+  date_created: 2010-12-20 00:00:00 +02:00
+  creator: 2
+  locale: en
+hb_1_result_test_date:
+  name: HB 1 RESULT TEST DATE
+  concept_id: 7811
+  date_created: 2010-12-20 00:00:00 +02:00
+  creator: 2
+  locale: en
+hb_2_result:
+  name: HB 2 RESULT
+  concept_id: 7809
+  date_created: 2010-12-20 00:00:00 +02:00
+  creator: 2
+  locale: en
+hb_2_result_test_date:
+  name: HB 2 RESULT TEST DATE
+  concept_id: 7810
+  date_created: 2010-12-20 00:00:00 +02:00
+  creator: 2
+  locale: en
+cd4_count:
+  name: CD4 COUNT
+  concept_id: 5497
+  date_created: 2010-12-20 00:00:00 +02:00
+  creator: 2
+  locale: en
+cd4_count_test_date:
+  name: CD4 COUNT TEST DATE
+  concept_id: 7814
+  date_created: 2010-12-20 00:00:00 +02:00
+  creator: 2
+  locale: en
+height:
+  name: HEIGHT
+  concept_id: 5090
+  date_created: 2010-12-20 00:00:00 +02:00
+  creator: 2
+  locale: en
+multiple_pregnancy:
+  name: PREGNANCY
+  concept_id: 7803
+  date_created: 2010-12-20 00:00:00 +02:00
+  creator: 2
+  locale: en
+who_clinical_stage:
+  name: WHO CLINICAL STAGE
+  concept_id: 7773
+  date_created: 2010-12-20 00:00:00 +02:00
+  creator: 2
+  locale: en

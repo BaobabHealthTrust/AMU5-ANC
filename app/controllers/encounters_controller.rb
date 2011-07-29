@@ -1,8 +1,9 @@
 class EncountersController < ApplicationController
 
   def create
-    # raise params.to_yaml
-    
+
+=begin
+
     if params['encounter']['encounter_type_name'] == 'ART_INITIAL'
       if params[:observations][0]['concept_name'] == 'EVER RECEIVED ART' and params[:observations][0]['value_coded_or_text'] == 'NO'
         observations = []
@@ -25,7 +26,7 @@ class EncountersController < ApplicationController
       end
       params[:observations] = observations unless observations.blank?
     end
-    
+=end    
     @patient = Patient.find(params[:encounter][:patient_id])
 
     # Go to the dashboard if this is a non-encounter
@@ -126,7 +127,7 @@ class EncountersController < ApplicationController
 =end
     
     redirect_to "/" and return unless @patient
-
+=end
     redirect_to next_task(@patient) and return unless params[:encounter_type]
 
     redirect_to :action => :create, 'encounter[encounter_type_name]' => params[:encounter_type].upcase, 'encounter[patient_id]' => @patient.id and return if ['registration'].include?(params[:encounter_type])

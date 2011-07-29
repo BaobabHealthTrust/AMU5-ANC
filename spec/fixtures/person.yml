@@ -1,0 +1,59 @@
+mary:
+  person_id: 1
+  gender: F
+  birthdate: 1982-07-22
+  birthdate_estimated: 0
+  dead: 0
+  death_date: 
+  cause_of_death: 0
+  creator: 1
+  date_created: 2011-04-18 00:00:00
+  changed_by: 1
+  date_changed: 2011-04-18 00:00:00
+  voided: 0
+  uuid: 1ff5df82-268f-102d-a2b3-16da04859145
+
+maria:
+  person_id: 2
+  gender: F
+  birthdate: 1988-07-22
+  birthdate_estimated: 0
+  dead: 0
+  death_date: 
+  cause_of_death: 0
+  creator: 1
+  date_created: 2011-04-18 00:00:00
+  changed_by: 1
+  date_changed: 2011-04-18 00:00:00
+  voided: 0
+  uuid: 1ff5df82-268f-102d-a2b3-16da04859146
+
+marieta:
+  person_id: 3
+  gender: F
+  birthdate: 1990-07-22
+  birthdate_estimated: 0
+  dead: 0
+  death_date: 
+  cause_of_death: 0
+  creator: 1
+  date_created: 2011-04-18 00:00:00
+  changed_by: 1
+  date_changed: 2011-04-18 00:00:00
+  voided: 0
+  uuid: 1ff5df82-268f-102d-a2b3-16da04859147
+
+chikondi:
+  person_id: 4
+  gender: F
+  birthdate: 1983-07-22
+  birthdate_estimated: 0
+  dead: 0
+  death_date: 
+  cause_of_death: 0
+  creator: 1
+  date_created: 2011-04-18 00:00:00
+  changed_by: 1
+  date_changed: 2011-04-18 00:00:00
+  voided: 0
+  uuid: 1ff5df82-268f-102d-a2b3-16da04859148

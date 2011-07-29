@@ -1,0 +1,12 @@
+superuser:
+  user_id: 1
+  role: Superuser
+clinician:
+  user_id: 2
+  role: Clinician
+informatics_manager:
+  user_id: 3
+  role: Informatics Manager
+adults:
+  user_id: 50
+  role: clinician

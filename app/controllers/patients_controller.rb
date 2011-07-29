@@ -81,30 +81,28 @@ class PatientsController < ApplicationController
 
   def void 
     @encounter = Encounter.find(params[:encounter_id])
-
     @patient = @encounter.patient
-
     @encounter.void
     redirect_to "/patients/tab_visit_summary/?patient_id=#{@patient.id}" and return
   end
-  
+
   def print_registration
     print_and_redirect("/patients/national_id_label/?patient_id=#{@patient.id}", next_task(@patient))  
   end
-  
+
   def print_visit
     print_and_redirect("/patients/visit_label/?patient_id=#{@patient.id}", next_task(@patient))  
   end
-  
+
   def print_mastercard_record
     print_and_redirect("/patients/mastercard_record_label/?patient_id=#{@patient.id}&date=#{params[:date]}", "/patients/visit?date=#{params[:date]}&patient_id=#{params[:patient_id]}")  
   end
-  
+
   def national_id_label
     print_string = @patient.national_id_label rescue (raise "Unable to find patient (#{params[:patient_id]}) or generate a national id label for that patient")
     send_data(print_string,:type=>"application/label; charset=utf-8", :stream=> false, :filename=>"#{params[:patient_id]}#{rand(10000)}.lbl", :disposition => "inline")
   end
-  
+
   def visit_label
     print_string = @patient.visit_label rescue (raise "Unable to find patient (#{params[:patient_id]}) or generate a visit label for that patient")
     send_data(print_string,:type=>"application/label; charset=utf-8", :stream=> false, :filename=>"#{params[:patient_id]}#{rand(10000)}.lbl", :disposition => "inline")
@@ -452,6 +450,5 @@ class PatientsController < ApplicationController
   end
 
   private
-  
-  
+
 end

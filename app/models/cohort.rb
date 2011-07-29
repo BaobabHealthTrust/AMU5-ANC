@@ -4,7 +4,7 @@ class Cohort
 
   @@first_registration_date = PatientProgram.find(:first,:conditions =>["program_id = ? AND voided = 0",1],
                                                 :order => 'date_enrolled ASC').date_enrolled.to_date rescue nil
-  @@program_id = Program.find_by_name('HIV PROGRAM').program_id
+  #@@program_id = Program.find_by_name('HIV PROGRAM').program_id
 
   # Initialize class
   def initialize(start_date, end_date)

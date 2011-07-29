@@ -1,0 +1,15 @@
+mary_identifier:
+  patient_identifier_id: 1
+  patient_id: 1
+  identifier: P100200000158
+  identifier_type: 3
+  preferred: 1
+  location_id: 1
+  creator: 1
+  date_created: 2011-04-18 00:00:00
+  voided: 0
+  voided_by: 0
+  date_voided: 2011-04-18 00:00:00
+  void_reason: 
+  uuid: 1ff26ffa-268f-102d-a2b3-16da04859145
+
