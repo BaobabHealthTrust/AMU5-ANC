@@ -124,12 +124,13 @@ class EncountersController < ApplicationController
     @answer_array = arv_regimen_answers(:patient => @patient,
       :use_short_names    => use_regimen_short_names == "true",
       :show_other_regimen => show_other_regimen      == "true")
-=end
-    
-    redirect_to "/" and return unless @patient
-=end
-    redirect_to next_task(@patient) and return unless params[:encounter_type]
 
+    redirect_to "/" and return unless @patient
+
+=end
+
+    redirect_to next_task(@patient) and return unless params[:encounter_type]
+    
     redirect_to :action => :create, 'encounter[encounter_type_name]' => params[:encounter_type].upcase, 'encounter[patient_id]' => @patient.id and return if ['registration'].include?(params[:encounter_type])
 
     render :action => params[:encounter_type] if params[:encounter_type]

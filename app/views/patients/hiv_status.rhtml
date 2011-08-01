@@ -6,7 +6,7 @@
   tt_cancel_destination = "/patients/show/<%= @patient.id %>";
   
   function checkHIVTestUnkown(){
-    if($("hiv_status_value").value.toLowerCase() == "Not Done"){
+    if($("new_test_result_at_current_facility").value.toLowerCase() == "not done"){
 
       showMessage("Patient needs to be tested now!", true);
       return true;
@@ -44,7 +44,7 @@
   <%  session_date = session[:datetime] || Time.now() %>
 
   <%= touch_select_tag "Previous HIV Test Status From Before Current Facility Visit", @patient,
-    options_for_select([["", ""], ["Negative in the last 3 months", "Negative in the last 3 months"],
+    options_for_select([["Negative in the last 3 months", "Negative in the last 3 months"],
       ["Positive Ever", "Positive Ever"], ["Unknown", "Unknown"]]),
     {:id => "previous_test_status_from_before_currrent_facility_visit",
     :helptext => "Previous HIV Test Status From Before Currrent Facility Visit" } %>
@@ -60,7 +60,9 @@
     {:id => "enter_date_result_given",
     :helptext => "Date Result Given",
     :condition => "__$('previous_test_status_from_before_currrent_facility_visit').value != 'Unknown'",
-    :tt_BeforeUnload => "checkHIVTestDate()" } %>
+    :tt_BeforeUnload => "checkHIVTestDate()",
+    :maxDate => "#{(Date.today + 2.month + 5.day).strftime("%Y-%m-%d")}"
+  } %>
 
   <%= touch_select_tag "Is on CPT", @patient, options_for_select([["", ""], ["Yes", "Yes"], ["No", "No"]]),
     {:id => "on_cpt?",
