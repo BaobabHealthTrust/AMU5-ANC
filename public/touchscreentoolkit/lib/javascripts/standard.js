@@ -765,7 +765,7 @@ function loadSelectOptions(selectOptions, options, dualViewOptions) {
         mouseDownAction = selectOptions[j].getAttribute("onmousedown")
         mouseDownAction += '; updateTouchscreenInputForSelect(this); ' + (dualViewOptions ? 'changeSummary(this.id);' : '');
 
-        optionsList += '<li id=\'' + j + '\' onmousedown="'+ mouseDownAction +'"';
+        optionsList += '<li id=\'' + (j-1) + '\' onmousedown="'+ mouseDownAction +'"';
         if (selectOptions[j].value) {
             optionsList += " id='option"+selectOptions[j].value +"' tstValue='"+selectOptions[j].value +"'";
             selected = j;
@@ -791,15 +791,30 @@ function addSummary(position){
     }
 
     var summaryContainer = document.createElement("div");
-    summaryContainer.style.overflow = "auto";
+    summaryContainer.id = "summaryContainer";
+    summaryContainer.style.overflow = "hidden";
     summaryContainer.style.border = "1px solid #000";
-    summaryContainer.style.height = "250px";
+    summaryContainer.style.height = "255px";
     summaryContainer.style.margin = "25px";
-    summaryContainer.style.width = "97%";
+    summaryContainer.style.width = "94.5%";
     summaryContainer.style.backgroundColor = "#ccf";
     summaryContainer.style.fontSize = "1.5em";
+    summaryContainer.style.marginBottom = "15px";
 
     __$("page" + tstCurrentPage).appendChild(summaryContainer);
+
+    var styl = document.getElementById("summaryContainer").getAttribute("style");
+
+    document.getElementById("summaryContainer").setAttribute("style", styl + " -moz-border-radius: 10px;");
+
+    var summaryCushion = document.createElement("div");
+    summaryCushion.id = "summaryCushion";
+    summaryCushion.style.width = "98%";
+    summaryCushion.style.height = "240px";
+    summaryCushion.style.overflow = "auto";
+    summaryCushion.style.margin = "8px";
+
+    summaryContainer.appendChild(summaryCushion);
 
     var summary = document.createElement("div");
     summary.id = "summary";
@@ -807,7 +822,7 @@ function addSummary(position){
     summary.style.display = "table";
     summary.style.width = "100%";
 
-    summaryContainer.appendChild(summary);
+    summaryCushion.appendChild(summary);
 
     var tmpInputFrame = __$("inputFrame" + tstCurrentPage);
 
@@ -1674,9 +1689,10 @@ function getQwertyKeyboard(){
     getButtons("QWERTYUIOP") +
     getButtonString('backspace','Delete') +
     // getButtonString('date','Date') +
-    "</span><span style='padding-left:15px' class='buttonLine'>" +
+    "</span><span style='padding-left:0px' class='buttonLine'>" +
     getButtons("ASDFGHJKL") +
-    getButtonString('apostrophe',"'");
+    getButtonString('apostrophe',"'") +
+    getButtonString('num','0-9');
 
     // if(tstFormElements[tstCurrentPage].tagName == "TEXTAREA") {
     //    keyboard = keyboard +
@@ -1684,10 +1700,10 @@ function getQwertyKeyboard(){
     // }
 
     keyboard = keyboard +
-    "</span><span style='padding-left:25px' class='buttonLine'>" +
-    getButtons("ZXCVBNM,.") +
+    "</span><span style='padding-left:0px' class='buttonLine'>" +
+    getButtons("ZXCVBNM,.") + (tstFormElements[tstCurrentPage].tagName == "TEXTAREA" ? "" :
+    getButtonString('whitespace','&nbsp', 'width: 85px;')) +
     getButtonString('abc','A-Z') +
-    getButtonString('num','0-9') +
     getButtonString('SHIFT','aA') +
     "</span>";
 
@@ -1710,11 +1726,12 @@ function getABCKeyboard(){
     "<span class='abcKeyboard'>" +
     "<span class='buttonLine'>" +
     getButtons("ABCDEFGH") +
+    getButtonString('apostrophe',"'") +
     getButtonString('backspace','Delete') +
     getButtonString('num','0-9') +
     "</span><span class='buttonLine'>" +
     getButtons("IJKLMNOP") +
-    getButtonString('apostrophe',"'") +
+    getButtonString('qwerty','qwerty') +
     getButtonString('SHIFT','aA') ;
 
     // if(tstFormElements[tstCurrentPage].tagName == "TEXTAREA") {
@@ -1724,9 +1741,10 @@ function getABCKeyboard(){
 
     keyboard = keyboard +
     getButtonString('Unknown','Unknown') +
+    getButtonString('na','N/A') +
     "</span><span class='buttonLine'>" +
-    getButtons("QRSTUVWXYZ") +
-    getButtonString('qwerty','qwerty') +
+    getButtons("QRSTUVWXYZ") + (tstFormElements[tstCurrentPage].tagName == "TEXTAREA" ? "" : 
+    getButtonString('whitespace','&nbsp', 'width: 85px;')) +
     "</span>";
 
     if(tstFormElements[tstCurrentPage].tagName == "TEXTAREA") {
@@ -1753,6 +1771,7 @@ function getNumericKeyboard(){
     getCharButtonSetID("*","star") +
     getButtonString('char','A-Z') +
     getButtonString('date','Date') +
+    getButtonString('na','N/A') +
     "</span><span id='buttonLine2' class='buttonLine'>" +
     getButtons("456") +
     getCharButtonSetID("%","percent") +
@@ -1978,6 +1997,9 @@ function press(pressedChar){
                 break;
             case 'apostrophe':
                 inputTarget.value += "'";
+                break;
+            case 'na':
+                inputTarget.value = "N/A";
                 break;
             case 'abc':
                 tstUserKeyboardPref = 'abc';

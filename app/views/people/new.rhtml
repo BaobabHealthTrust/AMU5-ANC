@@ -14,6 +14,10 @@
 
   .tt_controls_office_phone_number #num , #plus, #apostrophe, #star, #abc, #date, #slash, #minus, #comma, #percent, #decimal { display:none; }
 
+  .nota #na {
+    display: block;
+  }
+  
 </style>
 
 <script>
@@ -75,7 +79,9 @@
 
   <%= text_field_tag "person[addresses][city_village]",  params[:city_village], {:field_type => 'alpha', :helpText => 'Current Village (residence)', :ajaxURL => '/person_addresses/village?search_string=', :allowFreeText => true }%>
 
-  <%= text_field_tag "person[cell_phone_number]",  params[:cell_phone_number], {:field_type => 'number',:validationJS =>"validPhoneNum('cell_phone_number')", :helpText => 'Cell Phone Number', :allowFreeText => true, :validationMessage => "You must enter a valid number" }%>
+  <%= text_field_tag "person[cell_phone_number]",  params[:cell_phone_number], {:field_type => 'number',
+    :validationJS =>"validPhoneNum('cell_phone_number')", :helpText => 'Cell Phone Number',
+    :allowFreeText => true, :validationMessage => "You must enter a valid number", :tt_pageStyleClass => "nota" }%>
 
   <% ask_multiple_phone_numbers = GlobalProperty.find_by_property("ask_multiple_phone_numbers").property_value rescue 'false'
      if ask_multiple_phone_numbers == 'true' 
