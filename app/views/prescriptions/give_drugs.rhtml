@@ -1,6 +1,6 @@
 <link href="/touchscreentoolkit/lib/stylesheets/drug-style.css" type="text/css" rel="stylesheet" />
 <script type="text/javascript">
-  var tt_cancel_destination = "/patients/show/?patient_id=<%= @patient.id %>"
+  var tt_cancel_destination = "/patients/current_visit/?patient_id=<%= @patient.patient_id %>";
 
   var generics = <%= @generics.sort.to_json %>;
   var frequencies = <%= @frequencies.to_json %>;

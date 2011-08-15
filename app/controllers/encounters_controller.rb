@@ -2,31 +2,6 @@ class EncountersController < ApplicationController
 
   def create
 
-=begin
-
-    if params['encounter']['encounter_type_name'] == 'ART_INITIAL'
-      if params[:observations][0]['concept_name'] == 'EVER RECEIVED ART' and params[:observations][0]['value_coded_or_text'] == 'NO'
-        observations = []
-        (params[:observations] || []).each do |observation|
-          next if observation['concept_name'] == 'HAS TRANSFER LETTER'
-          next if observation['concept_name'] == 'HAS THE PATIENT TAKEN ART IN THE LAST TWO WEEKS'
-          next if observation['concept_name'] == 'HAS THE PATIENT TAKEN ART IN THE LAST TWO MONTHS'
-          next if observation['concept_name'] == 'ART NUMBER AT PREVIOUS LOCATION'
-          next if observation['concept_name'] == 'DATE ART LAST TAKEN'
-          next if observation['concept_name'] == 'LAST ART DRUGS TAKEN'
-          observations << observation
-        end
-      elsif params[:observations][4]['concept_name'] == 'DATE ART LAST TAKEN' and params[:observations][4]['value_datetime'] != 'Unknown'
-        observations = []
-        (params[:observations] || []).each do |observation|
-          next if observation['concept_name'] == 'HAS THE PATIENT TAKEN ART IN THE LAST TWO WEEKS'
-          next if observation['concept_name'] == 'HAS THE PATIENT TAKEN ART IN THE LAST TWO MONTHS'
-          observations << observation
-        end
-      end
-      params[:observations] = observations unless observations.blank?
-    end
-=end    
     @patient = Patient.find(params[:encounter][:patient_id])
 
     # Go to the dashboard if this is a non-encounter
@@ -108,6 +83,13 @@ class EncountersController < ApplicationController
       end
     end
 
+    redirect_to "/patients/current_visit?patient_id=#{@patient.id}" and return if ((encounter.type.name.upcase rescue "") ==
+      "VITALS" || (encounter.type.name.upcase rescue "") == "LAB RESULTS" ||
+      (encounter.type.name.upcase rescue "") == "OBSERVATIONS" ||
+      (encounter.type.name.upcase rescue "") == "DIAGNOSIS" ||
+      (encounter.type.name.upcase rescue "") == "TREATMENT" ||
+      (encounter.type.name.upcase rescue "") == "APPOINTMENT")
+  
     # Go to the next task in the workflow (or dashboard)
     redirect_to next_task(@patient) 
   end
@@ -115,6 +97,8 @@ class EncountersController < ApplicationController
   def new
     @patient = Patient.find(params[:patient_id] || session[:patient_id])
 
+    # raise session.to_yaml
+    
 =begin
     use_regimen_short_names = GlobalProperty.find_by_property(
       "use_regimen_short_names").property_value rescue "false"

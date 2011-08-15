@@ -92,7 +92,7 @@ class PrescriptionsController < ApplicationController
 
     }
 
-    redirect_to ("/patients/show/#{@patient.id}")
+    redirect_to ("/patients/current_visit/?patient_id=#{@patient.id}")
   end
   
   def auto

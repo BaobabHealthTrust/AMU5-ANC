@@ -64,7 +64,7 @@
 
             <%if header == 'true' %>
               <div style="float:left; font-size: 1.1em; font-style: normal; padding-bottom: 5px; ">
-                <%=h (encounter.name.titleize == "Observations" ? "Admission Examinations" : encounter.name.titleize) %>
+                <%=h (encounter.name.titleize == "Observations" ? "ANC Examinations" : encounter.name.titleize) %>
               </div>
             <%end; header = 'false'%>
             <div style="clear:left; font-size:10pt" class="summary"><span><%= encounter.to_s.lstrip.gsub(/\n/, '<br/>') -%></span>

@@ -61,12 +61,15 @@ class Encounter < ActiveRecord::Base
       temp = observations.select {|obs| obs.concept.concept_names.map(&:name).include?("TEMPERATURE (C)") && "#{obs.answer_string}".upcase != 'UNKNOWN' }
       weight = observations.select {|obs| obs.concept.concept_names.map(&:name).include?("WEIGHT (KG)") && "#{obs.answer_string}".upcase != '0.0' }
       height = observations.select {|obs| obs.concept.concept_names.map(&:name).include?("HEIGHT (CM)") && "#{obs.answer_string}".upcase != '0.0' }
+      systo = observations.select {|obs| obs.concept.concept_names.map(&:name).include?("SYSTOLIC BLOOD PRESSURE") && "#{obs.answer_string}".upcase != '0.0' }
+      diasto = observations.select {|obs| obs.concept.concept_names.map(&:name).include?("DIASTOLIC BLOOD PRESSURE") && "#{obs.answer_string}".upcase != '0.0' }
       vitals = [weight_str = weight.first.answer_string + 'KG' rescue 'UNKNOWN WEIGHT',
-        height_str = height.first.answer_string + 'CM' rescue 'UNKNOWN HEIGHT']
+        height_str = height.first.answer_string + 'CM' rescue 'UNKNOWN HEIGHT', bp_str = "BP: " + 
+          (systo.first.answer_string.to_i.to_s rescue "?") + "/" + (diasto.first.answer_string.to_i.to_s rescue "?")]
       temp_str = temp.first.answer_string + '°C' rescue nil
       vitals << temp_str if temp_str                          
       vitals.join(', ')
-    elsif name == 'OUTPATIENT DIAGNOSIS'
+    elsif name == 'DIAGNOSIS'
       diagnosis_array = []
       observations.each{|observation|
         next if observation.obs_group_id != nil

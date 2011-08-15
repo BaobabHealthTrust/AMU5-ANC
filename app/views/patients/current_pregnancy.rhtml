@@ -41,7 +41,8 @@
 
     $("expected_date_of_delivery").innerHTML = "Expected Date Of Delivery: <i style='font-size: 1.2em; float: right;'>" +
       edod + "</i><br /><br />Gestation Weeks: " + (gestation < 32 &&
-      gestation.trim().length > 0 ? "<i style='color: red'>(Premature)</i>" : "") +
+      gestation.trim().length > 0 ? "<i style='color: red'>(Premature)</i>" : 
+      (gestation > 42 && gestation.trim().length > 0 ? "<i style='color: red'>(Abnormal)</i>" : "")) +
       "<i style='font-size: 1.2em; float: right; width: 100px;'>" + gestation + "</i>";
 
     timedEvent = setTimeout('calculateEDOD()', 500);
@@ -63,6 +64,10 @@
   <%= hidden_field_tag "encounter[provider_id]", session[:user_id] %>
   <%session_date = session[:datetime] || Time.now() %>
 
+  <%= touch_select_tag "Week of First Visit", @patient, options_for_select([["", ""], ["0-12", "0-12"], ["13+", "13+"]]),
+    {:id => "week_of_first_visit",
+    :helptext => "Week of First Visit" } %>
+
   <%= touch_date_tag "LAST MENSTRUAL PERIOD", @patient, nil,
     {:id => "lmp",
     :helptext => "Last Menstrual Period",
@@ -73,6 +78,10 @@
     {:id => "planned_delivery_place",
     :helptext => "Planned delivery place",
     :ajaxURL => "/encounters/static_locations?search_string=" } %>
+
+  <%= touch_select_tag "Multiple gestation", @patient, options_for_select([["", ""], ["Yes", "Yes"], ["No", "No"]]),
+    {:id => "week_of_first_visit",
+    :helptext => "Multiple Pregnancy?" } %>
 
   <%= submit_tag 'Finish' %>
 <% end %>

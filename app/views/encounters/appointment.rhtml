@@ -14,15 +14,15 @@
 <%= javascript_include_tag "dateformat" %>
 
 <script>
-  var tt_cancel_destination = "/patients/show/<%= @patient.patient_id %>"
+  var tt_cancel_destination = "/patients/current_visit/?patient_id=<%= @patient.patient_id %>";
   var number_of_days_to_add = <%= @patient.number_of_days_to_add_to_next_appointment_date(session[:datetime] || Date.today) %>
   var clinic_days = "<%= GlobalProperty.find_by_property('clinic_days').property_value rescue 'Monday,Tuesday,Wednesday,Thursday,Friday' %>"
   clinic_days = clinic_days.split(',');
 
-  <%
-    clinic_holidays = GlobalProperty.find_by_property('clinic_holidays').property_value rescue '1900-12-25,1900-03-03' 
-    clinic_holidays = clinic_holidays.split(',').map{|day|day.to_date}.join(',')
-  %>
+<%
+clinic_holidays = GlobalProperty.find_by_property('clinic_holidays').property_value rescue '1900-12-25,1900-03-03' 
+clinic_holidays = clinic_holidays.split(',').map{|day|day.to_date}.join(',')
+%>
   var holidays = '<%= clinic_holidays %>' 
  
   function handleAppointments(visit_date) {
@@ -57,11 +57,15 @@
       $('next_appointment_date').value = ds.date
       ds.init();
       $('touchscreenInput1').value = ds.date.getFullYear() + '-' + DateUtil.months[ds.date.getMonth()] + '-' + ds.date.getDate()
-      */
-      visit_date = dateCreate('<%=session[:datetime].to_date rescue Date.today %>')
+       */
+
+      // visit_date = dateCreate('<%=session[:datetime].to_date rescue Date.today %>')
+      
+      visit_date = new Date('<%= (session[:datetime].to_date rescue Date.today).strftime("%Y-%m-%d") %>');
+
       auto_expire_date = new Date(visit_date.getFullYear(),visit_date.getMonth(),visit_date.getDate() + (7 * parseInt($('time_until_next_visit').value)));
       week = (parseInt((auto_expire_date - visit_date) / (7 * 24 * 60 * 60 * 1000))) 
-      visit_date.setDate(visit_date.getDate() + (7 * week));
+      visit_date.setDate(visit_date.getDate() + (7 * (week + 1)));
       visit_date = handleAppointments(visit_date)
       $('dateselector_year').value = visit_date.getFullYear();
       $('dateselector_month').value = DateUtil.months[visit_date.getMonth()];
@@ -117,12 +121,12 @@
         month = (i + 1).toString()
     }
 
-   if (month.length == 1)
-    month = '0' + month
+    if (month.length == 1)
+      month = '0' + month
     
 
-   new_date = dateCreate(year + '-' + month + '-' + day) 
-   $('helpText1').innerHTML = 'Next Appointment Date ' + dateFormat(new_date,"dddd, mmmm dS, yyyy");
+    new_date = dateCreate(year + '-' + month + '-' + day)
+    $('helpText1').innerHTML = 'Next Appointment Date ' + dateFormat(new_date,"dddd, mmmm dS, yyyy");
   }
 
   function calculateGivenRange(start_date,end_date) {
@@ -139,28 +143,29 @@
 
   <label for='time_until_next_visit'>Time Until Next Appointment</label>
   <%= select_tag("time_until_next_visit", options_for_select([["2 weeks", 2],
-                                                              ["1 month", 4],
-                                                              ["2 months", 8],
-                                                              ["3 months", 12]]),
-                                                              {:helpText => 'Time Until Next Appointment',
-                                                               :tt_onLoad => "calculateGivenRange('#{params[:start_date]}','#{params[:end_date]}')"}) %>
+        ["1 month", 4],
+        ["2 months", 8],
+        ["3 months", 12]]),
+    {:helpText => 'Time Until Next Appointment',
+      :tt_onLoad => "calculateGivenRange('#{params[:start_date]}','#{params[:end_date]}')"}) %>
 
   <%
-  absolute_min = params[:start_date].to_date.year rescue Date.today.year 
+  absolute_min = params[:start_date].to_date.year rescue Date.today.year
   absolute_max = params[:end_date].to_date.year + 1 rescue Date.today.year + 1%>
   <label for='next_appointment_date'>Next Appointment Date</label>
   <%= hidden_field_tag("observations[][concept_name]", "RETURN VISIT DATE") %>
   <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
   <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
-  <%= text_field_tag("observations[][value_datetime]", (Time.now + 1.month).year, {:helpText => 'Next Appointment Date', 
-                                                                                   :field_type => 'date', 
-                                                                                   :absoluteMin => absolute_min, 
-                                                                                   :absoluteMax => absolute_max, 
-                                                                                   :tt_pageStyleClass => "Date DatesOnly", 
-                                                                                   :tt_onLoad => "calculate_dates('#{params[:start_date]}','#{params[:end_date]}');", 
-                                                                                   :id => 'next_appointment_date'}) %>
+  <%= text_field_tag("observations[][value_datetime]", (Time.now + 1.month).year,
+    {:helpText => 'Next Appointment Date',
+      :field_type => 'date',
+      :absoluteMin => absolute_min,
+      :absoluteMax => absolute_max,
+      :tt_pageStyleClass => "Date DatesOnly",
+      :tt_onLoad => "calculate_dates('#{params[:start_date]}','#{params[:end_date]}');",
+      :id => 'next_appointment_date'}) %>
 
 
-  <%= submit_tag "Finish" %>    
+  <%= submit_tag "Finish" %>
 </form>
 

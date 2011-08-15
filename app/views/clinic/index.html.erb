@@ -11,16 +11,20 @@
     <option value="/clinic/reports">
       Reports
     </option>
-    <option value="/clinic/administration">
-      Administration
-    </option>
+
+    <% if @user.admin? %>
+      <option value="/clinic/administration">
+        Administration
+      </option>
+    <% end %>
+      
   </select>
 
   <div id="facility"><%= @facility rescue "" %></div>
   <div id="location"><%= @location rescue "" %></div>
 
   <div id="date"><%= @date rescue "" %></div>
-  <div id="user"><%= @user rescue "" %></div>
+  <div id="user"><%= @user.name rescue "" %></div>
 
   <select id="links">
     <option value='/logout' link='/logout'>Logout</option>

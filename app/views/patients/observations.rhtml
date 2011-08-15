@@ -2,8 +2,8 @@
 
 <script type="text/javascript" language="javascript">
   <!--
-  tt_cancel_show = "/patients/show/<%= @patient.id %>";
-  tt_cancel_destination = "/patients/show/<%= @patient.id %>";
+  tt_cancel_show = "/patients/current_visit/?patient_id=<%= @patient.patient_id %>";
+  tt_cancel_destination = "/patients/current_visit/?patient_id=<%= @patient.patient_id %>";
   var timedEvent;
 
   function calculateBP(pos){
@@ -50,58 +50,28 @@
   <%= hidden_field_tag "encounter[provider_id]", session[:user_id] %>
   <%session_date = session[:datetime] || Time.now() %>
 
-  <%#= touch_numeric_tag "GRAVIDA", @patient, nil,
-  {:id => "enter_gravida",
-  :helptext => "Enter Gravida" } %>
-  <%#= touch_numeric_tag "PARITY", @patient, nil,
-  {:id => "enter_parity",
-  :helptext => "Enter Parity" } %>
-  <%#= touch_numeric_tag "GESTATION WEEKS", @patient, nil,
-  {:id => "enter_gestation_weeks",
-  :helptext => "Enter Gestation Weeks" } %>
-
-  <%= touch_select_tag "FETAL HEART BEAT", @patient, options_for_select([["", ""], ["Yes", "Yes"], ["No", "No"]]),
-    {:id => "enter_fetal_heart",
-    :helptext => "Fetal Heart Beat" } %>
-
-  <%= touch_numeric_tag "WEIGHT", @patient, nil,
-    {:id => "enter_weight",
-    :helptext => "Weight",
-    :tt_pageStyleClass => "NumbersWithUnknownAndDecimal" } %>
-
-  <%= touch_text_field_tag "SYSTOLIC BLOOD PRESSURE", @patient, nil,
-    {:id => "systolic_blood_pressure",
-    :helptext => "Systolic Blood Pressure",
-    :field_type => "number",
-    :tt_pageStyleClass => "NumbersWithUnknown",
-    :tt_onLoad => "timedEvent = setTimeout('calculateBP(1)', 100);",
-    :tt_onUnLoad => "clearTimeout(timedEvent);",
-    :absoluteMin => 0,
-    :max => 250 } %>
-
-  <%= touch_text_field_tag "DIASTOLIC BLOOD PRESSURE", @patient, nil,
-    {:id => "diastolic_blood_pressure",
-    :helptext => "Diastolic Blood Pressure",
-    :field_type => "number",
-    :tt_pageStyleClass => "NumbersWithUnknown",
-    :tt_onLoad => "timedEvent = setTimeout('calculateBP(2)', 100);",
-    :tt_onUnLoad => "clearTimeout(timedEvent);",
-    :absoluteMin => 0,
-    :max => 180 } %>
-
-  <%= touch_numeric_tag "URINE PROTEIN", @patient, nil,
+  <%= touch_select_tag "URINE PROTEIN", @patient, 
+    options_for_select([["", ""], ["Negative", "Negative"], ["1+", "1+"], ["2+", "2+"], 
+      ["3+", "3+"], ["4+", "4+"], ["Unknown", "Unknown"]]),
     {:id => "enter_urine_protein",
-    :helptext => "Enter Urine Protein",
-    :tt_pageStyleClass => "NumbersWithUnknown showPlus" } %>
+    :helptext => "Urine Protein" } %>
+
+  <%= touch_select_tag "HB1 Test Request", @patient, options_for_select([["", ""], ["Yes", "Yes"], ["No", "No"]]),
+    {:id => "hb_test_request",
+    :helptext => "Is patient going for HB Test?" } %>
+
+  <%= touch_select_tag "Syphilis Test Request", @patient, options_for_select([["", ""], ["Yes", "Yes"], ["No", "No"]]),
+    {:id => "syphilis_test_request",
+    :helptext => "Is patient going for Syphilis Test?" } %>
 
   <%= touch_numeric_tag "FUNDUS", @patient, nil,
     {:id => "enter_fundal_height",
     :helptext => "Fundus (weeks)",
     :tt_pageStyleClass => "NumbersWithUnknownAndDecimal" } %>
 
-  <%= touch_select_tag "Week of First Visit", @patient, options_for_select([["", ""], ["0-12", "0-12"], ["13+", "13+"]]),
-    {:id => "week_of_first_visit",
-    :helptext => "Week of First Visit" } %>
+  <%= touch_select_tag "FETAL HEART BEAT", @patient, options_for_select([["", ""], ["Yes", "Yes"], ["No", "No"]]),
+    {:id => "enter_fetal_heart",
+    :helptext => "Fetal Heart Beat" } %>
 
   <% @presentation = ["", "Compound", "Cephalic", "Breech", "Face", "Footling", "Cord", "Brow"] %>
 
@@ -182,14 +152,6 @@
 
   <%#--------------------------------------------------------%>
 
-
-  <%= touch_select_tag "HB1 Test Request", @patient, options_for_select([["", ""], ["Yes", "Yes"], ["No", "No"]]),
-    {:id => "hb1_test_request",
-    :helptext => "Is patient going for HB1 Test?" } %>
-
-  <%= touch_select_tag "Syphilis Test Request", @patient, options_for_select([["", ""], ["Yes", "Yes"], ["No", "No"]]),
-    {:id => "syphilis_test_request",
-    :helptext => "Is patient going for Syphilis Test?" } %>
 
 
   <%#= touch_select_tag "SYPHILIS RESULT", @patient, options_for_select([["", ""], ["Not Done", "Not Done"], ["Positive", "Positive"], ["Negative", "Negative"]]),

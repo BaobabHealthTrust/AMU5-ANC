@@ -13,7 +13,7 @@ class ClinicController < ApplicationController
 
     @date = (session[:datetime].to_date rescue Date.today).strftime("%Y-%m-%d")
 
-    @user = User.find(session[:user_id]).name rescue ""
+    @user = User.find(session[:user_id]) rescue nil
 
     @roles = User.find(session[:user_id]).user_roles.collect{|r| r.role} rescue []
 

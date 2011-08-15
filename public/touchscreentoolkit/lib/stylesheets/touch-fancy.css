@@ -524,6 +524,7 @@ button:hover.dark span {
 
 .NumbersOnlyWithDecimal #star,
 .NumbersOnlyWithDecimal #abc,
+.NumbersOnlyWithDecimal #char,
 .NumbersOnlyWithDecimal #date,
 .NumbersOnlyWithDecimal #minus,
 .NumbersOnlyWithDecimal #plus,
