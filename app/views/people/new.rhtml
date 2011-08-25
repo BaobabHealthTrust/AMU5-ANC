@@ -63,7 +63,7 @@
 
   Gender: <%= f.select :gender, {"" => "", "Male" => "M", "Female" => "F"}, {:selected => params[:gender]}, {:id => 'gender', :helpText => 'Gender', :condition => '$("gender").value == "" || skipped[tstCurrentPage] == 1', :tt_onLoad => 'seen(tstCurrentPage);' } %>
 
-  <%= text_field_tag "person[names][family_name2]", params[:family_name2], {:id => 'family_name2', :field_type => 'alpha', :helpText => 'Mother\'s Surname', :ajaxURL => '/person_names/family_name2?search_string=', :allowFreeText => true, :condition => '$("family_name2").value == "" || skipped[tstCurrentPage] == 1', :tt_onLoad => 'seen(tstCurrentPage);' } if ask_mothers_surname %>
+  <%= text_field_tag "person[names][family_name2]", params[:family_name2], {:id => 'family_name2', :field_type => 'alpha', :helpText => 'Maiden Name', :ajaxURL => '/person_names/family_name2?search_string=', :allowFreeText => true, :condition => '$("family_name2").value == "" || skipped[tstCurrentPage] == 1', :tt_onLoad => 'seen(tstCurrentPage);' } if ask_mothers_surname %>
 
   <%= text_field_tag "person[birth_year]", nil, {:helpText => 'Year of Birth', :field_type => 'number', :absoluteMin => "1890", :min => (Date.today.year-50), :max => (Date.today.year-10), :absoluteMax => Date.today.year, :tt_pageStyleClass => "Numeric NumbersOnly", :tt_onLoad => 'seen(tstCurrentPage);' }  %>
 
@@ -79,6 +79,8 @@
 
   <%= text_field_tag "person[addresses][city_village]",  params[:city_village], {:field_type => 'alpha', :helpText => 'Current Village (residence)', :ajaxURL => '/person_addresses/village?search_string=', :allowFreeText => true }%>
 
+  <%= text_field_tag "person[addresses][address1]",  params[:address1], {:id => 'address1', :helpText => 'Closest Landmark or Plot Number<br /><span style="font-size:0.7em;font-style:italic">(Please do not include these words: Next to, close, in front of, behind)</span>', :allowFreeText => true }%>
+  
   <%= text_field_tag "person[cell_phone_number]",  params[:cell_phone_number], {:field_type => 'number',
     :validationJS =>"validPhoneNum('cell_phone_number')", :helpText => 'Cell Phone Number',
     :allowFreeText => true, :validationMessage => "You must enter a valid number", :tt_pageStyleClass => "nota" }%>

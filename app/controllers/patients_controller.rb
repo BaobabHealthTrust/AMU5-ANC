@@ -455,8 +455,6 @@ class PatientsController < ApplicationController
       e.type.name
     }.join(", ") rescue ""
 
-    # raise @encounters.to_yaml
-
   end
 
   def demographics
@@ -490,6 +488,10 @@ class PatientsController < ApplicationController
   def update_demographics
     Person.update_demographics(params)
     redirect_to :action => 'demographics', :patient_id => params['person_id'] and return
+  end
+
+  def patient_history
+    
   end
 
   private

@@ -1,0 +1,85 @@
+<style type="text/css">
+  button.blue {
+    width: 350px;
+    margin: 15px;
+    margin-left: 60px;
+  }
+  button.gray {
+    width: 350px;
+    margin: 15px;
+    margin-left: 60px;
+  }
+  #nav {
+    background-color: #333333;
+    border-top:3px solid #99AAB7;
+    color:#CADCEA;
+    height:80px;
+    width:100%;
+    bottom:-5px;
+    position:absolute;
+    overflow:hidden;
+    z-index: 1000;
+  }
+  #footer {
+    background-color: #333333;
+  }
+</style>
+<div id='content'>
+  <div id='description' style='color:#777;position:absolute;margin-top:-70px;'>
+  </div>
+  <center>
+    <div style="position: absolute; left: 60px; top: 30px; padding: 15px; background-color: #fff;
+         border: 1px solid #ccc; -moz-border-radius: 30px; width: 350px;">
+      <h1>Patient History</h1>
+    </div>
+    <div style="display: table; -moz-border-radius: 30px;
+         border: 1px solid #eee; padding: 15px; width: 95%; margin-top: 100px;">
+      <div style="display: table-row">
+        <div style="display: table-cell">
+          &nbsp;
+        </div>
+        <div style="display: table-cell; padding: 20px;">
+          &nbsp;
+        </div>
+      </div>
+      <div style="display: table-row">
+        <div style="display: table-cell">
+          <button class="blue" onclick="window.location = '/patients/obstetric_history/?patient_id=<%= @patient.id  %>'">
+            <span>Obstetric History</span>
+          </button>
+        </div>
+        <div style="display: table-cell">
+          <button class="blue" onclick="window.location = '/patients/medical_history/?patient_id=<%= @patient.id  %>'">
+            <span>Medical History</span>
+          </button>
+        </div>
+      </div>
+      <div style="display: table-row">
+        <div style="display: table-cell">
+          <button class="blue" onclick="window.location = '/patients/social_history/?patient_id=<%= @patient.id  %>'">
+            <span>Social History</span>
+          </button>
+        </div>
+        <div style="display: table-cell">
+          <button class="blue" onclick="window.location = '/patients/surgical_history/?patient_id=<%= @patient.id  %>'">
+            <span>Surgical History</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </center>
+  <div id="nav">
+    <button class="green" onclick="window.location = '/patients/show/<%= @patient.id %>'"
+            style="float: right; margin: 10px;">
+      <span>
+        Finish
+      </span>
+    </button>
+    <!--button class="green" onclick="window.location = '/encounters/diagnoses_index?patient_id=<%= @patient.id %>'"
+            style="float: right; margin: 10px;">
+      <span>
+        Finish
+      </span>
+    </button-->
+  </div>
+</div>

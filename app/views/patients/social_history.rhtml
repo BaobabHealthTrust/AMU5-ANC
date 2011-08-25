@@ -1,0 +1,28 @@
+# medical_history.rhtml
+
+<script type="text/javascript" language="javascript">
+	<!--
+		tt_cancel_show = "/patients/show/<%= @patient.id %>";
+		tt_cancel_destination = "/patients/show/<%= @patient.id %>";
+	//-->
+</script>
+
+<% form_tag :controller => "encounters", :action => "create" do %>
+	<%= hidden_field_tag "encounter[encounter_type_name]", "SOCIAL HISTORY" %>
+	<%= hidden_field_tag "encounter[patient_id]", @patient.id %>
+	<%= hidden_field_tag "encounter[encounter_datetime]", DateTime.now() %>
+	<%= hidden_field_tag "encounter[provider_id]", session[:user_id] %>
+	<%session_date = session[:datetime] || Time.now() %>
+
+	<%= touch_select_tag "Patient currently smokes", @patient, options_for_select([["", ""], ["Yes", "Yes"], ["No", "No"]]),
+		{:id => "smoker",
+		 :helptext => "Does patient smoke?" } %>
+	<%= touch_select_tag "Patient currently consumes alcohol", @patient, options_for_select([["", ""], ["Yes", "Yes"], ["No", "No"]]),
+		{:id => "alcohol",
+		 :helptext => "Do you take alcohol?" } %>
+	<%= touch_select_tag "Nutrition status", @patient, options_for_select([["", ""], ["Good", "Good"], ["Malnourished", "Malnourished"]]),
+		{:id => "nutrition",
+		 :helptext => "Nutrition status" } %>
+
+	<%= submit_tag 'Finish' %>
+<% end %>
