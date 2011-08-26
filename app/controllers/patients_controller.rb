@@ -464,17 +464,16 @@ class PatientsController < ApplicationController
     @first_name = @patient.person.names.first.given_name rescue nil
     @last_name = @patient.person.names.first.family_name rescue nil
     @birthdate = @patient.person.birthdate_formatted rescue nil
-    @gender = @patient.person.formatted_gender rescue ''
+    @gender = @patient.person.sex rescue ''
 
     @current_village = @patient.person.addresses.first.city_village rescue ''
     @current_ta = @patient.person.addresses.first.county_district rescue ''
     @current_district = @patient.person.addresses.first.state_province rescue ''
     @home_district = @patient.person.addresses.first.address2 rescue ''
 
-    @primary_phone = @patient.person.phone_numbers["Cell Phone Number"] rescue ''
-    @secondary_phone = @patient.person.phone_numbers["Home Phone Number"] rescue ''
-
-    @occupation = @patient.person.occupation rescue ''
+    @primary_phone = @patient.person.get_attribute("Cell Phone Number") rescue ''
+    @secondary_phone = @patient.person.get_attribute("Home Phone Number") rescue ''
+    @occupation = @patient.person.get_attribute("Occupation") rescue ''
     render :template => 'patients/demographics', :layout => 'menu'
 
   end
