@@ -47,6 +47,15 @@ class PeopleController < ApplicationController
   def create
     Person.session_datetime = session[:datetime].to_date rescue Date.today
     person = Person.create_from_form(params[:person])
+    
+    if person
+        # Encounter handling
+        params[:encounter][:patient_id] = person.id
+        encounter = Encounter.new(params[:encounter])
+        encounter.encounter_datetime = session[:datetime] unless session[:datetime].blank?
+        encounter.save
+    end
+    
     if params[:person][:patient]
       person.patient.national_id_label
       unless (params[:relation].blank?)
