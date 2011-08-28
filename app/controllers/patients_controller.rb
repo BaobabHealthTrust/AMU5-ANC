@@ -494,6 +494,10 @@ class PatientsController < ApplicationController
     
   end
 
+  def pregnancy_history
+
+  end
+
   private
 
 end
