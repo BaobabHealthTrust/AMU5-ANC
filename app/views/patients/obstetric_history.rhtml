@@ -71,7 +71,7 @@
     <%= touch_text_field_tag "Labour Duration", @patient, nil,
     {:id => "labour_duration#{e}",
       :helptext => "Labour Duration #{e}#{indice} Child",
-      :condition => "__$('enter_number_of_deliveries').value >= #{e}" } %>
+      :condition => "__$('enter_number_of_deliveries').value >= #{e}", :field_type => 'number', :tt_pageStyleClass => "NumbersWithUnknown"} %>
 
     <%= touch_select_tag "Method of Delivery", @patient, options_for_select(@delivery_modes),
     {:id => "method_of_delivery#{e}",
