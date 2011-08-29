@@ -1,0 +1,136 @@
+<%# report.rhtml %>
+
+
+
+<table>
+  <tr>
+    <th colspan=2 align='left'>OBSERVATIONS</th>
+  </tr><tr>
+    <td>=1</td>
+    <td><%= @observations_1.length %></td>
+  </tr><tr>
+    <td>=2</td>
+    <td><%= @observations_2.length %></td>
+  </tr><tr>
+    <td>=3</td>
+    <td><%= @observations_3.length %></td>
+  </tr><tr>
+    <td>=4</td>
+    <td><%= @observations_4.length %></td>
+  </tr><tr>
+    <td>>5</td>
+    <td><%= @observations_5.length %></td>
+  </tr><tr>
+    <th colspan=2 align='left'>WEEK OF FIRST VISIT</th>
+  </tr><tr>
+    <td>0-12</td>
+    <td><%= @week_of_first_visit_1.length %></td>
+  </tr><tr>
+    <td>13+</td>
+    <td><%= @week_of_first_visit_2.length %></td>
+  </tr><tr>
+    <th colspan=2 align='left'>PRE-ECLAMPSIA</th>
+  </tr><tr>
+    <td>NO</td>
+    <td><%= @pre_eclampsia_1.length %></td>
+  </tr><tr>
+    <td>YES</td>
+    <td><%= @pre_eclampsia_2.length %></td>
+  </tr><tr>
+    <th colspan=2 align='left'>TTV: TOTAL PREVIOUS DOSES</th>
+  </tr><tr>
+    <td>=0 OR =1</td>
+    <td><%= @ttv__total_previous_doses_1.length %></td>
+  </tr><tr>
+    <td>>2</td>
+    <td><%= @ttv__total_previous_doses_2.length %></td>
+  </tr><tr>
+    <th colspan=2 align='left'>FANSIDA (SP): NUMBER OF TABLETS GIVEN</th>
+  </tr><tr>
+    <td>0</td>
+    <td><%= @fansida__sp___number_of_tablets_given_1.length %></td>
+  </tr><tr>
+    <td>>2</td>
+    <td><%= @fansida__sp___number_of_tablets_given_2.length %></td>
+  </tr><tr>
+    <th colspan=2 align='left'>FEFO: NUMBER OF TABLETS GIVEN</th>
+  </tr><tr>
+    <td>>=0 AND <=119</td>
+    <td><%= @fefo__number_of_tablets_given_1.length %></td>
+  </tr><tr>
+    <td>>120</td>
+    <td><%= @fefo__number_of_tablets_given_2.length %></td>
+  </tr><tr>
+    <th colspan=2 align='left'>SYPHILIS RESULT</th>
+  </tr><tr>
+    <td>Negative</td>
+    <td><%= @syphilis_result_1.length %></td>
+  </tr><tr>
+    <td>Positive</td>
+    <td><%= @syphilis_result_2.length %></td>
+  </tr><tr>
+    <td>Unknown</td>
+    <td><%= @syphilis_result_3.length %></td>
+  </tr><tr>
+    <th colspan=2 align='left'>HIV TEST RESULT</th>
+  </tr><tr>
+    <td>NEGATIVE IN THE LAST 3 MONTHS</td>
+    <td><%= @hiv_test_result_1.length %></td>
+  </tr><tr>
+    <td>POSITIVE EVER</td>
+    <td><%= @hiv_test_result_2.length %></td>
+  </tr><tr>
+    <td>NEGATIVE</td>
+    <td><%= @hiv_test_result_3.length %></td>
+  </tr><tr>
+    <td>POSITIVE</td>
+    <td><%= @hiv_test_result_4.length %></td>
+  </tr><tr>
+    <td>NOT DONE</td>
+    <td><%= @hiv_test_result_5.length %></td>
+  </tr><tr>
+    <th colspan=2 align='left'>ON ART?</th>
+  </tr><tr>
+    <td>NO</td>
+    <td><%= @on_art__1.length %></td>
+  </tr><tr>
+    <td>YES</td>
+    <td><%= @on_art__2.length %></td>
+  </tr><tr>
+    <td>!='NO' AND !='YES'</td>
+    <td><%= @on_art__3.length %></td>
+  </tr><tr>
+    <th colspan=2 align='left'>ON CPT?</th>
+  </tr><tr>
+    <td>YES</td>
+    <td><%= @on_cpt__1.length %></td>
+  </tr><tr>
+    <td>NO</td>
+    <td><%= @on_cpt__2.length %></td>
+  </tr><tr>
+    <th colspan=2 align='left'>PMTCT MANAGEMENT</th>
+  </tr><tr>
+    <td>'ON ART?' = 'NO' AND 'NUMBER OF SDNVP GIVEN MOTHER' = 0 AND 'NUMBER OF AZT GIVEN TO MOTHER' = 0</td>
+    <td><%= @pmtct_management_1.length %></td>
+  </tr><tr>
+    <td>ON ART?</td>
+    <td><%= @pmtct_management_2.length %></td>
+  </tr><tr>
+    <td>NUMBER OF SDNVP GIVEN MOTHER</td>
+    <td><%= @pmtct_management_3.length %></td>
+  </tr><tr>
+    <td>NUMBER OF AZT GIVEN TO MOTHER</td>
+    <td><%= @pmtct_management_4.length %></td>
+  </tr><tr>
+    <th colspan=2 align='left'>NVP BABY?</th>
+  </tr><tr>
+    <td>NO</td>
+    <td><%= @nvp_baby__1.length %></td>
+  </tr><tr>
+    <td>YES</td>
+    <td><%= @nvp_baby__2.length %></td>
+  </tr>
+</table>
+<% form_tag :action => "select" do %>
+  <%= submit_tag 'Finish' %>
+<% end %>
