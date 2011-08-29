@@ -118,7 +118,7 @@
     :condition => "__$('enter_gravida').value > 0" } %>
   <%= touch_select_tag "Caesarean section", @patient, options_for_select([["", ""], ["Yes", "Yes"], ["No", "No"]]),
     {:id => "ever_had_c-sections?",
-    :helptext => "Ever Had C-sections?",
+    :helptext => "Ever Had Caesarean sections?",
     :condition => "__$('enter_gravida').value > 0" } %>
   <%= touch_select_tag "Vacuum extraction delivery", @patient, options_for_select([["", ""], ["Yes", "Yes"], ["No", "No"]]),
     {:id => "ever_had_a_vacuum_extraction",
