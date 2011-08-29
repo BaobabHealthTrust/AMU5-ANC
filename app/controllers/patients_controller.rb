@@ -808,8 +808,6 @@ class PatientsController < ApplicationController
 
     render :layout => false
   end
-
-
 	#AMU 5 Encounters
 	def current_visit
 		@patient = Patient.find(params[:patient_id] || session[:patient_id])
@@ -820,10 +818,90 @@ class PatientsController < ApplicationController
 				  "'DIAGNOSIS', 'APPOINTMENT')"]).collect{|t| t.id}, Date.today.strftime("%Y-%m-%d")]).collect{|e|
 		  e.type.name
 		}.join(", ") rescue ""
-	    
+		
 	end 
 
-	  def observations
+	def obstetric_history
 		@patient = Patient.find(params[:patient_id]) rescue nil
-	  end
+	end
+
+	def medical_history
+		@patient = Patient.find(params[:patient_id]) rescue nil
+	end
+
+	def examinations_management
+		@patient = Patient.find(params[:patient_id]) rescue nil
+	end
+
+	def new
+		@patient = Patient.find(params[:patient_id] || session[:patient_id])
+	end
+
+	def pregnancy_history
+		@patient = Patient.find(params[:patient_id]) rescue nil
+		render :layout => 'dashboard'
+	end
+
+	def current_pregnancy
+		@patient = Patient.find(params[:patient_id]) rescue nil
+	end
+
+	def outcome
+		@patient = Patient.find(params[:patient_id]) rescue nil
+	end
+
+	def current_visit
+		@patient = Patient.find(params[:patient_id] || session[:patient_id])
+
+		@encounters = @patient.encounters.active.find(:all, :conditions => ["encounter_type IN (?) AND " + 
+			  "DATE_FORMAT(encounter_datetime, '%Y-%m-%d') = ?",
+			EncounterType.find(:all, :conditions => ["name in ('OBSERVATIONS', 'VITALS', 'TREATMENT', 'LAB RESULTS', " +
+				  "'DIAGNOSIS', 'APPOINTMENT')"]).collect{|t| t.id}, Date.today.strftime("%Y-%m-%d")]).collect{|e|
+		  e.type.name
+		}.join(", ") rescue ""
+
+	end
+
+	def demographics
+		@patient = Patient.find(params[:patient_id]  || params[:id] || session[:patient_id]) rescue nil
+		@national_id = @patient.national_id_with_dashes rescue nil
+
+		@first_name = @patient.person.names.first.given_name rescue nil
+		@last_name = @patient.person.names.first.family_name rescue nil
+		@birthdate = @patient.person.birthdate_formatted rescue nil
+		@gender = @patient.person.sex rescue ''
+
+		@current_village = @patient.person.addresses.first.city_village rescue ''
+		@current_ta = @patient.person.addresses.first.county_district rescue ''
+		@current_district = @patient.person.addresses.first.state_province rescue ''
+		@home_district = @patient.person.addresses.first.address2 rescue ''
+
+		@primary_phone = @patient.person.get_attribute("Cell Phone Number") rescue ''
+		@secondary_phone = @patient.person.get_attribute("Home Phone Number") rescue ''
+		@occupation = @patient.person.get_attribute("Occupation") rescue ''
+		render :template => 'patients/demographics', :layout => 'menu'
+	end
+
+	def edit_demographics
+		@patient = Patient.find(params[:patient_id]  || params[:id] || session[:patient_id]) rescue nil
+		@field = params[:field]
+		render :partial => "edit_demographics", :field =>@field, :layout => true and return
+	end
+
+	def update_demographics
+		Person.update_demographics(params)
+		redirect_to :action => 'demographics', :patient_id => params['person_id'] and return
+	end
+
+	def patient_history
+
+	end
+
+	def pregnancy_history
+
+	end
+
+	def observations
+		@patient = Patient.find(params[:patient_id]) rescue nil
+	end
 end

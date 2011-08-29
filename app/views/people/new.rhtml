@@ -10,6 +10,10 @@
   #tt_page_month_of_birth .options{height:570px;}
   #tt_page_month_of_birth .options li{font-size:30px;}
 
+  .tt_controls_birth_year #char { display:none; }
+
+  .tt_controls_age_estimate #char { display:none; }
+
   .tt_controls_home_village #space , #apostrophe { display:inline; }
 
   .tt_controls_current_traditional_authority_ta #space { display:inline; }
@@ -18,9 +22,9 @@
 
   .tt_controls_cell_phone_number #num , #plus, #apostrophe, #star, #char, #abc, #date, #slash, #minus, #comma, #percent, #decimal { display:none; }
 
-  .tt_controls_home_phone_number #num , #plus, #apostrophe, #star, #abc, #date, #slash, #minus, #comma, #percent, #decimal { display:none; }
+  .tt_controls_home_phone_number #num , #plus, #apostrophe, #star, #abc, #date, #slash, #minus, #comma, #percent, #decimal, #char { display:none; }
 
-  .tt_controls_office_phone_number #num , #plus, #apostrophe, #star, #abc, #date, #slash, #minus, #comma, #percent, #decimal { display:none; }
+  .tt_controls_office_phone_number #num , #plus, #apostrophe, #star, #abc, #date, #slash, #minus, #comma, #percent, #decimal, #char { display:none; }
 
   .tt_controls_occupation .keyboard{display:none;}
     #tt_page_occupation .options{height:500px;}
@@ -231,6 +235,11 @@
   <%= hidden_field_tag "relation", params[:relation] %>
   
   <%= hidden_field_tag :identifier, params[:identifier] %>
+  
+  <%= hidden_field_tag "encounter[encounter_type_name]", "REGISTRATION" %>
+  <%= hidden_field_tag "encounter[patient_id]", ""%>
+  <%= hidden_field_tag "encounter[encounter_datetime]", DateTime.now() %>
+  <%= hidden_field_tag "encounter[provider_id]", session[:user_id] %>
 
   <%= submit_tag "Create person" %>
   

@@ -68,10 +68,10 @@
       :helptext => "Gestation #{e}#{indice} Child",
       :condition => "__$('enter_number_of_deliveries').value >= #{e}" } %>
 
-    <%= touch_text_field_tag "Labour Duration", @patient, nil,
+    <%= touch_numeric_tag "Labour Duration", @patient, nil,
     {:id => "labour_duration#{e}",
-      :helptext => "Labour Duration #{e}#{indice} Child",
-      :condition => "__$('enter_number_of_deliveries').value >= #{e}" } %>
+      :helptext => "Labour Duration #{e}#{indice} Child (Hours)",
+      :condition => "__$('enter_number_of_deliveries').value >= #{e}", :field_type => 'number', :tt_pageStyleClass => "NumbersWithUnknown"} %>
 
     <%= touch_select_tag "Method of Delivery", @patient, options_for_select(@delivery_modes),
     {:id => "method_of_delivery#{e}",
@@ -86,6 +86,8 @@
     <%= touch_numeric_tag "Birth Weight", @patient, nil,
     {:id => "birth_weight#{e}",
       :helptext => "Birth Weight #{e}#{indice} Child (kg)",
+      :validationRule => "([0-9]+\\.[0-9])|Unknown$",
+      :validationMessage => "You must enter a decimal between 0 and 5 (for example: 2<b>.6</b>)",
       :tt_pageStyleClass => "NumbersOnlyWithDecimal",
       :absoluteMin => 0,
       :max => 5,

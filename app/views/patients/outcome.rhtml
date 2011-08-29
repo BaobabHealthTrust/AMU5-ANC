@@ -13,9 +13,14 @@
   <%= hidden_field_tag "encounter[provider_id]", session[:user_id] %>
   <%  session_date = session[:datetime] || Time.now() %>
 
-  <%= touch_select_tag "OUTCOME", @patient,
+  <%#= touch_select_tag "OUTCOME", @patient,
     options_for_select([["", ""], ["Discharged", "Discharged"], ["Admitted", "Admitted"], 
       ["Referred", "Referred"], ["Abortion", "Abortion"], ["Patient Died", "Patient Died"]]),
+    {:id => "outcome",
+    :helptext => "Outcome" } %>
+
+  <%= touch_select_tag "OUTCOME", @patient,
+    options_for_select([["", ""], ["Admitted", "Admitted"],["Referred", "Referred"]]),
     {:id => "outcome",
     :helptext => "Outcome" } %>
 
