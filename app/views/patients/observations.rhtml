@@ -50,30 +50,13 @@
   <%= hidden_field_tag "encounter[provider_id]", session[:user_id] %>
   <%session_date = session[:datetime] || Time.now() %>
 
-  <%= touch_select_tag "URINE PROTEIN", @patient, 
-    options_for_select([["", ""], ["Negative", "Negative"], ["1+", "1+"], ["2+", "2+"], 
-      ["3+", "3+"], ["4+", "4+"], ["Unknown", "Unknown"]]),
-    {:id => "enter_urine_protein",
-    :helptext => "Urine Protein" } %>
-
-  <%= touch_select_tag "HB Test Request", @patient, options_for_select([["", ""], ["Yes", "Yes"], ["No", "No"]]),
-    {:id => "hb_test_request",
-    :helptext => "Is patient going for HB Test?" } %>
-
-  <%= touch_select_tag "Syphilis Test Request", @patient, options_for_select([["", ""], ["Yes", "Yes"], ["No", "No"]]),
-    {:id => "syphilis_test_request",
-    :helptext => "Is patient going for Syphilis Test?" } %>
-
   <%= touch_numeric_tag "FUNDUS", @patient, nil,
     {:id => "enter_fundal_height",
     :helptext => "Fundus (weeks)",
     :tt_pageStyleClass => "NumbersWithUnknownAndDecimal" } %>
 
-  <%= touch_select_tag "FETAL HEART BEAT", @patient, options_for_select([["", ""], ["Yes", "Yes"], ["No", "No"]]),
-    {:id => "enter_fetal_heart",
-    :helptext => "Fetal Heart Beat" } %>
-
-  <% @presentation = ["", "Compound", "Cephalic", "Breech", "Face", "Footling", "Cord", "Brow"] %>
+  <%# @presentation = ["", "Compound", "Cephalic", "Breech", "Face", "Footling", "Cord", "Brow"] %>
+  <% @presentation = ["", "Cephalic", "Breech", "Brow"] %>
 
   <%= touch_select_tag "PRESENTATION", @patient, options_for_select(@presentation),
     {:id => "presentation",
@@ -81,13 +64,13 @@
     :tt_pageStyleClass => "NoKeyboard" } %>
 
   <% @position = ["", "Vertex",
-    "Breech",
-    "Face",
-    "Shoulder"] %>
+    "Oblique",
+    "Transverse"] %>
 
   <%= touch_select_tag "POSITION", @patient, options_for_select(@position),
     {:id => "position",
     :helptext => "Enter Position",
+    :condition => '$("presentation").value != "Brow"',
     :tt_pageStyleClass => "NoKeyboard" } %>
 
 
@@ -152,7 +135,9 @@
 
   <%#--------------------------------------------------------%>
 
-
+<%= touch_select_tag "FETAL HEART BEAT", @patient, options_for_select([["", ""], ["Yes", "Yes"], ["No", "No"]]),
+    {:id => "enter_fetal_heart",
+    :helptext => "Fetal Heart Beat" } %>
 
   <%#= touch_select_tag "SYPHILIS RESULT", @patient, options_for_select([["", ""], ["Not Done", "Not Done"], ["Positive", "Positive"], ["Negative", "Negative"]]),
     {:id => "syphilis_result",
