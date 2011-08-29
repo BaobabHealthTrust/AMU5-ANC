@@ -1,0 +1,731 @@
+<html>
+  <head>
+    <title>Cohort Report Selection</title>
+    <%= stylesheet_link_tag "form" %>
+    <%= stylesheet_link_tag fancy_or_high_contrast_touch %>
+    <link href="/stylesheets/dashboard.css" media="screen" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" language="javascript">
+      <!--
+      tt_cancel_destination = '/reports/select';
+      tt_show = '/clinic';
+      //-->
+    </script>
+    <style>
+      #Unknown {display: none;}
+      #num {display: none;}
+    </style>
+  </head>
+  <body>
+    <div id="content">
+      <div style="background-color: #fff; height: 660px; width: 99%; padding: 5px;">
+        <table style="width: 100%; border: 1px solid #999;">
+          <tr>
+            <th style="font-size: 1.8em; color: #eee; background-color: #999; padding: 10px;">
+              ANC C<span style="font-size: 0.8em">LINIC</span> - 
+              F<span style="font-size: 0.8em">ACILITY</span> M<span style="font-size: 0.8em">ONTHLY</span>
+              R<span style="font-size: 0.8em">EPORT</span>
+            </th>
+          </tr>
+          <tr>
+            <td style="border: 1px solid #999;">
+              <table width="100%" cellspacing="0" cellpadding="5">
+                <tr>
+                  <td style="width: 25%;">
+                    ANC Site Name
+                  </td>
+                  <td colspan="3" style="border-left: 1px solid #999; border-bottom: 1px solid #999;">
+                    &nbsp;
+                  </td>
+                </tr>
+                <tr>
+                  <td style="width: 25%;">
+                    Reporting Year
+                  </td>
+                  <td style="border-left: 1px solid #999; border-bottom: 1px solid #999;">
+                    &nbsp;
+                  </td>
+                  <td style="width: 25%; border-left: 1px solid #999; border-bottom: 1px solid #999;" align="right">
+                    Reporting Month
+                  </td>
+                  <td style="border-left: 1px solid #999; border-bottom: 1px solid #999;">
+                    &nbsp;
+                  </td>
+                </tr>
+                <tr>
+                  <td colspan="3">
+                    Was any client served at this site during this month?
+                    <span style="font-size: 0.8em">
+                      If no, still submit this report
+                    </span>
+                  </td>
+                  <td style="width: 25%; border-left: 1px solid #999;">
+                    <table width="100%">
+                      <tr>
+                        <td align="center">
+                          Y
+                        </td>
+                        <td align="center">
+                          N
+                        </td>
+                      </tr>
+                    </table>
+                  </td>
+              </table>
+            </td>
+          </tr>
+          <tr>
+            <td style="overflow: auto; border-bottom: 1px solid #999; vertical-align: top;">
+              <div style="width: 98%; height: 440px; overflow: auto; padding: 10px;">
+                <table style="width: 100%;" border="0">
+                  <tr>
+                    <td style="width: 33%;" valign="top">
+                      <table cellpadding="8" style="width: 100%; margin-top: 10px;" cellspacing="0">
+                        <tr>
+                          <td style="width: 10px;">
+                            &nbsp;
+                          </td>
+                          <td style="background-color: #999; color: #fff; font-weight: bold;" colspan="3">
+                            Reporting Month
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            &nbsp;
+                          </td>
+                          <td style="width: 60%; border-left: 1px solid #999;
+                              border-bottom: 1px solid #999; border-right: 1px solid #999;">
+                            New women registered
+                          </td>
+                          <td style="border-right: 1px solid #999; border-bottom: 1px solid #999;">
+                            &nbsp;
+                          </td>
+                        </tr>
+                        <tr>
+                          <td colspan="3">
+                            &nbsp;
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            &nbsp;
+                          </td>
+                          <td style="background-color: #999; color: #fff; font-weight: bold;" colspan="2">
+                            Booking Cohort
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            &nbsp;
+                          </td>
+                          <td colspan="2" style="font-weight: bold;">
+                            Visits per woman
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            1
+                          </td>
+                          <td style="border-top: 1px solid #999; border-left: 1px solid #999;">
+                            One Visit
+                          </td>
+                          <td style="border: 1px solid #999;">
+                            <%= @observations_1.length %>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            2
+                          </td>
+                          <td style="border-left: 1px solid #999;">
+                            Two Visits
+                          </td>
+                          <td style="border-left: 1px solid #999;
+                              border-bottom: 1px solid #999; border-right: 1px solid #999;">
+                            <%= @observations_2.length %>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            3
+                          </td>
+                          <td style="border-left: 1px solid #999;">
+                            Three Visits
+                          </td>
+                          <td style="border-left: 1px solid #999;
+                              border-bottom: 1px solid #999; border-right: 1px solid #999;">
+                            <%= @observations_3.length %>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            4
+                          </td>
+                          <td style="border-left: 1px solid #999;">
+                            Four Visits
+                          </td>
+                          <td style="border-left: 1px solid #999;
+                              border-bottom: 1px solid #999; border-right: 1px solid #999;">
+                            <%= @observations_4.length %>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            5
+                          </td>
+                          <td style="border-left: 1px solid #999; border-bottom: 1px solid #999;">
+                            Five or more Visits
+                          </td>
+                          <td style="border-left: 1px solid #999;
+                              border-bottom: 1px solid #999; border-right: 1px solid #999;">
+                            <%= @observations_5.length %>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            &nbsp;
+                          </td>
+                          <td style="font-style:italic;">
+                            Total women in cohort
+                          </td>
+                          <td style="border-left: 1px solid #999;
+                              border-bottom: 1px solid #999; border-right: 1px solid #999;">
+                            &nbsp;
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            &nbsp;
+                          </td>
+                          <td colspan="2" style="font-weight: bold;">
+                            First visit at <sup style="font-weight: normal;">1</sup>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            6
+                          </td>
+                          <td style="border-top: 1px solid #999; border-left: 1px solid #999;">
+                            0-12 weeks
+                          </td>
+                          <td style="border: 1px solid #999;">
+                            <%= @week_of_first_visit_1.length %>
+                          </td>
+                        </tr>
+                        <tr
+                          <td>
+                            7
+                          </td>
+                          <td style="border-left: 1px solid #999; border-bottom: 1px solid #999;">
+                            13+ weeks
+                          </td>
+                          <td style="border-left: 1px solid #999;
+                              border-bottom: 1px solid #999; border-right: 1px solid #999;">
+                            <%= @week_of_first_visit_2.length %>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            &nbsp;
+                          </td>
+                          <td colspan="2" style="font-weight: bold;">
+                            (Pre-)Eclampsia <sup style="font-weight: normal;">1</sup>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            8
+                          </td>
+                          <td style="border-top: 1px solid #999; border-left: 1px solid #999;">
+                            No
+                          </td>
+                          <td style="border: 1px solid #999;">
+                            <%= @pre_eclampsia_1.length %>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            9
+                          </td>
+                          <td style="border-left: 1px solid #999; border-bottom: 1px solid #999;">
+                            Yes
+                          </td>
+                          <td style="border-left: 1px solid #999;
+                              border-bottom: 1px solid #999; border-right: 1px solid #999;">
+                            <%= @pre_eclampsia_2.length %>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            &nbsp;
+                          </td>
+                          <td colspan="2" style="font-weight: bold;">
+                            TTV doses <sup style="font-weight: normal;">1</sup>
+                          </td>
+                        </tr>
+                        <tr
+                          <td>
+                            10
+                          </td>
+                          <td style="border-top: 1px solid #999; border-left: 1px solid #999;">
+                            0-1
+                          </td>
+                          <td style="border: 1px solid #999;">
+                            <%= @ttv__total_previous_doses_1.length %>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            11
+                          </td>
+                          <td style="border-left: 1px solid #999; border-bottom: 1px solid #999;">
+                            2+
+                          </td>
+                          <td style="border-left: 1px solid #999;
+                              border-bottom: 1px solid #999; border-right: 1px solid #999;">
+                            <%= @ttv__total_previous_doses_2.length %>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            &nbsp;
+                          </td>
+                          <td colspan="2" style="font-weight: bold;">
+                            SP tablets <sup style="font-weight: normal;">1</sup>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            12
+                          </td>
+                          <td style="border-top: 1px solid #999; border-left: 1px solid #999;">
+                            No
+                          </td>
+                          <td style="border: 1px solid #999;">
+                            <%= @fansida__sp___number_of_tablets_given_1.length %>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            13
+                          </td>
+                          <td style="border-left: 1px solid #999; border-bottom: 1px solid #999;">
+                            Yes
+                          </td>
+                          <td style="border-left: 1px solid #999;
+                              border-bottom: 1px solid #999; border-right: 1px solid #999;">
+                            <%= @fansida__sp___number_of_tablets_given_2.length %>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            &nbsp;
+                          </td>
+                          <td colspan="2" style="font-weight: bold;">
+                            Total FeFo tablets <sup style="font-weight: normal;">1</sup>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            14
+                          </td>
+                          <td style="border-top: 1px solid #999; border-left: 1px solid #999;">
+                            0-119
+                          </td>
+                          <td style="border: 1px solid #999;">
+                            <%= @fefo__number_of_tablets_given_1.length %>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            15
+                          </td>
+                          <td style="border-left: 1px solid #999; border-bottom: 1px solid #999;">
+                            120+
+                          </td>
+                          <td style="border-left: 1px solid #999;
+                              border-bottom: 1px solid #999; border-right: 1px solid #999;">
+                            <%= @fefo__number_of_tablets_given_2.length %>
+                          </td>
+                        </tr>
+                      </table>
+                    </td>
+                    <td style="width: 36%;" valign="top">
+                      <table cellpadding="8" style="width: 90%; float: right; margin-top: 0px;" cellspacing="0">
+                        <tr>
+                          <td style="width: 10px;">
+                            &nbsp;
+                          </td>
+                          <td colspan="2" style="font-weight: bold;">
+                            Syphilis status <sup style="font-weight: normal;">1</sup>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            16
+                          </td>
+                          <td style="border-top: 1px solid #999; border-left: 1px solid #999; width: 60%;">
+                            Negative
+                          </td>
+                          <td style="border: 1px solid #999;">
+                            <%= @syphilis_result_1.length %>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            17
+                          </td>
+                          <td style="border-left: 1px solid #999;">
+                            Positive
+                          </td>
+                          <td style="border-left: 1px solid #999;
+                              border-bottom: 1px solid #999; border-right: 1px solid #999;">
+                            <%= @syphilis_result_2.length %>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            18
+                          </td>
+                          <td style="border-left: 1px solid #999; border-bottom: 1px solid #999;">
+                            Unknown
+                          </td>
+                          <td style="border-left: 1px solid #999;
+                              border-bottom: 1px solid #999; border-right: 1px solid #999;">
+                            <%= @syphilis_result_3.length %>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            &nbsp;
+                          </td>
+                          <td colspan="2" style="font-weight: bold;">
+                            HIV test result <sup style="font-weight: normal;">1</sup>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            19
+                          </td>
+                          <td style="border-top: 1px solid #999; border-left: 1px solid #999; width: 60%;">
+                            Previous Negative
+                          </td>
+                          <td style="border: 1px solid #999;">
+                            <%= @hiv_test_result_1.length %>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            20
+                          </td>
+                          <td style="border-left: 1px solid #999;">
+                            Previous Positive
+                          </td>
+                          <td style="border-left: 1px solid #999;
+                              border-bottom: 1px solid #999; border-right: 1px solid #999;">
+                            <%= @hiv_test_result_2.length %>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            21
+                          </td>
+                          <td style="border-left: 1px solid #999; width: 60%;">
+                            New Negative
+                          </td>
+                          <td style="border-left: 1px solid #999;
+                              border-bottom: 1px solid #999; border-right: 1px solid #999;">
+                            <%= @hiv_test_result_3.length %>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            22
+                          </td>
+                          <td style="border-left: 1px solid #999;">
+                            New Positive
+                          </td>
+                          <td style="border-left: 1px solid #999;
+                              border-bottom: 1px solid #999; border-right: 1px solid #999;">
+                            <%= @hiv_test_result_4.length %>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            23
+                          </td>
+                          <td style="border-left: 1px solid #999; border-bottom: 1px solid #999;">
+                            Not Done
+                          </td>
+                          <td style="border-left: 1px solid #999;
+                              border-bottom: 1px solid #999; border-right: 1px solid #999;">
+                            <%= @hiv_test_result_5.length %>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            &nbsp;
+                          </td>
+                          <td style="font-style:italic;">
+                            Total women HIV+
+                          </td>
+                          <td style="border-left: 1px solid #999;
+                              border-bottom: 1px solid #999; border-right: 1px solid #999;">
+                            &nbsp;
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            &nbsp;
+                          </td>
+                          <td colspan="2" style="font-weight: bold;">
+                            ART Eligibility <sup style="font-weight: normal;">2</sup>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            24
+                          </td>
+                          <td style="border-top: 1px solid #999; border-left: 1px solid #999; width: 60%;">
+                            No
+                          </td>
+                          <td style="border: 1px solid #999;">
+                            <%= @on_art__1.length %>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            25
+                          </td>
+                          <td style="border-left: 1px solid #999;">
+                            Yes
+                          </td>
+                          <td style="border-left: 1px solid #999;
+                              border-bottom: 1px solid #999; border-right: 1px solid #999;">
+                            <%= @on_art__2.length %>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            26
+                          </td>
+                          <td style="border-left: 1px solid #999; border-bottom: 1px solid #999;">
+                            Unknown
+                          </td>
+                          <td style="border-left: 1px solid #999;
+                              border-bottom: 1px solid #999; border-right: 1px solid #999;">
+                            <%= @on_art__3.length %>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            &nbsp;
+                          </td>
+                          <td colspan="2" style="font-weight: bold;">
+                            On CPT <sup style="font-weight: normal;">2</sup>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            27
+                          </td>
+                          <td style="border-top: 1px solid #999; border-left: 1px solid #999; width: 60%;">
+                            No
+                          </td>
+                          <td style="border: 1px solid #999;">
+                            <%= @on_cpt__1.length %>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            28
+                          </td>
+                          <td style="border-left: 1px solid #999; border-bottom: 1px solid #999;">
+                            Yes
+                          </td>
+                          <td style="border-left: 1px solid #999;
+                              border-bottom: 1px solid #999; border-right: 1px solid #999;">
+                            <%= @on_cpt__2.length %>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            &nbsp;
+                          </td>
+                          <td colspan="2" style="font-weight: bold; padding-top: 12px;">
+                            Final PMTCT regimen mother <sup style="font-weight: normal;">2</sup>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            29
+                          </td>
+                          <td style="border-top: 1px solid #999; border-left: 1px solid #999; width: 60%;">
+                            None
+                          </td>
+                          <td style="border: 1px solid #999;">
+                            <%= @pmtct_management_1.length %>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            30
+                          </td>
+                          <td style="border-left: 1px solid #999;">
+                            ART
+                          </td>
+                          <td style="border-left: 1px solid #999;
+                              border-bottom: 1px solid #999; border-right: 1px solid #999;">
+                            <%= @pmtct_management_2.length %>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            31
+                          </td>
+                          <td style="border-left: 1px solid #999;">
+                            sdNVP
+                          </td>
+                          <td style="border-left: 1px solid #999;
+                              border-bottom: 1px solid #999; border-right: 1px solid #999;">
+                            <%= @pmtct_management_3.length %>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            32
+                          </td>
+                          <td style="border-left: 1px solid #999; border-bottom: 1px solid #999;">
+                            AZT
+                          </td>
+                          <td style="border-left: 1px solid #999;
+                              border-bottom: 1px solid #999; border-right: 1px solid #999;">
+                            <%= @pmtct_management_4.length %>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            &nbsp;
+                          </td>
+                          <td colspan="2" style="font-weight: bold;">
+                            NVP syrup dispensed for baby <sup style="font-weight: normal;">2</sup>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            33
+                          </td>
+                          <td style="border-top: 1px solid #999; border-left: 1px solid #999; width: 60%;">
+                            No
+                          </td>
+                          <td style="border: 1px solid #999;">
+                            <%= @nvp_baby__1.length %>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            34
+                          </td>
+                          <td style="border-left: 1px solid #999; border-bottom: 1px solid #999;">
+                            Yes
+                          </td>
+                          <td style="border-left: 1px solid #999;
+                              border-bottom: 1px solid #999; border-right: 1px solid #999;">
+                            <%= @nvp_baby__2.length %>
+                          </td>
+                        </tr>
+                      </table>
+                    </td>
+                    <td style="width: 30%;" valign="top">
+                      <table cellpadding="8" style="width: 90%; float: right; margin-top: 5px;" cellspacing="0">
+                        <tr>
+                          <td colspan="2" style="font-weight: bold;">
+                            Report filled
+                          </td>
+                        </tr>
+                        <tr>
+                          <td style="border-top: 1px solid #999; border-left: 1px solid #999;">
+                            Date
+                          </td>
+                          <td style="border: 1px solid #999; width: 70%;">
+                            &nbsp;
+                          </td>
+                        </tr>
+                        <tr>
+                          <td style="border-left: 1px solid #999;">
+                            Name
+                          </td>
+                          <td style="border-left: 1px solid #999;
+                              border-bottom: 1px solid #999; border-right: 1px solid #999;">
+                            &nbsp;
+                          </td>
+                        </tr>
+                        <tr>
+                          <td style="border-left: 1px solid #999; border-bottom: 1px solid #999;">
+                            Phone
+                          </td>
+                          <td style="border-left: 1px solid #999;
+                              border-bottom: 1px solid #999; border-right: 1px solid #999;">
+                            &nbsp;
+                          </td>
+                        </tr>
+                        <tr>
+                          <td colspan="2" style="font-weight: bold; height: 765px;" valign="top">
+                            Notes
+                          </td>
+                        </tr>
+                        <tr>
+                          <td colspan="2" style="font-weight: bold;">
+                            Report Received
+                          </td>
+                        </tr>
+                        <tr>
+                          <td style="border-top: 1px solid #999; border-left: 1px solid #999;">
+                            Date
+                          </td>
+                          <td style="border: 1px solid #999;">
+                            &nbsp;
+                          </td>
+                        </tr>
+                        <tr>
+                          <td style="border-left: 1px solid #999; border-bottom: 1px solid #999;">
+                            Name
+                          </td>
+                          <td style="border-left: 1px solid #999;
+                              border-bottom: 1px solid #999; border-right: 1px solid #999;">
+                            &nbsp;
+                          </td>
+                        </tr>
+                      </table>
+                    </td>
+                  </tr>
+                </table>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td style="height: 20px; font-size: 0.7em; font-style: italic;">
+              <span style="margin: 10px;">
+                <sup>1</sup>Check: Total of these sections must add up to total number of women in cohort
+              </span>&nbsp;&nbsp;
+              <span style="float: right; margin-right: 20px;">
+                <sup>2</sup>Check: Total of these sections must add up to total women HIV+
+              </span>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div id="nav">
+        <button class="green" style="float: right; margin: 10px;" onclick="window.location = tt_show">
+          <span>
+            Finish
+          </span>
+        </button>
+        <button class="red" style="float: left; margin-top: 10px;" onclick="window.location = tt_cancel_destination">
+          <span>
+            Cancel
+          </span>
+        </button>
+      </div>
+    </div>
+  </body>
+</html>
