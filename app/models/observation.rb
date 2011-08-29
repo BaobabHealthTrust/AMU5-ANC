@@ -93,7 +93,7 @@ class Observation < ActiveRecord::Base
   def to_s(tags=[])
     formatted_name = self.concept_name.typed(tags).name rescue nil
     formatted_name ||= self.concept_name.name rescue nil
-    formatted_name ||= self.concept.concept_names.typed(tags).first.name rescue nil
+    formatted_name ||= self.concept.concept_names.typed(tags).first.name || self.concept.fullname rescue nil
     formatted_name ||= self.concept.concept_names.first.name rescue 'Unknown concept name'
     "#{formatted_name}:  #{self.answer_string(tags)}"
   end
@@ -113,7 +113,7 @@ class Observation < ActiveRecord::Base
     #the following code is a hack
     #we need to find a better way because value_coded can also be a location - not only a concept
     return coded_name unless coded_name.blank?
-    ConceptName.find_by_concept_id(self.value_coded).typed("SHORT").first.name || ConceptName.find_by_concept_id(self.value_coded).name rescue ''
+    Concept.find_by_concept_id(self.value_coded).concept_names.typed("SHORT").first.name || ConceptName.find_by_concept_id(self.value_coded).name rescue ''
   end
 
   def self.patients_with_multiple_start_reasons(start_date , end_date)
