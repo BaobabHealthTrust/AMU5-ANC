@@ -845,10 +845,6 @@ class PatientsController < ApplicationController
 		render :layout => 'dashboard'
 	end
 
-	def current_pregnancy
-		@patient = Patient.find(params[:patient_id]) rescue nil
-	end
-
 	def outcome
 		@patient = Patient.find(params[:patient_id]) rescue nil
 	end

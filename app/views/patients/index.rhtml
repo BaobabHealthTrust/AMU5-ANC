@@ -17,7 +17,7 @@
 
 			<form id = 'dashboard' action='/clinic'>
 				<div id='project_name'>
-					amu<span style='font-size: 0.75em'>5</span></h1>
+					anc</span></h1>
 				</div>
 				<span id='patient_name'><%= @patient.name rescue "" %></span>
 				<span id='patient_id'><%= @patient.national_id_with_dashes rescue "" %></span>
@@ -55,9 +55,9 @@
 					<select id="links">
 						<option value='/patients/current_visit/?patient_id=<%= @patient.id  %>'>Current Visit</option>
 						<option value='/patients/patient_history/?patient_id=<%= @patient.id  %>'>Patient History</option>
-						<option value='/patients/current_pregnancy/?patient_id=<%= @patient.id  %>'>Current Pregnancy</option>
-						<option value='/patients/hiv_status/?patient_id=<%= @patient.id  %>'>HIV Status</option>
-						<option value='/patients/outcome/?patient_id=<%= @patient.id  %>'>Update Outcome</option>
+						<option value='/encounters/new/current_pregnancy/?patient_id=<%= @patient.id  %>'>Current Pregnancy</option>
+						<option value='/encounters/new/update_hiv_status/?patient_id=<%= @patient.id  %>'>HIV Status</option>
+						<option value='/encounters/new/outcome/?patient_id=<%= @patient.id  %>'>Update Outcome</option>
 						<option value='/patients/pregnancy_history/?patient_id=<%= @patient.id  %>'>Pregnancy History</option>
 						<option value='/patients/demographics?patient_id=<%= @patient.id %>'>Full Demographics</option>
 						<option value='/patients/print_registration?patient_id=<%= @patient.id %>'>Print Registration</option>
