@@ -2,7 +2,6 @@ class Encounter < ActiveRecord::Base
   set_table_name :encounter
   set_primary_key :encounter_id
   include Openmrs
-  named_scope :active, :conditions => 'encounter.voided = 0'
   has_many :observations, :dependent => :destroy, :conditions => {:voided => 0}
   has_many :drug_orders,  :through   => :orders,  :foreign_key => 'order_id'
   has_many :orders, :dependent => :destroy, :conditions => {:voided => 0}
@@ -135,10 +134,9 @@ EOF
       ],
      'tb_clinic_visit_type' => [
         ['',''],
-        ['TB suspect (Sputum sample collection)','Sputum sample'],
-        ['TB suspect (Sputum submission)','Sputum submission'],
-        ['Sputum result (Collection)','Sputum result'],
-        ['Follow-up','Follow-up']
+        ['Lab analysis','Lab follow-up'],
+        ['Follow-up','Follow-up'],
+        ['Clinical review (Clinician visit)','Clinical review']
       ],
      'family_planning_methods' => [
        ['',''],
@@ -256,30 +254,32 @@ EOF
       },
       'tb_symptoms' => [
         ['',''],
-        ["Cough", "Cough lasting more than three weeks"],
+        ["Bloody cough", "Hemoptysis"],
         ["Bronchial breathing", "Bronchial breathing"],
-        ["Shortness of breath", "Shortness of breath"],
+        ["Chest pain", "Chest pain"],
+        ["Cough", "Cough lasting more than three weeks"],
         ["Crackles", "Crackles"],
         ["Failure to thrive", "Failure to thrive"],
-        ["Chest pain", "Chest pain"],
-        ["Weight loss", "Weight loss"],
-        ["Fever", "Relapsing fever"],
         ["Fatigue", "Fatigue"],
-        ["Bloody cough", "Hemoptysis"],
-        ["Peripheral neuropathy","Peripheral neuropathy"],
+        ["Fever", "Relapsing fever"],
+        ["Meningitis","Meningitis"],
         ["Night sweats","Night sweats"],
-        ["Meningitis","Meningitis"]
+        ["Peripheral neuropathy","Peripheral neuropathy"],
+        ["Shortness of breath", "Shortness of breath"],
+        ["Weight loss", "Weight loss"],
+        ["Other", "Other"]
       ],
       'drug_related_side_effects' => [
         ['',''],
+        ["Confusion", "Confusion"],
         ["Deafness", "Deafness"],
         ["Dizziness", "Dizziness"],
-        ["Yellow eyes", "Jaundice"],
+        ["Peripheral neuropathy","Peripheral neuropathy"],
         ["Skin itching/purpura", "Skin itching"],
         ["Visual impairment", "Visual impairment"],
         ["Vomiting", "Vomiting"],
-        ["Confusion", "Confusion"],
-        ["Peripheral neuropathy","Peripheral neuropathy"]
+        ["Yellow eyes", "Jaundice"],
+        ["Other", "Other"]
       ],
       'tb_patient_categories' => [
         ['',''],
@@ -305,6 +305,12 @@ EOF
         ['Spinal disease', 'Spinal disease'],
         ['Meningitis','Meningitis'],
         ['Other', 'Other']
+      ],
+      'tb_types' => [
+        ['',''],
+        ['Susceptible', 'Susceptible to tuberculosis drug'],
+        ['Multi-drug resistant', 'Multi-drug resistant tuberculosis'],
+        ['Extreme drug resistant', 'Extreme drug resistant tuberculosis']
       ]
     }
   end
