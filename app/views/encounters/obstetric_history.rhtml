@@ -1,0 +1,144 @@
+# obstetric_history.rhtml
+
+<script type="text/javascript" language="javascript">
+  <!--
+  tt_cancel_show = "/patients/show/<%= @patient.id %>";
+  tt_cancel_destination = "/patients/show/<%= @patient.id %>";
+  //-->
+</script>
+
+
+<% form_tag :controller => "encounters", :action => "create" do |f| %>
+  <%= hidden_field_tag "encounter[encounter_type_name]", "OBSTETRIC HISTORY" %>
+  <%= hidden_field_tag "encounter[patient_id]", @patient.id %>
+  <%= hidden_field_tag "encounter[encounter_datetime]", DateTime.now() %>
+  <%= hidden_field_tag "encounter[provider_id]", session[:user_id] %>
+  <%session_date = session[:datetime] || Time.now() %>
+
+  <%= touch_numeric_tag "GRAVIDA", @patient, nil,
+    {:id => "enter_gravida",
+    :helptext => "Gravida",
+    :absoluteMin => 0,
+    :max => 15,
+    :tt_pageStyleClass => "NumbersWithUnknown"} %>
+  <%= touch_select_tag "MULTIPLE GESTATION", @patient, options_for_select([["", ""], ["Yes", "Yes"], ["No", "No"]]),
+    {:id => "multiple_pregnancy",
+    :helptext => "Ever Had Multiple Pregnancy?",
+    :condition => "__$('enter_gravida').value > 0"} %>
+  <%= touch_numeric_tag "PARITY", @patient, nil,
+    {:id => "enter_number_of_deliveries",
+    :helptext => "Enter Number Of Deliveries",
+    :tt_pageStyleClass => "NumbersWithUnknown",
+    :condition => "__$('enter_gravida').value > 0" } %>
+
+  <% (1..8).each{|e| %>
+
+    <%
+    indice = ""
+    case e
+    when 1
+      indice = "<sup>st</sup>"
+    when 2
+      indice = "<sup>nd</sup>"
+    when 3
+      indice = "<sup>rd</sup>"
+    else
+      indice = "<sup>th</sup>"
+    end
+
+    @delivery_modes = ["", "Spontaneous vaginal delivery", "Caesarean Section", "Vacuum Extraction", "Symphisiotomy"]
+  %>
+
+    <%= touch_numeric_tag "YEAR OF BIRTH", @patient, nil,
+    {:id => "year_of_birth#{e}",
+      :helptext => "Year of Birth #{e}#{indice} Child",
+      :tt_pageStyleClass => "NumbersWithUnknown",
+      :validationRule => "\\d{4}|Unknown",
+      :validationMessage => "Please enter a proper year in the form 'YYYY'",
+      :condition => "__$('enter_number_of_deliveries').value >= #{e}" } %>
+
+    <%= touch_select_tag "Place of Birth", @patient, options_for_select([["", ""]]),
+    {:id => "delivery#{e}",
+      :helptext => "Place of Birth #{e}#{indice} Child",
+      :ajaxURL => "/encounters/static_locations?search_string=",
+      :condition => "__$('enter_number_of_deliveries').value >= #{e}" } %>
+
+    <%= touch_select_tag "Gestation", @patient, options_for_select([["", ""], ["Term", "Term"], ["Preterm", "Preterm"]]),
+    {:id => "gestation#{e}",
+      :helptext => "Gestation #{e}#{indice} Child",
+      :condition => "__$('enter_number_of_deliveries').value >= #{e}" } %>
+
+    <%= touch_numeric_tag "Labour Duration", @patient, nil,
+    {:id => "labour_duration#{e}",
+      :helptext => "Labour Duration #{e}#{indice} Child (Hours)",
+      :condition => "__$('enter_number_of_deliveries').value >= #{e}", :field_type => 'number', :tt_pageStyleClass => "NumbersWithUnknown"} %>
+
+    <%= touch_select_tag "Method of Delivery", @patient, options_for_select(@delivery_modes),
+    {:id => "method_of_delivery#{e}",
+      :helptext => "Method of Delivery #{e}#{indice} Child",
+      :condition => "__$('enter_number_of_deliveries').value >= #{e}" } %>
+
+    <%= touch_text_field_tag "Condition at Birth", @patient, nil,
+    {:id => "condition_at_birth#{e}",
+      :helptext => "Condition at Birth #{e}#{indice} Child",
+      :condition => "__$('enter_number_of_deliveries').value >= #{e}" } %>
+
+    <%= touch_numeric_tag "Birth Weight", @patient, nil,
+    {:id => "birth_weight#{e}",
+      :helptext => "Birth Weight #{e}#{indice} Child (kg)",
+      :validationRule => "([0-9]+\\.[0-9])|Unknown$",
+      :validationMessage => "You must enter a decimal between 0 and 5 (for example: 2<b>.6</b>)",
+      :tt_pageStyleClass => "NumbersOnlyWithDecimal",
+      :absoluteMin => 0,
+      :max => 5,
+      :condition => "__$('enter_number_of_deliveries').value >= #{e}" } %>
+
+    <%= touch_select_tag "Alive", @patient, options_for_select([["", ""], ["Yes", "Yes"], ["No","No"]]),
+    {:id => "alive#{e}",
+      :helptext => "#{e}#{indice} Child Alive Now",
+      :condition => "__$('enter_number_of_deliveries').value >= #{e}" } %>
+
+    <%= touch_numeric_tag "Age at Death", @patient, nil,
+    {:id => "age_at_death#{e}",
+      :helptext => "#{e}#{indice} Child's Age at Death (yrs)",
+      :tt_pageStyleClass => "NumbersOnlyWithDecimal",
+      :absoluteMin => 0,
+      :condition => "__$('enter_number_of_deliveries').value >= #{e} && __$('alive#{e}').value == 'No'" } %>
+
+  <% } %>
+
+  <%= touch_numeric_tag "NUMBER OF ABORTIONS", @patient, nil,
+    {:id => "enter_number_of_abortions",
+    :helptext => "Enter Number Of Abortions",
+    :tt_pageStyleClass => "NumbersWithUnknown",
+    :condition => "__$('enter_gravida').value > 0" } %>
+  <%= touch_select_tag "STILL BIRTH", @patient, options_for_select([["", ""], ["Yes", "Yes"], ["No", "No"]]),
+    {:id => "ever_had_still_births?",
+    :helptext => "Ever Had Still Births?",
+    :condition => "__$('enter_gravida').value > 0" } %>
+  <%= touch_select_tag "Caesarean section", @patient, options_for_select([["", ""], ["Yes", "Yes"], ["No", "No"]]),
+    {:id => "ever_had_c-sections?",
+    :helptext => "Ever Had Caesarean sections?",
+    :condition => "__$('enter_gravida').value > 0" } %>
+  <%= touch_select_tag "Vacuum extraction delivery", @patient, options_for_select([["", ""], ["Yes", "Yes"], ["No", "No"]]),
+    {:id => "ever_had_a_vacuum_extraction",
+    :helptext => "Ever Had A Vacuum Extraction",
+    :condition => "__$('enter_gravida').value > 0" } %>
+
+  <%= touch_select_tag "SYMPHYSIOTOMY", @patient, options_for_select([["", ""], ["Yes", "Yes"], ["No", "No"]]),
+    {:id => "ever_had_symphysiotomy?",
+    :helptext => "Ever Had Symphysiotomy?" } %>
+
+  <%= touch_select_tag "HEMORRHAGE", @patient, options_for_select([["", ""], ["No", "No"], ["APH", "APH"], ["PPH", "PPH"]]),
+    {:id => "hemorrhage",
+    :helptext => "Hemorrhage" } %>
+  <%= touch_select_tag "PRE-ECLAMPSIA", @patient, options_for_select([["", ""], ["Yes", "Yes"], ["No", "No"]]),
+    {:id => "pre-eclampsia",
+    :helptext => "Pre-Eclampsia" } %>
+  <%#= touch_numeric_tag "Height (cm)", @patient, nil,
+  {:id => "Height_cm",
+  :helptext => "Height (cm)",
+  :tt_pageStyleClass => "NumbersWithUnknownAndDecimal" } %>
+
+  <%= submit_tag 'Finish' %>
+<% end %>

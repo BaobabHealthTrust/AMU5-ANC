@@ -1,0 +1,40 @@
+# medical_history.rhtml
+
+<script type="text/javascript" language="javascript">
+	<!--
+		tt_cancel_show = "/patients/show/<%= @patient.id %>";
+		tt_cancel_destination = "/patients/show/<%= @patient.id %>";
+	//-->
+</script>
+
+<% form_tag :controller => "encounters", :action => "create" do %>
+	<%= hidden_field_tag "encounter[encounter_type_name]", "MEDICAL HISTORY" %>
+	<%= hidden_field_tag "encounter[patient_id]", @patient.id %>
+	<%= hidden_field_tag "encounter[encounter_datetime]", DateTime.now() %>
+	<%= hidden_field_tag "encounter[provider_id]", session[:user_id] %>
+	<%session_date = session[:datetime] || Time.now() %>
+
+	<%= touch_select_tag "ASTHMA", @patient, options_for_select([["", ""], ["Yes", "Yes"], ["No", "No"]]),
+		{:id => "ever_had_asthma?",
+		 :helptext => "Ever Had Asthma?" } %>
+	<%= touch_select_tag "HYPERTENSION", @patient, options_for_select([["", ""], ["Yes", "Yes"], ["No", "No"]]),
+		{:id => "ever_had_hypertension?",
+		 :helptext => "Ever Had Hypertension?" } %>
+	<%= touch_select_tag "DIABETES", @patient, options_for_select([["", ""], ["Yes", "Yes"], ["No", "No"]]),
+		{:id => "ever_had_diabetes?",
+		 :helptext => "Ever Had Diabetes?" } %>
+	<%= touch_select_tag "EPILEPSY", @patient, options_for_select([["", ""], ["Yes", "Yes"], ["No", "No"]]),
+		{:id => "ever_had_epilepsy?",
+		 :helptext => "Ever Had Epilepsy?" } %>
+	<%= touch_select_tag "RENAL DISEASE", @patient, options_for_select([["", ""], ["Yes", "Yes"], ["No", "No"]]),
+		{:id => "ever_had_renal_disease?",
+		 :helptext => "Ever Had Renal Disease?" } %>
+	<%= touch_select_tag "FISTULA REPAIR", @patient, options_for_select([["", ""], ["Yes", "Yes"], ["No", "No"]]),
+		{:id => "ever_had_a_fistula_repair?",
+		 :helptext => "Ever Had A Fistula Repair?" } %>
+	<%= touch_select_tag "Spine or Leg Deform", @patient, options_for_select([["", ""], ["Yes", "Yes"], ["No", "No"]]),
+		{:id => "do_you_have_a_spine_or_leg_deform?",
+		 :helptext => "Do You Have A Spine Or Leg Deform?" } %>
+
+	<%= submit_tag 'Finish' %>
+<% end %>
