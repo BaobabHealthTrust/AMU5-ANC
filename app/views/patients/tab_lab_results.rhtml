@@ -26,7 +26,7 @@
                         border-left: 1px solid #000;
                         border-bottom: 1px solid #000;"
                         align="center">
-                        <%= @syphilis_date %>
+                        <%= @syphilis_date.to_date.strftime("%d-%b-%Y") rescue nil %>
                     </td>
                     <td style="color: #000; border-top: 1px solid #000;
                         border-left: 1px solid #000;
@@ -38,50 +38,34 @@
                 </tr>
                 <tr>
                     <td style="padding-left: 30px;">
-                        Hb1
+                        HB
                     </td>
                     <td style="border-left: 1px solid #000;
                         border-bottom: 1px solid #000;"
                         align="center">
-                        <%= @hb1_date %>
+                        <%= @hb_test_date.to_date.strftime("%d-%b-%Y") rescue nil %>
                     </td>
                     <td style="color: #000; border-left: 1px solid #000;
                         border-bottom: 1px solid #000;
                         border-right: 1px solid #000;"
                         align="center">
-                        <%= @hb1 %>
+                        <%= @hb_test_result %>
                     </td>
                 </tr>
                 <tr>
                     <td style="padding-left: 30px;">
-                        Hb2
+                        HIV Status
                     </td>
                     <td style="border-left: 1px solid #000;
                         border-bottom: 1px solid #000;"
                         align="center">
-                        <%= @hb2_date %>
+                        <%= @patient.hiv_test_date.strftime("%d-%b-%Y") rescue nil %>
                     </td>
                     <td style="color: #000; border-left: 1px solid #000;
                         border-bottom: 1px solid #000;
                         border-right: 1px solid #000;"
                         align="center">
-                        <%= @hb2 %>
-                    </td>
-                </tr>
-                <tr>
-                    <td style="padding-left: 30px;">
-                        CD4
-                    </td>
-                    <td style="border-left: 1px solid #000;
-                        border-bottom: 1px solid #000;"
-                        align="center">
-                        <%= @cd4_date %>
-                    </td>
-                    <td style="color: #000; border-left: 1px solid #000;
-                        border-bottom: 1px solid #000;
-                        border-right: 1px solid #000;"
-                        align="center">
-                        <%= @cd4.to_i %>
+                        <%= @hiv_status %>
                     </td>
                 </tr>
             </table>

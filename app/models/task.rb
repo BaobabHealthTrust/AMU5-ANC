@@ -475,7 +475,7 @@ class Task < ActiveRecord::Base
 
     #valid privileges for ART visit ....
     #1. Manage TB Reception Visits - TB RECEPTION
-    #2. Manage TB inital visits - TB_INITIAL
+    #2. Manage TB initial visits - TB_INITIAL
     #3. Manage Lab orders - LAB ORDERS
     #4. Manage sputum submission - SPUTUM SUBMISSION
     #5. Manage Lab results - LAB RESULTS
@@ -486,9 +486,9 @@ class Task < ActiveRecord::Base
     #8. Manage dispensations - DISPENSING
 
     tb_encounters =  [
-                      'TB RECEPTION','VITALS','UPDATE HIV STATUS','LAB ORDERS','SPUTUM SUBMISSION','LAB RESULTS',
-                      'TB_INITIAL','ART_INITIAL','TB CLINIC VISIT','HIV STAGING','ART VISIT',
-                      'TB REGISTRATION','TB TREATMENT VISIT','ART ADHERENCE','TB ADHERENCE','TREATMENT'
+                      'TB RECEPTION','UPDATE HIV STATUS','LAB ORDERS','SPUTUM SUBMISSION','LAB RESULTS',
+                      'TB_INITIAL','TB REGISTRATION','ART_INITIAL','VITALS','HIV STAGING','ART VISIT',
+                      'TB CLINIC VISIT','TB TREATMENT VISIT','ART ADHERENCE','TB ADHERENCE','TREATMENT'
                      ] 
     user_selected_activities = User.current_user.activities.collect{|a| a.upcase }.join(',') rescue []
     if user_selected_activities.blank? or tb_encounters.blank?
@@ -582,7 +582,7 @@ class Task < ActiveRecord::Base
                                       session_date.to_date ,patient.id,EncounterType.find_by_name(type).id])
 
           next_lab_encounter =  self.next_lab_encounter(lab_order , session_date)
-          visit_reason = reception.to_s.split(':').last.strip.match(/Sputum sample/i)
+          visit_reason = reception.to_s.split(':').last.strip.match(/Needs lab follow-up/i)
 
           if (lab_order.encounter_datetime.to_date == session_date.to_date)
             task.encounter_type = 'Patient dashboard ...'
@@ -596,7 +596,7 @@ class Task < ActiveRecord::Base
           elsif user_selected_activities.match(/Manage Lab Orders/i)
             task.url = "/patients/show/#{patient.id}"
             return task
-          end if next_lab_encounter.blank? and visit_reason
+          end if (next_lab_encounter.blank? and visit_reason and lab_order.blank?)
         when 'SPUTUM SUBMISSION'
           reception = Observation.find(:first,:order => "encounter_datetime DESC",:joins => "INNER JOIN encounter USING(encounter_id)",
                                      :conditions =>["DATE(encounter_datetime) = ? AND patient_id = ? AND encounter_type = ? AND concept_id = ?",
@@ -609,8 +609,8 @@ class Task < ActiveRecord::Base
 
 
           next_lab_encounter =  self.next_lab_encounter(previous_sputum_sub , session_date)
-          visit_reason = reception.to_s.split(':').last.strip.match(/Sputum submission/i)
-          visit_reason = reception.to_s.split(':').last.strip.match(/Sputum collection/i) if visit_reason.blank?
+          visit_reason = reception.to_s.split(':').last.strip.match(/Needs lab follow-up/i)
+          visit_reason = reception.to_s.split(':').last.strip.match(/Needs lab follow-up/i) if visit_reason.blank?
 
           if (previous_sputum_sub.encounter_datetime.to_date == session_date.to_date)
             task.encounter_type = 'Patient dashboard ...'
@@ -650,7 +650,7 @@ class Task < ActiveRecord::Base
                                       :conditions =>["DATE(encounter_datetime) <= ? AND patient_id = ? AND encounter_type = ?",
                                       session_date.to_date ,patient.id,EncounterType.find_by_name(type).id])
 
-          visit_reason = reception.to_s.split(':').last.strip.match(/Sputum result/i)
+          visit_reason = reception.to_s.split(':').last.strip.match(/Needs lab follow-up/i)
           next_lab_encounter =  self.next_lab_encounter(lab_result , session_date)
 
           if not next_lab_encounter.blank?
@@ -675,6 +675,13 @@ class Task < ActiveRecord::Base
             next if obs_ans.match(/ANY NEED TO SEE A CLINICIAN: NO/i)
           end
 
+          visit_type = Observation.find(Observation.find(:last, :conditions => ["person_id = ? AND concept_id = ? AND DATE(obs_datetime) = ?", 
+                    patient.id, ConceptName.find_by_name("TYPE OF VISIT").concept_id,session_date])).to_s.strip.squish rescue nil
+
+          if not visit_type.blank?  #and obs_ans.match(/ANY NEED TO SEE A CLINICIAN: NO/i)
+            next if visit_type.match(/Reason for visit: Follow-up/i)
+          end if obs_ans.blank?
+
           clinic_visit = Encounter.find(:first,:order => "encounter_datetime DESC",
                                       :conditions =>["DATE(encounter_datetime) = ? AND patient_id = ? AND encounter_type = ?",
                                       session_date.to_date ,patient.id,EncounterType.find_by_name(type).id])
@@ -697,10 +704,10 @@ class Task < ActiveRecord::Base
 
           enrolled_in_tb_program = patient.patient_programs.collect{|p|p.program.name}.include?('TB PROGRAM') rescue false
 
-          if user_selected_activities.match(/Manage TB Registration visits/i)
+          if user_selected_activities.match(/Manage TB initial visits/i)
             task.url = "/encounters/new/tb_initial?show&patient_id=#{patient.id}"
             return task
-          elsif not user_selected_activities.match(/Manage TB Registration visits/i)
+          elsif not user_selected_activities.match(/Manage TB initial visits/i)
             task.url = "/patients/show/#{patient.id}"
             return task
           end 
@@ -727,6 +734,10 @@ class Task < ActiveRecord::Base
             return task
           end
         when 'HIV STAGING'
+          #checks if vitals have been taken already 
+          vitals = self.checks_if_vitals_are_need(patient,session_date,task,user_selected_activities)
+          return vitals unless vitals.blank?
+
           enrolled_in_hiv_program = Concept.find(Observation.find(:last, :conditions => ["person_id = ? AND concept_id = ?",patient.id, 
             ConceptName.find_by_name("Patient enrolled in IMB HIV program").concept_id]).value_coded).concept_names.map{|c|c.name}[0].upcase rescue nil
 
@@ -764,6 +775,10 @@ class Task < ActiveRecord::Base
             return task
           end 
         when 'TB TREATMENT VISIT'
+          #checks if vitals have been taken already 
+          vitals = self.checks_if_vitals_are_need(patient,session_date,task,user_selected_activities)
+          return vitals unless vitals.blank?
+
           next if not patient.tb_status.match(/treatment/i)
           tb_registration = Encounter.find(:first,:order => "encounter_datetime DESC",
                                       :conditions =>["patient_id = ? AND encounter_type = ?",
@@ -924,6 +939,35 @@ class Task < ActiveRecord::Base
         return if sputum_sub.blank?
         return sputum_sub 
     end
+  end
+
+
+  def self.checks_if_vitals_are_need(patient , session_date, task , user_selected_activities)
+    first_vitals = Encounter.find(:first,:order => "encounter_datetime DESC",
+                            :conditions =>["patient_id = ? AND encounter_type = ?",
+                            patient.id,EncounterType.find_by_name('VITALS').id])
+
+    if first_vitals.blank?
+      task.encounter_type = 'VITALS'
+      task.url = "/encounters/new/vitals?patient_id=#{patient.id}"
+      return task
+    end
+
+    return if patient.tb_status.match(/treatment/i) and not patient.hiv_status.match(/Positive/i)
+
+    vitals = Encounter.find(:first,:order => "encounter_datetime DESC",
+                            :conditions =>["DATE(encounter_datetime) = ? AND patient_id = ? AND encounter_type = ?",
+                            session_date.to_date,patient.id,EncounterType.find_by_name('VITALS').id])
+
+    if vitals.blank? and user_selected_activities.match(/Manage Vitals/i) 
+      task.encounter_type = 'VITALS'
+      task.url = "/encounters/new/vitals?patient_id=#{patient.id}"
+      return task
+    elsif vitals.blank? and not user_selected_activities.match(/Manage Vitals/i) 
+      task.encounter_type = 'VITALS'
+      task.url = "/patients/show/#{patient.id}"
+      return task
+    end 
   end
 
 end
