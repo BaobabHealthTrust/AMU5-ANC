@@ -17,23 +17,41 @@
 
   <%= touch_select_tag "Syphilis Test Result", @patient,
     options_for_select([["", ""], ["Positive", "Positive"], 
-      ["Negative", "Negative"], ["Inconclusive", "Inconclusive"]]),
+      ["Negative", "Negative"], ["Not done", "Not done"]]),
     {:id => "syphilis_result",
     :helptext => "Syphilis Result" } %>
+  
+  <%= touch_yes_no_tag "Syphilis Test Request", @patient,nil,
+    {:id => "syphilis_test_request",
+     :condition => '$("syphilis_result").value == "Not done"',
+     :helptext => "Is patient going for Syphilis Test?" } %>
 
   <%= touch_date_tag "Syphilis Test Result Date", @patient, nil,
     {:id => "enter_date_syphilis_result_given",
-    :helptext => "Date Syphilis Test Result Given" } %>
+     :condition => '$("syphilis_result").value != "Not done"',
+     :helptext => "Date Syphilis Test Result Given" } %>
 
   <%= touch_text_field_tag "HB Test Result", @patient, nil,
-    {:id => "syphilis_result",
+    {:id => "hb_test_result",
     :helptext => "HB Test Result",
     :field_type => "number",
     :tt_pageStyleClass => "NumbersWithUnknownAndDecimal" } %>
 
+  <%= touch_yes_no_tag "HB Test Request", @patient, nil,
+    {:id => "hb_test_request",
+     :condition => '$("hb_test_result").value == "Unknown"',
+     :helptext => "Is patient going for HB Test?" } %>
+
   <%= touch_date_tag "HB Test Result Date", @patient, nil,
     {:id => "enter_date_hb1_result_given",
-    :helptext => "Date HB Test Result Given" } %>
+     :condition => '$("hb_test_result").value != "Unknown"',
+     :helptext => "Date HB Test Result Given" } %>
+
+  <%= touch_select_tag "URINE PROTEIN", @patient, 
+    options_for_select([["", ""], ["Retrace", "Retrace"], ["+", "+"], ["++", "++"], 
+      ["+++", "+++"], ["++++", "++++"]]),
+    {:id => "enter_urine_protein",
+    :helptext => "Urine Protein" } %>
 
   <%= submit_tag 'Finish' %>
 <% end %>
