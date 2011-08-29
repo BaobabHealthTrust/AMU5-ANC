@@ -258,29 +258,6 @@
   <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
   <%= hidden_field_tag("observations[][obs_datetime]",  DateTime.now()) %>
 
-    <% if @patient.person.age > 18 and not @patient.current_height == 0 %>
-      <%= hidden_field_tag "observations[][value_numeric]",@patient.current_height %>
-      <%= hidden_field_tag("observations[][concept_name]", "HEIGHT (CM)") %>
-      <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
-      <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
-    <% else %>
-    <label for='height'>Height (cm)</label>
-      <%= text_field_tag "observations[][value_numeric]", nil,
-        {:id => "height",
-         :field_type => 'number',
-         :min => number_with_precision(@patient.min_height, :precision => 1),
-         :max => number_with_precision(@patient.max_height, :precision => 1),
-         :absoluteMin => 10,
-         :absoluteMax => 228,
-         :units => 'cm',
-         :validationRule => "^([0-9]+)|Unknown$",
-         :validationMessage => "You must enter numbers only (for example 157)",
-         :tt_pageStyleClass => "Numeric NumbersOnly"} %>
-      <%= hidden_field_tag("observations[][concept_name]", "HEIGHT (CM)") %>
-      <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
-      <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
-    <% end %>
-
     <% if ask_blood_pressure %>
 
       <label for='systolic_blood_pressure'>SYSTOLIC BLOOD PRESSURE(?/Y)</label>
