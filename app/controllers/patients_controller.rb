@@ -894,7 +894,14 @@ class PatientsController < ApplicationController
 	end
 
 	def patient_history
+     @patient = Patient.find(params[:patient_id] || session[:patient_id])
 
+    @encounters = @patient.encounters.active.find(:all, :conditions => ["encounter_type IN (?) AND " + 
+          "DATE_FORMAT(encounter_datetime, '%Y-%m-%d') = ?",
+        EncounterType.find(:all, :conditions => ["name in ('OBSTETRIC HISTORY', 'MEDICAL HISTORY', 'SOCIAL HISTORY', " +
+              "'SURGICAL HISTORY')"]).collect{|t| t.id}, Date.today.strftime("%Y-%m-%d")]).collect{|e|
+      e.type.name
+    }.join(", ") rescue "" 
 	end
 
 	def pregnancy_history
