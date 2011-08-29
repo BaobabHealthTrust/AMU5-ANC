@@ -397,6 +397,14 @@ class EncountersController < ApplicationController
     render :text => "<li " + locations.map{|location| "value=\"#{location}\">#{location}" }.join("</li><li ") + "</li>"
 
   end
+  
+  def obstetric_history
+	  @patient = Patient.find(params[:patient_id]) rescue nil
+  end
+  
+	def medical_history
+		@patient = Patient.find(params[:patient_id]) rescue nil
+	end
 
   
 end

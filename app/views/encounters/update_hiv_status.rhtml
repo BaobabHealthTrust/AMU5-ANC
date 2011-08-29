@@ -2,9 +2,27 @@
 <script>
   var tt_cancel_destination = "/patients/show/<%= @patient.patient_id -%>";
 
+  function checkTestDate (){
+    var dateCheck = "";
+
+    var testDate = new Date($('hiv_test_year').value, $('hiv_test_month').value - 1, $('hiv_test_day').value);
+    <% @session_date = "#{session[:datetime]} rescue #{Date.today}" %>
+
+    var sessionDate = "<%="#{@session_date.to_date.year},#{@session_date.to_date.month},#{@session_date.to_date.day}"%>";
+    var todayDate = new Date(sessionDate);
+ 
+    if (testDate <= todayDate){
+      dateCheck = 'true'
+      }else {
+      dateCheck = 'false'
+    }
+    return dateCheck
+  }
+  
   function updateTestDate(){
     var testDate = new Date($('hiv_test_year').value, $('hiv_test_month').value - 1, $('hiv_test_day').value);
     $('hiv_test_date').value = testDate;
+
     if ((3).months().ago() > testDate){
       showNegativeTestReminder = true
       }else {
@@ -51,7 +69,9 @@
 
   <%= text_field_tag "hiv_test_day",  nil, 
     {:field_type => 'number', 
-      :helpText => 'HIV test day', 
+      :helpText => 'HIV test day',
+      :validationCode => "checkTestDate() == 'true'",
+      :validationMessage => "HIV test date greater than #{session[:datetime].to_date rescue Date.today.to_date}",
       :condition => '($("hiv_test_year").value != "Unknown") && ($("hiv_test_month").value != "Unknown") && ($("hiv_status").value != "UNKNOWN")', 
       :tt_onLoad => "getDayOfMonthPicker($('hiv_test_year').value, $('hiv_test_month').value)", 
       :tt_onUnload=> "updateTestDate();"

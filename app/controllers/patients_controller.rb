@@ -819,15 +819,9 @@ class PatientsController < ApplicationController
 		  e.type.name
 		}.join(", ") rescue ""
 		
-	end 
-
-	def obstetric_history
-		@patient = Patient.find(params[:patient_id]) rescue nil
 	end
 
-	def medical_history
-		@patient = Patient.find(params[:patient_id]) rescue nil
-	end
+
 
 	def examinations_management
 		@patient = Patient.find(params[:patient_id]) rescue nil
