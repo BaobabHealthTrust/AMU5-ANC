@@ -7,7 +7,7 @@ class PatientsController < ApplicationController
     @encounters = @patient.encounters.find_by_date(session_date)
     @prescriptions = @patient.orders.unfinished.prescriptions.all
     @programs = @patient.patient_programs.all
-    @alerts = @patient.alerts
+    @alerts = @patient.alerts rescue nil
     # This code is pretty hacky at the moment
     @restricted = ProgramLocationRestriction.all(:conditions => {:location_id => Location.current_health_center.id })
     @restricted.each do |restriction|    
@@ -754,12 +754,23 @@ class PatientsController < ApplicationController
 
     @syphilis = Observation.find(:last, :conditions => ["person_id = ? AND encounter_id IN (?) AND concept_id = ?",
         @patient.id, Encounter.active.find(:all).collect{|e| e.encounter_id},
-        ConceptName.find_by_name('SYPHILIS RESULT').concept_id]).answer_string rescue nil
+        ConceptName.find_by_name('Syphilis Test Result').concept_id]).answer_string rescue nil
 
     @syphilis_date = Observation.find(:last, :conditions => ["person_id = ? AND encounter_id IN (?) AND concept_id = ?",
         @patient.id, Encounter.active.find(:all).collect{|e| e.encounter_id},
-        ConceptName.find_by_name('SYPHILIS RESULT TEST DATE').concept_id]).answer_string rescue nil
+        ConceptName.find_by_name('Syphilis Test Result Date').concept_id]).answer_string rescue nil
 
+        @hb_test_result = Observation.find(:last, :conditions => ["person_id = ? AND encounter_id IN (?) AND concept_id = ?",
+        @patient.id, Encounter.active.find(:all).collect{|e| e.encounter_id},
+        ConceptName.find_by_name('HB Test Result').concept_id]).answer_string rescue nil
+
+        @hb_test_date = Observation.find(:last, :conditions => ["person_id = ? AND encounter_id IN (?) AND concept_id = ?",
+            @patient.id, Encounter.active.find(:all).collect{|e| e.encounter_id},
+            ConceptName.find_by_name('HB Test Result Date').concept_id]).answer_string rescue nil
+
+        @hiv_status = @patient.hiv_status
+        @hiv_test_date = @patient.hiv_test_date
+=begin
     @hb1 = Observation.find(:last, :conditions => ["person_id = ? AND encounter_id IN (?) AND concept_id = ?",
         @patient.id, Encounter.active.find(:all).collect{|e| e.encounter_id},
         ConceptName.find_by_name('HB 1 RESULT').concept_id]).answer_string rescue nil
@@ -776,14 +787,12 @@ class PatientsController < ApplicationController
         @patient.id, Encounter.active.find(:all).collect{|e| e.encounter_id},
         ConceptName.find_by_name('HB 2 RESULT TEST DATE').concept_id]).answer_string rescue nil
 
-    @cd4 = Observation.find(:last, :conditions => ["person_id = ? AND encounter_id IN (?) AND concept_id = ?",
-        @patient.id, Encounter.active.find(:all).collect{|e| e.encounter_id},
-        ConceptName.find_by_name('CD4 COUNT').concept_id]).answer_string rescue nil
+    @cd4 = Concept.find(Observation.find(:last, :conditions => ["person_id = ? AND concept_id = ?", self.id, ConceptName.find_by_name("HIV status").concept_id]).value_coded).concept_names.map{|c|c.name}[0] rescue "UNKNOWN"
 
     @cd4_date = Observation.find(:last, :conditions => ["person_id = ? AND encounter_id IN (?) AND concept_id = ?",
         @patient.id, Encounter.active.find(:all).collect{|e| e.encounter_id},
         ConceptName.find_by_name('CD4 COUNT TEST DATE').concept_id]).answer_string rescue nil
-
+=end
     render :layout => false
   end
 
