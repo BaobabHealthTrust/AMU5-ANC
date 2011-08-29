@@ -48,10 +48,17 @@
      :helptext => "Date HB Test Result Given" } %>
 
   <%= touch_select_tag "URINE PROTEIN", @patient, 
-    options_for_select([["", ""], ["Retrace", "Retrace"], ["+", "+"], ["++", "++"], 
+    options_for_select([["", ""], ["Retrace", "Retrace"], ["+", "+"], ["++", "++"],
       ["+++", "+++"], ["++++", "++++"]]),
     {:id => "enter_urine_protein",
     :helptext => "Urine Protein" } %>
 
+  <%= text_field_tag :summary, nil, { :tt_onLoad => '$("preEclampsia").style.display = "block";$("nextButton").innerHTML = "<span>Finish</span>";', :optional => "true", :tt_pageStyleClass => "NoControls", :helpText => 'Pre-eclampsia', :condition => '($("enter_urine_protein").value == "++");'} %>
+
   <%= submit_tag 'Finish' %>
 <% end %>
+
+<div id='preEclampsia' class='messageBar' style='display:none'>
+  Patient has pre-eclampsia<br />
+  <button onmousedown="$('preEclampsia').style.display = 'none';"><span>OK</span></button>
+</div>

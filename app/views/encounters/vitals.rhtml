@@ -322,6 +322,13 @@
     
     <label for='showSummary'>Summary </label>
     <%= text_field_tag :showSummary, nil, { :tt_onLoad => "growthIndicators()", :optional => "true", :tt_pageStyleClass => "NoControls" } %>
+
+    <%= text_field_tag :summary, nil, { :tt_onLoad => '$("preEclampsia").style.display = "block";$("nextButton").innerHTML = "<span>Finish</span>";', :optional => "true", :tt_pageStyleClass => "NoControls", :helpText => 'Pre-eclampsia', :condition => '($("diastolic_blood_pressure").value >= 90);'} %>
    
   <%= submit_tag "Finish" %>    
   </form>
+
+  <div id='preEclampsia' class='messageBar' style='display:none'>
+  Patient has pre-eclampsia<br />
+  <button onmousedown="$('preEclampsia').style.display = 'none';"><span>OK</span></button>
+</div>
