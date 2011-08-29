@@ -1,0 +1,58 @@
+<script type="text/javascript" language="javascript">
+		tt_cancel_show = "/patients/show/<%= @patient.id %>";
+		tt_cancel_destination = "/patients/show/<%= @patient.id %>";
+
+var symptoms_values = [];
+
+function setConceptNamesAndValues(symptoms, observations, obs_type){
+
+    var values_string = selectedValue(observations);
+   
+    /* clear the fields*/
+  for (var index = 0; index < symptoms.length; index++){
+    var concept_name        = obs_type + index +"_concept_name";
+    var value_coded_or_text = obs_type + index +"_value_coded_or_text";    
+
+    if(values_string.contains(symptoms[index][0]) && symptoms[index][1] != ""){
+      $(concept_name).value         = symptoms[index][1];
+      $(value_coded_or_text).value  = 'YES';
+    }
+    else{
+      $(concept_name).value         = '';
+      $(value_coded_or_text).value  = '';
+    }
+  }
+}
+
+function changeNextButton(text){
+    $('nextButton').innerHTML = "<span>" + text + "</span>";
+}
+
+ function showTaskName(){
+    $('inputFrame'+tstCurrentPage).innerHTML = '<div id="summary"><div><span class="title" style="font-size:40px;">Next Task: Update Treatment Outcome</span></div></div>' 
+  }
+
+</script>
+
+<% form_tag :controller => "encounters", :action => "create" do |f| %>
+	<%= hidden_field_tag "encounter[encounter_type_name]", "UPDATE OUTCOME" %>
+	<%= hidden_field_tag "encounter[patient_id]", @patient.id %>
+	<%= hidden_field_tag "encounter[encounter_datetime]", DateTime.now() %>
+  <%= hidden_field_tag "encounter[provider_id]", session[:user_id] %>
+
+  <%= text_field_tag :task_name, nil, { :tt_onLoad => "showTaskName()", :optional => "true", :tt_pageStyleClass => "NoControls", :helpText => 'Task'} %>
+
+  <%@tb_treatment_outcomes = ["", "On TB Treatments", "Cure (Smear negative)","TX Complete (No Smear)","Died", "TX Failure", "Default","Transfer Out"]%>
+
+  <%= touch_select_tag "TB TREATMENT OUTCOME", @patient, options_for_select(@tb_treatment_outcomes),
+    {:id =>  "tb_treatment_outcome",
+    :helpText => "Select TB Outcome?" } %>
+
+  <%= text_field_tag "treatment_outcome_year", nil, {:helpText => 'Treatment Outcome Year', :field_type => 'number', :absoluteMin => "1890", :min => "1940", :absoluteMax => Date.today.year, :tt_pageStyleClass => "Numeric NumbersOnly"}  %>
+
+  <%= select_tag "treatment_outcome_month", month_name_options, {:helpText => 'Treatment Outcome Month', :condition => '$("treatment_outcome_year").value.toLowerCase() != "unknown"'}%>
+
+  <%= text_field_tag "treatment_outcome_day",  nil, :field_type => 'number', :helpText => 'Treatment Outcome Day', :condition => '($("treatment_outcome_year").value != "Unknown") && ($("treatment_outcome_month").value != "Unknown")', :tt_onLoad => "getDayOfMonthPicker($('treatment_outcome_year').value, $('treatment_outcome_month').value)" %>
+
+  <%= submit_tag 'Finish' %>
+<%end%>

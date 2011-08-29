@@ -7,3 +7,13 @@ evan_vitals_height:
   value_numeric: 191
   date_created: 2000-01-01 00:00:00
   uuid: 1fea0306-268f-102d-a2b3-16da04859145
+evan_vitals_weight:
+  obs_id: 3
+  person_id: 1
+  concept_id: 5089
+  encounter_id: 1
+  obs_datetime: 2000-01-01 00:00:00
+  value_numeric: 60
+  date_created: 2000-01-01 00:00:00
+  uuid: 1fea0306-269f-102d-a2b3-16da04859145  
+  

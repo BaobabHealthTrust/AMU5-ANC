@@ -1,0 +1,75 @@
+<style>
+  #lab_results {
+    border-width: 2px 0px 2px 0px;
+    border-style: solid;
+    height: 500px;
+    padding-left: 5px;
+    padding-right: 5px;
+    width: 97%;
+    overflow: auto; 
+  }
+
+  #headdiv {
+    padding-left:10px;
+  }
+
+  a {
+    background-color: grey;
+    border-bottom: 1px outset black;
+    border-style: outset;
+    border-top: 1px outset black;
+    color: white;
+    display: block;
+    padding: 10px 16px 10px 10px;
+    text-align: center;
+    text-decoration: none;
+  }
+
+  td {
+    padding-top: 5px;
+    padding-bottom: 5px;
+    width: 310px;
+  }
+
+</style>
+
+<script>
+
+  var tt_cancel_destination = "/patients/show/<%=@patient.id%>"
+
+  function setInnerHtmlData(id,result,path) {
+    td = document.getElementById(id);
+    td.innerHTML = "<a href =" + path + ">" +  result + "</a>"
+  }
+</script>
+
+<div id = 'headdiv'>
+<h2><%=@patient.name%>&nbsp;(<%=@patient.person.gender%>)&nbsp;Age:&nbsp;<%=@patient.person.age%></h2>
+<h3>Lab results</h3>
+</div>
+
+<div id = "lab_results">
+  <table id = 'results_table'>
+    <% count = @results.length + 3 unless @results.blank? 
+       count_up = 0
+       count = 0 if @results.blank?
+    %>
+    <% while count_up < count %>
+      <tr>
+        <td id = "<%=count_up+= 1%>"></td>
+        <td id = "<%=count_up+= 1%>"></td>
+        <td id = "<%=count_up+= 1%>"></td>
+      </tr>
+    <%end unless @results.blank?%>
+  </table>
+</div>
+
+
+<%
+count = @results.length + 3 unless @results.blank?
+@results.map do | result , path | %>
+  <script>
+    setInnerHtmlData("<%=count%>","<%=result%>","<%=path%>");
+  </script>
+  <%count-=1%>
+<%end%>

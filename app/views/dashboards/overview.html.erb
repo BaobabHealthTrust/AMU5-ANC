@@ -10,7 +10,10 @@
     confirmYesNo("Void this item?", function() {
       hideConfirmation();
       $.post('/encounters/void/' + node.parent().attr('encounter'), {}, function(data, status) {
-        if (status == 'success') node.parent().remove();
+        if (status == 'success') {
+          document.getElementById('observations').innerHTML = '';
+          node.parent().remove();
+        }
       })
     }, function() { hideConfirmation(); });
   }
@@ -30,17 +33,20 @@
       <ul class="list small" style="height:140px;">
         <% for prog in @programs do %>
           <li class="data <%= cycle('even', 'odd') %>" program="<%= prog.id %>">
-            <div class="program"><%=h prog.program.name.humanize %> started <%=h prog.date_enrolled.strftime("%b-%Y") rescue 'Unknown' %></div>
+            <div class="program">
+              <%=h prog.program.name.humanize %> started <%=h prog.date_enrolled.strftime("%b-%Y") rescue 'Unknown' %>
+              <br /><font class='patient_state'>Current state: <%=h prog.patient_states.last.to_s.humanize %></font>
+            </div>
           </li>  
         <% end %>
         <% if @programs.empty? %>
           <li class="data even">
             <div class="program">There are no current programs for this patient</div>
           </li>        
-        <% end %>        
+        <% end %>      
         <% for prog in @programs do %>
           <li class="data <%= cycle('even', 'odd') %>" program="<%= prog.id %>">  
-            <div class="patient_state"><%=h prog.patient_states.last.to_s.humanize %></div>
+            <div class="patient_state"><%#=h prog.patient_states.last.to_s.humanize + " (#{prog.program.name})"%></div>
           </li>  
         <% end %>
       </ul>
@@ -67,9 +73,16 @@
     <div id="alerts" class="panel">
       <!-- h2>Alerts</h2 -->
       <ul class="list small" style="height:139px;">
+        <% for alert in @alerts do %>
+          <li class="data <%= cycle('even', 'odd') %>">  
+            <div class="patient_state"><%=h alert %></div>
+          </li>  
+        <% end %>
+        <% if @alerts.blank? %>
         <li class="data even">
           <div class="alert">There are no alerts for this patient</div>
         </li>
+        <% end %>
       </ul>
     </div>
     <div id="encounters" class="panel" style="float:right;">

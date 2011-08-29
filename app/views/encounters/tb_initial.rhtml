@@ -1,0 +1,71 @@
+<style>
+  .tt_controls_date_of_confirmatory_hiv_test #num { display:none; }
+
+  .tt_controls_date_art_last_taken #num { display:none; }
+
+  .tt_controls_date_of_confirmatory_hiv_test table {  position: absolute; top: -360px; }
+
+  .tt_controls_date_art_last_taken table {  position: absolute; top: -360px; }
+
+  .tt_controls_last_arv_drugs_taken .keyboard { display:none; }
+  #tt_page_last_arv_drugs_taken .options{height:450px;}
+  #tt_page_last_arv_drugs_taken .options li{font-size:35px;}
+  #space {display:inline;}
+</style>
+
+<script>
+  var tt_cancel_destination = "/patients/show/<%= @patient.patient_id %>"
+</script>
+
+<% if @patient.patient_programs.current.local.map(&:program).map(&:name).include?('TB PROGRAM') %>
+  <div class="inputPage NoKeyboard" id="page" style="display: block;">
+    <div id="trigger"></div>
+    <div id="infoBar" class="infoBarClass"></div>
+    <label id="helpText" class="helpTextClass" for="">This patient has already been initiated in the TB program at this location</label>
+  </div>
+  <div id="buttons" class="buttonsDiv" style="top:456;">
+    <div id="tt_extraButtons"></div>
+    <button onmousedown="window.location=tt_cancel_destination;" id="cancelButton" class="button navButton red"><span>Cancel</span></button>
+  </div>
+  <script>
+		setTimeout("window.location=tt_cancel_destination;", 5000);
+  </script>
+<% else %>
+<form id='appointment' action="/encounters/create" method='post'>
+  <%= hidden_field_tag "encounter[encounter_type_name]", "TB_INITIAL" %>
+  <%= hidden_field_tag "encounter[patient_id]", @patient.id %>
+  <%= hidden_field_tag "encounter[encounter_datetime]", DateTime.now() %>
+  <%= hidden_field_tag "encounter[provider_id]", session[:user_id] %>
+
+  <%= hidden_field_tag("programs[][patient_program_id]", nil) %>
+  <%= hidden_field_tag("programs[][program_id]", Program.find_by_name('TB PROGRAM').id) %>
+  <%= hidden_field_tag("programs[][location_id]", Location.current_health_center.id) %>
+  <%= hidden_field_tag("programs[][date_enrolled]", session[:datetime] ) %>
+  <%= hidden_field_tag("programs[][states][][state]", "Symptomatic but NOT in treatment") %>
+  
+  <%= touch_yes_no_unknown_tag "EVER RECEIVED TB TREATMENT", @patient, nil,
+    {:id => "tb_treatment",
+     :helpText => 'Ever received TB treatment'} %>
+
+  <%if @patient.hiv_status.upcase == 'POSITIVE' %> 
+    <%= touch_yes_no_unknown_tag "Patient enrolled in IMB HIV program", @patient, nil,
+      {:id => "enroll_patient_in_art",
+       :helpText => 'Enroll patient in ART'} %>
+  <%end%> 
+
+  <%
+    date = session[:datetime].to_date rescue Date.today
+    obs_ans = Observation.find(Observation.find(:last, :conditions => ["person_id = ? AND concept_id = ? AND DATE(obs_datetime) = ?",
+              @patient.id, ConceptName.find_by_name("ANY NEED TO SEE A CLINICIAN").concept_id,date])) 
+  %>
+
+  <% if obs_ans.blank? %>
+    <%= touch_yes_no_unknown_tag "ANY NEED TO SEE A CLINICIAN", @patient, nil,
+      {:id => "need_to_see_clinician",
+       :helpText => "Any need to see a clinician?"
+     } %>
+  <%end%>
+
+  <%= submit_tag "Finish" %>    
+</form>
+<% end %>

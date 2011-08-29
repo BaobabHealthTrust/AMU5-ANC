@@ -1,0 +1,234 @@
+<%
+case @type
+when "yellow":
+%>
+
+<table width="100%">
+  <tr>
+    <th align="left" style="font-style: italic;">
+      ART Patient Card
+    </th>
+    <th style="vertical-align: top; font-style: italic;" align="left">
+      Adult ARV Formulations
+    </th>
+    <td style="vertical-align: top">
+      <i>Version 1</i>
+    </td>
+    <td rowspan="2" align="right"  style="vertical-align: top">
+      Transfer-<br />In Date
+    </td>
+    <td rowspan="2"  style="vertical-align: top">
+      <div style="border: 1px solid #000; padding: 5px; min-width: 80px; text-align: center; font-style: italic;">
+        <%= @mastercard.transfer_in_date.strftime("%d-%b-%Y") rescue "" %>&nbsp;
+      </div>
+    </td>
+    <th rowspan="2" align="right"  style="vertical-align: top">
+      ART Reg<br />No
+    </th>
+    <td rowspan="2" style="vertical-align: top">
+      <div style="border: 1px solid #000; padding: 5px; min-width: 80px;">
+        <%= @mastercard.arv_number rescue "" %>&nbsp;
+      </div>
+    </td>
+    <th align="right" rowspan="2" style="vertical-align: top">
+      Year
+    </th>
+    <td rowspan="2" style="vertical-align: top">
+      <div style="border: 1px solid #000; padding: 5px; min-width: 80px; text-align: center; font-style: italic;">
+        <%= (session[:datetime].to_date rescue Date.today).strftime("%Y") rescue "" %>&nbsp;
+      </div>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <div style="background-color: #999; padding: 5px; color: #fff99f; width: 90px;
+           font-weight: bold; vertical-align: middle; text-align: center;">
+        Yellow Card
+      </div>
+    </td>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+      &nbsp;
+    </td>
+  </tr>
+</table>
+
+<% when "green" %>
+
+<table width="100%">
+  <tr>
+    <th align="left" style="font-style: italic;">
+      HIV Care Patient Card
+    </th>
+    <th style="vertical-align: top; font-style: italic;" align="left">
+      Pre-ART Child / Adult
+    </th>
+    <td style="vertical-align: top">
+      <i>Version 1</i>
+    </td>
+    <td rowspan="2" align="right"  style="vertical-align: top">
+      Transfer-<br />In Date
+    </td>
+    <td rowspan="2"  style="vertical-align: top">
+      <div style="border: 1px solid #000; padding: 5px; min-width: 80px; text-align: center; font-style: italic;">
+        <%= @mastercard.transfer_in_date.strftime("%d-%b-%Y") rescue "" %>&nbsp;
+      </div>
+    </td>
+    <th rowspan="2" align="right"  style="vertical-align: top">
+      HIV Care<br />Clinic No
+    </th>
+    <td rowspan="2" style="vertical-align: top">
+      <div style="border: 1px solid #000; padding: 5px; min-width: 80px; text-align: right;">
+        -HCC
+      </div>
+    </td>
+    <th align="right" rowspan="2" style="vertical-align: top">
+      <b>ART No</b><br /><span style="font-size: 0.8em; font-weight: normal;">(when started)</span>
+    </th>
+    <td rowspan="2" style="vertical-align: top">
+      <div style="border: 1px solid #000; padding: 5px; min-width: 80px; text-align: center; font-style: italic;">
+        <%= @mastercard.arv_number rescue "" %>&nbsp;
+      </div>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <div style="background-color: #999; padding: 5px; color: #cfc; width: 90px;
+           font-weight: bold; vertical-align: middle; text-align: center;">
+        Green Card
+      </div>
+    </td>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+      &nbsp;
+    </td>
+  </tr>
+</table>
+
+<% when "blue" %>
+
+<table width="100%">
+  <tr>
+    <th align="left" style="font-style: italic;">
+      ART Patient Card
+    </th>
+    <th style="vertical-align: top; font-style: italic;" align="left">
+      Paediatric ARV Formulations
+    </th>
+    <td style="vertical-align: top">
+      <i>Version 4</i>
+    </td>
+    <td rowspan="2" align="right"  style="vertical-align: top">
+      Transfer-<br />In Date
+    </td>
+    <td rowspan="2"  style="vertical-align: top">
+      <div style="border: 1px solid #000; padding: 5px; min-width: 80px; text-align: center; font-style: italic;">
+        <%= @mastercard.transfer_in_date.strftime("%d-%b-%Y") rescue "" %>&nbsp;
+      </div>
+    </td>
+    <th rowspan="2" align="right"  style="vertical-align: top">
+      ART Reg<br />No
+    </th>
+    <td rowspan="2" style="vertical-align: top">
+      <div style="border: 1px solid #000; padding: 5px; min-width: 80px; text-align: center; font-style: italic;">
+        <%= @mastercard.arv_number rescue "" %>&nbsp;
+      </div>
+    </td>
+    <th align="right" rowspan="2" style="vertical-align: top">
+      Year
+    </th>
+    <td rowspan="2" style="vertical-align: top">
+      <div style="border: 1px solid #000; padding: 5px; min-width: 80px; text-align: center; font-style: italic;">
+        <%= (session[:datetime].to_date rescue Date.today).strftime("%Y") rescue "" %>&nbsp;
+      </div>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <div style="background-color: #999; padding: 5px; color: #ccf; width: 90px;
+           font-weight: bold; vertical-align: middle; text-align: center;">
+        Blue Card
+      </div>
+    </td>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+      &nbsp;
+    </td>
+  </tr>
+</table>
+
+<% when "pink" %>
+
+<table width="100%">
+  <tr>
+    <th align="left" style="font-style: italic;">
+      HIV Care Patient Card
+    </th>
+    <th style="vertical-align: top; font-style: italic; width: 240px;" align="left">
+      Exposed Child Under 24 Months
+    </th>
+    <td align="center"  style="vertical-align: top">
+      Transfer-In Date
+    </td>
+    <th align="center"  style="vertical-align: top">
+      HIV Care Clinic No
+    </th>
+    <th align="center" style="vertical-align: top">
+      <b>ART No</b><span style="font-size: 0.8em; font-weight: normal;">(when started)</span>
+    </th>
+    <th>
+      Birth Cohort
+    </th>
+  </tr>
+  <tr>
+    <td>
+      <div style="background-color: #999; padding: 5px; color: #fcc; width: 90px;
+           font-weight: bold; vertical-align: middle; text-align: center;">
+        Pink Card
+      </div>
+    </td>
+    <td style="vertical-align: top">
+      <i style="float: left;">Version 1</i>
+      <i style="margin-left: 50px">(circle options)</i>
+    </td>
+    <td style="vertical-align: top">
+      <div style="border: 1px solid #000; padding: 5px; min-width: 80px; text-align: center; font-style: italic;">
+        <%= @mastercard.transfer_in_date.strftime("%d-%b-%Y") rescue "" %>&nbsp;
+      </div>
+    </td>
+    <td style="vertical-align: top">
+      <div style="border: 1px solid #000; padding: 5px; min-width: 80px; text-align: right;">
+        -HCC
+      </div>
+    </td>
+    <td style="vertical-align: top">
+      <div style="border: 1px solid #000; padding: 5px; min-width: 80px; text-align: center; font-style: italic;">
+        <%= @mastercard.arv_number rescue "" %>&nbsp;
+      </div>
+    </td>
+    <td style="vertical-align: top;" align="center">
+      <div style="border: 1px solid #000; min-width: 120px; display: table; border-spacing: 0px; padding: 0px">
+        <div style="display: table-row; padding: 0px">
+          <div style="display: table-cell; width: 50%; padding: 0px; height: 28px; text-align: center; font-style: italic;">
+            <sup style="float: left;">Month</sup>
+            <div style="margin-top: 10px; margin-right: 10px; float: right;"><%= @patient.person.birthdate.strftime("%b") rescue "" %>&nbsp;</div>
+          </div>
+          <div style="display: table-cell; width: 50%; border-left: 1px solid #000; padding: 0px">
+            <sup style="float: left;">Year</sup>
+            <div style="margin-top: 10px; margin-right: 10px; float: right;">
+              <%= @patient.person.birthdate.strftime("%Y") rescue "" %>&nbsp;
+            </div>
+          </div>
+        </div>        
+      </div>
+    </td>
+  </tr>
+</table>
+
+<%  end %>

@@ -1,0 +1,122 @@
+<style>
+  table {
+    padding-left: 10px;
+    width: 100%;
+  }
+
+  tr {
+    /*background-color:*/
+  } 
+
+  .tr_blue {
+    background-color: #EEEEEE;
+  }
+</style>
+
+<table>
+<tr bgcolor="lightgrey">
+  <td style="width:15%;text-align:left;">AGE GROUP<br/>DIAGNOSIS<%='&nbsp;'*3%></td>
+  <td style="width:18.75%;text-align:center;">< 6 MONTHS<br/>
+    <table><tr>
+      <td style="float:left;padding-left:10px;">F</td>
+      <td style="float:right;padding-right:10px;">M</td>
+    </tr></table>
+  </td>
+  <td style="width:18.75%;text-align:center;">6 MONTHS TO < 5<br/>
+    <table><tr>
+      <td style="float:left;padding-left:10px;">F</td>
+      <td style="float:right;padding-right:10px;">M</td>
+    </tr></table>
+  </td>
+  <td style="width:18.75%;text-align:center;">5 TO 14<br/>
+    <table><tr>
+      <td style="float:left;padding-left:10px;">F</td>
+      <td style="float:right;padding-right:10px;">M</td>
+    </tr></table>
+  </td>
+  <td style="width:18.75%;text-align:center;">OVER 14<br/>
+    <table><tr>
+      <td style="float:left;padding-left:10px;">F</td>
+      <td style="float:right;padding-right:10px;">M</td>
+    </tr></table>
+  </td>
+  <td style="width:18.75%;text-align:center;;">TOTAL<br>
+    <table><tr>
+      <td style="float:left;padding-left:10px;">F</td>
+      <td style="float:right;padding-right:10px;">M</td>
+    </tr></table>
+  </td>
+</tr>
+
+
+<%color = 'blue'
+  @data.map do | diagnosis , data |
+     less_than_six_months_female = data['F'][:less_than_six_months] rescue 0
+     less_than_six_months_male = data['M'][:less_than_six_months] rescue 0
+    
+     six_months_to_five_years_female = data['F'][:six_months_to_five_years] rescue 0
+     six_months_to_five_years_male = data['M'][:six_months_to_five_years] rescue 0
+    
+     five_years_to_fourteen_years_female = data['F'][:five_years_to_fourteen_years] rescue 0
+     five_years_to_fourteen_years_male = data['M'][:five_years_to_fourteen_years] rescue 0
+    
+     over_fourteen_years_female = data['F'][:over_fourteen_years] rescue 0
+     over_fourteen_years_male = data['M'][:over_fourteen_years] rescue 0
+
+     total_female = (less_than_six_months_female + six_months_to_five_years_female + over_fourteen_years_female)
+     total_male = (less_than_six_months_male + six_months_to_five_years_male + over_fourteen_years_male)
+
+     if color == 'blue'
+       color = 'white'
+     else color = 'blue' end
+%>
+
+<tr class="tr_<%=color%>">
+  <td><%= diagnosis %></td>
+
+  <td style="width:18.75%;text-align:center;">
+    <table><tr>
+      <td style="float:left;padding-left:10px;"><%=less_than_six_months_female%></td>
+      <td style="float:right;padding-right:10px;"><%=less_than_six_months_male%></td>
+    </tr></table>
+  </td>
+
+
+  <td style="width:18.75%;text-align:center;">
+    <table><tr>
+      <td style="float:left;padding-left:10px;"><%=six_months_to_five_years_female%></td>
+      <td style="float:right;padding-right:10px;"><%=six_months_to_five_years_male%></td>
+    </tr></table>
+  </td>
+
+  <td style="width:18.75%;text-align:center;">
+    <table><tr>
+      <td style="float:left;padding-left:10px;"><%=five_years_to_fourteen_years_female%></td>
+      <td style="float:right;padding-right:10px;"><%=five_years_to_fourteen_years_male%></td>
+    </tr></table>
+  </td>
+
+  <td style="width:18.75%;text-align:center;">
+    <table><tr>
+      <td style="float:left;padding-left:10px;"><%=over_fourteen_years_female%></td>
+      <td style="float:right;padding-right:10px;"><%=over_fourteen_years_male%></td>
+    </tr></table>
+  </td>
+  
+
+  <td style="width:18.75%;text-align:center;">
+    <table><tr>
+      <td style="float:left;padding-left:10px;"><%=total_female%></td>
+      <td style="float:right;padding-right:10px;"><%=total_male%></td>
+    </tr></table>
+  </td>
+
+</tr>
+
+
+
+<%end%>
+
+
+
+</table>

@@ -1,0 +1,84 @@
+<style>
+
+  .tt_controls_month_of_birth #keyboard { display:none; }
+
+  #tt_page_month_of_birth .options{height:19em;}
+</style>
+
+<script>
+
+  var dob_year = null ; var dob_month = null ; dob_day = null;
+  var set_dob = null;
+ 
+
+  function setDOB() {
+    try {
+      dob_year = document.getElementById('tt_page_year_of_birth').getElementsByTagName("input")[0].value
+    }catch(e){ dob_year = dob_year }
+    try {
+      dob_month = document.getElementById('tt_page_month_of_birth').getElementsByTagName("input")[0].getAttribute('tstvalue')
+      if (dob_month.length == 1)
+        dob_month = 0 + dob_month
+    }catch(e){ dob_month = dob_month }
+    try {
+      dob_day = document.getElementById('tt_page_birth_day').getElementsByTagName("input")[0].value
+      if (dob_day.length == 1)
+        dob_day = 0 + dob_day
+    }catch(e){ dob_day = dob_day }
+
+    set_dob = (dob_year + '-' + dob_month + '-' + dob_day)
+    return true
+  }
+
+  function validateDOB() {
+    setDOB();
+    curr_date = new Date();
+
+    if (dateCreate(set_dob) == 'Invalid Date') {
+      if (set_dob.split('-')[1] == 'Unknown')
+        return true
+
+      if (curr_date.getFullYear() == parseInt(dob_year)) {
+        if ((curr_date.getMonth() + 1) < parseInt(dob_month)){
+          if (document.getElementById('tt_page_month_of_birth') != null)
+            return true
+
+          return false
+        }
+      }
+
+      if (dob_month == 'Unknown'){
+        if (curr_date.getFullYear() == parseInt(dob_year)) {
+          if ((curr_date.getMonth() + 1) < parseInt(dob_month))
+            return false
+        }
+      }
+    }else{
+      if (document.getElementById('tt_page_month_of_birth') != null)
+        return true
+
+      if (curr_date < dateCreate(set_dob)) 
+        return false
+    }
+    return true
+  }
+
+  function dateCreate(date_str){
+    intyear = 0 ; intmonth = 0 ; intday = 0;
+    intyear = parseInt(date_str.substring(0,4))
+    intmonth = (parseInt(date_str.substring(5,7)) - 1)
+    intday = (parseInt(date_str.substring(8,10)))
+
+    if (intmonth == -1)
+      intmonth = (parseInt(date_str.substring(5,7).substring(1,2)) - 1)
+
+    if (intday == 0)
+      intday = parseInt(date_str.substring(8,10).substring(1,2))
+
+    return new Date(intyear,intmonth,intday);
+  }
+</script>
+  <%= text_field_tag "person[birth_year]", nil, {:helpText => 'Year of Birth', :field_type => 'number', :absoluteMin => "1890", :min => "1940", :absoluteMax => Date.today.year, :tt_pageStyleClass => "Numeric NumbersOnly", :validationJS => "setDOB();" }  %>
+  <%= select_tag "person[birth_month]", month_name_options, {:helpText => 'Month of Birth', :condition => '$("person_birth_year").value.toLowerCase() != "unknown"',:validationJS => "validateDOB();",:validationMessage => 'Please enter a valid date'}%>
+ <%= text_field_tag "person[birth_day]",  nil, :field_type => 'number', :helpText => 'Birth Day', :condition => '($("person_birth_year").value != "Unknown") && ($("person_birth_month").value != "Unknown")', :tt_onLoad => "getDayOfMonthPicker($('person_birth_year').value, $('person_birth_month').value)" ,:validationJS => "validateDOB()",:validationMessage => 'Please enter a valid date'%>
+

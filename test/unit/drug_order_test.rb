@@ -13,7 +13,9 @@ class DrugOrderTest < ActiveSupport::TestCase
     context "common orders" do
       setup do
         @patient = patient(:evan)
-        @diagnosis = concept(:extrapulmonary_tuberculosis_without_lymphadenopathy).concept_id
+        @diagnosis = Concept.find_by_name(
+          "extrapulmonary tuberculosis without lymphadenopathy"
+        ).concept_id
         obs = diagnose(@patient, @diagnosis)
         prescribe(@patient, obs, drug(:laughing_gas_1000), 2)
         prescribe(@patient, obs, drug(:laughing_gas_600))
@@ -28,7 +30,9 @@ class DrugOrderTest < ActiveSupport::TestCase
       end
 
       should "not include orders for drugs with different diagnoses" do
-        @diagnosis = concept(:immune_reconstitution_inflammatory_syndrome_construct).concept_id
+        @diagnosis = Concept.find_by_name(
+          'immune reconstitution inflammatory syndrome construct'
+          ).concept_id
         obs = diagnose(@patient, @diagnosis)
         prescribe(@patient, obs, drug(:triomune_40))
         @suggested = DrugOrder.find_common_orders(@diagnosis)

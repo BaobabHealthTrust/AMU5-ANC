@@ -1,0 +1,20 @@
+<style>
+  #space { display:inline; font-size:1.2em; }
+
+  #tt_page_identifier .touchscreenTextInput {
+    top: 46px; 
+  }
+  .options {
+    display:none;
+  }
+  
+</style>
+
+<script>
+  var tt_cancel_destination = "/clinic"; // /properties/"
+</script>
+
+<% form_tag 'site_code', :method => :post do %>
+  <%= text_field_tag :site_code,  nil, {:field_type => 'alpha', :helpText => 'Site code', :allowFreeText => true, :textCase => 'upper' } %>
+  <%= submit_tag "Create" %>
+<% end -%>

@@ -1,0 +1,16 @@
+superuser:
+  role: Superuser
+  description: This is a user who has access to all Baobab developed applications' functionality
+  uuid: 1ff85fd2-268f-182d-a2b3-16da04859145
+clinician:
+  role: Clinician
+  description:  Users who are a part of direct patient care
+  uuid: 1ff85fd2-268f-102d-a2g3-16da04859145
+informatics_manager:
+  role: Informatics Manager
+  description:  User who maintains the local installation of the OpenMRS repository
+  uuid: 1ff88fd2-268f-102d-a2b3-16da04859145
+adults:
+  role: Adults
+  description:  OPD user group for adults entries
+  uuid: 1ff85fd2-268f-102d-a2b3-16da04859145

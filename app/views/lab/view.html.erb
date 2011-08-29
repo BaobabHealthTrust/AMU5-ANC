@@ -1,0 +1,107 @@
+<style>
+  #lab_results {
+    border-width: 2px 0px 2px 0px;
+    border-style: solid;
+    height: 500px;
+    padding-left: 5px;
+    padding-right: 5px;
+    width: 97%;
+    overflow: auto; 
+  }
+
+  #headdiv {
+    padding-left:10px;
+  }
+
+  td {
+    width: 150px;
+    border-style: solid;
+    border-width: 2px;
+    text-align: center;
+  }
+
+  th {
+    border-style: solid;
+    border-width: 2px;
+    text-align: center;
+  }
+
+  table {
+    width: 98%;
+  }
+
+   a {
+    background-color: grey;
+    border-bottom: 1px outset black;
+    border-style: outset;
+    border-top: 1px outset black;
+    color: white;
+    display: block;
+    padding: 10px 16px 10px 10px;
+    text-align: center;
+    text-decoration: none;
+  }
+
+</style>
+
+<div id = 'headdiv'>
+<h2><%=@patient.name%>&nbsp;(<%=@patient.person.gender%>)&nbsp;Age:&nbsp;<%=@patient.person.age%></h2>
+<h3><%=@test.gsub('_',' ')%>:&nbsp;Results table</h3>
+</div>
+
+<div id = "lab_results">
+  <table>
+    <%=@table_th%>
+  </table>
+</div>
+
+<script>
+
+  var tt_cancel_destination = "/lab/results/<%=@patient.id%>"
+
+  function graph(type) {
+    count = 1 ; path = '';   
+    while (document.getElementById(type + '_' + count) != null) {
+      value = (document.getElementById(type + '_' + count).innerHTML);
+      if (value) {
+        path += (document.getElementById(count).innerHTML) + ',';
+        path += (document.getElementById(type + '_' + count).innerHTML) + ';';
+      }
+      count++;
+    }
+
+    submitForm = document.createElement("FORM");
+    submitForm.setAttribute("type","hidden");
+    submitForm.method = "POST";
+    document.body.appendChild(submitForm);
+
+    newElement = document.createElement("input")
+    newElement.setAttribute("name",'results')
+    newElement.setAttribute("type","hidden");
+    newElement.value = path.substring(0,(path.length - 1));
+    submitForm.appendChild(newElement);
+
+    newElement = document.createElement("input")
+    newElement.setAttribute("name",'patient_id')
+    newElement.setAttribute("type","hidden");
+    newElement.value = "<%=@patient.id%>";
+    submitForm.appendChild(newElement);
+
+    newElement = document.createElement("input")
+    newElement.setAttribute("name",'type')
+    newElement.setAttribute("type","hidden");
+    newElement.value = type;
+    submitForm.appendChild(newElement);
+
+    newElement = document.createElement("input")
+    newElement.setAttribute("name",'test')
+    newElement.setAttribute("type","hidden");
+    newElement.value = "<%=@test%>";
+    submitForm.appendChild(newElement);
+
+    submitForm.action= "/lab/graph";
+
+    submitForm.submit();
+
+  }
+</script>

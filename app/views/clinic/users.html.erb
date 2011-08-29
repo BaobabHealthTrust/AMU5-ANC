@@ -1,79 +1,96 @@
-<%#= render :partial => 'clinic/nav', :locals => {:active => 'administration', :label => "Administration"} %>
+<%= render :partial => 'clinic/nav', :locals => {:active => 'administration', :label => "Administration"} %>
 <script type="text/javascript">
   jQuery(document).ready(function($) {
   }) 
 </script>
-<script type="text/javascript" language="javascript">
-  <!--
-  tt_cancel_show = "/clinic";
-  tt_cancel_destination = "/clinic";
-  //-->
-</script>
+
+<%
+  @reports = []
+  @reports << ['Change password',"/user/change_password/#{User.current_user.id}"]
+  @reports << ['Edit name',"/user/edit/#{User.current_user.id}"]
+  if User.current_user.admin? 
+    @reports << ['Create user',"/user/new"]
+    @reports << ['Edit user',"/user/select_user"]
+  end
+%>
+
+
 <style type="text/css">
   #stats {
     width:98%;
-    border:1px solid #fff;
-    margin:10px;    
+    margin:10px;
     background:white;
-  } 
-  #stats td{
-    text-align:right;
   }
 
-  #stats a { 
-    width:155px; 
-    float:right;
+  #stats a {
+    background-color: grey;
+    border-bottom: 1px outset black;
+    border-style: outset;
+    border-top: 1px outset black;
+    color: white;
+    display: block;
+    padding: 10px 16px 10px 10px;
+    text-align: center;
+    text-decoration: none;
   }
-  button.blue {
-    min-width: 250px;
+
+  #stats td {
+    width: 310px;
+  }
+
+  #table_div {
+    overflow:auto;
+    height: 400px;
+    background-color: white;
+    border-style: solid;
+    border-width: 1px;
+  }
+
+  #tab {
+    height: 461px;
   }
 </style>
-<%= stylesheet_link_tag 'extra_buttons' %>
 
-<div style="height: 100%;">
-  <div class="panel" style="width:100%;">
-    <h1 style="margin: 20px;">Create/Edit users</h1>
-    <div style="height:970px;overflow:auto;">
-      <table id="stats" style="" cellpadding="10">
-        <tr>
-          <td>
-            <button class='blue' onclick="window.location='/user/change_password/<%=User.current_user.id%>'">
-              <span>
-                Change password
-              </span>
-            </button>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <button class='blue' onclick="window.location='/user/edit/<%=User.current_user.id%>'">
-              <span>
-                Edit name
-              </span>
-            </button> 
-          </td>
-        </tr>
-        <% if User.current_user.admin? %>
-          <tr>
-            <td>
-              <button class='blue' onclick="window.location='/user/new'">
-                <span>
-                  Create user
-                </span>
-              </button>
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <button class='blue' onclick="window.location='/user/select_user'">
-                <span>
-                  Edit user
-                </span>
-              </button>
-            </td>
-          </tr>
-        <% end %>
-      </table>
+<script>
+  function setInnerHtmlData(id,result,path) {
+    td = document.getElementById(id);
+    td.innerHTML = "<a href =" + path + ">" +  result + "</a>"
+  }
+</script>
+
+
+<div id="tab">
+  <div class="panel" style="width:98%;">
+    <h2>Create/Edit users</h2>
+    <div id="table_div">
+
+    <table id="stats">
+    <% count = @reports.length  unless @reports.blank? %>
+    <% (@reports || []).each do |name,path|
+       count_up = 0
+       count = 0 if @reports.blank?
+    %>
+    <% while count_up < count %>
+      <tr>
+        <td id = "<%=count_up+= 1%>"></td>
+        <td id = "<%=count_up+= 1%>"></td>
+        <td id = "<%=count_up+= 1%>"></td>
+      </tr>
+      <%end unless @reports.blank?%>
+    <%end%>
+  </table>
+
+
+  <%
+  count = @reports.length  unless @reports.blank?
+  @reports.sort.reverse.map do | name , path | %>
+    <script>
+      setInnerHtmlData("<%=count%>","<%=name%>","<%=path%>");
+    </script>
+    <%count-=1%>
+  <%end%>
+
     </div>
-  </div>        
+  </div>
 </div>
+

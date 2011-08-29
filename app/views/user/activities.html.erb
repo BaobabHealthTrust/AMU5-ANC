@@ -1,0 +1,19 @@
+<script>
+   <% if @patient_id %>
+    var tt_cancel_destination = "/patients/show/<%=@patient_id%>"; // /properties"
+   <% else %>
+    var tt_cancel_destination = "/clinic"; // /properties"
+   <% end %>
+</script>
+
+<style>
+  #tt_page_select_activities .options { height: 506px; }
+</style>
+
+
+<form method = 'post' action = "/user/change_activities/<%=@patient_id%>">
+  <%= select_tag 'user[activities][]',
+      options_from_collection_for_select(@privileges.sort_by{|p|p.privilege}, :privilege, :privilege, @activities),
+      :helpText => "Select activities" ,
+      :multiple =>  true %> 
+</form>

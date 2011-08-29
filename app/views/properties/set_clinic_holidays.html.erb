@@ -1,0 +1,285 @@
+<style>
+  .dates { text-align:center; }
+
+  .months { 
+    display:none; 
+    width:98%;
+  }
+
+  td , th {
+    border-width:1px;
+    border-style:solid;
+    text-align:center;
+    height: 85px;
+    width: 114px;
+    background-color:#CADCEA;
+  }
+
+  th { font-size: 15px; }
+
+  .container { 
+    margin: 0px;
+    text-align: center;
+  }
+
+  #January { display:inline; }
+
+  .title { 
+    font-size: 33px;
+    font-style: normal;
+    font-weight: bold;
+  }
+
+  #next , #previous { float:left; position: absolute; }
+
+  #next { left: 150px; }
+</style>
+
+<script>
+  try { var tt_cancel_destination = "/clinic" // /properties/";
+  } catch(e) { tt_cancel_destination = /*"/clinic/properties"*/ "/clinic" }
+
+  var date_set = [];
+  current_table_caption = null
+
+  function setAttributes(){
+    current_table_caption = document.getElementsByClassName('title')[0].innerHTML
+    buttons_div = document.getElementById('buttons');
+    buttons_div.innerHTML+= "<button onmousedown='nextMonth();' id='next' class='button navButton'><span>>|</span></button>";
+    buttons_div.innerHTML+= "<button onmousedown='previousMonth();' id='previous' class='button navButton'><span>|<</span></button>";
+    finish_button = document.getElementById('finishButton');
+    finish_button.setAttribute('onmousedown','setHoliday();');
+  }
+
+  function addDate(set_date) {
+    if (set_date == '' || set_date == null)
+      return 
+
+    td = document.getElementById(set_date);
+    if (td.style.background.match(/tomato/i)) {
+      td.style.background = '#CADCEA';
+      removeDate(set_date);
+    }else{ 
+      tt_cancel_destination = null;
+      finish_button = document.getElementById('finishButton');
+      finish_button.setAttribute('onmousedown','setHoliday();');
+      date_set.push(set_date);
+      td.style.background = 'tomato'; 
+    }
+  }
+
+  function removeDate(set_date) {
+    dates = date_set ; date_set = []
+    for (i = 0 ; i < dates.length ; i++) {
+      if (dates[i] != set_date)
+        date_set.push(dates[i])
+    }
+
+    if (date_set == [] || date_set == ''){ 
+      tt_cancel_destination = "/clinic" // /properties/";
+      finish_button = document.getElementById('finishButton');
+      finish_button.setAttribute('onmousedown',tt_cancel_destination);
+    }
+  }
+
+
+  function previousMonth(){
+    if (current_table_caption == 'January') {
+      month = document.getElementById(current_table_caption)
+      month.style.display = 'none';
+      next_month = document.getElementById('December')
+      next_month.style.display = 'inline';
+      current_table_caption = next_month.id
+    } else if  (current_table_caption == 'December') {
+      month = document.getElementById(current_table_caption)
+      month.style.display = 'none';
+      next_month = document.getElementById('November')
+      next_month.style.display = 'inline';
+      current_table_caption = next_month.id
+    } else if  (current_table_caption == 'November') {
+      month = document.getElementById(current_table_caption)
+      month.style.display = 'none';
+      next_month = document.getElementById('October')
+      next_month.style.display = 'inline';
+      current_table_caption = next_month.id
+    } else if  (current_table_caption == 'October') {
+      month = document.getElementById(current_table_caption)
+      month.style.display = 'none';
+      next_month = document.getElementById('September')
+      next_month.style.display = 'inline';
+      current_table_caption = next_month.id
+    } else if  (current_table_caption == 'September') {
+      month = document.getElementById(current_table_caption)
+      month.style.display = 'none';
+      next_month = document.getElementById('August')
+      next_month.style.display = 'inline';
+      current_table_caption = next_month.id
+    } else if  (current_table_caption == 'August') {
+      month = document.getElementById(current_table_caption)
+      month.style.display = 'none';
+      next_month = document.getElementById('July')
+      next_month.style.display = 'inline';
+      current_table_caption = next_month.id
+    } else if  (current_table_caption == 'July') {
+      month = document.getElementById(current_table_caption)
+      month.style.display = 'none';
+      next_month = document.getElementById('June')
+      next_month.style.display = 'inline';
+      current_table_caption = next_month.id
+    } else if  (current_table_caption == 'June') {
+      month = document.getElementById(current_table_caption)
+      month.style.display = 'none';
+      next_month = document.getElementById('May')
+      next_month.style.display = 'inline';
+      current_table_caption = next_month.id
+    } else if  (current_table_caption == 'May') {
+      month = document.getElementById(current_table_caption)
+      month.style.display = 'none';
+      next_month = document.getElementById('April')
+      next_month.style.display = 'inline';
+      current_table_caption = next_month.id
+    } else if  (current_table_caption == 'April') {
+      month = document.getElementById(current_table_caption)
+      month.style.display = 'none';
+      next_month = document.getElementById('March')
+      next_month.style.display = 'inline';
+      current_table_caption = next_month.id
+    } else if (current_table_caption == 'March') {
+      month = document.getElementById(current_table_caption)
+      month.style.display = 'none';
+      next_month = document.getElementById('February')
+      next_month.style.display = 'inline';
+      current_table_caption = next_month.id
+    } else if (current_table_caption == 'February') {
+      month = document.getElementById(current_table_caption)
+      month.style.display = 'none';
+      next_month = document.getElementById('January')
+      next_month.style.display = 'inline';
+      current_table_caption = next_month.id;
+    }
+  }
+
+  function nextMonth(){
+    if (current_table_caption == 'January') {
+      month = document.getElementById(current_table_caption)
+      month.style.display = 'none';
+      next_month = document.getElementById('February')
+      next_month.style.display = 'inline';
+      current_table_caption = next_month.id
+    } else if  (current_table_caption == 'February') {
+      month = document.getElementById(current_table_caption)
+      month.style.display = 'none';
+      next_month = document.getElementById('March')
+      next_month.style.display = 'inline';
+      current_table_caption = next_month.id
+    } else if  (current_table_caption == 'March') {
+      month = document.getElementById(current_table_caption)
+      month.style.display = 'none';
+      next_month = document.getElementById('April')
+      next_month.style.display = 'inline';
+      current_table_caption = next_month.id
+    } else if  (current_table_caption == 'April') {
+      month = document.getElementById(current_table_caption)
+      month.style.display = 'none';
+      next_month = document.getElementById('May')
+      next_month.style.display = 'inline';
+      current_table_caption = next_month.id
+    } else if  (current_table_caption == 'May') {
+      month = document.getElementById(current_table_caption)
+      month.style.display = 'none';
+      next_month = document.getElementById('June')
+      next_month.style.display = 'inline';
+      current_table_caption = next_month.id
+    } else if  (current_table_caption == 'June') {
+      month = document.getElementById(current_table_caption)
+      month.style.display = 'none';
+      next_month = document.getElementById('July')
+      next_month.style.display = 'inline';
+      current_table_caption = next_month.id
+    } else if  (current_table_caption == 'July') {
+      month = document.getElementById(current_table_caption)
+      month.style.display = 'none';
+      next_month = document.getElementById('August')
+      next_month.style.display = 'inline';
+      current_table_caption = next_month.id
+    } else if  (current_table_caption == 'August') {
+      month = document.getElementById(current_table_caption)
+      month.style.display = 'none';
+      next_month = document.getElementById('September')
+      next_month.style.display = 'inline';
+      current_table_caption = next_month.id
+    } else if  (current_table_caption == 'September') {
+      month = document.getElementById(current_table_caption)
+      month.style.display = 'none';
+      next_month = document.getElementById('October')
+      next_month.style.display = 'inline';
+      current_table_caption = next_month.id
+    } else if  (current_table_caption == 'October') {
+      month = document.getElementById(current_table_caption)
+      month.style.display = 'none';
+      next_month = document.getElementById('November')
+      next_month.style.display = 'inline';
+      current_table_caption = next_month.id
+    } else if (current_table_caption == 'November') {
+      month = document.getElementById(current_table_caption)
+      month.style.display = 'none';
+      next_month = document.getElementById('December')
+      next_month.style.display = 'inline';
+      current_table_caption = next_month.id
+    } else if (current_table_caption == 'December') {
+      month = document.getElementById(current_table_caption)
+      month.style.display = 'none';
+      next_month = document.getElementById('January')
+      next_month.style.display = 'inline';
+      current_table_caption = next_month.id;
+    }
+  }
+
+  function setHoliday(){
+    selected_dates = "<%= @clinic_holidays %>"
+    if (selected_dates != ''){
+      change_attribute = 0;
+      selected_dates = selected_dates.split(',')
+      for(i = 0 ; i < selected_dates.length ; i++){
+        for(x = 0 ; x < date_set.length ; x++){
+          if(selected_dates[i].substring(5,10) == date_set[x].substring(5,10)){
+            change_attribute+= 1;
+          }
+        }
+      }
+
+      if (change_attribute == selected_dates.length && change_attribute == date_set.length){
+        document.location = "/clinic" // /properties/";
+        return;
+      }
+    }
+
+
+    submitForm = document.createElement("FORM");
+    submitForm.setAttribute("type","hidden");
+    document.body.appendChild(submitForm);
+    submitForm.method = "POST";
+    newElement = document.createElement("input")
+    newElement.setAttribute("name",'holidays')
+    newElement.setAttribute("type","hidden");
+    submitForm.appendChild(newElement);
+    newElement.value = date_set.join(',');
+    submitForm.action= "/properties/create_clinic_holidays";
+    submitForm.submit();
+  }
+
+  function setSelectedDates() {
+    selected_dates = "<%= @clinic_holidays %>"
+    if(selected_dates == '')
+      return 
+
+    selected_dates = selected_dates.split(',')
+    for(i = 0 ; i < selected_dates.length ; i++){
+      addDate(selected_dates[i]);
+    }
+  }
+</script>
+
+<body onload="setAttributes();setSelectedDates()">
+<%= calender %>
+</body>

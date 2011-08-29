@@ -17,6 +17,9 @@ class String
     word.gsub!(/^M([BDFGJKLMNPQRSTVXZ])/, '\1') 
     word.gsub!(/^N([BCDFGJKLMNPQRSTVXZ])/, '\1')
     word.gsub!(/^D([BCDFGJKLMNPQRSTVXZ])/, '\1')
+    # silent R enhancement (Margret, Esnart)
+    word.gsub!(/(ARG)/, 'AG')
+    word.gsub!(/(ART)/, 'AT')
     # THY and CH as common phonemes enhancement
     word.gsub!(/(THY|CH|TCH)/, '9')    
     # Retain the first letter of the word

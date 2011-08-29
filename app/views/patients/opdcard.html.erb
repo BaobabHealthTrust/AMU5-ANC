@@ -1,0 +1,57 @@
+<html>
+  <head>
+    <title>Mastercard</title>
+    <%= stylesheet_link_tag "mateme" %>
+    <%= stylesheet_link_tag fancy_or_high_contrast_touch %>
+
+    <script type="text/javascript">
+      var tt_cancel_destination = "/patients/opdtreatment/" + "<%=@patient.id%>"
+    </script>
+
+    <style>
+      body {
+        background-color: #000;
+      }
+      #main {
+        width: 99.7%;
+        height: 88.5%;
+        overflow: hidden;
+      }
+
+      #content {
+        background:#FFFFFF;
+        position:absolute;
+        left:50%;
+        top:50%;
+        width:1000px;
+        height:750px;
+        margin-left:-500px;
+        margin-top:-380px;
+
+      }
+
+      #footer {
+        background-color:#333333;
+        color:#CADCEA;
+        height:80px;
+        width:100%;
+        bottom:0px;
+        position:absolute;
+        overflow:hidden;
+      }
+
+    </style>
+  </head>
+  <body>
+    <div id="content">
+      <iframe id="main" src="/patients/demographics/<%=@patient.id%>" style="border: 0px solid #fff;"></iframe>
+
+      <div id="footer" style="">
+        <button onclick="window.location = '/patients/opdtreatment/<%=@patient.id%>';" class="button navButton green"
+                id="nextButton" style="float: right; margin-right: 10px;" ><span>Finish</span>
+        </button>
+
+      </div>
+    </div>
+  </body>
+</html>

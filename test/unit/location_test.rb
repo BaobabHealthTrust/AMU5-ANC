@@ -10,11 +10,12 @@ class LocationTest < ActiveSupport::TestCase
     end
     
     should "extract the site id from the description" do
-      assert_equal "750", location(:neno_district_hospital).site_id
+      #assert_equal "750", Location.find_by_name("Neno District Hospital").site_id
+      assert_equal "7", Location.find_by_name("Neno District Hospital").site_id
     end
 
     should "return children" do
-      assert_equal 5, Location.find_by_name("Neno District Hospital").children.length
+      assert_equal 4, Location.find_by_name("Neno District Hospital").children.length
       assert_equal [], Location.find_by_name("Neno District Hospital - Outpatient").children
     end
 
@@ -26,7 +27,7 @@ class LocationTest < ActiveSupport::TestCase
 
     should "return related locations including self" do
       ndh = Location.find_by_name("Neno District Hospital")
-      assert_equal 6, ndh.related_locations_including_self.length
+      assert_equal 5, ndh.related_locations_including_self.length
       assert_equal ndh.related_locations_including_self.length, Location.find_by_name("Neno District Hospital - Outpatient").related_locations_including_self.length
     end
 

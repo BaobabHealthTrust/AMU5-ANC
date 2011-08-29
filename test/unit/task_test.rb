@@ -8,7 +8,7 @@ class TaskTest < ActiveSupport::TestCase
       @patient = patient(:evan)
       @task = Factory(:task)
       @default = @task.url.gsub(/\{patient\}/, '1')
-      GlobalProperty.create(:property => 'current_health_center_id', :property_value => location(:neno_district_hospital).id)
+      GlobalProperty.create(:property => 'current_health_center_id', :property_value => location(:location_00002).id)
     end
   
     should "be able to create a task" do
@@ -16,6 +16,7 @@ class TaskTest < ActiveSupport::TestCase
     end  
     
     should "find the next task" do
+      assert_equal 'Task', Task.next_task(Location.current_location, @patient).class.to_s
       assert_equal @default, Task.next_task(Location.current_location, @patient).url
     end
     

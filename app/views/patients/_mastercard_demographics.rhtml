@@ -11,20 +11,20 @@
      </tr>
      <tr>
        <td colspan="2"><%= link_to "ARV National ID:", "/patients/mastercard_modify?field=arv_number&id=#{@data_demo.patient_id}" -%></td>
-       <td colspan="2">National Patient ID:</td>
+       <td colspan="2"><b>National Patient ID:</b></td>
      </tr>
      <tr class="master_data">
        <td colspan="2"><%= @data_demo.arv_number %></td>
        <td colspan='7'><%= @data_demo.national_id %></td>
      </tr>
      <tr>
-       <td><%= link_to "Name:", "#" -%></td>
-       <td><%= link_to "Age:", "#" -%></td>
-       <td><%= link_to "Sex:", "#" -%></td>
-       <td><%= link_to "Init Wt (Kg):", "#" -%></td>
-       <td><%= link_to "Init Ht (cm):", "#" -%></td>
-       <td>BMI:</td>
-       <td>Transfer-In:</td>
+       <td><%= link_to "Name:", "/patients/mastercard_modify?field=name&id=#{@data_demo.patient_id}" -%></td>
+       <td><%= link_to "Age:", "/patients/mastercard_modify?field=age&id=#{@data_demo.patient_id}" -%></td>
+       <td><%= link_to "Sex:", "/patients/mastercard_modify?field=sex&id=#{@data_demo.patient_id}" -%></td>
+       <td><b>Init Wt (Kg):</b></td>
+       <td><b>Init Ht (cm):</b></td>
+       <td><b>BMI:</b></td>
+       <td><b>Transfer-In:</b></td>
      </tr>
      <tr class="master_data">
        <td><%= @data_demo.name -%></td>
@@ -36,42 +36,42 @@
        <td><%= @data_demo.transfer_in -%></td>
      </tr>
      <tr> 
-       <td><%= link_to "Location:", "#" -%></td>
-       <td colspan="3"><%= link_to "Landmark / Address (Physical / PO Box):", "#" -%></td>
-       <td colspan="5"><%= link_to "Occupation:", "#" -%></td>
+       <td><%= link_to "Location:", "/patients/mastercard_modify?field=location&id=#{@data_demo.patient_id}" -%></td>
+       <td colspan="3"><%= link_to "Landmark / Address (Physical / PO Box):", "/patients/mastercard_modify?field=address&id=#{@data_demo.patient_id}" -%></td>
+       <td colspan="5"><%= link_to "Occupation:", "/patients/mastercard_modify?field=occupation&id=#{@data_demo.patient_id}" -%></td>
      </tr>
      <tr class="master_data">
-       <td><%= @data_demo.address -%></td>
-       <td colspan="3"><%= @data_demo.landmark -%></td>
+       <td><%= @data_demo.address.to_s -%></td>
+       <td colspan="3"><%= @data_demo.landmark-%></td>
        <td colspan="5"><%= @data_demo.occupation -%></td>
      </tr>
      <tr>
-       <td colspan="2"><%= link_to "Name of Guardian:", "#" -%></td>
-       <td colspan="4">Date/Place of +HIV Test:</td> 
-       <td colspan="1">Agrees to followup</td>
+       <td colspan="2"><%= link_to "Name of Guardian:", "/patients/mastercard_modify?field=guardian&id=#{@data_demo.patient_id}" -%></td>
+       <td colspan="4"><b>Date/Place of +HIV Test:</b></td>
+       <td colspan="1"><b>Agrees to follow-up</b></td>
      </tr> 
      <tr class="master_data">
        <td colspan="2"><%= @data_demo.guardian -%></td>
-       <td colspan="4"><%= "#{@data_demo.hiv_test_date.to_date.strftime('%d-%b-%Y') rescue nil} #{@data_demo.hiv_test_location}" -%></td>
+       <td colspan="4"><%= "#{@data_demo.first_positive_hiv_test_date.to_date.strftime('%d-%b-%Y') rescue nil} #{@data_demo.first_positive_hiv_test_site.gsub(/\d|\./, "") rescue nil}" -%></td>
        <td colspan="1"><%= @data_demo.agrees_to_followup %></td>
      </tr>
      <tr>
-       <td colspan="2">Date of Starting 1st Line ARV Regimen:</td>
-       <td colspan="7">Reason for ARV:</td>
+       <td colspan="2"><b>Date of Starting 1st Line ARV Regimen:</b></td>
+       <td colspan="7"><b>Reason for ARV:</b></td>
      </tr>
      <tr class="master_data">
-       <td colspan="2"><%= @data_demo.date_of_first_line_regimen %></td>
+       <td colspan="2"><%= @data_demo.date_of_first_line_regimen.to_date.strftime('%d-%b-%Y') rescue nil%></td>
        <td colspan="7"><%= @data_demo.reason_for_art_eligibility -%></td>
      </tr>
      <tr>
-       <td colspan="1">Pulmonary tuberculosis within the last 2 years:</td>
-       <td colspan="1">Extrapulmonary tuberculosis:</td>
-       <td colspan="1">Pulmonary tuberculosis (current):</td>
-       <td colspan="7">Kaposi's sarcoma:</td>
+       <td colspan="1"><b>Pulmonary tuberculosis within the last 2 years:</b></td>
+       <td colspan="1"><b>Extrapulmonary tuberculosis:</b></td>
+       <td colspan="1"><b>Pulmonary tuberculosis (current):</b></td>
+       <td colspan="7"><b>Kaposi's sarcoma:</b></td>
      </tr>
      <tr class="master_data">
        <td colspan="1"><%= @data_demo.tb_within_last_two_yrs -%></td> 
-       <td colspan="1"><%= @data_demo.eptb -%></td> 
+       <td colspan="1"><%= @data_demo.eptb -%></td>
        <td colspan="1"><%= @data_demo.pulmonary_tb -%></td>
        <td colspan="7"><%= @data_demo.ks -%></td>
      </tr>

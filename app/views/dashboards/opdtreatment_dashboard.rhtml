@@ -1,0 +1,58 @@
+<html>
+  <head>
+    <title>Patient OPD Dashboard</title>
+    <script type="text/javascript" language="javascript"
+    src="/touchscreentoolkit/lib/javascripts/touchScreenToolkit.js" defer  ></script>
+    <meta http-equiv='content-type' content='text/html;charset=UTF-8' />
+    <script language="javascript">
+      tstUsername = "";
+      tstCurrentDate = "<%= @date %>";
+      //tt_cancel_destination = '/patients/show/<%= @patient.id %>';
+      tt_cancel_show = '/clinic';
+    </script>
+  </head>
+  <body><div id='content'>
+      <div id='description' style='color:#777;position:absolute;margin-top:-70px;'></div><center>
+        <form id = 'dashboard' action='/clinic'>
+          <table cellpadding=10>
+            <tr>
+              <th colspan=2>Patient OPD Dashboard</th>
+            </tr>
+            <tr>
+              <td>
+                <h1 id='project_name'>
+                  opd
+                </h1>
+                <span id='patient_name'><%= @patient.name rescue "" %></span>
+                <span id='patient_id'><%= @patient.national_id_with_dashes rescue "" %></span>
+                <span id='patient_residence'><%= @patient.person.addresses.last.city_village rescue "" %></span>
+                <span id='patient_age'><%= @patient.person.age rescue "" %></span>
+                <span id='patient_gender'><%= @patient.gender rescue "" %></span>
+                <select id="tabs">
+                  <option value='/patients/opdshow/<%= @patient.id %>'>Overview</option>
+                </select>
+                <select id="links">
+                  <option value='/encounters/new?id=show&patient_id=<%= @patient.id %>&encounter_type=outpatient_diagnosis'>
+                    OPD Diagnosis</option>
+                  <option value='/encounters/new?id=show&patient_id=<%=@patient.id%>&encounter_type=opddrug_dispensing'>Give Drugs</option>
+                  <option value='/encounters/new?id=show&patient_id=<%=@patient.id%>&encounter_type=referral'>Referrals</option>
+                  <option value='/patients/opdcard/<%= @patient.id %>'>Visit Card</option>
+                  <option value='/patients/dashboard_print_national_id?id=<%= @patient.id %>&redirect=patients/opdtreatment'>Print National ID</option>
+                 <%source = params[:source]%>
+                 <%if !source.nil?%>
+                  <option  value='/patients/show/<%= @patient.id -%>?source=art'>ART</option>
+                <%end%>
+                </select>
+              </td>
+            </tr>
+            <tr>
+              <td align='center'>
+                <input type='submit' value='Finish' />
+              </td>
+            </tr>
+          </table>
+        </form>
+      </center>
+    </div>
+  </body>
+</html>

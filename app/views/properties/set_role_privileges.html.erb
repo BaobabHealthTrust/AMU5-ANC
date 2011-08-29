@@ -1,0 +1,80 @@
+<%= javascript_include_tag "prototype" %>
+
+<script>
+   var tt_cancel_destination = "/clinic"; // /properties"
+   var selected_roles = [];
+
+   function showSelected() {
+     //role = document.getElementById('role').value;
+     role = document.getElementById('touchscreenInput' + tstCurrentPage).value;
+     document.getElementById('role').value = role;
+     selected_roles = [];
+     new Ajax.Request("/properties/selected_roles?role=" + role ,{method:'get',onSuccess: function(transport){
+        role_privileges = transport.responseText || "";
+        if (role_privileges.length > 0) {
+          selected_roles = role_privileges.split(',');
+          options = document.getElementsByTagName('li');
+          for (x = 0 ; x < selected_roles.length ; x++) {
+            for (i = 0 ; i < options.length ; i++) {
+              if (options[i].getAttribute('tstvalue') == selected_roles[x]) {
+                updateTouchscreenInputForSelect(options[i]);
+              }
+            }
+          }
+        }
+      }})
+   }
+
+  function reset() {
+    roles = (document.getElementById('touchscreenInput' + tstCurrentPage).value).split(';');
+    options = document.getElementsByTagName('li');
+    for (x = 0 ; x < roles.length ; x++) {
+      for (i = 0 ; i < options.length ; i++) {
+        if (options[i].getAttribute('tstvalue') == roles[x]) {
+          updateTouchscreenInputForSelect(options[i]);
+        }
+      }
+    }
+    selected_roles = [];
+  }
+
+  function changeAttributes() {
+    $('backButton').setAttribute("onmousedown","reset();gotoPage(0)");
+  }
+</script>
+
+<style>
+  #tt_page_select_activities .options { height: 506px; }
+  .tt_controls_select_activities #clearButton { display: none; }
+</style>
+
+
+<%
+  privileges = ['VITALS',
+                'ART_INITIAL',
+                'ART VISIT',
+                'HIV STAGING',
+                'HIV RECEPTION',
+                'DISPENSING',
+                'PART_FOLLOWUP'
+               ]
+  @privileges = Privilege.find(:all) #,:conditions => ["privilege IN (?)",privileges])
+  #@activities = RolePrivilege.find(:all)
+%>
+
+<form method = 'post' action = '/properties/set_role_privileges'>
+
+  <%= text_field :role , :title ,
+      :id => 'role' , 
+      :helpText => 'User role', 
+      :tt_onUnLoad => 'showSelected();',
+      :ajaxURL => '/user/role/Role?field=role&value='%>
+
+
+  <%= select_tag 'role[privileges][]', 
+      options_from_collection_for_select(@privileges.sort_by{|p|p.privilege}, :privilege, :privilege, @activities), 
+      :helpText => "Select activities" ,
+      :id => 'activities' ,
+      :tt_onLoad => 'changeAttributes();',
+      :multiple =>  true %>
+</form>

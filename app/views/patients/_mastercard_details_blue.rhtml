@@ -1,0 +1,317 @@
+<style>
+  #header {
+    margin-top: 10px;
+    border: 1px dotted #000;
+    display: none;
+  }
+  #header td {
+    font-size: 0.9em;
+    border-right: 1px dotted #000;
+  }
+  #card {
+    border: 2px solid #000;
+    width: 100%;
+    height: 300px;
+    overflow: auto;
+    overflow-x: hidden;
+    margin-top: 5px;
+  }
+  #cardTable {
+    margin: 2px;
+    border-left: 1px solid #000;
+    border-top: 1px solid #000;
+  }
+  #cardTable td {
+    font-size: 0.8em;
+    border-right: 1px solid #000;
+    border-bottom: 1px solid #000;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    text-align: center;
+    font-family: monospace;
+  }
+</style>
+
+<table id="header" width="100%" cellspacing="0" cellpadding="2">
+  <tr>
+    <td align="center" style="border-bottom: 0px solid #000;">
+        Visit Date
+      </td>
+      <td align="center" rowspan="3">
+        Age<br />(Curr.)
+      </td>
+      <td align="center" style="border-bottom: 0px solid #000;">
+        Hgt
+      </td>
+      <td align="center" style="border-bottom: 0px solid #000;">
+        Wt
+      </td>
+      <td align="center" rowspan="3">
+        Adverse<br />Outcome
+      </td>
+      <td align="center" rowspan="3" style="width: 50px;">
+        Outcome<br />Date
+      </td>
+      <td align="center" rowspan="3">
+        ART Regimen<br /><i>Paed. Formulations</i>
+      </td>
+      <td align="center" rowspan="3">
+        Side Effects (Current)<br />
+        <span style="font-size: 0.9em;">Specify 'Other' in Notes</span>
+      </td>
+      <td align="center" style="border-bottom: 0px solid #000;" rowspan="3">
+        TB Status (Curr.)<sup>*</sup>
+      </td>
+      <td align="center" rowspan="3">
+        Pill Count
+      </td>
+      <td align="center" rowspan="3">
+        Doses Missed
+      </td>
+      <td align="center" colspan="2" style="border-bottom: 0px solid #000;">
+        ARVs Given
+      </td>
+      <td align="center" rowspan="3">
+        CPT<br />No. of<br />Tablets
+      </td>
+      <td align="center" rowspan="3">
+        Months<br />on<br />ART
+      </td>
+      <!--td align="center" colspan="2" style="border-bottom: 0px solid #000;">
+        Viral Load
+      </td>
+      <td align="center" rowspan="3" style="border: 0px solid #000; border-right: 1px solid #000; border-bottom: 1px solid #000;">
+        Next Appointment
+      </td-->
+    </tr>
+    <tr>
+      <td align="center" style="border-bottom: 0px solid #000;">
+        &nbsp;
+      </td>
+      <td align="center" style="border-bottom: 0px solid #000;">
+        &nbsp;
+      </td>
+      <td align="center" style="border-bottom: 0px solid #000;">
+        &nbsp;
+      </td>
+      <!--td align="center" colspan="2" style="border-bottom: 0px solid #000;">
+        Suspected
+      </td>
+      <td align="center" colspan="2" style="border-bottom: 0px solid #000;">
+        Confirmed
+      </td-->
+      <td align="center" rowspan="2">
+        No. of<br />tablets
+      </td>
+      <td align="center" rowspan="2">
+        To
+      </td>
+      <!--td align="center" rowspan="2" >
+        Sample Taken
+      </td>
+      <td align="center" rowspan="2">
+        Result
+      </td-->
+    </tr>
+    <tr>
+      <td align="center">
+        d/m/y
+      </td>
+      <td align="center">
+        <i>cm</i>
+      </td>
+      <td align="center">
+        <i>kg</i>
+      </td>
+      <!--td align="center">
+        No
+      </td>
+      <td align="center">
+        Yes
+      </td>
+      <td align="center">
+        noRx
+      </td>
+      <td align="center">
+        Rx
+      </td-->
+    </tr>
+</table>
+
+<%
+
+months = ["Jan", "Feb", "Mar", "Apr", "May"]; #, "Jun", "Jul", "Aug", "Sep", "Nov", "Dec"]
+
+%>
+
+<div id="card">
+  <table id="cardTable" width="920px" border="0" cellspacing="0" cellpadding="1">
+    <tr>
+      <td align="center" style="border-bottom: 0px solid #000;">
+        Visit Date
+      </td>
+      <td align="center" rowspan="3">
+        Age<br />(Curr.)
+      </td>
+      <td align="center" style="border-bottom: 0px solid #000;">
+        Hgt
+      </td>
+      <td align="center" style="border-bottom: 0px solid #000;">
+        Wt
+      </td>
+      <td align="center" rowspan="3">
+        Adverse<br />Outcome
+      </td>
+      <td align="center" rowspan="3" style="width: 50px;">
+        Outcome<br />Date
+      </td>
+      <td align="center" rowspan="3">
+        ART Regimen<br /><i>Paed. Formulations</i>
+      </td>
+      <td align="center" rowspan="3">
+        Side Effects (Current)<br />
+        <span style="font-size: 0.9em;">Specify 'Other' in Notes</span>
+      </td>
+      <td align="center" style="border-bottom: 1px solid #000;" rowspan="3">
+        TB Status (Curr.)<sup>*</sup>
+      </td>
+      <td align="center" rowspan="3">
+        Pill Count
+      </td>
+      <td align="center" rowspan="3">
+        Doses Missed
+      </td>
+      <td align="center" colspan="2" style="border-bottom: 0px solid #000;">
+        ARVs Given
+      </td>
+      <td align="center" rowspan="3">
+        CPT<br />No. of<br />Tablets
+      </td>
+      <td align="center" rowspan="3">
+        Months<br />on<br />ART
+      </td>
+      <!--td align="center" colspan="2" style="border-bottom: 0px solid #000;">
+        Viral Load
+      </td>
+      <td align="center" rowspan="3" style="border: 0px solid #000; border-right: 1px solid #000; border-bottom: 1px solid #000;">
+        Next Appointment
+      </td-->
+    </tr>
+    <tr>
+      <td align="center" style="border-bottom: 0px solid #000;">
+        &nbsp;
+      </td>
+      <td align="center" style="border-bottom: 0px solid #000;">
+        &nbsp;
+      </td>
+      <td align="center" style="border-bottom: 0px solid #000;">
+        &nbsp;
+      </td>
+      <!--td align="center" colspan="2" style="border-bottom: 0px solid #000;">
+        Suspected
+      </td>
+      <td align="center" colspan="2" style="border-bottom: 0px solid #000;">
+        Confirmed
+      </td-->
+      <td align="center" rowspan="2">
+        No. of<br />tablets
+      </td>
+      <td align="center" rowspan="2">
+        To
+      </td>
+      <!--td align="center" rowspan="2" >
+        Sample Taken
+      </td>
+      <td align="center" rowspan="2">
+        Result
+      </td-->
+    </tr>
+    <tr>
+      <td align="center">
+        d/m/y
+      </td>
+      <td align="center">
+        <i>cm</i>
+      </td>
+      <td align="center">
+        <i>kg</i>
+      </td>
+      <!--td align="center">
+        No
+      </td>
+      <td align="center">
+        Yes
+      </td>
+      <td align="center">
+        noRx
+      </td>
+      <td align="center">
+        Rx
+      </td-->
+    </tr>
+
+    <% @visits.keys.each do|day| %>
+      <tr>
+        <td align="center" style="width: 35px;">
+          <b><%= day.strftime("%d-%b-%Y") %></b>
+        </td>
+        <td style="width: 21px;">
+          <%= (@patient.person.age_in_months(day.to_date).to_s + " mnths" if @patient.person.age_in_months(day.to_date) < 24) ||
+          (@patient.person.age(day.to_date).to_s + " yrs" if @patient.person.age_in_months(day.to_date) >= 24) rescue "&nbsp;" %>&nbsp;
+        </td>
+        <td style="width: 21px;">
+          <%= @visits[day].height rescue "&nbsp;" %>&nbsp;
+        </td>
+        <td style="width: 17px;">
+          <%= @visits[day].weight rescue "&nbsp;" %>&nbsp;
+        </td>
+        <td style="width: 50px;">
+          <%= @visits[day].outcome rescue "&nbsp;" %>&nbsp;
+        </td>
+        <td style="width: 50px;">
+          <%= @visits[day].date_of_outcome.strftime("%d-%b-%Y") rescue "&nbsp;" %>&nbsp;
+        </td>
+        <td style="width: 71px;">
+          <%= @visits[day].reg rescue "&nbsp;" %>&nbsp;
+        </td>
+        <td style="width: 50px;">
+          <%= @visits[day].s_eff rescue "&nbsp;" %>&nbsp;
+        </td>
+        <td style="width: 26px;" align="center">
+          <%= @visits[day].tb_status rescue "&nbsp;" %>&nbsp;
+        </td>
+        <td style="width: 32px;">
+          <%= @visits[day].pills rescue "&nbsp;" %>&nbsp;
+        </td>
+        <td style="width: 39px;">
+          <%= @visits[day].adherence rescue "&nbsp;" %>&nbsp;
+        </td>
+        <td style="width: 36px;">
+          <%= @visits[day].gave rescue "&nbsp;" %>&nbsp;
+        </td>
+        <td style="width: 16px;">
+          <%= @visits[day].visit_by rescue "&nbsp;" %>&nbsp;
+        </td>
+        <td style="width: 42px;">
+          <%= @visits[day].cpt rescue "&nbsp;" %>&nbsp;
+        </td>
+        <td style="width: 41px;">
+          <% diff = ((day.to_date rescue Date.today) - @patient.art_start_date).to_i rescue 0 %>
+          <%= "#{'<span  style=\'font-size: 1.8em;\'>' + (diff / 30).to_s +
+          '</span>' if (diff / 30) != 0} #{('<sup style=\'font-size: 0.9em;\'>' + (diff % 30).to_s +
+          '</sup>') if (diff % 30) > 0}#{'&frasl;<sub style=\'font-size: 0.9em;\'>30</sub>' if (diff % 30) > 0}" %>&nbsp;
+        </td>
+        <!--td style="width: 42px;">
+          &nbsp;
+        </td>
+        <td style="width: 36px;">
+          &nbsp;
+        </td>
+        <td style="width: 68px;">
+          <%#= @visits[day].appointment_date.strftime("%d-%b-%Y") rescue "&nbsp;" %>&nbsp;
+        </td-->
+      </tr>
+    <% end %>
+
+  </table>
+</div>

@@ -1,0 +1,72 @@
+<%= stylesheet_link_tag 'extra_buttons' %>
+<style type="text/css">
+  #stats {
+    width:98%;
+    margin:10px;
+    background:white;
+  }
+
+  #stats a {
+    background-color: grey;
+    border-bottom: 1px outset black;
+    border-style: outset;
+    border-top: 1px outset black;
+    color: white;
+    display: block;
+    padding: 10px 16px 10px 10px;
+    text-align: center;
+    text-decoration: none;
+  }
+
+  #stats td {
+    width: 310px;
+  }
+
+  #table_div {
+    overflow:auto;
+    height: 280px;
+    background-color: white;
+    border: 1px #eee solid;
+    border-width: 1px;
+  }
+</style>
+
+<script>
+  function setInnerHtmlData(id,result,path) {
+    td = document.getElementById(id);
+    td.innerHTML = "<a href =" + path + ">" +  result + "</a>"
+  }
+</script>
+
+<base target="_parent">
+<h2 style="margin: 0px;">Select task</h2>
+<div id="table_div">
+
+  <table id="stats">
+    <% count = @links.length  unless @links.blank? %>
+    <% (@links || []).each do |name,path|
+      count_up = 0
+      count = 0 if @links.blank?
+    %>
+      <% while count_up < count %>
+        <tr>
+          <td id = "<%=count_up+= 1%>"></td>
+          <td id = "<%=count_up+= 1%>"></td>
+          <td id = "<%=count_up+= 1%>"></td>
+        </tr>
+      <%end unless @links.blank?%>
+    <%end%>
+  </table>
+
+
+  <%
+  count = @links.length  unless @links.blank?
+  @links.map do | name , path | %>
+    <script>
+      setInnerHtmlData("<%=count%>","<%=name%>","<%=path%>");
+    </script>
+    <%count-=1%>
+  <%end%>
+
+</div>
+</base>

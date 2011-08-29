@@ -10,8 +10,8 @@ class PersonNameCodeTest < ActiveSupport::TestCase
     end
     
     should "rebuild the codes for all of the person names" do
-      muluzi = PersonName.create(:given_name => 'Atcheya', :family_name => 'Muluzi')
       PersonNameCode.rebuild_person_name_codes
+      muluzi = PersonName.create(:given_name => 'Atcheya', :family_name => 'Muluzi')
       code = PersonNameCode.find(:all, :conditions => ['person_name_id = ?', muluzi.person_name_id])
       assert_equal code.size, 1
       code = code.first

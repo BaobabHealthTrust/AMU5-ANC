@@ -1,0 +1,49 @@
+<script>
+var tt_cancel_destination = "/patients/show/" + "<%=params[:patient_id]%>"
+</script>
+
+
+<style>
+  #head {
+    padding-top: 15px;
+    padding-bottom: 15px;
+  }
+
+  .mastercards {
+    text-align: center;
+    padding: 20px;
+  }
+
+  .mastercard_button {
+    background-color: grey;
+    border-bottom: 1px outset black;
+    border-style: outset;
+    border-top: 1px outset black;
+    color: white;
+    display: block;
+    padding: 10px 16px 10px 10px;
+    text-align: center;
+    text-decoration: none;
+    width:50%;
+    margin-left: 25%;
+    padding-bottom:20px;
+  }
+</style>
+
+<div id = 'head'>
+  <div class = 'mastercards'>
+    <a href='/patients/mastercard?patient_id=<%=params[:patient_id]%>&source=&type=1' class = 'mastercard_button'>Yellow</a>
+  </div>
+  <div class = 'mastercards'>
+    <a href='/patients/mastercard?patient_id=<%=params[:patient_id]%>&source=&type=2' class = 'mastercard_button'>Green</a>
+  </div>
+  <div class = 'mastercards'>
+    <a href='/patients/mastercard?patient_id=<%=params[:patient_id]%>&source=&type=3' class = 'mastercard_button'>Pink</a>
+  </div>
+  <div class = 'mastercards'>
+    <a href='/patients/mastercard?patient_id=<%=params[:patient_id]%>&source=&type=4' class = 'mastercard_button'>Blue</a>
+  </div>
+  <div class = 'mastercards'>
+    <a href='/patients/mastercard?patient_id=<%=params[:patient_id]%>' class = 'mastercard_button'>Master</a>
+  </div>
+</div>

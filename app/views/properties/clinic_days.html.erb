@@ -1,0 +1,273 @@
+<script>
+   var tt_cancel_destination = "/clinic"; // /properties"
+</script>
+<style>
+  table , div {
+     -moz-user-select: none;
+  }
+
+  h1 { padding-left:10px; }
+
+  .user_info {
+    background-color: #DDDDDD;
+    height: 461px;
+    border-bottom: 1px solid black;
+    border-top: 1px solid black;
+    margin-top: 1px;
+    font-size:25px;
+  }
+
+  .userdata {
+    background: none repeat scroll 0 0 white;
+    border: 1px solid black;
+    margin: 10px;
+    width: 98%;
+    height: 97%;
+  }
+
+  .weekday { text-align:left; padding-left:10px; }
+
+  .userdata td, .userdata th {
+    border-width: 0px;
+    border-style:solid;
+  }
+ 
+  .check_box { 
+    text-align:center;
+  }
+  
+  #monday , #tuesday , #wednesday , #thursday , #friday , #saturday , #sunday {
+    font-size:25px;
+    text-align:center;
+  }
+   
+  .blue { background-color:#E6E6FF; }
+
+  .user_info button {
+    margin-top: 10px;
+    font-size: 1.2em;
+    font-weight: bold;
+    margin: 0 4px;
+    float:right;
+  }
+
+#accept {}
+</style>
+
+<body onload = 'addAttribute();setSelectedDays();'>
+<h1><%=Location.current_health_center.name %><br />clinic week day(s):&nbsp;<span id='age_group'>All ages</span></h1>
+<div class = 'user_info'>
+<table class = 'userdata'>
+  <% date = Date.today %>
+  <tr>
+    <td class='blue weekday'>Monday</td>
+    <td class='blue check_box'><%=text_field_tag :monday , nil ,:size => 1 ,:maxlength => 1 ,:onfocus => "this.blur()" ,:onmousedown => "selectDay('monday');" %></td>
+  </tr>
+  <tr>
+    <td class='white weekday'>Tuesday</td>
+    <td class='white check_box'><%=text_field_tag :tuesday ,nil ,:size => 1 ,:maxlength => 1 ,:onfocus => "this.blur()", :onmousedown => "selectDay('tuesday');"  %></td>
+  </tr>
+  <tr>
+    <td class='blue weekday'>Wednesday</td>
+    <td class='blue check_box'><%=text_field_tag :wednesday , nil , :size => 1  ,:maxlength => 1 ,:onfocus => "this.blur()" , :onmousedown => "selectDay('wednesday');" %></td>
+  </tr>
+  <tr>
+    <td class='white weekday'>Thursday</td>
+    <td class='white check_box'><%=text_field_tag :thursday , nil , :size => 1 ,:maxlength => 1 ,:onfocus => "this.blur()", :onmousedown => "selectDay('thursday');" %></td>
+  </tr>
+  <tr>
+    <td class='blue weekday'>Friday</td>
+    <td class='blue check_box'><%=text_field_tag :friday , nil , :size => 1 ,:maxlength => 1 ,:onfocus => "this.blur()", :onmousedown => "selectDay('friday');" %></td>
+  </tr>
+  <tr>
+    <td class='white weekday'>Saturday</td>
+    <td class='white check_box'><%=text_field_tag :saturday , nil , :size => 1 ,:maxlength => 1 ,:onfocus => "this.blur()", :onmousedown => "selectDay('saturday');" %></td>
+  </tr>
+  <tr>
+    <td class='blue weekday'>Sunday</td>
+    <td class='blue check_box'><%=text_field_tag :sunday , nil ,:size => 1 ,:maxlength => 1 ,:onfocus => "this.blur()", :onmousedown => "selectDay('sunday');" %></td>
+  </tr>
+</table>
+<br />
+</div>
+</body>
+
+
+<script>
+  var clinic_weekdays = [];
+  var peads_clinic_weekdays = [];
+
+
+  function setSelectedDays() {
+    selected_days = "<%=@clinic_days%>";
+    peads_selected_days = "<%=@peads_clinic_days%>";
+
+    if (selected_days != ''){
+      clinic_weekdays = [];
+      selected_days = selected_days.split(',');
+      for(i = 0 ; i < selected_days.length ; i++){
+        selectDay(selected_days[i].toLowerCase());
+      }
+    }
+    if (peads_selected_days != ''){
+      switchView();
+      peads_clinic_weekdays = []
+      peads_selected_days = peads_selected_days.split(',');
+      for(i = 0 ; i < peads_selected_days.length ; i++){
+        selectDay(peads_selected_days[i].toLowerCase());
+      }
+    }
+
+    if ((selected_days != '') && (peads_selected_days != ''))
+      switchView();
+  }
+
+  function selectDay(weekday) {
+    check_box = document.getElementById(weekday);
+    if (check_box.value == '') {
+      if(document.getElementById('age_group').innerHTML == 'All ages'){
+        clinic_weekdays.push(weekday) 
+      } else { 
+        peads_clinic_weekdays.push(weekday) 
+      }
+      check_box.value = "X"
+      setClinicDays();
+    }else{ check_box.value = '' ; removeDay(weekday); }
+  }
+
+  function removeDay(weekday) {
+    if(document.getElementById('age_group').innerHTML == 'All ages'){
+      set_weekdays = clinic_weekdays ; clinic_weekdays = [] ;
+      for (i = 0 ; i < set_weekdays.length ; i++){
+        if (set_weekdays[i].toLowerCase() != weekday) { clinic_weekdays.push(set_weekdays[i]) };
+      }
+    }else{
+      set_weekdays = peads_clinic_weekdays ; peads_clinic_weekdays = [] ;
+      for (i = 0 ; i < set_weekdays.length ; i++){
+        if (set_weekdays[i].toLowerCase() != weekday) { peads_clinic_weekdays.push(set_weekdays[i]) };
+      }
+    }
+    setClinicDays();
+  }
+
+  function setClinicDays() {
+    if (clinic_weekdays != '' || peads_clinic_weekdays != ''){
+      finish_button = document.getElementById('finishButton');
+      finish_button.setAttribute("onmousedown",'setWeekDays();');
+      finish_button.innerHTML = "<span>Done</span>"
+      tt_cancel_destination = null;
+    }else{
+      tt_cancel_destination = "/clinic" // /properties/"
+      finish_button = document.getElementById('finishButton');
+      finish_button.innerHTML = "<span>Finish</span>"
+      finish_button.setAttribute('onmousedown',tt_cancel_destination);
+    }
+  }
+
+  function setWeekDays(){
+    selected_days = "<%=@clinic_days%>";
+    peads_selected_days = "<%=@peads_clinic_days%>";
+
+    clinic_weekdays_count = 0;
+    peads_clinic_weekdays_count = 0
+    peads_wkdays_change = true
+    wkdays_change = true
+
+    if (selected_days != ''){
+      selected_days = selected_days.split(',')
+      for(x = 0 ; x < clinic_weekdays.length ; x++){
+        for(i = 0 ; i < selected_days.length ; i++){
+          if(selected_days[i].toLowerCase() == clinic_weekdays[x]){
+            clinic_weekdays_count+=1
+          }
+        }
+      }
+      if(clinic_weekdays_count == clinic_weekdays.length && clinic_weekdays_count == selected_days.length && wkdays_change){
+        wkdays_change = false
+      }
+    } else {
+      if (clinic_weekdays.length == 0 && wkdays_change) {
+          wkdays_change = false
+      }
+    }
+
+    if (peads_selected_days != ''){
+      peads_selected_days = peads_selected_days.split(',')
+      for(x = 0 ; x < peads_clinic_weekdays.length ; x++){
+        for(i = 0 ; i < peads_selected_days.length ; i++){
+          if(peads_selected_days[i].toLowerCase() == peads_clinic_weekdays[x]){
+            peads_clinic_weekdays_count+=1
+          }
+        }
+      }
+
+      if((peads_clinic_weekdays_count == peads_clinic_weekdays.length) && (peads_clinic_weekdays_count == peads_selected_days.length)){
+        peads_wkdays_change = false
+      }
+    } else {
+      if (peads_clinic_weekdays.length == 0 && peads_wkdays_change) {
+          peads_wkdays_change = false
+      }
+    }
+
+    if(peads_wkdays_change == false && wkdays_change == false){
+      document.location = "/clinic" // /properties/"
+      return
+    }
+
+    submitForm = document.createElement("FORM");
+    submitForm.setAttribute("type","hidden");
+    submitForm.method = "POST";
+    document.body.appendChild(submitForm);
+
+    newElement = document.createElement("input")
+    newElement.setAttribute("name",'weekdays')
+    newElement.setAttribute("type","hidden");
+    newElement.value = clinic_weekdays.join(',');
+    submitForm.appendChild(newElement);
+
+    newElement = document.createElement("input")
+    newElement.setAttribute("name",'peadswkdays')
+    newElement.setAttribute("type","hidden");
+    newElement.value = peads_clinic_weekdays.join(',');
+    submitForm.appendChild(newElement);
+
+    submitForm.action= "/properties/clinic_days";
+    submitForm.submit();
+  }
+
+  function addAttribute() {
+    buttons_div = document.getElementById('buttons')
+    buttons_div.innerHTML+= "<button onmousedown='switchView();' id='switch' class='button navButton'><span>Children</span></button>";
+  }
+
+  function switchView(){
+    switch_button = document.getElementById('switch')
+    header = document.getElementById('age_group')
+
+    wkdays =  ['monday','tuesday','wednesday','thursday','friday','saturday','sunday']
+    for(i = 0 ; i < wkdays.length ; i++){
+      document.getElementById(wkdays[i]).value = '';
+    }
+
+    if (header.innerHTML == 'All ages') {
+      switch_button.innerHTML = "<span>All ages</span>"
+      header.innerHTML = 'Children'
+    }else{
+      switch_button.innerHTML = "<span>Children</span>"
+      header.innerHTML = 'All ages'
+    }
+
+
+    if (header.innerHTML == 'All ages') {
+      for(i = 0 ; i < clinic_weekdays.length ; i++){
+        document.getElementById(clinic_weekdays[i]).value = 'X';
+      }
+    }else{
+      for(i = 0 ; i < peads_clinic_weekdays.length ; i++){
+        document.getElementById(peads_clinic_weekdays[i]).value = 'X';
+      }
+    }
+
+  }
+</script>

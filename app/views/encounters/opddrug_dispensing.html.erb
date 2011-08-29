@@ -1,0 +1,58 @@
+<script>
+  var tt_cancel_destination = '/patients/opdtreatment/<%=@patient.id%>'
+
+  function set_drug_for_quantity() {
+    var drug_id = encodeURIComponent($('drug_id').value); 
+    $('touchscreenInput'+tstCurrentPage).setAttribute('ajaxURL', "/dispensations/quantities?formulation=" + drug_id + "&search_string=");
+    listSuggestions(tstCurrentPage); 
+  }
+
+</script>
+
+<style>
+</style>
+
+<form action='/encounters/create' method = 'post'>
+  <%= hidden_field_tag "encounter[encounter_type_name]", "DISPENSING" %>
+  <%= hidden_field_tag "encounter[patient_id]", @patient.id %>
+  <%= hidden_field_tag "encounter[encounter_datetime]", DateTime.now() %>
+  <%= hidden_field_tag "encounter[provider_id]", session[:user_id] %>
+
+<%= touch_select_tag 'DRUGS DISPENSED', @patient, nil,
+    {:id => 'location_id',
+     :field_type => 'alpha',
+     :helpText => "Drugs given",
+     :ajaxURL => '/prescriptions/name?search_string=',
+     :allowFreeText => false } %>
+
+ <%# This options hash allows us to define our options in one place %>
+  <% options = {
+    :helpText => 'Additional drugs given',
+    :ajaxURL => "/prescriptions/name?search_string=",
+    :textCase => "upper" } %>
+
+ <% options[:optional] = 'true' %>
+  <% options[:tt_onLoad] = "setTimeout(updateNextFinish, 20)" %>
+  <script>
+    // Every 500 milliseconds update the Next/Finish button
+    function updateNextFinish(){
+      if (tstInputTarget.value == '')
+        $('nextButton').innerHTML = '<span>Finish</span>';
+      else
+        $('nextButton').innerHTML = '<span>Next</span>';
+
+      setTimeout(updateNextFinish, 500)
+    }
+  </script>
+
+  <% 5.times do |counter| %>
+    <% options[:condition] = "tstFormElements[#{counter}].value != ''" if counter > 0 %>
+    <% counter += 1 %>
+    <%= text_field_tag("observations[][value_coded_or_text]", nil, options) %>
+    <%= hidden_field_tag("observations[][value_text]", nil) %>
+    <%= hidden_field_tag("observations[][concept_name]", "OTHER DRUGS", options) %>
+    <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
+    <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+  <% end %>
+
+</form>

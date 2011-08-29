@@ -635,9 +635,11 @@ function getOptions() {
             if(tstFormElements[i].tagName == "SELECT") {
                 var selectOptions = tstFormElements[i].getElementsByTagName("option");
 
-                // Append an empty option first
-                if(selectOptions[0].innerHTML.trim().length > 0){
-                    tstFormElements[i].innerHTML = "<option></option>" + tstFormElements[i].innerHTML;
+                if(selectOptions.length > 0){
+                    // Append an empty option first
+                    if(selectOptions[0].innerHTML.trim().length > 0){
+                        tstFormElements[i].innerHTML = "<option></option>" + tstFormElements[i].innerHTML;
+                    }
                 }
 
                 if(tstFormElements[i].getAttribute("dualView") != undefined &&
@@ -751,7 +753,7 @@ function toggleShowProgress() {
 }
 
 function loadSelectOptions(selectOptions, options, dualViewOptions) {
-    var optionsList = "<ul id='tt_currentUnorderedListOptions'><li id='default'> </li>";
+    var optionsList = "<ul id='tt_currentUnorderedListOptions'>";  // <li id='default'> </li>";
     var selectOptionCount = selectOptions.length;
     var selected = -1;
 
@@ -851,7 +853,10 @@ function changeSummary(position){
             var cell1 = document.createElement("div");
             cell1.style.display = "table-cell";
             cell1.style.padding = "10px";
-            cell1.innerHTML = "<b style='color: #333;'>" + item.replace(/_/g, " ").toProperCase() + "</b>";
+            // cell1.innerHTML = "<b style='color: #333;'>" + (item == "ta" ? "T/A" :
+            //    item.replace(/_/g, " ").toProperCase()) + "</b>";
+
+            cell1.innerHTML = "<b style='color: #333;'>" + item + "</b>";
 
             row.appendChild(cell1);
 
@@ -1067,8 +1072,10 @@ function tt_update(sourceElement){
     } else {
         sourceValue = sourceElement.value;
     }
+
     var targetElement = returnElementWithAttributeValue("touchscreenInputID", sourceElement.getAttribute("refersToTouchscreenInputID"), tstFormElements);
     targetElement.focus();
+    
     switch (sourceElement.tagName){
         // switch (targetElement.tagName){
         case "INPUT":
@@ -1849,7 +1856,8 @@ function getDatePicker() {
     }
 
     var defaultDate = joinDateValues(inputElement);
-    // defaultDate = defaultDate.replace("-", "/", "g");
+
+    defaultDate = defaultDate.replace("/", "-", "g");
     var arrDate = defaultDate.split('-');
     __$("touchscreenInput"+tstCurrentPage).value = defaultDate;
 
@@ -2323,7 +2331,9 @@ TTInput.prototype = {
         this.shouldConfirm = false;
 
         if (isDateElement(this.formElement)) {
-            this.value.match(/(\d+)\/(\d+)\/(\d+)/);
+            // this.value.match(/(\d+)\/(\d+)\/(\d+)/);
+            
+            this.value = this.value.replace(/\//g, '-');
             var thisDate = new Date(this.value);
             // var thisDate = new Date(RegExp.$3,parseFloat(RegExp.$2)-1, RegExp.$1);
             minValue = this.element.getAttribute("min");
@@ -2332,7 +2342,7 @@ TTInput.prototype = {
             absMaxValue = this.element.getAttribute("absoluteMax");
 
             if (absMinValue) {
-                absMinValue = absMinValue.replace(/-/g, '/');
+                absMinValue = absMinValue.replace(/\//g, '-');
                 var minDate = new Date(absMinValue);
                 if (minDate && (thisDate.valueOf() < minDate.valueOf())) {
                     tooSmall = true;
@@ -2340,8 +2350,9 @@ TTInput.prototype = {
                 }
             }
             if (absMaxValue) {
-                absMaxValue = absMaxValue.replace(/-/g, '/');
+                absMaxValue = absMaxValue.replace(/\//g, '-');
                 var maxDate = new Date(absMaxValue);
+
                 if (maxDate && (thisDate.valueOf() > maxDate.valueOf())) {
                     tooBig = true;
                     maxValue = absMaxValue;
@@ -2349,7 +2360,7 @@ TTInput.prototype = {
             }
             if (!tooSmall && !tooBig) {
                 if (minValue) {
-                    minValue = minValue.replace(/-/g, '/');
+                    minValue = minValue.replace(/\//g, '-');
                     var minDate = new Date(minValue);
                     if (minDate && (thisDate.valueOf() < minDate.valueOf())) {
                         tooSmall = true;
@@ -2357,8 +2368,9 @@ TTInput.prototype = {
                     }
                 }
                 if (maxValue) {
-                    maxValue = maxValue.replace(/-/g, '/');
+                    maxValue = maxValue.replace(/\//g, '-');
                     var maxDate = new Date(maxValue);
+
                     if (maxDate && (thisDate.valueOf() > maxDate.valueOf())) {
                         tooBig = true;
                         this.shouldConfirm = true;
@@ -2926,19 +2938,27 @@ var DateSelector = function() {
         maxDate: arguments[0].max || this.date
     };
 
-    if (typeof(tstCurrentDate) != "undefined" && tstCurrentDate) {
+    if (!isNaN(Date.parse(new Date(this.options.year, (stripZero(this.options.month) -1), stripZero(this.options.date))))){
+        
+        this.date = new Date(this.options.year, (stripZero(this.options.month) -1), stripZero(this.options.date));
+
+    } else if (typeof(tstCurrentDate) != "undefined" && tstCurrentDate) {
+
         var splitDate = tstCurrentDate.split("-");
+
         if (splitDate.length == 3) {
             this.date = new Date(splitDate[0], splitDate[1]-1, splitDate[2]);
         } else {
             var splitDate2 = tstCurrentDate.split("/");
+
             if (splitDate2.length == 3) {
                 this.date = new Date(splitDate2[0], splitDate2[1]-1, splitDate2[2]);
             }
         }
     }	else {
-        this.date = new Date(this.options.year, this.options.month -1, this.options.date);
+        this.date = new Date();
     }
+
     this.element = this.options.element;
     this.format = this.options.format;
 
@@ -2956,6 +2976,7 @@ var DateSelector = function() {
     this.currentYear.value = this.date.getFullYear();
     this.currentMonth.value = this.getMonth();
     this.currentDay.value = this.date.getDate();
+
 };
 
 DateSelector.prototype = {
@@ -3391,3 +3412,11 @@ var TimeUtil = {
     }
 }
 
+function stripZero(value){
+    try {
+      if(value.match(/^0/)){
+          return eval(value.substr(1));
+      }
+    }catch(e) {}
+    return value;
+}

@@ -15,8 +15,8 @@ class PersonNameCode < ActiveRecord::Base
         :middle_name_code => (name.middle_name || '').soundex,
         :family_name_code => (name.family_name || '').soundex,
         :family_name2_code => (name.family_name2 || '').soundex,
-        :family_name_suffix_code => (name.family_name_suffix || '').soundex        
-      )
+        :family_name_suffix_code => (name.family_name_suffix || '').soundex
+      ) unless (name.voided? || name.person.nil?|| name.person.voided? || name.person.patient.nil?|| name.person.patient.voided?)
     }
   end
 

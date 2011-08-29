@@ -1,17 +1,9 @@
-/**************************************************************************
-  * dashboard.css
-  *   manages layout of ouchscreen dashboards
-  *   CSS for the Touchscreen Toolkit library
-  *
-  * (c) 2011 Baobab Health Trust (http://www.baobabhealth.org)
-  *
-  * For lincense details, see the README.md file
-  *
-  * Browser:    Firefox
-  * Interface:  Touchscreen 
-  * Resolution: 800X600
-  *
-  **************************************************************************/
+/* colors 
+.yellow { background-color:rgb(255,255,153); }
+.red { background-color:rgb(255,51,51); }
+.green { background-color:rgb(61,235,61); }
+.dark { background-color:rgb(51,51,51); }
+.silver { background-color:rgb(204,204,204); }*/
 
 .blue { background-color:rgb(153,153,255); }
 .even { background-color:rgb(230,230,255); }
@@ -19,13 +11,26 @@
 .light { background-color:#ddd }
 
 body{
-  /*font-family: "Nimbus Sans L", "Arial Narrow", sans-serif;*/
-  font-family: "Nimbus Sans L";
+  font-family: "Nimbus Sans L", "Arial Narrow", sans-serif;
   margin: 0;
   -moz-user-select:none;
+}
+
+#mateme {
   background-color:#000000;
 }
 
+#container {
+  background-color:#000000;
+  display:block;
+  height:1px;
+  left:0;
+  overflow:visible;
+  position:absolute;
+  top:50%;
+  visibility:visible;
+  width:100%;
+}
 
 #content {
   background:#FFFFFF;
@@ -43,8 +48,7 @@ body{
   background-color:rgb(51,51,51);
   color:#CADCEA;
   height:80px;
-  width: 98%;
-  padding-right: 20px;
+  width:100%;
   bottom:0px;
   position:absolute;
   overflow:hidden;
@@ -65,6 +69,7 @@ button {
   font-weight:bold;
   font-size:1.2em;
   margin: 0 4px;
+  -moz-user-select:none;
 }
 
 #footer {
@@ -270,316 +275,3 @@ div.panel h2 {
   text-align:center;
 }
 
-#banner{
-    display: table;
-    background-color: #fff;
-    height: 140px;
-    padding: 10px;
-    border-bottom: 1px dotted #fff;
-    width: 98%;
-}
-
-#bannerrow{
-    display: table-row;
-}
-
-#scanlabel {
-    display: table-cell;
-    font-size: 28px;
-    padding-left: 15px;
-    color: silver;
-    height: 65%;
-    background-color: #fff;
-}
-
-#scaninput {
-    display: table-cell;
-    height: 45%;
-    width: 46%;
-    padding: 10px;
-    background-color: #fff;
-}
-
-#barcode{
-    border-top:none;
-    border-left:none;
-    border-right:none;
-    border-bottom: 1px solid #eee;
-    width:100%;
-    font-family:"Nimbus Sans L","Arial Narrow",sans-serif;
-    font-size:2.2em;
-    background:none;
-    padding-left:5px;
-}
-
-#application {
-    display: table-cell;
-    height: 92%;
-    background-color: #fff;
-}
-
-#applicationname {
-    font-size: 80px;
-    color: #ddd;
-    text-align: center;
-    padding-left: 15px;
-    padding-right: 15px;
-    padding-bottom: 22px;
-    -moz-border-radius: 75px;
-    border: 1px solid #eee;
-    max-height: 122px;
-    width: 190px;
-    overflow: hidden;
-}
-
-#main {
-    background-color: #fff;
-    height: 68%;
-}
-
-#nav {
-    background-color: #333333;
-    border-top:3px solid :#99AAB7;
-    color:#CADCEA;
-    height:80px;
-    width:100%;
-    bottom:0px;
-    position:absolute;
-    overflow:hidden;
-}
-
-#patient-dashboard-application {
-    float: left;
-    height: 160px;
-    margin-left: 5px;
-    padding-top: 40px;
-    margin-bottom: 0px;
-    width: 30%;
-}
-
-#patient-dashboard-applicationname {
-    font-size: 5em;
-    color: #ddd;
-    text-align: center;
-    padding: 3px;
-    -moz-border-radius: 75px;
-    border: 1px solid #ddd;
-    padding: 10px;
-    padding-bottom: 27px;
-    height: 98px;
-    overflow: hidden;
-}
-
-#links {
-    height: 90%;
-    float: right;
-    width: 26%;
-    background-color: #fff;
-}
-
-#patient-dashboard-main {
-    float: left;
-    width: 73%;
-    height: 57%;
-    background-color: #fff;
-}
-
-#detailscontainer {
-    width: 100%;
-    height: 145px;
-    overflow: auto;
-}
-
-#details {
-    display: table;
-    border: 1px solid #999;
-    -moz-border-radius: 20px;
-    float: left;
-    overflow: hidden;
-    margin: 5px;
-    width: 40%;
-    background-color: #fff;
-    padding: 10px;
-}
-
-#detailsRow1{
-    display: table-row;
-}
-
-#detailsRow1Cell{
-    display: table-row;
-}
-
-#detailsRow2{
-    display: table-row;
-}
-
-#detailsRow2Cell{
-    display: table-row;
-}
-
-#mainTopicContent{
-    display: table;
-    width: 100%;
-}
-
-#topicRow{
-    display: table-row;
-}
-
-#mainDetailsContent{
-    display: table;
-    width: 100%;
-}
-
-#detailsTopic {
-    display: table-cell;
-    font-weight: bold;
-    font-size: 25px;
-    padding: 10px;
-    padding-top: 0px;
-    border-bottom: 1px solid #999;
-}
-
-#gendercell{
-    display: table-cell;
-    width: 30px;
-    padding: 10px;
-    border-bottom: 1px solid #999;
-}
-
-#gender {
-    width: 30px;
-    height: 30px;
-    -moz-border-radius: 20px;
-    border: 1px #000 solid;
-    background-color: #eef;
-}
-
-#nameRow{
-    display: table-row;
-}
-
-#id {
-    display: table-cell;
-    margin: 10px;
-    font-size: 1.2em;
-    font-weight: bold;
-    padding: 10px;
-    width: 25%;
-}
-
-#idvalue {
-    display: table-cell;
-    margin: 10px;
-    padding: 10px;
-}
-
-#residenceRow{
-    display: table-row;
-}
-
-#residence {
-    display: table-cell;
-    margin: 10px;
-    margin-top: 0px;
-    font-size: 1.2em;
-    font-weight: bold;
-    padding: 10px;
-}
-
-#residencevalue {
-    display: table-cell;
-    margin: 10px;
-    margin-top: 0px;
-    padding: 10px;
-}
-
-.patientLabelRow{
-    display: table-row;
-}
-
-.patientLabel {
-    display: table-cell;
-    margin: 10px;
-    margin-top: 0px;
-    font-size: 1.2em;
-    font-weight: bold;
-    padding: 10px;
-}
-
-.patientLabelValue {
-    display: table-cell;
-    margin: 10px;
-    margin-top: 0px;
-    padding: 10px;
-}
-
-#logininfo{
-    position: absolute;
-    border: 1px #eee solid;
-    left: 765px;
-    top: 140px;
-    height: 30px;
-    width: 225px;
-    background-color: #fff;
-    -moz-border-radius: 40px;
-    font-size: 1.5em;
-    color: #666;
-    text-align: center;
-    padding-top: 8px;
-}
-
-#siteinfo{
-    position: absolute;
-    border: 1px #eee solid;
-    left: 20px;
-    top: 110px;
-    height: 50px;
-    width: 740px;
-    background-color: #fff;
-    -moz-border-radius: 40px;
-    background-color: #eee;
-}
-
-#sitetable {
-    display: table;
-    width: 100%;
-    height: 100%;
-}
-
-#siterow {
-    display: table-row;
-}
-
-#sitecol1 {
-    display: table-cell;
-    border-right: 1px solid #ccc;
-    width: 50%;
-    padding: 8px;
-    font-size: 1.5em;
-    font-style: italic;
-    color: #999;
-    padding-left: 12px;
-}
-
-#sitecol2 {
-    display: table-cell;
-    text-align: right;
-    width: 50%;
-    padding: 8px;
-    font-size: 1.5em;
-    font-style: italic;
-    color: #999;
-    padding-right: 12px;
-}
-
-#user {
-    margin-top: 6px;
-    background-color: #eee;
-    padding: 5px;
-    -moz-border-radius: 30px;
-    overflow: hidden;
-    max-height: 30px;
-    font-style: italic;
-}

@@ -1,7 +1,10 @@
 <style type="text/css">
+   .tt_controls_quantity #char {
+    display: none;
+  }
 </style>
 <script>
-  var tt_cancel_destination = "/patients/treatment/<%= @patient.patient_id %>"    
+  var tt_cancel_destination = "/patients/treatment_dashboard/<%= @patient.patient_id %>"
 
   function set_drug_for_quantity() {
     var drug_id = encodeURIComponent($('drug_id').value); 

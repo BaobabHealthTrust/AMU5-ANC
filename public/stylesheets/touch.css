@@ -46,7 +46,7 @@ form{
   position: absolute;
 }
 
-.options, .optionsSearchPage, .touchscreenTextInput, .searchResults {
+.options, .optionsSearchPage, .touchscreenTextInput, .searchResults, .touchscreenTextArea {
   font-size:1.5em;
   -moz-user-select:none
 }
@@ -57,6 +57,19 @@ form{
   border-right:none;
   border-bottom: 1px solid silver;
   width:745px;
+  font-family:"Nimbus Sans L","Arial Narrow",sans-serif;
+  font-size:2.2em;
+  background:none;
+  padding-left:5px;
+}
+
+.touchscreenTextArea {
+  border-top:none;
+  border-left:none;
+  border-right:none;
+  border-bottom: 1px solid silver;
+  width:98%;
+  height: 400px;
   font-family:"Nimbus Sans L","Arial Narrow",sans-serif;
   font-size:2.2em;
   background:none;

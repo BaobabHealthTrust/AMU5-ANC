@@ -17,11 +17,18 @@
     return (today > set_date)
   }
 
-  var tt_cancel_destination = "/clinic"
+  <% if @patient_id %>
+    var tt_cancel_destination = "/patients/show/<%=@patient_id%>"
+  <% else %>
+    var tt_cancel_destination = "/clinic"
+  <% end %>
 </script>
 
+<style>
+  .tt_controls_year #char { display:none; }
+</style>
 
-<form action = "/people/set_datetime" method = "post">
+<form action = "/people/set_datetime/<%=@patient_id%>" method = "post">
 
   <%= text_field_tag(:set_year,nil,{:field_type => 'number', :absoluteMin => "1940", :absoluteMax => Time.now.year, :helpText => 'Year'}) %>
 

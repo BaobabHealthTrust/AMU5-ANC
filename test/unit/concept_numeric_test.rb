@@ -5,7 +5,8 @@ class ConceptNumericTest < ActiveSupport::TestCase
 
   context "Concept numerics" do
     should "have an associated concept" do
-      assert_equal concept(:height), concept_numeric(:height_limits).concept
+      assert_equal Concept.find_by_name("HEIGHT (CM)"),
+                   concept_numeric(:height_limits).concept
     end
     
     should "calculate the touchscreen toolkit limit options" do

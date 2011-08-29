@@ -1,0 +1,72 @@
+<html>
+  <head>
+    <title>Mastercard</title>
+    <%= stylesheet_link_tag fancy_or_high_contrast_touch %>
+    <style>
+      body {
+        background-color: <%=
+        case @type
+        when "yellow": "#fff99f"
+        when "blue": "#ccf"
+        when "green": "#cfc"
+        when "pink": "#fcc"
+        end
+        %>;
+      }
+    </style>
+    <script type="text/javascript" language="javascript">
+      <!--
+
+        function __$(id){
+          return document.getElementById(id);
+        }
+
+      //-->
+    </script>
+  </head>
+  <body>
+    <table width="100%" border="0" cellspacing="0" cellpadding="0">
+      <tr>
+        <td colspan="3">
+          <%= render(:partial => "mastercard_header" ) %>
+        </td>
+      </tr>
+      <tr>
+        <td <% if @type !=  "pink": %> style="width: 36%; border: 2px solid #000; vertical-align: top;"
+                                       <% else %> style="vertical-align: top;" <% end %> >
+                                       <%= render(:partial => "patient_details" ) %>
+        </td>
+        <td colspan="2" <% if @type !=  "pink": %> style="vertical-align: top; border-top: 2px solid #000; border-right: 2px solid #000;
+              border-bottom: 2px solid #000;" <% else %> style="vertical-align: top;" <% end %> >
+            <%= render(:partial => "status_details" ) %>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="3" style="vertical-align: top;">
+          <%= render(:partial => "mastercard_details_#{@type}" ) %>
+        </td>
+      </tr>
+    </table>
+
+    <script language="javascript" type="text/javascript" defer>
+      <!--
+      var obj = this.document.getElementById("card");
+      var tbl = this.document.getElementById("header");
+
+      function checkPosition(){
+        if(obj.scrollTop > 85 && tbl.style.display != "block"){
+            tbl.style.display = "block";
+            obj.style.height = (obj.offsetHeight - tbl.offsetHeight - 10) + "px";
+        } else if (obj.scrollTop < (tbl.offsetHeight + 10) && tbl.style.display == "block") {
+            obj.style.height = (obj.offsetHeight + tbl.offsetHeight) + "px";
+            tbl.style.display = "none";
+        } 
+      }
+
+      this.document.getElementById("card").addEventListener("scroll", checkPosition, false);
+
+      //-->
+    </script>
+
+  </body>
+</html>

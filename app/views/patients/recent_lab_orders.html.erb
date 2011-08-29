@@ -1,0 +1,15 @@
+<script>
+   var tt_cancel_destination = "/patients/show/<%=@patient_id%>"
+</script>
+
+<style>
+  #tt_page_select_activities .options { height: 506px; }
+</style>
+
+
+<form method = 'post' action = "/patients/print_recent_lab_orders_label/<%=@patient_id%>">
+  <%= select_tag 'lab_tests[]',
+      options_for_select(@lab_order_labels),
+      :helpText => "Select labels to reprint" ,
+      :multiple =>  true %> 
+</form>

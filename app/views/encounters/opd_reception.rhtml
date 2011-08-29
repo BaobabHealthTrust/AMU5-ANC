@@ -1,0 +1,35 @@
+<script>
+  var tt_cancel_destination = "/patients/opdtreatment/<%= @patient.patient_id %>"
+  
+  function new_relationship() {
+    var current = '/encounters/new/hiv_reception?patient_id=<%= @patient.patient_id %>';
+    window.location = "/relationships/search?patient_id=<%= @patient.patient_id %>&return_to=" + escape(current)
+  }
+  
+  function show_new_relationship_button() {
+    var button = "<button onmousedown='new_relationship();' class='button navButton'><span>New Guardian</span></button>";
+    $('tt_extraButtons').innerHTML = button
+  }
+  
+  function hide_new_relationship_button() {
+    $('tt_extraButtons').innerHTML = "";    
+  }
+
+</script>  
+<form id='appointment' action="/encounters/create" method='post'>
+  <%= hidden_field_tag "encounter[encounter_type_name]", "OUTPATIENT RECEPTION" %>
+  <%= hidden_field_tag "encounter[patient_id]", @patient.id %>
+  <%= hidden_field_tag "encounter[encounter_datetime]", DateTime.now() %>
+  <%= hidden_field_tag "encounter[provider_id]", session[:user_id] %>
+
+  <label for='patient_present'>Patient Present (<%=@patient.name%>)</label>
+    <%= select_tag "observations[][value_coded_or_text]", options_for_select([['Yes','YES'],['No','NO']]), 
+      {:id => 'patient_present',
+      :tt_onLoad => 'hide_new_relationship_button();'} %>
+    <%= hidden_field_tag("observations[][value_text]", nil) %>
+    <%= hidden_field_tag("observations[][concept_name]", "PATIENT PRESENT") %>
+    <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
+    <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>  
+
+  <%= submit_tag "Finish" %>    
+</form>

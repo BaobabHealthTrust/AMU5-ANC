@@ -1,0 +1,35 @@
+<script>
+  var tt_cancel_destination = '/clinic'
+</script>
+
+<style>
+  #header {
+    padding-left: 10px;
+  }
+</style>
+
+<div id = 'header'>
+  <h2><%= Location.current_health_center.name %>:&nbsp;<%=Location.current_location.name%></h2><p />
+  <h3><%=@report.humanize %>&nbsp;report<p />
+  <%if @start_date.to_date == @end_date.to_date %>
+    <%=@start_date.to_date.strftime('%A %d %B %Y')%></h3>
+  <%else%>
+    <%=@start_date.to_date.strftime('%A %d %B %Y')%>&nbsp;to&nbsp;<%=@end_date.to_date.strftime('%A %d %B %Y')%></h3>
+  <%end%>
+</div><hr/><br />
+
+<% case @report 
+     when 'diagnosis' %>
+       <%= render :partial => 'opd_diagnosis' %><%
+     when 'diagnosis_by_address' %>
+       <%= render :partial => 'opd_diagnosis_by_address' %><%
+     when 'diagnosis_by_demographics' %>
+       <%= render :partial => 'opd_diagnosis_plus_demographics' %><%
+     when 'disaggregated_diagnosis' %>
+       <%= render :partial => 'opd_disaggregated_diagnosis' %><%
+     when 'referrals' %>
+       <%= render :partial => 'opd_referrals' %>
+<%end%>
+
+
+

@@ -33,6 +33,9 @@ ActiveSupport::Inflector.inflections do |inflect|
   inflect.irregular 'concept_class', 'concept_class'
 end  
 
+health_data = YAML.load(File.open(File.join(RAILS_ROOT, "config/database.yml"), "r"))['healthdata']
+Lab.establish_connection(health_data)
+
 class Mime::Type
   delegate :split, :to => :to_s
 end

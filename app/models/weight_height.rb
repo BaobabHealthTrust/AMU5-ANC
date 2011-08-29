@@ -24,6 +24,8 @@ class WeightHeight
     end
   }
 
+  # Get a child's minimum or maximum weight or height based on its sex and
+  # age in months. Sex should either be <tt>M</tt> or <tt>F</tt>
   def WeightHeight.method_missing(method, sex, age_in_months)
     # if there is no matching age use the next lowest age
     raise "Invalid gender for calculating weight and height bands" unless ['f','m'].include?(sex.downcase)

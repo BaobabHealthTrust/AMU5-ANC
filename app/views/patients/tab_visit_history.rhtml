@@ -118,10 +118,12 @@
         </tr>
 
         <%
-        @i = 0
+			if not @encounters.nil? 
 
-        @encounters.sort.each{|encounter|
-          @i = @i + 1
+			    @i = 0
+		
+		    	@encounters.sort.each{|encounter|
+					@i = @i + 1
         %>
 
           <tr style="font-size: 0.8em; font-weight: normal; font-style: italic;">
@@ -207,6 +209,7 @@
           </tr>
 
         <% }
+		
 
         ((@i + 1)..8).each{|p|
         %>
@@ -280,7 +283,8 @@
             </td>
           </tr>
 
-        <% } %>
+        <% } 		end 
+ %>
 
         <tr>
           <td class="topic leftTop"

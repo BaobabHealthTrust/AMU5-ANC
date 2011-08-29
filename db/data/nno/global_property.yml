@@ -916,7 +916,13 @@ global_property_00041:
   description: When uploading an XSN, this url is used as the "base path".  (Should be something like http://localhost:8080/openmrs)
 global_property_00099: 
   property: use_patient_attribute.healthCenter
-  uuid: 1d54b348-bd85-11df-9b35-00248c09418a
+  uuid: 1d54bb48-bd85-11df-9b35-00248c09418a
   id: 99
   property_value: "false"
   description: Indicates whether or not the 'health center' attribute is shown when viewing/searching for patients
+global_property_00223: 
+  property: interface
+  uuid: 1d54b348-bd85-11df-9b35-00248c09418a
+  id: 223
+  property_value: fancy
+  description: Loads fancy UI

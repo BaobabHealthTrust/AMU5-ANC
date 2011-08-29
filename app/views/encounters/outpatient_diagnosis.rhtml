@@ -1,12 +1,21 @@
 <script>
-  var tt_cancel_destination = "/patients/current_visit/?patient_id=<%= @patient.patient_id %>";
+  var tt_cancel_destination = "/patients/opdtreatment/<%= @patient.patient_id %>"
+  var search_filter = '';
+  function set_ajaxURL_for_suggestions(url) {
+    if ($('touchscreenInput'+tstCurrentPage).value != '')
+    {
+        search_filter  = search_filter + "," + $('touchscreenInput'+tstCurrentPage).value;
+    }
+    $('touchscreenInput'+tstCurrentPage).setAttribute('ajaxURL', url + search_filter + "&search_string=");
+    listSuggestions(tstCurrentPage);
+  }
 </script>
 <style>
   #space { display:inline; }
 </style>
 <form id='outpatient_diagnosis' action="/encounters/create" method='post'>
   
-  <%= hidden_field_tag "encounter[encounter_type_name]", "DIAGNOSIS" %>
+  <%= hidden_field_tag "encounter[encounter_type_name]", "OUTPATIENT DIAGNOSIS" %>
   <%= hidden_field_tag "encounter[patient_id]", @patient.id %>
   <%= hidden_field_tag "encounter[encounter_datetime]", DateTime.now() %>
   <%= hidden_field_tag "encounter[provider_id]", session[:user_id] %>
@@ -15,9 +24,10 @@
   <%# This options hash allows us to define our options in one place %>
   <% options = {
     :helpText => 'Diagnosis',
-    :allowFreeText => 'true',
+    :allowFreeText => 'false',
     :ajaxURL => "/encounters/diagnoses?search_string=",
-    :textCase => "upper" } %>
+    :textCase => "upper",
+    :tt_OnUnload => "setTimeout(updateNextFinish, 20); set_ajaxURL_for_suggestions('/encounters/diagnoses?search_filter=');" } %>
  
   <label for='observations[][value_coded_or_text]'>Diagnosis</label>
   <%= text_field_tag("observations[][value_coded_or_text]", nil, options) %>
@@ -27,7 +37,9 @@
   <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
  
   <% options[:optional] = 'true' %>
-  <% options[:tt_onLoad] = "setTimeout(updateNextFinish, 20)" %>
+  <% options[:ajaxURL] = '' %>
+  <% options[:tt_onLoad] = "setTimeout(updateNextFinish, 20); set_ajaxURL_for_suggestions('/encounters/diagnoses?search_filter=');" %>
+
   <script>
     // Every 500 milliseconds update the Next/Finish button
     function updateNextFinish(){

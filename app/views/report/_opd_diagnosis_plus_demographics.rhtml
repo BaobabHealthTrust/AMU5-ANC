@@ -1,0 +1,63 @@
+<style>
+  table {
+    padding-left: 10px;
+    width: 100%;
+  }
+
+  .tr_blue {
+    background-color: #EEEEEE;
+  }
+
+  .totals {
+    text-align: right;
+    padding-right: 10px;
+  }
+
+  th {
+    text-align: left;
+  }
+</style>
+
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Birthdate</th>
+    <th>Visit date</th>
+    <th>Visit age</th>
+    <th>Current age</th>
+    <th>Phone number</th>
+    <th>Diagnosis</th>
+    <th>Address</th>
+  </tr>
+<% color = 'white' %>
+<% @data.map do | key , data | 
+    if color == 'blue'
+      color = 'white'
+    else color = 'blue' end
+    name = data[:name]
+    birthdate = data[:birthdate]
+    visit_date = data[:visit_date]
+    visit_age = data[:visit_age]
+    current_age = data[:current_age]
+    phone = data[:phone_number]
+    diagnosis = nil
+    (data[:diagnosis] || []).map do | diag |
+      if diagnosis.blank?
+        diagnosis = diag
+      else diagnosis+="<br />#{diag}" end
+    end
+    address = data[:address]
+%>
+    <tr class="tr_<%=color%>">
+      <td><%= name %></td>
+      <td><%= birthdate %></td>
+      <td><%= visit_date %></td>
+      <td style="text-align:center;"><%= visit_age %></td>
+      <td style="text-align:center;"><%= current_age %></td>
+      <td><%= phone %></td>
+      <td><%= diagnosis %></td>
+      <td><%= address %></td>
+    </tr>
+  <%end%>
+</table>
+

@@ -14,18 +14,27 @@ class Drug < ActiveRecord::Base
     arv_drug_concepts = ConceptSet.all(:conditions => ['concept_set = ?', arv_concept])
     arv_drug_concepts
   end
+  
+  def tb_medication?
+    Drug.tb_drugs.map(&:concept_id).include?(self.concept_id)
+  end
+  
+  def self.tb_drugs
+    tb_medication_concept       = ConceptName.find_by_name("Tuberculosis treatment drugs").concept_id
+    tb_medication_drug_concepts = ConceptSet.all(:conditions => ['concept_set = ?', tb_medication_concept])
+    tb_medication_drug_concepts
+  end
 
+  # Need to make this a lot more generic	
   # This method gets all generic drugs in the database
   def self.generic
     generics = []
-    preferred = ConceptName.find_by_name("Maternity Prescriptions").concept.concept_members.collect{|c| c.id} rescue []
-
+    preferred = ConceptName.find_by_name("Maternity Prescriptions").concept.concept_members.collect{|c| c.concept_id} rescue []
     self.all.each{|drug|
       Concept.find(drug.concept_id, :conditions => ["retired = 0 AND concept_id IN (?)", preferred]).concept_names.each{|conceptname|
         generics << [conceptname.name, drug.concept_id] rescue nil
       }.compact.uniq rescue []
     }
-
     generics.uniq
   end
 
@@ -55,5 +64,5 @@ class Drug < ActiveRecord::Base
   def self.frequencies
     ConceptName.drug_frequency
   end
-  
+
 end

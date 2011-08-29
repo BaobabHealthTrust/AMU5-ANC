@@ -1,0 +1,18 @@
+<script>
+  var tt_cancel_destination = '/patients/opdtreatment/<%=@patient.id%>'
+</script>
+
+<form action='/encounters/create' method = 'post'>
+  <%= hidden_field_tag "encounter[encounter_type_name]", "REFER PATIENT OUT?" %>
+  <%= hidden_field_tag "encounter[patient_id]", @patient.id %>
+  <%= hidden_field_tag "encounter[encounter_datetime]", DateTime.now() %>
+  <%= hidden_field_tag "encounter[provider_id]", session[:user_id] %>
+
+<%= touch_location_tag 'REFERRAL CLINIC IF REFERRED', @patient, nil,
+    {:id => 'location_id',
+     :field_type => 'alpha',
+     :helpText => "REFERRED TO",
+     :ajaxURL => '/programs/locations?q=',
+     :allowFreeText => false } %>
+
+</form>

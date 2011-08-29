@@ -2,7 +2,9 @@ require File.dirname(__FILE__) + '/../test_helper'
 
 class PersonTest < ActiveSupport::TestCase
   context "Person" do
-    fixtures :person, :person_name, :person_name_code, :person_address, :obs, :patient
+    fixtures :person, :person_name, :person_name_code,
+             :person_address, :obs, :patient, :person_attribute,
+             :person_attribute_type
 
     should "be valid" do
       assert Person.make.valid?
@@ -14,8 +16,8 @@ class PersonTest < ActiveSupport::TestCase
 
       p.birthdate = nil    
       assert_nil p.age("2008-06-07".to_date)
-    end  
-      
+    end
+
     should "return the age and increase it by one if the birthdate was estimated and you are checking during the year it was created" do 
       p = Person.make(:birthdate => "2000-07-01".to_date, :birthdate_estimated => 1)
       p.date_created = "2008-01-01".to_date
@@ -25,7 +27,7 @@ class PersonTest < ActiveSupport::TestCase
       p.date_created = "2000-01-01".to_date
       assert_equal p.age("2008-06-07".to_date), 7
     end
-    
+
     should "format the birthdate" do
       assert_equal person(:evan).birthdate_formatted, "09/Jun/1982"
       assert_equal Person.make(:birthdate => "2000-07-01".to_date, :birthdate_estimated => 1).birthdate_formatted, "??/???/2000"
@@ -107,8 +109,9 @@ class PersonTest < ActiveSupport::TestCase
       o = obs(:evan_vitals_height)
       o.void("End of the world")
       p = person(:evan)
-      assert p.observations.empty?
-    end  
+      assert p.observations
+      assert_equal p.observations.count, 1
+    end
     
     should "refer to the corresponding patient" do
       p = person(:evan)
@@ -120,7 +123,7 @@ class PersonTest < ActiveSupport::TestCase
       name_data = {
           "given_name" => "Evan",
           "family_name" => "Waters",
-          "family_name2" => ""
+          "family_name2" => "Murray"
       }
       assert_equal p.demographics["person"]["names"], name_data
     end
@@ -128,10 +131,21 @@ class PersonTest < ActiveSupport::TestCase
     should "return a hash with correct address" do
       p = person(:evan)
       data = {
-        "county_district" => "",
+        "address1" => "Green Snake Way",
+        "address2" => "Friendship House",
+        "county_district" => "Checkuchecku",
         "city_village" => "Katoleza"
       }
       assert_equal p.demographics["person"]["addresses"], data
+    end
+
+   should "return a hash with correct person attributes" do
+      p = person(:evan)
+      data = {
+        "occupation" => "Other",
+        "cell_phone_number" => "0999123456"
+      }
+      assert_equal p.demographics["person"]["attributes"], data
     end
 
     should "return a hash with correct patient" do
@@ -148,29 +162,24 @@ class PersonTest < ActiveSupport::TestCase
 
     should "return a hash that represents a patients demographics" do
       p = person(:evan)
-      evan_demographics = { "person" => {
-        "date_changed" => Time.mktime("2000-01-01 00:00:00").to_s,
-        "gender" => "M",
-        "birth_year" => 1982,
+
+      evan_demographics = {"person" => {
+        "addresses"=> {"address2" => "Friendship House",
+                       "city_village" => "Katoleza",
+                       "address1" => "Green Snake Way",
+                       "county_district" => "Checkuchecku"},
         "birth_month" => 6,
+        "attributes" => {"occupation" => "Other", "cell_phone_number" => "0999123456"},
+        "patient" => {"identifiers" => {"National id" => "P1701210013",
+                                      "Pre ART Number" => "PART-311",
+                                      "ARV Number" => "ARV-311"}},
+        "gender" => "M",
         "birth_day" => 9,
-        "names" => {
-          "given_name" => "Evan",
-          "family_name" => "Waters",
-          "family_name2" => "",
-        },
-        "addresses" => {
-          "county_district" => "",
-          "city_village" => "Katoleza"
-        },
-        "patient" => {
-          "identifiers" => {
-            "National id" => "P1701210013",
-            "ARV Number" => "ARV-311",
-            "Pre ART Number" => "PART-311",
-          }
-        }
-      }}
+        "date_changed" => "Sat Jan 01 00:00:00 +0200 2000",
+        "names" =>
+              {"family_name2" => "Murray", "family_name" => "Waters", "given_name" => "Evan"},
+        "birth_year" => 1982}}
+
     assert_equal p.demographics, evan_demographics
     end
 
@@ -265,7 +274,6 @@ class PersonTest < ActiveSupport::TestCase
       demographic_national_id_only = {"person" => {"patient" => {"identifiers" => {"National id" => "P1701210013"} }}}
       assert_equal Person.find_by_demographics(demographic_national_id_only).first, person(:evan)
     end
-
 
   end
 end

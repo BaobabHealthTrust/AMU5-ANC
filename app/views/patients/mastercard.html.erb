@@ -1,65 +1,68 @@
-<script>
-  var tt_cancel_destination = "/patients/show/?patient_id=" + "<%=@patient_id%>"
-</script>
-<%=stylesheet_link_tag 'mastercard'%>
-<style>
+<html>
+  <head>
+    <title>Mastercard</title>
+    <%= stylesheet_link_tag "mateme" %>
+    <%= stylesheet_link_tag fancy_or_high_contrast_touch %>
 
-#keypad{
- background-color:#FFFF99;
- position:absolute;
- top:10px;
- width:330px;
- right:500px;
- height:440px;
- display:none;
- border-bottom-color-value:lightblue;
- border-top-color-value:lightblue;
- border-right-color-value:lightblue;
- border-left-color-value:lightblue;
- border-style:solid;
-}
+    <script type="text/javascript">
+      var tt_cancel_destination = "/patients/show/?patient_id=" + "<%=@patient_id%>"
+    </script>
 
-#press{
-  font-size:75px;
-  height:80px;
-  position:absolute;
-  right:13px;
-  top:35px;
-  width:300px;
-}
+    <style>
+      body {
+        background-color: #000;
+      }
+      #main {
+        width: 99.7%;
+        height: 88.5%;
+        overflow: hidden;
+      }
 
+      #content {
+        background:#FFFFFF;
+        position:absolute;
+        left:50%;
+        top:50%;
+        width:1000px;
+        height:750px;
+        margin-left:-500px;
+        margin-top:-380px;
 
-/*span {
-  left:0;
-  position:absolute;
-  right:13px;
-  text-align:left;
-  top:120px;
-  width:312px;
-}
+      }
 
-.keypad{
-  padding-left:17px;
-}
+      #footer {
+        background-color:#333333;
+        color:#CADCEA;
+        height:80px;
+        width:100%;
+        bottom:0px;
+        position:absolute;
+        overflow:hidden;
+      }
 
-#keypad{-moz-user-select:none;} */
+    </style>
+  </head>
+  <body>
+    <div id="content">
+      <iframe id="main" style="border: 0px solid #fff;"
+              src="/patients/<%= (!@type.nil? ? "general_mastercard" : "mastercard_printable")
+                  %>?patient_id=<%=@patient_id%>&type=<%= @type %>"></iframe>
 
-#popupmessage {
- position: absolute;
- top: 84px;
- left: 198px;
- border: solid 1px #000000;
- background-color:MediumTurquoise;
- /*visibility: hidden;*/
- font-size: 25;
- z-index: 600;
- width:413px;
- display:none;
-}
-</style>
+      <div id="footer" style="">
+        <button onclick="window.location = '/patients/show/?patient_id=<%=@patient_id%>';" class="button navButton green"
+                id="nextButton" style="float: right; margin-right: 10px;" ><span>Finish</span>
+        </button>
 
-<table class="mastercard" id="demographics">
-  <%= render(:partial => "mastercard_demographics", :object => @data) %>
-</table>
-<%= render(:partial => "mastercard_visits", :object => @previous_visits) %>
+        <% if @source.nil? %>
+          <button class="button navButton blue" style="float: left;"
+                  onmousedown="window.location = '/patients/print_mastercard?patient_id=<%=@patient_id%>'">
+            <span>
+              Print Mastercard
+            </span>
+          </button>
+        <% end %>
 
+      </div>
+    </div>
+  </body>
+</html>

@@ -94,6 +94,10 @@ Guardian(s):&nbsp;<%=person.relationships.map{|r|Person.find(r.person_b).name}.j
       <td><%=visit.outcome%></td>
     </tr>
     <tr>
+      <th>Outcome date</th>
+      <td><%=visit.date_of_outcome.to_date.strftime('%b %d %Y') rescue '&nbsp;'%></td>
+    </tr>
+    <tr>
       <th>Adherence</th>
       <td>
         <% adherence = ''
@@ -137,6 +141,10 @@ Guardian(s):&nbsp;<%=person.relationships.map{|r|Person.find(r.person_b).name}.j
     <tr>
       <th>Visit by</th>
       <td><%=visit.visit_by%></td>
+    </tr>
+    <tr>
+      <th>CPT</th>
+      <td><%=visit.cpt || '&nbsp;'%></td>
     </tr>
     <tr>
       <th>Appointment date</th>

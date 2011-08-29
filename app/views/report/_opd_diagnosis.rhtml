@@ -1,0 +1,30 @@
+<style>
+  table {
+    padding-left: 10px;
+    width: 100%;
+  }
+
+  .tr_blue {
+    background-color: #EEEEEE;
+  }
+
+  .totals {
+    text-align: right;
+    padding-right: 10px;
+  }
+</style>
+
+<table>
+<% color = 'white' %>
+<% @data.map do | diagnosis , count | 
+    if color == 'blue'
+      color = 'white'
+    else color = 'blue' end
+%>
+    <tr class="tr_<%=color%>">
+      <td><%= diagnosis %></td>
+      <td class='totals'><%= count %></td>
+    </tr>
+  <%end%>
+</table>
+

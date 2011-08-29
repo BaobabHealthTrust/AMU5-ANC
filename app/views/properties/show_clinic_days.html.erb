@@ -1,0 +1,135 @@
+<script>
+   var tt_cancel_destination = "/clinic/properties"
+</script>
+<style>
+  table , div {
+     -moz-user-select: none;
+  }
+
+  h1 { padding-left:10px; }
+
+  .user_info {
+    background-color: #DDDDDD;
+    height: 461px;
+    border-bottom: 1px solid black;
+    border-top: 1px solid black;
+    margin-top: 1px;
+    font-size:25px;
+  }
+
+  .userdata {
+    background: none repeat scroll 0 0 white;
+    border: 1px solid black;
+    margin: 10px;
+    width: 98%;
+    height: 97%;
+  }
+
+  .weekday { text-align:left; padding-left:10px; }
+
+  .userdata td, .userdata th {
+    border-width: 0px;
+    border-style:solid;
+  }
+ 
+  .check_box { 
+    text-align:center;
+  }
+  
+  #monday , #tuesday , #wednesday , #thursday , #friday , #saturday , #sunday {
+    font-size:25px;
+    text-align:center;
+  }
+   
+  .blue { background-color:#E6E6FF; }
+
+  .user_info button {
+    margin-top: 10px;
+    font-size: 1.2em;
+    font-weight: bold;
+    margin: 0 4px;
+    float:right;
+  }
+
+#accept {}
+</style>
+
+<body onload = 'addAttribute();'>
+<h1><%=Location.current_health_center.name %><br />clinic week day(s):&nbsp;<span id='age_group'>All ages</span></h1>
+<div class = 'user_info'>
+<table class = 'userdata'>
+  <% date = Date.today %>
+  <tr>
+    <td class='blue weekday'>Monday</td>
+    <td class='blue check_box'><%=text_field_tag :monday , nil ,:size => 1 ,:maxlength => 1 , :value => @clinic_days['Monday'] ,:onfocus => "this.blur()"%></td>
+  </tr>
+  <tr>
+    <td class='white weekday'>Tuesday</td>
+    <td class='white check_box'><%=text_field_tag :tuesday ,nil ,:size => 1 ,:maxlength => 1 , :value => @clinic_days['Tuesday'] ,:onfocus => "this.blur()"%></td>
+  </tr>
+  <tr>
+    <td class='blue weekday'>Wednesday</td>
+    <td class='blue check_box'><%=text_field_tag :wednesday , nil , :size => 1  ,:maxlength => 1 , :value => @clinic_days['Wednesday'] ,:onfocus => "this.blur()"%></td>
+  </tr>
+  <tr>
+    <td class='white weekday'>Thursday</td>
+    <td class='white check_box'><%=text_field_tag :thursday , nil , :size => 1 ,:maxlength => 1 , :value => @clinic_days['Thursday'] ,:onfocus => "this.blur()"%></td>
+  </tr>
+  <tr>
+    <td class='blue weekday'>Friday</td>
+    <td class='blue check_box'><%=text_field_tag :friday , nil , :size => 1 ,:maxlength => 1 , :value => @clinic_days['Friday'] ,:onfocus => "this.blur()"%></td>
+  </tr>
+  <tr>
+    <td class='white weekday'>Saturday</td>
+    <td class='white check_box'><%=text_field_tag :saturday , nil , :size => 1 ,:maxlength => 1 , :value => @clinic_days['Saturday'] ,:onfocus => "this.blur()"%></td>
+  </tr>
+  <tr>
+    <td class='blue weekday'>Sunday</td>
+    <td class='blue check_box'><%=text_field_tag :sunday , nil ,:size => 1 ,:maxlength => 1 , :value => @clinic_days['Sunday'] ,:onfocus => "this.blur()"%></td>
+  </tr>
+</table>
+<br />
+</div>
+</body>
+
+<script>
+  function addAttribute() {
+    buttons_div = document.getElementById('buttons')
+    buttons_div.innerHTML+= "<button onmousedown='switchView();' id='switch' class='button navButton'><span>Children</span></button>";
+  }
+
+  function switchView(){
+    switch_button = document.getElementById('switch');
+    monday = document.getElementById('monday');
+    tuesday = document.getElementById('tuesday');
+    wednesday = document.getElementById('wednesday');
+    thursday = document.getElementById('thursday');
+    friday = document.getElementById('friday');
+    saturday = document.getElementById('saturday');
+    sunday = document.getElementById('sunday');
+
+    header = document.getElementById('age_group')
+    if (header.innerHTML == 'All ages') {
+      switch_button.innerHTML = "<span>All ages</span>"
+      header.innerHTML = 'Children'
+      monday.value = "<%=@peads_clinic_days['Monday']%>"
+      tuesday.value = "<%=@peads_clinic_days['Tuesday']%>"
+      wednesday.value = "<%=@peads_clinic_days['Wednesday']%>"
+      thursday.value = "<%=@peads_clinic_days['Thursday']%>"
+      friday.value = "<%=@peads_clinic_days['Friday']%>"
+      saturday.value = "<%=@peads_clinic_days['Saturday']%>"
+      sunday.value = "<%=@peads_clinic_days['Sunday']%>"
+    }else{
+      switch_button.innerHTML = "<span>Children</span>"
+      header.innerHTML = 'All ages'
+      monday.value = "<%=@clinic_days['Monday']%>"
+      tuesday.value = "<%=@clinic_days['Tuesday']%>"
+      wednesday.value = "<%=@clinic_days['Wednesday']%>"
+      thursday.value = "<%=@clinic_days['Thursday']%>"
+      friday.value = "<%=@clinic_days['Friday']%>"
+      saturday.value = "<%=@clinic_days['Saturday']%>"
+      sunday.value = "<%=@clinic_days['Sunday']%>"
+    }
+  }
+
+</script>

@@ -1,73 +1,303 @@
 <style type="text/css">
+  .prescription_container {
+    border-style: solid;
+    height: 350px;
+    width: 96%;
+    margin-left: 26px;
+    overflow: auto;
+  }
+
+  .prescription_container table {
+    -moz-user-select:none;
+    width: 100%;
+    font-size: 20px;
+  }
+
+  .prescription_container th {
+    text-align: left;
+    font-size: 20px;
+    background-color: lightgrey;
+  }
+
+  .tr_blue {
+    background-color: #E6E6FF;
+  }
+
+  .tt_controls_duration .abcKeyboard {
+    display: none;
+  }
+  
+  #tt_page_duration #viewport {
+    height: 18em;
+  }
+    
+  .tt_controls_select_regimen .abcKeyboard {
+    display: none;
+  }
+  
+  #tt_page_select_regimen #viewport {
+    height: 18em;
+  }
+    
 </style>
+
+<%= javascript_include_tag "prototype"%>
 <script>
   var patient_id = "<%= @patient.patient_id %>";
-  var tt_cancel_destination = "/patients/treatment/<%= @patient.patient_id %>"
+  var tt_cancel_destination = "/patients/treatment_dashboard/<%= @patient.patient_id %>"
   var current_regimens_for_programs = <%= @current_regimens_for_programs.to_json -%>;
   var current_regimen_names_for_programs = <%= @current_regimen_names_for_programs.to_json -%>;
+  var reason_for_art = "<%= @patient.reason_for_art_eligibility %>";
+  var prescribeTBDrugs = "<%= @prescribe_tb_drugs %>";
+  var regimen_id = null; 
+  var tb_regimen_id = null; 
 
-  function set_patient_program_for_suggestions() {    
-    var patient_program_id = encodeURIComponent($('patient_program').value); 
-    $('touchscreenInput'+tstCurrentPage).setAttribute('ajaxURL', "/regimens/suggested?id=" + patient_program_id + "&search_string=");
+  function setSelectedRow() {
+    l = document.getElementsByTagName('li');
+    for (i = 0 ; i < l.length ; i++) {
+      if (l[i].style.backgroundColor == 'lightblue')
+        updateTouchscreenInputForSelect(l[i]);
+    }
+  }
+
+  function set_patient_program_for_suggestions(programId) {    
+    //var program_id = encodeURIComponent($('patient_program').value); 
+    $('touchscreenInput'+tstCurrentPage).setAttribute('ajaxURL', "/regimens/suggested?patient_age=<%= @patient.person.age %>&id=" + programId + "&search_string=");
     listSuggestions(tstCurrentPage); 
   }
 
-  function set_regimen_concept_id_for_regimen() {    
+  function set_regimen_concept_id_for_regimen(patientProgram, conceptId) {    
     // It is really helpful to just set this
     if (selectedValue("continue_existing_regimen") == "YES") {
-      value = current_regimens_for_programs[$("patient_program").value];
+      value = current_regimens_for_programs[patientProgram];
       $('regimen_concept_id').innerHTML = "<option selected='selected'>" + value + "</option>";
     }
-    var regimen_concept_id = encodeURIComponent($('regimen_concept_id').value); 
-    $('touchscreenInput'+tstCurrentPage).setAttribute('ajaxURL', "/regimens/dosing?patient_id=<%= @patient.patient_id %>&id=" + regimen_concept_id + "&search_string=");
+
+    if (selectedValue("tb_continue_existing_regimen") == "YES") {
+      value = current_regimens_for_programs[patientProgram];
+      $('tb_regimen_concept_id').innerHTML = "<option selected='selected'>" + value + "</option>";
+    }
+    //var concept_id = encodeURIComponent($('regimen_concept_id').value); 
+    $('touchscreenInput'+tstCurrentPage).setAttribute('ajaxURL', "/regimens/dosing?patient_id=<%= @patient.patient_id %>&id=" + conceptId + "&search_string=");
     listSuggestions(tstCurrentPage); 
   }
 
-  function set_regimen_concept_id_for_duration() {
-    var regimen_concept_id = encodeURIComponent($('regimen_concept_id').value); 
-    $('touchscreenInput'+tstCurrentPage).setAttribute('ajaxURL', "/regimens/durations?id=" + regimen_concept_id + "&search_string=");
+  function set_regimen_concept_id_for_duration(regimenConceptId) {
+    return false
+    //var regimen_concept_id = encodeURIComponent($('regimen_concept_id').value); 
+    $('touchscreenInput'+tstCurrentPage).setAttribute('ajaxURL', "/regimens/durations?id=" + regimenConceptId + "&search_string=");
     listSuggestions(tstCurrentPage); 
+  }
+
+  function buildPrescriptionPage(continueExistingRegimen, patientProgram, regimenConceptId, prescriptionContainer) {
+    $('touchscreenInput'+tstCurrentPage).setAttribute('type','hidden');
+    $('clearButton').style.display = 'none';
+    $('keyboard').style.display = 'none';
+    $('viewport').style.display = 'none';
+    $('helpText'+tstCurrentPage).innerHTML = "Select doses. Current patient weight:&nbsp;<%=@patient.current_weight%>";
+
+    if(continueExistingRegimen == 'YES') {
+      var reg_id = current_regimens_for_programs[patientProgram]      
+    }else{
+      var reg_id = encodeURIComponent(regimenConceptId); 
+    }
+
+    current_page = $('page'+tstCurrentPage);
+
+    html = "&nbsp;<div id = '" + prescriptionContainer + "' class='prescription_container' ><table><tr>" 
+    html += "<th>Drug name</th><th>Dose</th><th>Units</th><th>Daily dose</th>" 
+    html += "</tr></table></div>" 
+    current_page.innerHTML += html
+
+    new Ajax.Request("/regimens/formulations?patient_id=<%=@patient.id %>&id=" + reg_id ,{method:'get',onSuccess: function(transport){
+      formulations = JSON.parse(transport.responseText) || "";
+      if(formulations.length > 0 && formulations != "[[[]]]" && formulations != "[]"){
+        formulations = formulations[0]
+        prescription_container = $(prescriptionContainer); 
+        html = "<table>" 
+        html += "<tr><th>Drug name</th><th>Dose</th><th>Units</th><th>Daily dose</th></tr>" 
+        for (i = 0 ; i < formulations.length ; i++) {
+          data = formulations[i]
+          regimen_id = data[4]
+          html += "<tr><td>" + data[0] + "</td>"
+          html += "<td>" + data[1] + "</td>"
+          html += "<td>" + data[3] + "</td>"
+          html += "<td>" + data[2] + "</td></tr>"
+          $('touchscreenInput'+tstCurrentPage).value += data[0] + ':';
+          $('touchscreenInput'+tstCurrentPage).value += " " + data[1] ;
+          $('touchscreenInput'+tstCurrentPage).value += " " + data[3] ;
+          $('touchscreenInput'+tstCurrentPage).value += " " + data[2] ;
+        }
+        html += "</table>"
+        prescription_container.innerHTML = html 
+      }
+    }});
+
+  }
+
+  function setRegimenId(regimen) {
+	if(regimen == 'ART') {
+    	$('regimen').value = regimen_id
+	} else {
+    	$('tb_regimen').value = regimen_id
+	}
+    $('clearButton').style.display = 'inline';
+    $('keyboard').style.display = 'inline';
+    $('viewport').style.display = 'inline';
+  }
+
+  function hasReasonForART() {
+    if(reason_for_art.match(/UNKNOWN/i) || reason_for_art.length == 0)
+      return false
+
+    return true
+  }
+
+  
+  function isRegisteredForTB() {
+	var isRegistered = false;    
+	if(prescribeTBDrugs == 'true'){
+      isRegistered = true;
+	}
+	return isRegistered;
   }
 
 </script>
 <form id='regimen_form' action="/regimens/create" method='post'>
  
   <%= hidden_field_tag :patient_id, @patient.id %>
-  
-  <%= select_tag :patient_program, options_for_select(@programs.map{|program| [program.program.name, program.patient_program_id] if PatientProgram.find(program.patient_program_id).date_completed == nil}), {
+
+  <% if @hiv_programs.count > 1 %>
+  	<%= select_tag :patient_program, options_for_select(@hiv_programs.map{|program| [program.program.name, program.patient_program_id] if PatientProgram.find(program.patient_program_id).date_completed == nil}), {
     :textCase => "upper", 
     :allowFreeText => 'false',
-    :helpText => "Prescribe regimen for which program?"}%>
-  
+    :helpText => "Prescribe regimen for which ARV program?"}%>
+  <%else%>
+    <%= hidden_field_tag(:patient_program, (@hiv_programs.first.patient_program_id rescue '')) %>
+  <%end%>
+
+  <%= touch_yes_no_tag "Prescribe cotramoxazole", @patient, nil,
+      {:optional => false,
+       :id => 'cpt_given',
+       :helpText => "Prescribe CPT" } %>
+
+  <% if @patient.gender == 'F' && @patient.person.age >= 14 %>
+		<%= touch_yes_no_tag "ISONIAZID", @patient, nil,
+		    {:optional => false,
+		     :id => 'ipt_given',
+		     :helpText => "Prescribe IPT" } %>
+	<%else%>
+		<%= hidden_field_tag(:ipt_given, "") %>
+  <%end%>
+
+  <%= touch_yes_no_tag "PRESCRIBE ARVS", @patient, nil,
+      {:optional => false,
+       :id => 'prescribe_arvs',
+       :condition => 'hasReasonForART() == true',
+       :helpText => "Prescribe ARVS" } %>
+
   <%= select_tag :continue_existing_regimen, options_for_select([['',''],['YES','YES'],['NO','NO']], ''), {
     :textCase => "upper", 
     :allowFreeText => 'false',
-    :condition => 'current_regimens_for_programs[$("patient_program").value] != null',
+    :condition => 'hasReasonForART() == true && current_regimens_for_programs[$("patient_program").value] != null && $("prescribe_arvs").value == "YES"',
     :tt_onLoad => '$("infoBar"+tstCurrentPage).innerHTML = current_regimen_names_for_programs[$("patient_program").value]',
-    :helpText => "Continue existing regimen?"}%>
-  
+    :helpText => "Continue existing ART regimen?"}%>
+
   <%= select_tag :regimen_concept_id, nil, {
     :ajaxUrl => "",
     :allowFreeText => 'false',
-    :condition => 'selectedValue("continue_existing_regimen") != "YES"',
-    :tt_onLoad => 'set_patient_program_for_suggestions();',
-    :helpText => "Select regimen"}%>
-  
-  <%= select_tag :regimen, nil, {
+    :tt_onLoad => "set_patient_program_for_suggestions($('patient_program').value);setTimeout('setSelectedRow()',500);",
+    :condition => 'hasReasonForART() == true && $("prescribe_arvs").value == "YES" && $("continue_existing_regimen").value != "YES"',
+    :helpText => "Select ART regimen"}%>
+
+ <%= text_field_tag :regimen, nil, {
+    :ajaxUrl => "",
+    :tt_onUnLoad => "setRegimenId('ART');" ,
+    :allowFreeText => true ,
+    :tt_onLoad => "set_regimen_concept_id_for_regimen($('patient_program').value, $('regimen_concept_id').value);buildPrescriptionPage($('continue_existing_regimen').value,  $('patient_program').value, $('regimen_concept_id').value, 'prescription_container');",
+    :condition => 'hasReasonForART() == true && $("prescribe_arvs").value == "YES"',
+    :helpText => "Select formulations and doses"}%>
+  <%#= text_field_tag :duration, nil, {
+		:ajaxURL => "",
+		:field_type => 'number',
+		:units => 'days',
+		:tt_onLoad => 'set_regimen_concept_id_for_duration();',
+		:helpText => "Duration (days)",
+		:validationRule => "([0-9]+\\.?[0-9]*)|Unknown$",
+		:validationMessage => "You must enter a number (for example: 5<b>.0</b>)",
+		:allowFreeText => "true",
+		:tt_pageStyleClass => "NumbersOnlyWithDecimal"}%>
+
+  <% optionsString = "<option>" "" "</option>"
+     durations = ['1 week','2 weeks','1 month','2 months','3 months','4 months','5 months','6 months']
+     durations.each do |duration|
+       if duration.match(/week/i)
+        days = ((duration.to_i)*7)
+       elsif duration.match(/month/i)
+        days = ((duration.to_i)*30)
+       end
+       optionsString += "<option value = '" + days.to_s + "'>" + duration + "</option>"
+     end
+  %>
+  <%= select_tag :duration, optionsString, { 
+	:condition => '$("prescribe_arvs").value == "YES" || $("cpt_given").value == "YES" || $("ipt_given").value == "YES" ',	
+	:helpText => 'Duration' } %> 
+ 
+
+
+  <%= touch_yes_no_tag "Prescribe drugs", @patient, nil,
+      {:optional => false,
+       :id => 'prescribe_tb_drugs',
+       :condition => 'isRegisteredForTB() == true',
+       :helpText => "Prescribe TB Regimen" } %>
+
+  <% unless @tb_programs.count == 1 %>
+  	<%= select_tag :tb_patient_program, options_for_select(@tb_programs.map{|program| [program.program.name, program.patient_program_id] if PatientProgram.find(program.patient_program_id).date_completed == nil}), {
+    :textCase => "upper", 
+     :condition => '$("prescribe_tb_drugs").value == "YES"',
+   :allowFreeText => 'false',
+    :helpText => "Prescribe regimen for which TB program?"}%>
+  <%else%>
+    <%= hidden_field_tag(:tb_patient_program, @tb_programs.first.patient_program_id) %>
+  <%end%>
+
+<%= select_tag :tb_continue_existing_regimen, options_for_select([['',''],['YES','YES'],['NO','NO']], ''), {
+    :textCase => "upper", 
+    :allowFreeText => 'false',
+    :condition => 'current_regimens_for_programs[$("tb_patient_program").value] != null && $("prescribe_tb_drugs").value == "YES"',
+    :tt_onLoad => '$("infoBar"+tstCurrentPage).innerHTML = current_regimen_names_for_programs[$("tb_patient_program").value]',
+    :helpText => "Continue existing TB regimen?"}%>
+
+
+ <%= select_tag :tb_regimen_concept_id, nil, {
     :ajaxUrl => "",
     :allowFreeText => 'false',
-    :tt_onLoad => 'set_regimen_concept_id_for_regimen();',
+    :tt_onLoad => "set_patient_program_for_suggestions($('tb_patient_program').value);setTimeout('setSelectedRow()',500);",
+    :condition => '$("prescribe_tb_drugs").value == "YES" && $("tb_continue_existing_regimen").value != "YES"',
+    :helpText => "Select TB regimen"}%>
+  
+ <%= text_field_tag :tb_regimen, nil, {
+    :ajaxUrl => "",
+    :tt_onUnLoad => "setRegimenId('TB');" ,
+    :allowFreeText => true ,
+    :tt_onLoad => "set_regimen_concept_id_for_regimen($('tb_patient_program').value, $('tb_regimen_concept_id').value);buildPrescriptionPage($('tb_continue_existing_regimen').value,  $('tb_patient_program').value, $('tb_regimen_concept_id').value, 'tb_prescription_container');",
+    :condition => '$("prescribe_tb_drugs").value == "YES"',
     :helpText => "Select formulations and doses"}%>
 
-  <%= text_field_tag :duration, nil, { 
-    :ajaxURL => "", 
-    :field_type => 'number',
-    :units => 'days',
-    :tt_onLoad => 'set_regimen_concept_id_for_duration();',
-    :helpText => "Duration (days)",
-    :validationRule => "([0-9]+\\.?[0-9]*)|Unknown$",
-    :validationMessage => "You must enter a number (for example: 5<b>.0</b>)",
-    :allowFreeText => "true",
-    :tt_pageStyleClass => "NumbersOnlyWithDecimal"}%>
+  <% optionsString = "<option>" "" "</option>"
+     durations = ['1 week','2 weeks','1 month','2 months','3 months','4 months','5 months','6 months']
+     durations.each do |duration|
+       if duration.match(/week/i)
+        days = ((duration.to_i)*7)
+       elsif duration.match(/month/i)
+        days = ((duration.to_i)*30)
+       end
+       optionsString += "<option value = '" + days.to_s + "'>" + duration + "</option>"
+     end
+  %>
+  <%= select_tag :tb_duration, optionsString, { 
+	:condition => '$("prescribe_tb_drugs").value == "YES"',	
+	:helpText => 'Duration' } %> 
+
   
 </form>

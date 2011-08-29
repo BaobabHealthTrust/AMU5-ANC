@@ -1,0 +1,22 @@
+<script>
+  var tt_cancel_destination = '/clinic'
+</script>
+
+<form action ='/report/opd' method = 'post'>
+
+  <%= select_tag "age_group", options_for_select(@options), 
+      :id => 'age_group', 
+      :multiple => true,
+      :optional => false,
+      :helpText => "SELECT AGE GROUP TO SHOW",
+      :tt_pageStyleClass => 'NoKeyboard' %>
+
+  <% if @report == 'diagnosis_by_demographics' or @report == 'diagnosis_by_address' %>
+    <%= text_field_tag :diagnosis , nil, {:field_type => 'alpha', :helpText => 'Recorded diagnosis', :ajaxURL => '/report/recorded_diagnosis?search_string='}%>
+  <%end%>
+  
+  <%=hidden_field_tag(:start_date, @start_date)%>
+  <%=hidden_field_tag(:end_date, @end_date)%>
+  <%=hidden_field_tag(:report, @report)%>
+ 
+</form>

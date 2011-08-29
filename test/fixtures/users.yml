@@ -8,6 +8,14 @@ mikmck:
   creator: 1
   changed_by: 1
   system_id: Baobab Admin
+  secret_question: nil
+  secret_answer: nil
+  person_id: 1
+  retired: 0
+  retired_by: nil
+  date_retired: nil
+  retire_reason: nil
+  uuid: 5850ff12-a3ec-11e0-9d8f-544249152fc0
 registration:
   user_id: 2
   username: registration
@@ -18,3 +26,11 @@ registration:
   creator: 1
   changed_by: 1
   system_id: Partners In Health Admin
+  secret_question: nil
+  secret_answer: nil
+  person_id: 1
+  retired: 0
+  retired_by: nil
+  date_retired: nil
+  retire_reason: nil
+  uuid: 5850ff12-a3ec-11e0-9d8f-544249152fc0

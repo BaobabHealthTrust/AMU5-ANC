@@ -87,7 +87,7 @@ module AuthenticatedSystem
     end
 
     def location_required
-      # located? || location_denied
+      located? || location_denied
     end
 
     def located?

@@ -9,3 +9,25 @@ evan_vitals:
   creator: 1
   date_created: 2000-01-01 00:00:00
   uuid: 1fe0c840-268f-102d-a2b3-16da04859145
+evan_art_initial:
+  encounter_id: 2
+  encounter_type: 9
+  patient_id: 1
+  provider_id: 1
+  location_id: 1
+  form_id: 1
+  encounter_datetime: 2001-01-01 00:00:00
+  creator: 1
+  date_created: 2000-01-01 00:00:00
+  uuid: 1fe0c840-268f-102d-a2b3-16da04859146
+evan_hiv_staging:
+  encounter_id: 3
+  encounter_type: 52
+  patient_id: 1
+  provider_id: 1
+  location_id: 1
+  form_id: 1
+  encounter_datetime: 2001-01-01 00:00:00
+  creator: 1
+  date_created: 2000-01-01 00:00:00
+  uuid: 1fe0c840-268f-102d-a2b3-16da04859147

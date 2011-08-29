@@ -1,21 +1,42 @@
   <%= javascript_include_tag "barcode" %>
   <script>
-    var tt_cancel_destination = "/logout"
+    <% 
+    if params[:from] == 'clinic'%>
+      var tt_cancel_destination = "/clinic"
+    <%else%>
+      var tt_cancel_destination = "/logout"
+    <%end%>
     barcodeId = 'touchscreenInput0';
     barcodeFocusOnce = true;
-    barcodeScanAction = gotoNextPage;
+    // barcodeScanAction = gotoNextPage;
+
+    setTimeout("setupBarcode()", 300);
+
+    function setupBarcode(){
+      barcodeScanAction = gotoNextPage;
+      loadBarcodePage();
+    }
 
     function inform() {
       $('infoBar'+tstCurrentPage).innerHTML = "<%= welcome_message %>";  
     }           
   </script>
+  
+  <style>
+
+    .tt_controls_workstation_location .keyboard {
+      display: none;
+    }
+
+    #tt_page_workstation_location .options {
+      display: none;
+    }
+  </style>
 
   <% form_tag session_path, :method => :put do -%>
-
     <label for="location">Location</label>
-    <%= text_field_tag(:location, nil, :helpText=> "Workstation location", :field_type => "number", :tt_onLoad => "inform();") %><br>
-
-    <%= submit_tag value="Submit"%>
+    <%= text_field_tag(:location, nil, :helpText => "Workstation location", :field_type => "number", :tt_onLoad => "inform();") %><br>
+    <%= submit_tag :value => "Submit" %>
   <% end %>
 
   <div id="popupBox"  align="center">

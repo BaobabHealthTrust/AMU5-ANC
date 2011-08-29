@@ -46,6 +46,7 @@ CREATE TABLE `orders` (
   `accession_number` varchar(255) default NULL,
   `obs_id` int(11) default NULL,
   `uuid` char(38) NOT NULL,
+  `discontinued_reason_non_coded` varchar(255) DEFAULT NULL,
   PRIMARY KEY  (`order_id`),
   UNIQUE KEY `orders_uuid_index` (`uuid`),
   KEY `order_creator` (`creator`),
@@ -812,4 +813,124 @@ CREATE TABLE `drug_ingredient` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
+
+
+CREATE INDEX `index_date_created_on_person_address` ON `person_address` (`date_created` DESC); 
 -- Dump completed on 2010-12-11 20:00:04
+
+DROP TABLE IF EXISTS `region`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `region` (
+  `region_id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) NOT NULL DEFAULT '',
+  `creator` int(11) NOT NULL DEFAULT '0',
+  `date_created` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `retired` tinyint(1) NOT NULL DEFAULT '0',
+  `retired_by` int(11) DEFAULT NULL,
+  `date_retired` datetime DEFAULT NULL,
+  `retire_reason` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`region_id`),
+  KEY `user_who_created_region` (`creator`),
+  KEY `user_who_retired_region` (`retired_by`),
+  KEY `retired_status` (`retired`),
+  CONSTRAINT `user_who_created_region` FOREIGN KEY (`creator`) REFERENCES `users` (`user_id`),
+  CONSTRAINT `user_who_retired_region` FOREIGN KEY (`retired_by`) REFERENCES `users` (`user_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1412 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+DROP TABLE IF EXISTS `district`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `district` (
+  `district_id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) NOT NULL DEFAULT '',
+  `region_id` int(11) NOT NULL DEFAULT '0',
+  `creator` int(11) NOT NULL DEFAULT '0',
+  `date_created` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `retired` tinyint(1) NOT NULL DEFAULT '0',
+  `retired_by` int(11) DEFAULT NULL,
+  `date_retired` datetime DEFAULT NULL,
+  `retire_reason` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`district_id`),
+  KEY `region_for_district` (`region_id`),
+  KEY `user_who_created_district` (`creator`),
+  KEY `user_who_retired_district` (`retired_by`),
+  KEY `retired_status` (`retired`),
+  CONSTRAINT `region_for_district` FOREIGN KEY (`region_id`) REFERENCES `region` (`region_id`),
+  CONSTRAINT `user_who_created_district` FOREIGN KEY (`creator`) REFERENCES `users` (`user_id`),
+  CONSTRAINT `user_who_retired_district` FOREIGN KEY (`retired_by`) REFERENCES `users` (`user_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1458 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+DROP TABLE IF EXISTS `traditional_authority`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `traditional_authority` (
+  `traditional_authority_id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) NOT NULL DEFAULT '',
+  `district_id` int(11) NOT NULL DEFAULT '0',
+  `creator` int(11) NOT NULL DEFAULT '0',
+  `date_created` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `retired` tinyint(1) NOT NULL DEFAULT '0',
+  `retired_by` int(11) DEFAULT NULL,
+  `date_retired` datetime DEFAULT NULL,
+  `retire_reason` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`traditional_authority_id`),
+  KEY `district_for_ta` (`district_id`),
+  KEY `user_who_created_traditional_authority` (`creator`),
+  KEY `user_who_retired_traditional_authority` (`retired_by`),
+  KEY `retired_status` (`retired`),
+  CONSTRAINT `district_for_ta` FOREIGN KEY (`district_id`) REFERENCES `district` (`district_id`),
+  CONSTRAINT `user_who_created_traditional_authority` FOREIGN KEY (`creator`) REFERENCES `users` (`user_id`),
+  CONSTRAINT `user_who_retired_traditional_authority` FOREIGN KEY (`retired_by`) REFERENCES `users` (`user_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2929 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+DROP TABLE IF EXISTS `village`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `village` (
+  `village_id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) NOT NULL DEFAULT '',
+  `traditional_authority_id` int(11) NOT NULL DEFAULT '0',
+  `creator` int(11) NOT NULL DEFAULT '0',
+  `date_created` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `retired` tinyint(1) NOT NULL DEFAULT '0',
+  `retired_by` int(11) DEFAULT NULL,
+  `date_retired` datetime DEFAULT NULL,
+  `retire_reason` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`village_id`),
+  KEY `ta_for_village` (`traditional_authority_id`),
+  KEY `user_who_created_village` (`creator`),
+  KEY `user_who_retired_village` (`retired_by`),
+  KEY `retired_status` (`retired`),
+  CONSTRAINT `ta_for_village` FOREIGN KEY (`traditional_authority_id`) REFERENCES `traditional_authority` (`traditional_authority_id`),
+  CONSTRAINT `user_who_created_village` FOREIGN KEY (`creator`) REFERENCES `users` (`user_id`),
+  CONSTRAINT `user_who_retired_village` FOREIGN KEY (`retired_by`) REFERENCES `users` (`user_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=34162 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+
+DROP TABLE IF EXISTS `user_property`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `user_property` (
+  `user_id` int(11) NOT NULL DEFAULT '0',
+  `property` varchar(100) NOT NULL DEFAULT '',
+  `property_value` varchar(600) NOT NULL DEFAULT '',
+  PRIMARY KEY (`user_id`,`property`),
+  CONSTRAINT `user_property` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `user_property`
+--
+
+LOCK TABLES `user_property` WRITE;
+/*!40000 ALTER TABLE `user_property` DISABLE KEYS */;
+INSERT INTO `user_property` VALUES (1,'loginAttempts','0');
+/*!40000 ALTER TABLE `user_property` ENABLE KEYS */;
+UNLOCK TABLES;
+

@@ -1,0 +1,182 @@
+<style>
+  .charts {
+    padding-left:20px;
+  }
+
+  #header {
+    padding-left:10px;
+  }
+
+  th {
+    text-align:left;
+  }
+
+  #cancelhButton {
+    float:left;
+  }
+
+  .messageBar {
+    background-color: tomato;
+    font-size: 2em;
+    left: 270px;
+    position: absolute;
+    text-align: center;
+    top: 10px;
+    width: 450px;
+    z-index: 999;
+    display:none;
+    height:210px;
+}
+</style>
+
+<%= javascript_include_tag "jquery" %>
+<%= javascript_include_tag "jquery.flot" %>
+<%= javascript_include_tag "prototype" %>
+<script>
+
+  function cancel(){ document.location = "/clinic" }
+
+  function changeAttributes(){
+    buttonsdiv = document.getElementById('buttons')
+    buttonsdiv.innerHTML+="<button onmousedown='cancel();' id='cancelhButton' class='button red left'><span>Cancel</span></button>";
+    conntinue = document.getElementById('finishButton')
+    conntinue.innerHTML = '<span>Continue</span>'
+    conntinue.setAttribute('onmousedown','continueToNext();')
+
+  }
+
+  function continueToNext(){
+    <%if @person.patient.get_identifier('Archived Filing Number').blank? %>
+      go();
+    <%else%>
+      messageBar = document.getElementById("messageBar");
+      messageBar.style.display = 'block';
+    <%end%>
+  }
+
+  function setNewFilingNumber() { 
+    document.location = "/patients/set_new_filing_number/<%=@person.id%>"
+  }
+
+  function hideMessage() { 
+    messageBar = document.getElementById("messageBar");
+    messageBar.style.display = 'none';
+  }
+
+  function go() {
+    document.forms[0].submit();
+  }
+
+  function weightGraph(){
+    <% if Location.current_location.name.match(/HIV|ART/i) and Location.current_location.name.match(/Reception/i) %>
+      return
+    <% end %>
+     var patient_data = [
+      <% @min = Time.now
+         @max = Time.now
+         @obs = @person.observations.find_by_concept_name("WEIGHT (KG)")
+         @obs.sort_by{|obs| obs.obs_datetime}.each do |obs|
+           @min = obs.obs_datetime if obs.obs_datetime < @min %>
+        [<%= obs.obs_datetime.to_f -%>, <%= obs.value_numeric -%>],<% end %>
+    ];
+    <% @min = @max - 1.year if @min > @max - 1.year %>
+
+    var patient_ticks = [
+    <% @first = Time.mktime(@min.year, @min.month, 1) # move to the start of the month
+     @last = Time.mktime(@max.year + (@max.month == 12 ? 1 : 0), @max.month + (@max.month < 12 ? 1 : -11), 1)
+     while (@first <= @last) do -%>
+    [<%= @first.to_f -%>, "<div class='xLabel'><%= @first.strftime("%b") -%><br/><b><%= @first.strftime("%Y") if @first.month == 1 -%></b></div>"],
+    <% @first = Time.mktime(@first.year + (@first.month == 12 ? 1 : 0), @first.month + (@first.month < 12 ? 1 : -11), 1) -%>
+    <% end -%>
+];
+    
+    var range = <%= 1.year.to_f -%>;
+    var min = <%= @min.to_f -%>;
+    var max = <%= @max.to_f -%>;
+    var max_tick = "<%= @max.strftime("%d-%b") -%>";
+//    patient_data.push([max, 0]);
+        
+    function get_data(x1, x2) {
+      return [{
+        color: "green",
+        data: patient_data,
+        points: { show: true},
+        lines: { show: true, fill: true, fillColor: "rgb(61,235,61)" },
+        bars: { show: true }
+      }]
+    }
+
+    var plot_options = {      
+      grid: { clickable: false, backgroundColor: "white", color:"black" },
+      yaxis: { min: 0, max: 120},
+      xaxis: { min: max-range, max: max, ticks: patient_ticks}
+    }
+
+
+    jQuery.plot(jQuery("#charts"), get_data(null, null), plot_options);
+  }
+</script>
+
+<body onload = "changeAttributes();weightGraph();">
+
+<form method='post' action="/people/confirm">
+  <%= hidden_field_tag(:found_person_id, @found_person_id) %>
+  <%= hidden_field_tag(:relation, @relation) %>
+</form>
+
+<div id ='header'>
+  <h1><%=@person.name %>&nbsp;(<%=@person.gender%>)</h1>
+  <table>
+  <tr>
+    <th>Age:</th><td><%=@person.age%></td>
+  </tr>
+  <tr>
+    <th>National ID:</th><td><%=@person.patient.national_id_with_dashes%></td>
+  </tr>
+  <%
+  use_filing_number = GlobalProperty.find_by_property('use.filing.number').property_value rescue 'false'
+  if Location.current_location.name.match(/HIV|ART/) and use_filing_number == 'true'%>
+    <tr>
+      <th>Filing number:</th><td><%=@person.patient.get_identifier('Filing number') || @person.patient.get_identifier('Archived filing number')%></td>
+    </tr>
+  <%end%>
+  <%if Location.current_location.name.match(/HIV|ART/) %>
+    <tr>
+      <th>ARV number:</th><td><%=@person.patient.arv_number || 'N/A' %></td>
+    </tr>
+  <%end%>
+  <tr>
+    <th>Guardian(s):</th><td><%=@person.relationships.map{|r|Person.find(r.person_b).name}.join(' : ') || 'NONE'%></td>
+  </tr>
+  </table>
+  <div>
+    <table>
+      <tr style = "font-size:20px;">
+        <%
+          session_date = session[:datetime] || Date.today  
+          task = Task.next_task(Location.current_location,@person.patient,session_date.to_date).encounter_type rescue nil
+          next_task = task.gsub('_',' ') rescue nil
+        %>
+        <th>Next task</th><td><%= next_task %></td>
+      </tr>
+    </table>
+  </div>
+</div>
+
+<hr />
+
+<% if Location.current_location.name.match(/HIV|ART/i) and not Location.current_location.name.match(/Reception/i) %>
+  <div class = 'charts'>
+    <h3>Weight graph - History</h3>
+    <div id="charts" class="panel" style="width:700px;height:330px;"></div>
+    <div id="placeholder_details" style="height:50px;padding-top:15px;"></div>
+  </div>
+<% end %>
+
+<div id="messageBar" class="messageBar">
+  Patient files in archive cabinets <br /> Move to active cabinets?
+  <br /><br />
+  <button onmousedown="hideMessage();go();"><span>No</span></button>&nbsp;
+  <button onmousedown="hideMessage();setNewFilingNumber();"><span>Yes</span></button>
+</div>
+</body>

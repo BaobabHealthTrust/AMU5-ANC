@@ -1,0 +1,72 @@
+<script>
+   var tt_cancel_destination = "/clinic" // /properties/"
+</script>
+<style>
+  h1 { padding-left:10px; }
+
+  .user_info {
+    background-color: #DDDDDD;
+    height: 461px;
+    border-bottom: 1px solid black;
+    border-top: 1px solid black;
+    margin-top: 1px;
+    font-size:25px;
+    overflow:auto;
+  }
+
+  .userdata {
+    background: none repeat scroll 0 0 white;
+    border: 1px solid black;
+    margin: 10px;
+    width: 98%;
+    height: 97%;
+  }
+
+  .userdata td, .userdata th {
+    border-width: 0px;
+    border-style:solid;
+    text-align:center;
+  }
+  
+  .blue { background-color:#E6E6FF; }
+
+  .user_info button {
+    margin-top: 10px;
+    font-size: 1.2em;
+    font-weight: bold;
+    margin: 0 4px;
+    float:right;
+  }
+</style>
+
+<h1><%=Location.current_health_center.name %><br />clinic holidays</h1>
+<div class = 'user_info'>
+<!--table class = 'userdata'>
+  <tr>
+    <th class='blue'>Week day</th>
+    <th class='blue'>Day</th>
+    <th class='blue'>Month</th>
+    <th class='blue'>Year</th>
+</table-->
+<table class = 'userdata'>
+  <%row_class = 'blue'
+    @holidays.map do | date | 
+      if row_class == 'blue'
+        row_class = 'white'
+      else
+        row_class = 'blue'
+      end
+  %>
+  <tr>
+    <!--th class='blue'>Username:&nbsp;</th-->
+    <td class=<%=row_class%>><%=date.strftime('%A')%></td>
+    <td class=<%=row_class%>><%=date.strftime('%d')%></td>
+    <td class=<%=row_class%>><%=date.strftime('%B')%></td>
+    <td class=<%=row_class%>><%=date.strftime('%Y')%></td>
+  </tr>
+  <% end %>
+</table>
+<br />
+<!--button id="edit" class="silver" style="margin-top:10px;" onmousedown="document.location = '/user/edit/<%=  -%>'"><span>Edit user</span></button--> 
+</div>
+

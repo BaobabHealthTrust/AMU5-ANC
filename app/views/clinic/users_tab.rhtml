@@ -1,0 +1,90 @@
+<%
+@reports = []
+@reports << ['Change password',"/user/change_password/#{User.current_user.id}"]
+@reports << ['Edit name',"/user/edit/#{User.current_user.id}"]
+if not Location.current_location.name.match(/Outpatient/i)
+  @reports << ['Settings',"/user/activities/#{User.current_user.id}"]
+end
+if User.current_user.admin?
+  @reports << ['Create user',"/user/new"]
+  @reports << ['Edit user',"/user/select_user"]
+end
+%>
+
+
+<style type="text/css">
+  #stats {
+    width:98%;
+    margin:10px;
+    background:white;
+  }
+
+  #stats a {
+    background-color: grey;
+    border-bottom: 1px outset black;
+    border-style: outset;
+    border-top: 1px outset black;
+    color: white;
+    display: block;
+    padding: 10px 16px 10px 10px;
+    text-align: center;
+    text-decoration: none;
+  }
+
+  #stats td {
+    width: 310px;
+  }
+
+  #table_div {
+    overflow:auto;
+    height: 320px;
+    background-color: white;
+    border: 1px #eee solid;
+    border-width: 1px;
+  }
+
+</style>
+
+<script>
+  function setInnerHtmlData(id,result,path) {
+    td = document.getElementById(id);
+    td.innerHTML = "<a href =" + path + ">" +  result + "</a>"
+  }
+</script>
+
+<base target="_parent">
+<div id="tab">
+  <div class="panel" style="width:98%;">
+    <h2>Create/Edit users</h2>
+    <div id="table_div">
+
+      <table id="stats">
+        <% count = @reports.length  unless @reports.blank? %>
+        <% (@reports || []).each do |name,path|
+          count_up = 0
+          count = 0 if @reports.blank?
+        %>
+          <% while count_up < count %>
+            <tr>
+              <td id = "<%=count_up+= 1%>"></td>
+              <td id = "<%=count_up+= 1%>"></td>
+              <td id = "<%=count_up+= 1%>"></td>
+            </tr>
+          <%end unless @reports.blank?%>
+        <%end%>
+      </table>
+
+
+      <%
+      count = @reports.length  unless @reports.blank?
+      @reports.sort.reverse.map do | name , path | %>
+        <script>
+          setInnerHtmlData("<%=count%>","<%=name%>","<%=path%>");
+        </script>
+        <%count-=1%>
+      <%end%>
+
+    </div>
+  </div>
+</div>
+</base>

@@ -1,0 +1,173 @@
+<%= render :partial => 'dashboards/nav', :locals => {:active => 'overview'} %>
+<script type="text/javascript">
+</script>
+
+<style type="text/css">
+
+  body {
+   font-family: "Nimbus Sans L","Arial Narrow",sans-serif;
+    -moz-user-select: none;
+  }
+
+  #stats {
+    -moz-user-select: none;
+    width:98%;
+    margin:10px;
+    background:white;
+  }
+
+  #stats a {
+    background-color: grey;
+    border-bottom: 1px outset black;
+    border-style: outset;
+    border-top: 1px outset black;
+    color: white;
+    display: block;
+    padding: 10px 16px 10px 10px;
+    text-align: center;
+    text-decoration: none;
+  }
+
+  #stats th {
+    -moz-user-select: none;
+    width: 310px;
+    text-align: left;
+  }
+
+  #stats td {
+    width: 310px;
+  }
+
+  #table_div {
+    -moz-user-select: none;
+    overflow:auto;
+    height: 200px;
+    background-color: white;
+    border-style: solid;
+    border-width: 1px;
+  }
+
+  #tab {
+    /*height: 561px;*/
+    -moz-user-select: none;
+  }
+
+  .row_blue {
+    background-color: #E6E6FF;
+    -moz-user-select: none;
+  }
+
+  #obs {
+    -moz-user-select: none;
+    overflow:auto;
+    height: 295px;
+    background-color: white;
+    border-style: solid;
+    border-width: 1px;
+    padding-left: 10px;
+  }
+
+
+  #obs ul {
+    border: 2px solid black;
+    margin: 0;
+    overflow: auto;
+    padding: 0;
+    height: 230px;
+    background-color: #E6E6FF;
+    -moz-user-select: none;
+  }
+
+  #obs li {
+    cursor: pointer;
+    display: block;
+    list-style: none outside none;
+    padding: 6px;
+    vertical-align: top;
+  }
+
+</style>
+
+<script>
+
+  var previous_color = {};
+
+  function setInnerHtmlData(id,path,result) {
+    td = document.getElementById(id);
+    path += "?dashboard=<%=@landing_dashboard%>"
+    td.innerHTML = "<a href =" + path + ">" +  result + "</a>"
+  }
+
+  function select(id,color) {
+    $('#obs').empty().load('/encounters/observations/' + id)
+
+    if (previous_color.length > 0) {
+      rows = document.getElementsByClassName('row_' + previous_color[0][1]);
+      for (x = 0 ; x < rows.length ; x++) {
+        if (previous_color[0][1] == 'blue'){
+          rows[x].style.background = '#E6E6FF'
+        }{ rows[x].style.background = '' }
+      }
+    }
+    
+    previous_color = []
+    previous_color.push([id,color])
+
+    tds = document.getElementsByClassName('td_' + id);
+    for (i = 0 ; i < tds.length ; i++) {
+      tds[i].style.background = '#55AAFF';
+    }
+  }
+
+  function voiding(id) {
+    confirmYesNo("Void this item?", function() {
+      hideConfirmation();
+      $.post('/encounters/void/' + id, {}, function(data, status) {
+        if (status == 'success') {
+          document.getElementById('obs').innerHTML = '';
+          tds = document.getElementsByClassName('td_' + id)
+          for (i = 0 ; i < tds.length ; i++) {
+            tds[i].style.display = 'none';
+          }
+        }
+      })
+    }, function() { hideConfirmation(); });
+  }
+</script>
+
+<div id="tab">
+  <div class="panel" style="width:98%;">
+    <h2>Patient's encounters</h2>
+    <div id="table_div">
+      <table id="stats">
+        <th>&nbsp;</th>
+        <th style="width:90%;">Encounter name</th>
+        <th style="text-align:right;padding-right:10px;">Total</th>
+      <%
+        color = 'white'
+      %>
+      <% (@encounters || []).each do | encounter_id , name , count |%>
+        <%
+          if color == 'white'
+            color = 'blue'
+          else
+            color = 'white'
+          end
+        %>
+        <tr>
+          <td class = "row_<%=color%> td_<%=encounter_id%>" style="text-align:center;vertical-align: middle;" onmousedown = "voiding('<%=encounter_id%>');">
+            <img src="/images/cancel_flat_small.png">
+          </td>
+          <td class = "row_<%=color%> td_<%=encounter_id%>" onmousedown = "select('<%=encounter_id%>','<%=color%>');"><%=name%></td>
+          <td class = "row_<%=color%> td_<%=encounter_id%>" style="text-align:right;padding-right:10px;"><%=count%></td>
+        </tr>
+      <%end%>
+      </table>
+    </div><br />
+    
+    <div id = 'obs'>
+    </div>
+
+  </div>
+</div>
+

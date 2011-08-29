@@ -1,0 +1,122 @@
+<html>
+<head>
+<%= javascript_include_tag "prototype" %>
+<style>
+body{
+  font-family: "Nimbus Sans L", "Arial Narrow", sans-serif;
+  -moz-user-select:none
+}
+
+h3 , h2 {
+  padding-left: 10px;
+}
+
+td { border-top:1px dotted silver }
+
+tr.header{
+  background-color: lightgray;
+  font-weight: bold;
+  text-align: left;
+  padding-left: 10px;
+}
+
+table{
+  width: 100%;
+  border-bottom:2px solid black;
+  float:left;
+}
+
+.valueCol {
+	float: right;
+  padding-right:20;
+}
+
+.color_white{
+  padding-left:10px;
+  padding-right:10px;
+}
+
+.color_blue{
+  background-color:#E6E6FF; /*AliceBlue;*/
+  padding-left:10px;
+  padding-right:10px;
+}
+
+.patient_link{
+  padding:10px;
+  width:100%;
+}
+
+.caldata {
+  text-align: left;
+  padding-left: 10px;
+}
+
+#data_table_length{display:none;}
+#data_table_filter{display:none;}
+#data_table_info{display:none;}
+</style>
+
+<%#= stylesheet_link_tag "data_table" %>
+<%#= stylesheet_link_tag "data_table_jui" %>
+<%#= stylesheet_link_tag "data_table_page" %>
+
+<%=javascript_include_tag "jquery_data_table" %>
+<%=javascript_include_tag "jquery.dataTables.min" %>
+
+<script>
+  var tt_cancel_destination = '/clinic';  // /management';
+  function dataT(){
+   $('#data_table').dataTable();
+  }
+  dataT();
+</script>
+</head>
+<h2>Expiring drugs</h2><h3>From: <%= @start_date.strftime("%A, %Y %b %d")%> 
+<br/>To: <%=@end_date.strftime("%A, %Y %b %d")%></br></h3>
+<%#= render :partial => "header" %>
+</br>
+<table id="data_table">
+ <thead>
+  <tr class="header">
+    <th class="caldata">Drug name</th>
+    <th class="caldata">Date delivered</th>
+    <th class="caldata">Delivered stock</th>
+    <th class="caldata">Current stock</th>
+    <th class="caldata">Expiry date</th>
+  </tr>
+ </thead>
+ </tbody>
+  <%color = "blue"
+    count = 1
+    original_form_count = 0
+    @expiring_drugs.each{| name , values |
+      if color == "blue"
+        color = "white"
+      else
+        color = "blue"
+      end
+      current_stock = values["current_stock"]
+      date_delivered = values["date_delivered"]
+      delivered_stock = values["delivered_stock"]
+      expiry_date = values["expiry_date"]
+      %>
+      </script>
+   <tr>
+    <td class="color_<%=color%>"><%=name.split(':')[1]%></td>
+    <td class="color_<%=color%> caldata" id="dispensed_<%=count%>"><%=date_delivered%></td>
+    <td class="color_<%=color%> caldata" id="dispensed_<%=count%>"><%=delivered_stock%></td>
+    <td class="color_<%=color%> caldata" id="current_stock_<%=count%>"><%=current_stock%></td>
+    <td class="color_<%=color%> caldata" id="consumption_per_<%=count%>"><%=expiry_date%></td>
+   </tr>
+   <% count+=1
+      original_form_count+=1
+    } unless @expiring_drugs.blank?%>
+ </tbody>
+</table>
+</html>
+
+
+<script>
+dataT();
+</script>

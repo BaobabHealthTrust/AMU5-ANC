@@ -1,74 +1,85 @@
-<%#= render :partial => 'clinic/nav', :locals => {:active => 'administration', :label => "Administration"} %>
-<!--script type="text/javascript">
+<%= render :partial => 'clinic/nav', :locals => {:active => 'reports', :label => "Reports"} %>
+<script type="text/javascript">
   jQuery(document).ready(function($) {
-  })
-</script-->
-<!--link rel="stylesheet" href="/touchscreentoolkit/lib/stylesheets/touch-fancy.css" type="text/css"-->
-<style type="text/css">
-  body {
-    -moz-user-select:none;
-  }
+  }) 
+</script>
 
+
+<style type="text/css">
   #stats {
     width:98%;
-    border:1px solid #eee;
     margin:10px;
-    margin-top: 0px;
     background:white;
   }
-  #stats td, #stats th {
-    text-align:center;
+
+  #stats a {
+    background-color: grey;
+    border-bottom: 1px outset black;
+    border-style: outset;
+    border-top: 1px outset black;
+    color: white;
+    display: block;
+    padding: 10px 16px 10px 10px;
+    text-align: center;
+    text-decoration: none;
   }
-  .odd {
-    background-color: #eeeef7;
-  }
-  .even {
-    background-color: #fff;
+
+  #stats td {
+    width: 310px;
   }
 
   #table_div {
     overflow:auto;
-    height: 320px;
+    height: 400px;
     background-color: white;
-    border: solid 1px #eee;
+    border-style: solid;
     border-width: 1px;
-    overflow: hidden;
   }
 
-  button {
-    min-height: 50px;
-    min-width: 350px;
-    margin: 5px;
-    margin-bottom: 10px;
-    font-size: 1.2em;
-    background-color: #6281a7;
-    color: #FFF;
-    font-weight: normal;
-    -moz-border-radius: 30px;
-    border: 5px outset #000;
-    padding: 10px;
-    cursor: pointer;
+  #tab {
+    height: 461px;
   }
-
 </style>
-<%#= stylesheet_link_tag 'extra_buttons' %>
 
-<div id="tab" style="background-color: #fff; border-top: 1px #fff solid; margin-top: 0px;">
-  <h2 style="text-align: center; color: #6281a7; margin-top: -2px; margin-bottom: 0px;">Select task</h2>
-  <table id="stats" style="height: 300px; margin-bottom: 8px;" cellpadding="5">
-    <tr style="color: #fff; background-color: #6281a7;  height: 35px;">
-      <th>&nbsp;</th>
-    </tr>
-    <% @reports.each do |path,report_name| %>
+<script>
+  function setInnerHtmlData(id,result,path) {
+    td = document.getElementById(id);
+    td.innerHTML = "<a href =" + path + ">" +  result + "</a>"
+  }
+</script>
+
+<div id="tab">
+  <div class="panel" style="width:98%;">
+    <h2>Select report to view</h2>
+    <div id="table_div">
+
+    <table id="stats">
+    <% count = @reports.length  unless @reports.blank? %>
+    <% (@reports || []).each do |name,path|
+       count_up = 0
+       count = 0 if @reports.blank?
+    %>
+    <% while count_up < count %>
       <tr>
-        <td valign="top">
-          <button class="btn" onclick="window.parent.location='<%="#{path}"%>'"
-                  class='blue'>
-            <span><%=report_name%></span>
-          </button>
-        </td>
+        <td id = "<%=count_up+= 1%>"></td>
+        <td id = "<%=count_up+= 1%>"></td>
+        <td id = "<%=count_up+= 1%>"></td>
       </tr>
+      <%end unless @reports.blank?%>
     <%end%>
   </table>
+
+
+  <%
+  count = @reports.length  unless @reports.blank?
+  @reports.sort.reverse.map do | name , path | %>
+    <script>
+      setInnerHtmlData("<%=count%>","<%=name%>","<%=path%>");
+    </script>
+    <%count-=1%>
+  <%end%>
+
+    </div>
+  </div>
 </div>
 

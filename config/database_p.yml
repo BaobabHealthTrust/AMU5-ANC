@@ -1,0 +1,24 @@
+# production:
+#   adapter: mysql
+#   database: openmrs
+#   username: root
+#   password:
+#   host: localhost
+
+development:
+  adapter: mysql
+  database: openmrs17
+#  database: old_bart2_test
+  username: migration
+  password: migration
+  host: 192.168.6.182
+
+test: &TEST
+  adapter: mysql
+  database: openmrs_bart2
+  username: root
+  password: 
+  host: localhost
+
+cucumber:
+  <<: *TEST

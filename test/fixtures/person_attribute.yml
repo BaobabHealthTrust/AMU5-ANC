@@ -1,0 +1,43 @@
+--- 
+person_attribute_000012:
+  person_attribute_id: 1
+  person_id: 1
+  value: 0999123456
+  person_attribute_type_id: 12
+  creator: 1
+  date_created: 2011-06-24 09:32:49
+  changed_by: 1
+  date_changed: 2011-06-29 14:35:42
+  voided: 0
+  voided_by:
+  date_voided:
+  void_reason:
+  uuid: 4dde4cac-a24c-11e0-9d8f-544249152fc0
+person_attribute_000013:
+  person_attribute_id: 2
+  person_id: 1
+  value: Other
+  person_attribute_type_id: 13
+  creator: 1
+  date_created: 2011-06-24 09:32:49
+  changed_by: 1
+  date_changed: 2011-06-29 14:35:42
+  voided: 0
+  voided_by:
+  date_voided:
+  void_reason:
+  uuid: 4dde4cac-a24c-11e0-9d8f-489549152fc0
+person_attribute_000019:
+  person_attribute_id: 3
+  person_id: 1
+  value: Neighbour to Bwaila Secondary School
+  person_attribute_type_id: 19
+  creator: 1
+  date_created: 2011-06-24 09:32:49
+  changed_by: 1
+  date_changed: 2011-06-29 14:35:42
+  voided: 0
+  voided_by:
+  date_voided:
+  void_reason:
+  uuid: 4dde4cac-a24c-11d0-9d8f-489549152fc0

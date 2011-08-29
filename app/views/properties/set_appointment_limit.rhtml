@@ -1,0 +1,15 @@
+<style>
+ #Unknown,#date,#star,#abc,#slash,#percent,#comma,#minus,#plus,#decimal {
+     display:none;
+ }
+
+</style>
+
+<script>
+  var tt_cancel_destination = "/clinic"; //properties"
+</script>
+
+<% form_tag 'site_appointment_limit', :method => :post do %>
+  <%= text_field_tag :appointment_limit, nil , :field_type => 'number' , :helpText => 'Appointment limit'%>
+  <%= submit_tag "Create" %>
+<% end -%>

@@ -1,0 +1,13 @@
+<%= javascript_include_tag "prototype" %>
+<style>
+  #Unknown { display:none; }
+</style>
+<%= touch_identifier_tag @patient, "ARV Number", nil,
+    {:id => "national_id",
+     :optional => false,
+     :tt_onLoad => "press('num');",
+     :tt_pageStyleClass => "Numeric NumbersOnly",
+     :validationJS =>"validNumber()",
+     :validationMessage => "National ID already exist",
+     :helpText => "National ID" } %>
+

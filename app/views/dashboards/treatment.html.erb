@@ -3,6 +3,7 @@
 <style type="text/css">
   .subtotal { margin-left:32px; font-size: 0.8em;}
   .warning { color: red; font-weight: bold; }
+  #set_appointment { display:none; }
 </style>
 <script type="text/javascript">
   barcodeId = 'barcode';
@@ -18,12 +19,28 @@
   }
 
   jQuery(document).ready(function($) {
+    $('#set_appointment').click(function() { window.location = "/encounter_types/show?encounter_type=Appointment&id=show&patient_id=<%= @patient.id -%>" })
     $('#dispense').click(function() { window.location = '/dispensations/new?patient_id=<%= @patient.id -%>' })
     $('#prescribe').click(function() { window.location = '/prescriptions/auto?patient_id=<%= @patient.id -%>' })
     $('#regimen').click(function() { window.location = '/regimens/new?patient_id=<%= @patient.id -%>' })
     $('#treatment li.data div.void').click(function() { voiding($(this)); return false; }); 
-  }) 
+  })
+
+
+  function showAppointmentButton(){
+    amount_needed = 0 //<%#=amount_needed%>
+    try {
+      first_dispension = document.getElementsByClassName("subtotal") 
+    }catch(e){ first_dispension = null }
+    
+    if(first_dispension.length == 0)
+      return
+
+    document.getElementById('set_appointment').style.display='inline';
+  } 
 </script>
+
+<body onload="showAppointmentButton();">
 <div id="tab">
   <div id="treatment" class="panel" style="width:980px">
     <% current_day = session[:datetime].strftime('%Y-%m-%d') rescue 'Today'%>
@@ -36,6 +53,7 @@
             <%= order.to_s.gsub(/\n/, '<br/>') -%>
             <% units = order.drug_order.units %>
             <% amount_needed = order.drug_order.amount_needed -%>
+
             <% amounts_dispensed = order.drug_order.total_drug_supply(@patient, @encounter, session[:datetime] || Date.today) rescue [] %>
             <% (amounts_dispensed || []).each do |amount_dispensed| %>
               <div class="subtotal dispensation"><%=h amount_dispensed.to_s %> <%= units %></div>
@@ -61,6 +79,7 @@
         <li class="data">No prescriptions are available for this patient today</li>
       <% end %>
     </ul>
+    <button id="set_appointment" class="silver" style="float:right;margin-top:10px;"><span>Set appointment</span></button>    
     <button id="regimen" class="silver" style="float:right;margin-top:10px;"><span>Regimen</span></button>    
     <button id="prescribe" class="silver" style="float:right;margin-top:10px;"><span>Prescribe</span></button>    
     <button id="dispense" class="silver" style="float:right;margin-top:10px;"><span>Dispense</span></button>    
@@ -73,3 +92,4 @@
     </div>
   </div>  
 </div>
+</body>

@@ -8,7 +8,7 @@ class OpenmrsTest < ActiveSupport::TestCase
       now = Time.now
       Time.stubs(:now).returns(now)  
     end
-=begin    
+    
     should "set the changed by and date changed before saving" do 
       p = person(:evan)
       p.gender = "U"
@@ -18,7 +18,8 @@ class OpenmrsTest < ActiveSupport::TestCase
     end
     
     should "set the creator, date created and the location before creating" do 
-      p = PatientIdentifier.create(:identifier => 'foo', :identifier_type => patient_identifier_type(:unknown_id))
+      p = PatientIdentifier.create(:identifier => 'foo', 
+        :identifier_type => PatientIdentifierType[:unknown_id])
       assert_equal p.location_id, Location.current_location.id
       assert_equal p.creator, User.current_user.id
       assert_equal p.date_created, Time.now
@@ -63,7 +64,7 @@ class OpenmrsTest < ActiveSupport::TestCase
       p.void
       assert_equal 1, Person.inactive.length
     end
-=end
+
 
     should "find not find voided records when using include" do
       p = patient(:evan)      
@@ -71,6 +72,12 @@ class OpenmrsTest < ActiveSupport::TestCase
       i = p.patient_identifiers.first 
       i.void      
       assert_equal c-1, Patient.find(p.patient_id, :include => :patient_identifiers).patient_identifiers.length
+    end
+
+    should "lookup records using name given as a symbol" do
+      assert_equal Concept.find_by_name('Yes'), Concept[:yes]
+      assert_not_nil Location.find_by_name('unknown location')
+      assert_equal Location.find_by_name('unknown location'), Location[:unknown_location]
     end
   end
 end  

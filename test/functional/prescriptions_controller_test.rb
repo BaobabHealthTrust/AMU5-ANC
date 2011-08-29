@@ -51,7 +51,7 @@ class PrescriptionsControllerTest < ActionController::TestCase
       logged_in_as :mikmck, :registration do
         get :generics, {:patient_id => patient(:evan).patient_id, :search_string => ''}
         assert_response :success
-        assert_does_not_contain assigns(:drug_concepts), concept(:diazepam)
+        assert_does_not_contain assigns(:drug_concepts), concept(:concept_00259)
       end            
     end    
 
@@ -63,8 +63,9 @@ class PrescriptionsControllerTest < ActionController::TestCase
       logged_in_as :mikmck, :registration do
         get :formulations, {:patient_id => patient(:evan).patient_id, :search_string => '', :generic => 'NITROUS OXIDE'}
         assert_response :success
-        assert_contains assigns(:drugs).map(&:name), drug(:laughing_gas_600).name
-        assert_contains assigns(:drugs).map(&:name), drug(:laughing_gas_1000).name
+        drugs = Drug.find(:all).map(&:name)
+        assert_contains drugs, drug(:laughing_gas_600).name
+        assert_contains drugs, drug(:laughing_gas_1000).name
       end                
     end
 

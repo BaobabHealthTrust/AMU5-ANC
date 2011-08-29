@@ -1,0 +1,28 @@
+<style>
+#Unknown,#date,#star,#abc,#slash,#percent,#comma,#minus,#plus,#decimal {
+  display:none;
+}
+
+</style>
+
+
+<script>
+  var tt_cancel_destination = "/clinic";  // /management"
+
+  function changeAttribute(){
+    document.getElementById('nextButton').innerHTML = "<span>Print</span>";
+  }
+</script>
+
+<% optionsString = "<option value = ''></option>"
+   @drugs.each do | drug |
+    optionsString+= "<option value = '" + drug.id.to_s + "'>" + drug.name + "</option>"
+   end
+%>
+<body>
+<form action = '/drug/print_barcode' method ='post'>
+  <%=select_tag(:drug_id, optionsString,  {:field_type => 'alpha', :helpText => 'Select drug' })%>
+
+  <%= text_field :pill_count, nil, :helpText => 'Quantity', :field_type => 'number' ,:tt_onLoad => "changeAttribute();"%>
+</form>
+</body>

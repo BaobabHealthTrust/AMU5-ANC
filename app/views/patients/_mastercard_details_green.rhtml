@@ -1,0 +1,330 @@
+<style>
+  #header {
+    margin-top: 10px;
+    border: 1px dotted #000;
+    display: none;
+  }
+  #header td {
+    font-size: 0.95em;
+    border-right: 1px dotted #000;
+    font-family: monospace;
+  }
+  #card {
+    border: 2px solid #000;
+    width: 99.6%;
+    height: 340px;
+    overflow: auto;
+    overflow-x: hidden;
+    margin-top: 10px;
+  }
+  #cardTable {
+    margin: 2px;
+    border-left: 1px solid #000;
+    border-top: 1px solid #000;
+  }
+  #cardTable td {
+    font-size: 0.9em;
+    border-right: 1px solid #000;
+    border-bottom: 1px solid #000;
+    padding: 3px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    text-align: center;
+    font-family: monospace;
+  }
+</style>
+
+<table id="header" width="100%" cellspacing="0" cellpadding="2">
+  <tr>
+    <td align="center" rowspan="2">
+      Visit Date
+    </td>
+    <td align="center">
+      Hgt
+    </td>
+    <td align="center">
+      Wt
+    </td>
+    <td align="center" rowspan="3">
+      Wasting/Malnutr.<br />Based on either<br />Wt/Hgt BMI MUAC
+    </td>
+    <td align="center" colspan="4">
+      TB Status (Curr.)<sup>*</sup>
+    </td>
+    <td align="center" rowspan="3">
+      WHO Stage<br /><span style="font-size: 0.8em">Specify new<br />conditions in Notes</span>
+    </td>
+    <td align="center" colspan="2">
+      CD4
+    </td>
+    <td align="center" rowspan="3">
+      Pregnant<i><br />-&gt; start<br />ART</i>
+    </td>
+    <td align="center" rowspan="3">
+      IPT<br />No. of<br />Tablets
+    </td>
+    <td align="center" rowspan="3">
+      CPT<br />No. of<br />Tablets
+    </td>
+    <td align="center" colspan="2">
+      Family Plan.
+    </td>
+    <td align="center" rowspan="3">
+      Side Effects (Current)<br />
+      <span style="font-size: 0.9em;">Specify 'Other' in Notes</span>
+    </td>
+    <td align="center" colspan="5">
+      Follow-Up Outcome
+    </td>
+    <td align="center" rowspan="3" style="border: 0px solid #000;">
+      Next Appointment or Outcome Date
+    </td>
+  </tr>
+  <tr>
+    <td align="center">
+      &nbsp;
+    </td>
+    <td align="center">
+      &nbsp;
+    </td>
+    <td align="center" colspan="2">
+      Suspected
+    </td>
+    <td align="center" colspan="2">
+      Confirmed
+    </td>
+    <td align="center" rowspan="2">
+      Sample<br />taken
+    </td>
+    <td align="center" rowspan="2">
+      Result
+    </td>
+    <td align="center" rowspan="2">
+      Depo<br />given
+    </td>
+    <td align="center" rowspan="2">
+      No. of<br />condom
+    </td>
+    <td align="center" rowspan="2" style="height: 55px; width: 20px;">
+      <span style="-moz-transform:rotate(-90deg);">Continue</span>
+    </td>
+    <td align="center" rowspan="2">
+      <span style="-moz-transform:rotate(-90deg);">OnART</span>
+    </td>
+    <td align="center" rowspan="2">
+      <span style="-moz-transform:rotate(-90deg);">TO</span>
+    </td>
+    <td align="center" rowspan="2">
+      <span style="-moz-transform:rotate(-90deg);">Default</span>
+    </td>
+    <td align="center" rowspan="2">
+      <span style="-moz-transform:rotate(-90deg);">Died</span>
+    </td>
+  </tr>
+  <tr>
+    <td align="center">
+      day/month/year
+    </td>
+    <td align="center">
+      <i>cm</i>
+    </td>
+    <td align="center">
+      <i>kg</i>
+    </td>
+    <td align="center">
+      No
+    </td>
+    <td align="center">
+      Yes
+    </td>
+    <td align="center">
+      noRx
+    </td>
+    <td align="center">
+      Rx
+    </td>
+  </tr>
+</table>
+
+<%
+
+months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Nov", "Dec"]
+
+%>
+
+<div id="card">
+  <table id="cardTable" border="0" cellspacing="0" cellpadding="1">
+
+    <tr>
+      <td align="center" rowspan="2" style="border-bottom: 0px solid #000;">
+        Visit Date
+      </td>
+      <td align="center" style="border-bottom: 0px solid #000;" rowspan="2">
+        Hgt
+      </td>
+      <td align="center" style="border-bottom: 0px solid #000;" rowspan="2">
+        Wt
+      </td>
+      <td align="center" rowspan="3">
+        Wasting/Malnutr.<br />Based on either<br />Wt4Hgt BMI MUAC
+      </td>
+      <td align="center" rowspan="3" style="border-bottom: 1px solid #000;">
+        TB Status (Curr.)<sup>*</sup>
+      </td>
+      <td align="center" rowspan="3">
+        WHO Stage<br /><span style="font-size: 0.8em">Specify new<br />conditions in Notes</span>
+      </td>
+      <td align="center" colspan="2" style="border-bottom: 0px solid #000;">
+        CD4
+      </td>
+      <td align="center" rowspan="3">
+        Pregnant<i><br />-&gt; start<br />ART</i>
+      </td>
+      <td align="center" rowspan="3">
+        IPT<br />No. of<br />Tablets
+      </td>
+      <td align="center" rowspan="3">
+        CPT<br />No. of<br />Tablets
+      </td>
+      <td align="center" colspan="2" style="border-bottom: 0px solid #000;">
+        Family Plan.
+      </td>
+      <td align="center" rowspan="3">
+        Side Effects (Current)<br />
+        <span style="font-size: 0.9em;">Specify 'Other' in Notes</span>
+      </td>
+      <td align="center" rowspan="3" style="border-bottom: 1px solid #000;">
+        Follow-Up Outcome
+      </td>
+      <td align="center" rowspan="3">
+        Next Appointment or Outcome Date
+      </td>
+    </tr>
+
+    <tr>
+      <!--td align="center" colspan="2" style="border-bottom: 0px solid #000;">
+        Suspected
+      </td>
+      <td align="center" colspan="2" style="border-bottom: 0px solid #000;">
+        Confirmed
+      </td-->
+      <td align="center" rowspan="2">
+        Sample<br />taken
+      </td>
+      <td align="center" rowspan="2">
+        Result
+      </td>
+      <td align="center" rowspan="2">
+        Depo<br />given
+      </td>
+      <td align="center" rowspan="2">
+        No. of<br />condom
+      </td>
+      <!--td align="center" rowspan="2" style="height: 55px; width: 20px;">
+        <span style="-moz-transform:rotate(-90deg);">Continue</span>
+      </td>
+      <td align="center" rowspan="2">
+        <span style="-moz-transform:rotate(-90deg);">OnART</span>
+      </td>
+      <td align="center" rowspan="2">
+        <span style="-moz-transform:rotate(-90deg);">TO</span>
+      </td>
+      <td align="center" rowspan="2">
+        <span style="-moz-transform:rotate(-90deg);">Default</span>
+      </td>
+      <td align="center" rowspan="2">
+        <span style="-moz-transform:rotate(-90deg);">Died</span>
+      </td-->
+    </tr>
+    <tr>
+      <td align="center">
+        dy/mth/yr
+      </td>
+      <td align="center">
+        <i>cm</i>
+      </td>
+      <td align="center">
+        <i>kg</i>
+      </td>
+      <!--td align="center">
+        No
+      </td>
+      <td align="center">
+        Yes
+      </td>
+      <td align="center">
+        noRx
+      </td>
+      <td align="center">
+        Rx
+      </td-->
+    </tr>
+
+    <% @visits.keys.each do|day| %>
+      <tr>
+        <td>
+          <%= day.to_date.strftime("%d-%b-%Y") rescue "" %>&nbsp;
+        </td>
+        <td>
+          <%= @visits[day].height rescue "" %>&nbsp;
+        </td>
+        <td>
+          <%= @visits[day].weight rescue "" %>&nbsp;
+        </td>
+        <td>
+          &nbsp;
+        </td>
+        <td>
+          <%= @visits[day].tb_status rescue "&nbsp;" %>&nbsp;
+        </td>
+        <td>
+          &nbsp;
+        </td>
+        <td>
+          &nbsp;
+        </td>
+        <td>
+          &nbsp;
+        </td>
+        <td>
+          &nbsp;
+        </td>
+        <td>
+          &nbsp;
+        </td>
+        <td>
+          <%= @visits[day].cpt rescue "&nbsp;" %>&nbsp;
+        </td>
+        <td>
+          &nbsp;
+        </td>
+        <td>
+          &nbsp;
+        </td>
+        <td>
+          <%= @visits[day].s_eff rescue "&nbsp;" %>&nbsp;
+        </td>
+        <!--td>
+          &nbsp;
+        </td>
+        <td>
+          &nbsp;
+        </td>
+        <td>
+          &nbsp;
+        </td>
+        <td>
+          &nbsp;
+        </td-->
+        <td>
+          <%= @visits[day].outcome rescue "&nbsp;" %>&nbsp;
+        </td>
+        <td>
+          <%= (@visits[day].date_of_outcome.strftime("%d-%b-%Y") if !@visits[day].date_of_outcome.nil? ||
+              @visits[day].appointment_date.strftime("%d-%b-%Y") if !@visits[day].appointment_date.nil?) rescue "&nbsp;" %>&nbsp;
+        </td>
+      </tr>
+    <% end %>
+
+  </table>
+</div>

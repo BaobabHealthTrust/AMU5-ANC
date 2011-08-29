@@ -1,0 +1,97 @@
+<html>
+<style>
+body{
+  font-family: "Nimbus Sans L", "Arial Narrow", sans-serif;
+}
+
+
+<% if @show_next_button %>
+.page_button {
+  display:block;
+  font-size: 0.8em;
+  color: black;
+  background-color: lightgray;
+  margin: 15px;
+  border: 3px outset gray;
+  -moz-user-select:none;
+  width: 100px;
+  height: 70px;
+  text-align: center;
+}
+
+#filing_info {
+ font-size:25px;
+  -moz-user-select:none;
+}
+#patients_info_div{
+ left:28px;
+ position:absolute;
+ top:0px;
+ font-size:17;
+ -moz-user-select:none;
+}
+td , th {
+  text-align:center;
+  border: 20px solid white;
+  padding: 10px;
+}
+
+.filing_instraction {
+ text-align:left;
+}
+
+.old_label {
+  background-color:#FFFF99;
+}
+
+.new_label {
+  background-color:lightgreen;
+}
+
+.active_heading {
+ background-color:black;
+ color:white;
+}
+
+/*<tr><td></td><td></td><td><button class='page_button' onmousedown='print_filing_numbers();'>Print</button></td><td><button  class='page_button'                         onmousedown='next_page();'>Done</button></td></tr>*/
+<%end%>
+</style>
+
+<script>
+  function setAttributes() {
+    <% if @show_next_button %>
+      buttondiv = document.getElementById('footer');
+      buttondiv.innerHTML = "<button id='continue' class = 'button navButton green' style='padding-right:10px' onmousedown='done();'><span>Continue</span></button>"
+      buttondiv.innerHTML += "<button id='print' class='yellow left' onmousedown='printLabel();'><span>Print</span></button>"
+    <%end%> 
+  }
+
+  function printLabel() {
+    document.location = "/location/location_label?location_name=#{location_name}%>"
+  }
+
+  function done() {
+    document.location = "<%=@redirect_url%>"
+  }
+</script>
+
+
+
+<% if not @show_next_button %>
+<body>
+<br/><br/><br/>
+  <center><h1><%=h @message %></h1></center>
+  <iframe src="<%= @print_url %>" style='display:none'></iframe>
+  </body>
+  <script>
+		setTimeout(redirect, 6000);
+    function redirect(){
+      document.location = '<%= @redirect_url %>'
+    }
+  </script>
+<%else%>
+  <body onload="setAttributes();">
+    <%=@message%>
+  </body>
+<%end%>
+</html>

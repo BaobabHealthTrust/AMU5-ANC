@@ -1,0 +1,39 @@
+
+<script type="text/javascript" language="javascript">
+  <!--
+  tt_cancel_show = "/patients/current_visit/?patient_id=<%= @patient.patient_id %>";
+  tt_cancel_destination = "/patients/current_visit/?patient_id=<%= @patient.patient_id %>";
+  var timedEvent;
+
+  //-->
+</script>
+
+<% form_tag :controller => "encounters", :action => "create" do |f| %>
+  <%= hidden_field_tag "encounter[encounter_type_name]", "LAB RESULTS" %>
+  <%= hidden_field_tag "encounter[patient_id]", @patient.id %>
+  <%= hidden_field_tag "encounter[encounter_datetime]", DateTime.now() %>
+  <%= hidden_field_tag "encounter[provider_id]", session[:user_id] %>
+  <%session_date = session[:datetime] || Time.now() %>
+
+  <%= touch_select_tag "Syphilis Test Result", @patient,
+    options_for_select([["", ""], ["Positive", "Positive"], 
+      ["Negative", "Negative"], ["Inconclusive", "Inconclusive"]]),
+    {:id => "syphilis_result",
+    :helptext => "Syphilis Result" } %>
+
+  <%= touch_date_tag "Syphilis Test Result Date", @patient, nil,
+    {:id => "enter_date_syphilis_result_given",
+    :helptext => "Date Syphilis Test Result Given" } %>
+
+  <%= touch_text_field_tag "HB Test Result", @patient, nil,
+    {:id => "syphilis_result",
+    :helptext => "HB Test Result",
+    :field_type => "number",
+    :tt_pageStyleClass => "NumbersWithUnknownAndDecimal" } %>
+
+  <%= touch_date_tag "HB Test Result Date", @patient, nil,
+    {:id => "enter_date_hb1_result_given",
+    :helptext => "Date HB Test Result Given" } %>
+
+  <%= submit_tag 'Finish' %>
+<% end %>

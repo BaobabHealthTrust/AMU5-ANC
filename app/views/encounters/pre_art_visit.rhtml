@@ -1,0 +1,145 @@
+<style type="text/css">
+  .summary {
+    margin:20px;
+    font-size:1.6em;
+  }
+  .title, .recommendation {
+    margin-right:10px;
+    font-weight:bold;
+  }
+  .recommendation {
+    :font-style:italic;
+  }
+  .warning {
+    color:red;
+  }
+
+  .pills_remaing{
+    left:25px;
+    position:inherit;
+  }
+
+  #notes{background-color:red;}
+
+  .tt_controls_clinical_notes_optional #space { display:inline; }
+
+  #char { display:none; }
+</style>
+<script>
+  var tt_cancel_destination = "/patients/show/<%= @patient.patient_id %>"
+
+  function getNumberOfSymptoms(){
+    var options = $('symptoms').options;
+    var symptoms = 0;
+
+    <% @side_effects = concept_set('MALAWI ART DRUG INDUCED SYMPTOM SET') %>
+    var myArray = "<%= @side_effects.to_a %>";
+
+    for (var i=0; i < options.length; i++) {
+      if (options[i].selected && options[i].value != "") {
+       if (myArray.indexOf(options[i].value) != -1) {
+        symptoms =  symptoms + 1;
+       }
+      }
+    }
+    return symptoms;
+  }
+
+  function getSelectedSymptoms() {
+    var options = $('symptoms').options;
+    var symptoms = new Array();
+
+    <% @side_effects = concept_set('MALAWI ART DRUG INDUCED SYMPTOM SET') %>
+    var myArray = "<%= @side_effects.to_a %>";
+
+    for (var i=0; i < options.length; i++) {
+      if (options[i].selected && options[i].value != "") {
+       if (myArray.indexOf(options[i].value) != -1) {
+        symptoms +=  "<li value='" + options[i].value + "' id='" + i + "' onmousedown='null; updateTouchscreenInputForSelect(this); ' style='display: block;'>" + options[i].value + "</li>";
+        $("drug_induced_effects").innerHTML += "<option>" + options[i].value + "</option>";
+       }
+      }
+    }
+    $("tt_currentUnorderedListOptions").innerHTML = symptoms;
+  }
+</script>  
+
+<form action="/encounters/create" method='post'>
+  <%= hidden_field_tag "encounter[encounter_type_name]", "PART_FOLLOWUP" %>
+  <%= hidden_field_tag "encounter[patient_id]", @patient.id %>
+  <%= hidden_field_tag "encounter[encounter_datetime]", DateTime.now() %>
+  <%= hidden_field_tag "encounter[provider_id]", session[:user_id] %>
+
+  <% if @patient.person.gender == 'F' && @patient.person.age > 14 
+      obs_date = session[:datetime].to_date rescue Date.today
+      patient_pregnant = Observation.find(:first,:conditions =>["concept_id = ? AND person_id = ? AND DATE(obs_datetime) = ?",
+                       ConceptName.find_by_name('IS PATIENT PREGNANT?').concept_id,
+                       @patient.id,obs_date])
+  
+      if patient_pregnant.blank? %>
+        <%= touch_yes_no_unknown_tag "IS PATIENT PREGNANT?", @patient, nil,
+        {:optional => true,
+        :helpText => "Is patient pregnant?" } %>
+      <% end %>    
+  <% end %>    
+  
+  <% if ask_standard_art_side_effects %>
+    <%= touch_select_tag "MALAWI ART SIDE EFFECTS", @patient, concept_set_options('MALAWI ART SIDE EFFECTS'),
+      {:id => 'side_effects',
+       :optional => true,
+       :multiple => true,
+       :helpText => "Side effects (select all that apply)" } %>
+  <% else %>
+    <%= touch_select_tag "SYMPTOM PRESENT", @patient, concept_set_options('MALAWI ART SYMPTOM SET'),
+      {:id => 'symptoms',
+       :optional => true,
+       :multiple => true,
+       :helpText => "Symptoms (select all that apply)" } %>
+
+    <%= touch_select_tag "DRUG INDUCED", @patient, options_for_select([['', '']]),
+      {:id => 'drug_induced_effects',
+       :optional => true,
+       :multiple => true,
+       :condition => 'getNumberOfSymptoms() > 0',
+       :helpText => "Select which of these symptoms are likely drug induced<br />(select all that apply)",
+       :tt_onLoad => "getSelectedSymptoms()" } %>
+  <% end %>
+
+  <%= touch_select_tag "TB STATUS", @patient, concept_set_options('TB STATUS'),
+    {:id => 'tb_status',
+     :optional => true,
+     :multiple => false,
+     :helpText => "TB Status" } %>
+
+  <%if @patient.child_bearing_female?%>
+  <%#= touch_yes_no_unknown_tag "DEPO-PROVERA", @patient, nil,
+      {:optional => false,
+       :helpText => "Depo-provera injection given?" } %>
+
+  <%= touch_yes_no_unknown_tag "CURRENTLY USING FAMILY PLANNING METHOD", @patient, nil,
+      {:id => "on_fpm",
+        :helpText => "Currently using family planning method" } %>
+
+  <%= touch_select_tag "FAMILY PLANNING METHOD", @patient, options_for_select(@select_options['family_planning_methods']),
+    {:id => "fpm_used",
+     :condition => '$("on_fpm").value == "YES"',
+     :multiple => true,
+     :tt_pageStyleClass => "NoKeyboard",
+     :helpText => "What method?" } %>
+  <%end%>
+
+  <% if @patient.person.age >= 14 %>
+    <%= touch_numeric_tag "CONDOMS", @patient, nil,
+      {:optional => false,
+       :helpText => "Number of Condoms given" } %>
+  <% end %>
+
+  <%= touch_yes_no_unknown_tag "Prescribe ARVs this visit", @patient, nil,
+    {:optional => false,
+     :helpText => "Prescribe Drugs this visit?" } %>
+
+  <%= touch_text_area_tag("CLINICAL NOTES CONSTRUCT", @patient, nil,
+    {:optional => true,:helpText => "Clinical notes (optional)"}, time=DateTime.now()) %>
+
+  <%= submit_tag "Finish" %>    
+</form>

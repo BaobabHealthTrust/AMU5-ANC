@@ -1,4 +1,4 @@
-AMU5 is a simple patient registration application written in Ruby on Rails
+Mateme is a simple patient registration application written in Ruby on Rails
 and is intended as a web front end for OpenMRS. 
 
 OpenMRS® is a community-developed, open-source, enterprise electronic medical 

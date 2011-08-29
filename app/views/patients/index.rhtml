@@ -1,0 +1,77 @@
+<html>
+  <head>
+    <title>Patient Dashboard</title>
+    <script type="text/javascript" language="javascript"
+    src="/touchscreentoolkit/lib/javascripts/touchScreenToolkit.js" defer  ></script>
+    <meta http-equiv='content-type' content='text/html;charset=UTF-8' />
+    <script language="javascript">
+      tstUsername = "";
+      tstCurrentDate = "<%= @date %>";
+      //tt_cancel_destination = '/clinic';
+      tt_cancel_show = '/clinic';
+    </script>
+  </head>
+	<body>
+		<div id='content'>
+			<div id='description' style='color:#777;position:absolute;margin-top:-70px;'></div>
+
+			<form id = 'dashboard' action='/clinic'>
+				<div id='project_name'>
+					amu<span style='font-size: 0.75em'>5</span></h1>
+				</div>
+				<span id='patient_name'><%= @patient.name rescue "" %></span>
+				<span id='patient_id'><%= @patient.national_id_with_dashes rescue "" %></span>
+				<span id='patient_residence'><%= @patient.person.addresses.last.city_village rescue "" %></span>
+				<span id='patient_age'><%= @patient.person.age rescue "" %></span>
+				<span id='patient_gender'><%= @patient.gender rescue "" %></span>
+
+				<!--select id="tabs">
+					<option value='/patients/overview?patient_id=<%= @patient.id %>'>Overview</option>
+					<option value='/patients/visit_history?patient_id=<%= @patient.id %>'>Current Visit</option>
+					<option value='/patients/past_visits_summary?patient_id=<%= @patient.id %>'>Past Visits</option>
+					<option value='/patients/personal/<%= @patient.id -%>'>Printouts/Other</option>
+				</select-->
+
+				<select id="tabs">
+					<option value='/patients/tab_visit_summary?patient_id=<%= @patient.id  %>'>Visit Summary</option>
+					<option value='/patients/tab_obstetric_history?patient_id=<%= @patient.id  %>'>Obstetric History</option>
+					<option value='/patients/tab_medical_history?patient_id=<%= @patient.id  %>'>Medical History</option>
+					<option value='/patients/tab_examinations_management?patient_id=<%= @patient.id  %>'>Examinations Management</option>
+					<option value='/patients/tab_lab_results?patient_id=<%= @patient.id  %>'>Lab Results</option>
+					<option value='/patients/tab_visit_history?patient_id=<%= @patient.id  %>'>Current Pregnancy Visit History</option>
+				</select>
+
+				<% if @patient.person.dead == 1%>
+					<select id="links">
+						<option value='/patients/programs_dashboard/<%= @patient.id -%>'>Outcomes</option>
+					</select>
+					<select id="navigation_links">
+						<option link="/patients/mastercard_menu?patient_id=<%= @patient.id -%>&source=<%= @source -%>">Mastercard</option>
+						<option link='<%= ((session[:datetime].to_date rescue '') != '' ?
+								"/people/reset_datetime/#{@patient.id}" : "/people/set_datetime/#{@patient.id}") %>'  ttSize="160px">
+						<%= ((session[:datetime].to_date rescue '') != '' ? "Reset Date" : "Set Date") %></option>
+					</select>
+				 <% else %>
+					<select id="links">
+						<option value='/patients/current_visit/?patient_id=<%= @patient.id  %>'>Current Visit</option>
+						<option value='/patients/patient_history/?patient_id=<%= @patient.id  %>'>Patient History</option>
+						<option value='/patients/current_pregnancy/?patient_id=<%= @patient.id  %>'>Current Pregnancy</option>
+						<option value='/patients/hiv_status/?patient_id=<%= @patient.id  %>'>HIV Status</option>
+						<option value='/patients/outcome/?patient_id=<%= @patient.id  %>'>Update Outcome</option>
+						<option value='/encounters/appointment/?patient_id=<%= @patient.id  %>'>Pregnancy History</option>
+						<option value='/patients/demographics?patient_id=<%= @patient.id %>'>Full Demographics</option>
+						<option value='/patients/print_registration?patient_id=<%= @patient.id %>'>Print Registration</option>
+					</select>
+					<select id="navigation_links">
+						<option link="/encounter_types?patient_id=<%= @patient.id -%>" ttSize = "160px">Tasks</option>
+						<!--option link="/patients/mastercard_menu?patient_id=<%= @patient.id -%>&source=<%= @source -%>">Mastercard</option-->
+						<option link='<%= ((session[:datetime].to_date rescue '') != '' ?
+							"/people/reset_datetime/#{@patient.id}" : "/people/set_datetime/#{@patient.id}") %>'  ttSize="160px">
+							<%= ((session[:datetime].to_date rescue '') != '' ? "Reset Date" : "Set Date") %></option>
+					</select>
+				<% end %>
+				<input type='submit' value='Finish' />
+			</form>
+		</div>
+	</body>
+</html>

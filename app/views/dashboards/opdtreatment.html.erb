@@ -1,0 +1,80 @@
+<%= render :partial => 'dashboards/nav', :locals => {:active => 'treatment'} %>
+<script type="text/javascript">
+</script>
+
+<style type="text/css">
+  #stats {
+    width:98%;
+    margin:10px;
+    background:white;
+  }
+
+  #stats a {
+    background-color: grey;
+    border-bottom: 1px outset black;
+    border-style: outset;
+    border-top: 1px outset black;
+    color: white;
+    display: block;
+    padding: 10px 16px 10px 10px;
+    text-align: center;
+    text-decoration: none;
+  }
+
+  #stats td {
+    width: 310px;
+  }
+
+  #table_div {
+    overflow:auto;
+    height: 400px;
+    background-color: white;
+    border-style: solid;
+    border-width: 1px;
+  }
+
+  #tab {
+    /*height: 461px;*/
+  }
+</style>
+
+<script>
+  function setInnerHtmlData(id,result,path) {
+    td = document.getElementById(id);
+    td.innerHTML = "<a href =" + path + ">" +  result + "</a>"
+  }
+</script>
+
+
+
+<div id="tab">
+  <div class="panel" style="width:98%;">
+    <h2>Activities</h2>
+    <div id="table_div">
+
+    <table id="stats">
+      <% count = @activities.length  unless @activities.blank? %>
+      <% (@activities || []).each do |name,path|
+        count_up = 0
+        count = 0 if @activities.blank?
+        while count_up < count %>
+          <tr>
+            <td id = "<%=count_up+= 1%>"></td>
+            <td id = "<%=count_up+= 1%>"></td>
+            <td id = "<%=count_up+= 1%>"></td>
+          </tr>
+        <%end unless @activities.blank?%>
+      <%end%>
+    </table>
+  <%
+  count = @activities.length  unless @activities.blank?
+  @activities.sort.reverse.map do | name , path | %>
+    <script>
+      setInnerHtmlData("<%=count%>","<%=name%>","<%=path%>");
+    </script>
+    <%count-=1%>
+  <%end%>
+
+    </div>
+  </div>
+</div>

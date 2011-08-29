@@ -1,0 +1,95 @@
+<style>
+  #keyboard{
+    display: none;
+  }
+</style>
+
+<%= javascript_include_tag "barcode" %>
+
+<script>
+  var sputumOrders = <%= @sputum_orders.to_json %>
+  var tt_cancel_destination = "/encounters/new/lab?patient_id=<%= @patient.patient_id -%>";
+  var acc_numbers = {<%= @sputum_orders.collect{|k,v| "#{k}:'#{v}'"}.sort.join(",")%>};
+  var acc_numbers_check = {<%= @sputum_orders.collect{|k,v| "#{k}:'#{v}'"}.sort.join(",")%>};
+
+  barcodeFocusOnce = true;
+  function setupBarcode(){
+    barcodeId = tstInputTarget.id;
+    barcodeScanAction = gotoNextPage;
+    setTimeout("focusForBarcodeInput()", 300);
+    loadBarcodePage();
+  }
+
+  function inform() {
+    $('infoBar'+tstCurrentPage).innerHTML = "Scan the label on the sputum collection bottle";
+  }
+
+  function updateValues(elementId,destinationId){
+    var hiddenDestination = destinationId + '_0';
+    $(destinationId).value = sputumOrders[$(elementId).value];
+    $(hiddenDestination).value =  $(elementId).value;
+  }
+
+   function showTaskName(){
+    $('inputFrame'+tstCurrentPage).innerHTML = '<div id="summary"><div><span class="title" style="font-size:40px;">Next Task: Sputum Submission</span></div></div>' 
+  }
+
+
+</script> 
+
+<!--.........TODO...........
+This is referred to as ART Enrollment/HIV Visit in the specs
+
+Concepts - mostly in caps
+Skip logic - implement and verify
+Get @answer_array_values
+Check multi select especially on WHO staging conditions
+Change the date fields to 3tier date
+Check appropriateness of Encounter type
+
+Check applicability of code below
+-->
+  <%if @sputum_orders.empty?%>
+    <div class="inputPage NoKeyboard" id="page" style="display: block;">
+    <div id="trigger"></div>
+    <div id="infoBar" class="infoBarClass"></div>
+    <label id="helpText" class="helpTextClass" for="">This patient has no sputum orders which need submission</label>
+  </div>
+  <div id="buttons" class="buttonsDiv" style="top:456;">
+    <div id="tt_extraButtons"></div>
+    <button onmousedown="window.location=tt_cancel_destination;" id="cancelButton" class="button navButton red"><span>Cancel</span></button>
+  </div>  
+  <script>
+		setTimeout("window.location=tt_cancel_destination;", 5000);
+  </script>
+
+    <%else%>
+<form id='appointment' action="/encounters/create" method='post'>
+  <%= hidden_field_tag "encounter[encounter_type_name]", "SPUTUM SUBMISSION" %>
+  <%= hidden_field_tag "encounter[patient_id]", @patient.id %>
+  <%= hidden_field_tag "encounter[encounter_datetime]", DateTime.now() %>
+  <%= hidden_field_tag "encounter[provider_id]", session[:user_id] %>
+
+  <%= text_field_tag :task_name, nil, { :tt_onLoad => "showTaskName()", :optional => "true", :tt_pageStyleClass => "NoControls", :helpText => 'Task'} %>
+
+  <% (@sputum_orders.size).times do |i|%>
+    <%element_id = "specimen#{i+1}"%>
+    <%destination_id = "specimen_#{i+1}"%>
+    <%reg_ex = @sputum_orders.collect{|k,v| k}.join('|')%>
+
+    <%= text_field_tag element_id, nil, 
+      {:id => element_id,
+       :helpText => "Scan specimen #{i+1}", 
+       :field_type => 'number',
+       :tt_onLoad => "inform(); setupBarcode();",
+       :validationCode => "acc_numbers_check[__$('touchscreenInput' + tstCurrentPage).value] != undefined",
+       :validationMessage => "Not a valid accession number: #{reg_ex} or a duplicate accession_number",
+       :tt_onUnLoad => "updateValues('#{element_id}','#{destination_id}');delete acc_numbers_check[__$('#{element_id}').value]",
+       :tt_pageStyleClass => "Numeric NumbersOnly"}  %>
+
+       <%= touch_hidden_tag "SPUTUM SUBMISSION", @patient, nil, :id => destination_id, :accession_number =>  0%>
+    <%end%>
+
+  <%= submit_tag "Finish" %>    
+</form>
+<%end%>

@@ -1,5 +1,11 @@
+<style>
+  .tt_controls_new_state_start_date #num , #Unknown {
+    display:none;
+  }
+</style>
+
 <script>
-  var tt_cancel_destination = "/patients/programs/<%= @patient.patient_id %>"
+  var tt_cancel_destination = "/patients/programs_dashboard/<%= @patient.patient_id %>"
   var program_date_completed = "<%= @program_date_completed %>"
 
   var current_state_input_box = null
@@ -12,14 +18,14 @@
   }
 
   function validProgram(){
-    selected_state = ($('tt_page_current_state').getElementsByTagName("input")[0].value)
+    selected_state = ($('tt_page_new_state').getElementsByTagName("input")[0].value)
     if(program_date_completed != ""){return false}
     return true
   } 
 
   function validStartDate(){
     closed_states = '<%= @invalid_date_ranges %>'
-    set_start_date = dateCreate($('tt_page_current_state_start_date').getElementsByTagName("input")[0].value)
+    set_start_date = dateCreate($('tt_page_new_state_start_date').getElementsByTagName("input")[0].value)
     
     if (closed_states == '')
       return true
@@ -37,11 +43,18 @@
   } 
 
   function dateCreate(date_str){
-    date_array = []
-    date_array.push(parseInt(date_str.substring(0,4)))
-    date_array.push(parseInt(date_str.substring(5,7)) - 1)
-    date_array.push(parseInt(date_str.substring(8,10)))
-    return new Date(date_array[0],date_array[1],date_array[2])
+    intyear = 0 ; intmonth = 0 ; intday = 0;
+    intyear = parseInt(date_str.substring(0,4))
+    intmonth = (parseInt(date_str.substring(5,7)) - 1)
+    intday = (parseInt(date_str.substring(8,10)))
+
+    if (intmonth == -1)
+      intmonth = (parseInt(date_str.substring(5,7).substring(1,2)) - 1)
+
+    if (intday == 0)
+      intday = parseInt(date_str.substring(8,10).substring(1,2))
+
+    return new Date(intyear,intmonth,intday)
   }
 
 
@@ -54,21 +67,23 @@
   <%= select_tag 'current_state', params[:current_state],
       {:id => 'initial_state',
        :field_type => 'alpha',
-       :helpText => "Current state",
+       :helpText => "New outcome",
        :tt_onLoad => "resetNextButtonCaption();set_workflow_for_states();", 
        :ajaxURL => "",
        :validationJS =>"validProgram()",
        :validationMessage => "#{@program_name}<br/>is closed<br/>Closed on: #{@program_date_completed}",
        :allowFreeText => false } %>
 
-  <%= text_field_tag 'current_date', params[:current_date] || (Time.now).year,
+  <% initial_date = "#{session[:datetime].strftime('%Y-%m-%d')}" rescue "#{(Date.today).strftime('%Y-%m-%d')}"%>
+
+  <%= text_field_tag 'current_date', initial_date,
         {:id => 'current_date',
          :field_type => 'date',
          :tt_onLoad => "changeNextButtonCaption();",
-         :helpText => "Current state start date",
+         :helpText => "New outcome start date",
          :max => "#{(Date.today).strftime('%Y-%m-%d')}",
          :validationJS =>"validStartDate()",
-         :validationMessage => "Start date is overlaping with other states start dates",
+         :validationMessage => "Start date is overlapping with other states start dates",
          :tt_pageStyleClass => "Date DatesOnly"} %>
 
   <script>
@@ -86,7 +101,7 @@
   <%= select_tag 'transfer_out_location_id', nil,
       {:id => 'transfer_out_location_id',
        :field_type => 'alpha',
-       :helpText => "Transfer out location",
+       :helpText => "Transfer out to location",
        :ajaxURL => '/programs/locations?q=',
        :condition => "current_state_input_box.value == 'PATIENT TRANSFERRED OUT'",
        :allowFreeText => true } %>
@@ -95,7 +110,7 @@
       {:id => "transfer_within_responsibility",
        :optional => false,
        :condition => "current_state_input_box.value == 'PATIENT TRANSFERRED OUT'",
-       :helpText => "Transfer within responsibility" } %>
+       :helpText => "Transfer within responsibility (e.g. District)" } %>
 
 
   <%= hidden_field_tag "encounter[encounter_type_name]", "TRANSFER OUT" %>

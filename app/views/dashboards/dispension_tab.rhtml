@@ -1,0 +1,140 @@
+<%= stylesheet_link_tag "dashboard" %>
+<%= stylesheet_link_tag fancy_or_high_contrast_touch %>
+<script src="/javascripts/touchscreenYesNo.js" type="text/javascript"></script>
+<%= javascript_include_tag "barcode" %>
+<style type="text/css">
+  .subtotal { margin-left:32px; font-size: 0.8em;}
+  .warning { color: red; font-weight: bold; }
+  #set_appointment { display:none; }
+  h2 {
+    margin: 0px;
+    font-size: 1.2em;
+  }
+
+  .dispensation_data td {
+    border-style: solid;
+    border-width: 1px;
+  }
+</style>
+<script src="/javascripts/jquery-1.3.2.min.js" type="text/javascript"></script>
+<script language="javascript" type="text/javascript" src="/javascripts/jquery.flot.js"></script>
+<script type="text/javascript">
+  barcodeId = 'barcode';
+  total_dispensed = 0;
+
+  function voiding(order_id) {
+    confirmYesNo("Void this item?", function() {
+      hideConfirmation();
+      row = document.getElementById(order_id);
+      $.post('/prescriptions/void/?patient_id=<%= @patient.id -%>&order_id=' + order_id , {}, function(data, status) {
+        if (status == 'success') row.style.display='none';
+      })
+    }, function() { hideConfirmation(); });
+  }
+
+  jQuery(document).ready(function($) {
+    $('#set_appointment').click(function() { window.parent.location = "/encounter_types/show?encounter_type=Appointment&id=show&patient_id=<%= @patient.id -%>" });
+  })
+
+
+  function showAppointmentButton(){
+    /*amount_needed = 0 //<%#=amount_needed%>
+    try {
+      first_dispension = document.getElementsByClassName("subtotal")
+    }catch(e){ first_dispension = null }
+
+    if(first_dispension.length == 0)
+      return
+    */
+
+    if (total_dispensed > 0)
+      document.getElementById('set_appointment').style.display='inline';
+  }
+</script>
+
+<body onload="showAppointmentButton();">
+  <div id="treatment" style="display: table; width: 100%;">
+    <div style="display: table-row">
+      <div style="display: table-cell;">
+
+        <div style="display: table; border-spacing: 10px; width: 100%;">
+          <div style="display: table-row">
+            <div style="display: table-cell; width: 50%;">
+
+              <% current_day = session[:datetime].strftime('%Y-%m-%d') rescue 'Today'%>
+              <h2><%=current_day%>'s Treatment (possibly filtered)</h2>
+              <div style="height:220px;">
+              <% if not @prescriptions.blank? %>
+              <table id = 'dispensation' style = "width:100%;">
+                <tr style="text-align:left;">
+                  <th>&nbsp;</th>
+                  <th>Amount needed</th>
+                  <th>Drug</th>
+                  <th style="text-align:right;">Amount dispensed</th>
+                </tr>
+                <% @prescriptions.each do |order| %>
+                    <!--div class="void"><img src="/images/cancel_flat_small.png"/></div-->
+                      <%
+                         amounts_dispensed = Observation.all(:conditions => ['concept_id = ? AND order_id = ?', 
+                                             ConceptName.find_by_name("AMOUNT DISPENSED").concept_id , order.id])
+                         total_dispensed = amounts_dispensed.sum{|amount| amount.value_numeric}
+                      %>
+                      <script>
+                        total_dispensed += parseFloat("<%=total_dispensed%>");
+                      </script>
+                      <tr class = 'dispensation_data' id = "<%=order.id%>">
+                        <td style="text-align:center;vertical-align: middle;" onmousedown = "voiding('<%=order.id%>');">
+                          <img src="/images/cancel_flat_small.png"/>
+                        </td>
+                        <% total_required = order.drug_order.total_required
+                          drug_unit  =  order.drug_order.units
+                          if total_required > total_dispensed then color = 'red' else color = '' end
+                        %>
+                        <td style="color:<%=color%>;"><%="#{total_required} #{drug_unit}"%></td>
+                        <td><%=order.drug_order.drug.name%></td>
+                        <td style="text-align:right;"><%= total_dispensed %></td>
+                      </tr>
+                <% end %>
+                </table>
+
+                <% else %>
+                  <div class="data">No prescriptions are available for this patient (<%=current_day%>)</div>
+                <% end %>
+                <div>  
+    
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+    <div style="display: table-row">
+      <div style="display: table-cell;width: 945px;">
+        <div style="padding:10px;width:100%;">
+          <form id='barcodeForm' action="/dispensations/create?patient_id=<%= @patient.id -%>" method="post" target="_parent">
+            <div style="float:left;margin-top:-6px;"><label for="barcode" style="margin-top:-5px;">
+              <img src="/images/barcode.jpg" style="vertical-align:top;background:white;"/></label>
+            </div>
+            <%= text_field_tag :identifier, '', {:id => 'barcode', :class => 'touchscreenTextInput', :style => 'position:absolute;width:230px' } %>
+            <%= submit_tag "Submit", :style => "display:none" %>
+          </form>
+          <button id="set_appointment" class="silver" style="float:right;margin-top:-25px;"><span>Set appointment</span></button>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+
+<script>
+
+
+    <% @prescriptions.each do | order | %>
+      row = document.getElementById("<%=order.id%>")
+      row.style.background = '';
+    <% end %>
+    order_id = "<%=params[:dispensed_order_id]%>";
+    if (order_id.length > 0)
+      document.getElementById(order_id).style.background = 'lightBlue';
+
+
+</script>

@@ -1,0 +1,4 @@
+config:
+  import_path: /tmp/migrator
+  import_years: "2007"
+  file_map_location: /tmp/migrator

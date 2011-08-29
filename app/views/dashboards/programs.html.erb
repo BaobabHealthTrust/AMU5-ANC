@@ -12,7 +12,10 @@
       hideConfirmation();
       node = node.parent();
       $.post('/programs/void/?id=' + node.attr('program'), {}, function(data, status) {
-        if (status == 'success') node.remove();
+        if (status == 'success'){
+           document.getElementById('states').innerHTML = '';
+           node.remove();
+        }
       })       
     }, function() { hideConfirmation(); });
   }

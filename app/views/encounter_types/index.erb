@@ -3,10 +3,14 @@
 </script>
 <form action="/encounter_types/show">
   <%= hidden_field_tag "patient_id", params[:patient_id] %>
-  <label for="encounter_type">Select Encounter</label>
+  <label for="encounter_type">Select Task</label>
   <select name="encounter_type" id="encounter_type">
     <% @available_encounter_types.each do |encounter_type| %>
-      <option><%= encounter_type %></option>
+      <% if encounter_type.upcase.include?('HIV') %>
+        <option><%= encounter_type.gsub('Hiv','HIV').gsub('Tb','TB').gsub('hiv','HIV') %></option>
+      <% else %>
+        <option><%= encounter_type.gsub('Art','ART').gsub('Tb','TB') %></option>
+      <% end %>
     <% end %>
   </select>
   <%= submit_tag "Finish" %>    

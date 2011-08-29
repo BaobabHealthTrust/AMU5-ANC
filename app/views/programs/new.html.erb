@@ -5,8 +5,9 @@
   }
 </style>
 <script>
-  var tt_cancel_destination = "/patients/programs/<%= @patient.patient_id %>"  
+  var tt_cancel_destination = "/patients/programs_dashboard/<%= @patient.patient_id %>"
   var enrolled_program_names = <%=@enrolled_program_names%>
+  var selected_program = null
   
   function set_program_for_workflows() {
     var program_id = encodeURIComponent($('program_id').value); 
@@ -14,18 +15,31 @@
     listSuggestions(tstCurrentPage); 
   }
   
-  function set_workflow_for_states() {
+  function set_workflow_for_states(show_non_terminal_states_only) {
+    show_non_terminal_states_only = show_non_terminal_states_only || false;
     var workflow_id = encodeURIComponent($('program_workflow_id').value); 
-    $('touchscreenInput'+tstCurrentPage).setAttribute('ajaxURL', "/programs/states?workflow=" + workflow_id);
+    $('touchscreenInput'+tstCurrentPage).setAttribute('ajaxURL', "/programs/states?show_non_terminal_states_only=" + show_non_terminal_states_only + "&workflow=" + workflow_id);
     listSuggestions(tstCurrentPage); 
   }
  
-  function validProgram(){
+  function selectedProgram(){
     selected_program = ($('tt_page_select_program').getElementsByTagName("input")[0].value)
-    for (var i = 0 ; i < enrolled_program_names.length ; i++ ){
-      if(enrolled_program_names[i] == selected_program){return false}
-    }
     return true
+  }
+ 
+  function validProgram(){
+    if(enrolled_program_names == ''){
+      return true;
+	}
+
+    selected_location = ($('tt_page_location').getElementsByTagName("input")[0].value);
+	alert("");
+    for (var i = 0 ; i < enrolled_program_names.length ; i++ ){
+      if(enrolled_program_names[i][0] == selected_program && enrolled_program_names[i][1] == selected_location){
+        return false;
+      }
+    }
+    return true;
   }
 </script>
 
@@ -39,11 +53,13 @@
   <%= select_tag 'program_id', options_for_select(
     Program.all.inject({}){|result, element| result[element.name] = element.program_id; result }, nil), 
     {:helpText => "Select Program",
-     :validationJS =>"validProgram()",
+     :validationJS =>"selectedProgram()",
      :validationMessage => "Patient already enrolled in program" } %> 
 
   <%= select_tag 'location_id', params[:location_id],
     {:id => 'location_id', 
+     :validationJS =>"validProgram()",
+     :validationMessage => "Patient already enrolled in program",
      :field_type => 'alpha', 
      :helpText => "Location", 
      :ajaxURL => '/programs/locations?q=', 
@@ -61,11 +77,13 @@
     {:id => 'initial_state', 
      :field_type => 'alpha', 
      :helpText => "Initial state",
-     :tt_onLoad => "set_workflow_for_states();",
+     :tt_onLoad => "set_workflow_for_states(true);",
      :ajaxURL => "", 
      :allowFreeText => false } %> 
 
-  <%= text_field_tag 'initial_date', params[:initial_date] || (Time.now).year, 
+  <% initial_date = "#{session[:datetime].strftime('%Y-%m-%d')}" rescue "#{(Date.today).strftime('%Y-%m-%d')}"%>
+
+  <%= text_field_tag 'initial_date', initial_date,
       {:id => 'initial_date',
        :field_type => 'date', 
        :helpText => "Initial state start date",

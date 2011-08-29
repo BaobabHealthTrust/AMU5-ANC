@@ -15,7 +15,7 @@ function focusForBarcodeInput(){
 	if (!barcodeId) {
 		barcodeId = "barcode";
 	}
-  var barcode = document.getElementById("barcode");
+  var barcode = document.getElementById(barcodeId);
 	if (barcode) {
 		barcode.focus();
 		if (!focusOnce) barcodeFocusTimeoutId = window.setTimeout("focusForBarcodeInput()", setFocusTimeout);
@@ -40,5 +40,6 @@ function checkForBarcode(validAction){
   }
   window.setTimeout("checkForBarcode('" + validAction + "')", checkForBarcodeTimeout);
 }
+
 
 window.addEventListener("load", loadBarcodePage, false)

@@ -1,5 +1,5 @@
 <script>
-   var tt_cancel_destination = "/clinic/users"
+   var tt_cancel_destination = "/clinic";
 </script>
 <style>
   h1 { padding-left:10px; }
@@ -24,7 +24,7 @@
     border-width: 0px;
     border-style:solid;
   }
-  
+
   th { text-align:left; }
 
   .blue { background-color:#E6E6FF; }
@@ -35,6 +35,11 @@
     font-weight: bold;
     margin: 0 4px;
     float:right;
+  }
+
+  #button_container button {
+    font-size: 15px;
+    width: 235px;
   }
 </style>
 
@@ -64,7 +69,21 @@
     <td class='blue'>&nbsp;<%=@user.date_created.strftime('%A  %d, %B, %Y') rescue '&nbsp;'%></td>
   </tr>
 </table>
-<br />
-<button id="edit" class="silver" style="margin-top:10px;" onmousedown="document.location = '/user/edit/<%= @user.id -%>'"><span>Edit user</span></button> 
+<div>
+<table id = 'button_container' style = "float:right;">
+  <tr>
+    <td>
+      <button id="edit" class="silver" style="margin-top:10px;"
+        onmousedown="document.location = '/user/edit/<%= @user.id -%>'"><span>Edit User names</span>
+      </button>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <button id="change_password" class="silver" style="margin-top:10px;"
+        onmousedown="document.location = '/user/change_password?id=<%= @user.id -%>'"><span>Change Password</span>
+      </button>
+    </td>
+  </tr>
+  </div>
 </div>
-

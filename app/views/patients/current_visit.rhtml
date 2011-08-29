@@ -62,7 +62,7 @@
         <div style="display: table-cell">
           <button class="<%= (@encounters.include?("LAB RESULTS") ? "gray" : "blue") %>"
                   onclick="<%= (@encounters.include?("LAB RESULTS") ? "" :
-                      "window.location = '/encounters/new/lab_results?patient_id=#{@patient.id}'") %> ">
+                      "window.location = '/encounters/new/maternity_lab_results?patient_id=#{@patient.id}'") %> ">
             <span>Lab Results</span>
           </button>
         </div>

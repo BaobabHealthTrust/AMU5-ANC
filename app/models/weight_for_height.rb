@@ -4,9 +4,9 @@ class WeightForHeight < ActiveRecord::Base
  def self.patient_weight_for_height_values
   # corrected_height = self.significant(patient_height) #correct height to the neares .5
    height_for_weight = Hash.new
-   self.find(:all).each{|hwt|
-    height_for_weight[hwt.supinecm] = hwt.median_weight_height
-   }   
+   self.find(:all).each do |hwt|
+     height_for_weight[hwt.supine_cm] = hwt.median_weight_height
+   end
    height_for_weight  
  end
 

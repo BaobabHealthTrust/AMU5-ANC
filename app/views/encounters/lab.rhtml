@@ -1,0 +1,41 @@
+<script>
+  var tt_cancel_destination = "/patients/show/<%= @patient.patient_id %>"
+</script> 
+
+<!--.........TODO...........
+This is referred to as ART Enrollment/HIV Visit in the specs
+
+Concepts - mostly in caps
+Skip logic - implement and verify
+Get @answer_array_values
+Check multi select especially on WHO staging conditions
+Change the date fields to 3tier date
+Check appropriateness of Encounter type
+
+Check applicability of code below
+-->
+
+<% if @patient.patient_programs.current.local.map(&:program).map(&:name).include?('HIV PROGRAM') %>
+  <div class="inputPage NoKeyboard" id="page" style="display: block;">
+    <div id="trigger"></div>
+    <div id="infoBar" class="infoBarClass"></div>
+    <label id="helpText" class="helpTextClass" for="">This patient has already been initiated in the HIV program at this location</label>
+  </div>
+  <div id="buttons" class="buttonsDiv" style="top:456;">
+    <div id="tt_extraButtons"></div>
+    <button onmousedown="window.location=tt_cancel_destination;" id="cancelButton" class="button navButton red"><span>Cancel</span></button>
+  </div>  
+  <script>
+		setTimeout("window.location=tt_cancel_destination;", 5000);
+  </script>
+<% else %>
+<form id='appointment' action="/encounters/lab" method='post'>
+  <%= hidden_field_tag "encounter[patient_id]", @patient.id %>
+  <%= touch_select_tag "SELECT LAB ACTIVITY", @patient, options_for_select(@lab_activities),
+    {:id => "select_lab_activity",
+     :tt_pageStyleClass => "NoKeyboard",
+     :helpText => "Select Lab activity" } %>
+     
+  <%= submit_tag "Finish" %>    
+</form>
+<% end %>

@@ -1,5 +1,11 @@
 <% for obs in @encounter.observations do %>
   <li class="data <%= cycle('even', 'odd') %>" encounter="<%= @encounter.id %>" observation="<%= obs.id %>">
-    <div class="encounter"><%=h obs.to_s(["short", "order"]) %></div>
-  </li>  
+    <% if obs.concept_id == ConceptName.find_by_name("Location of HIV test").concept_id %>
+      <div class="encounter"><%=h "#{obs.to_s(["short", "order"]).to_s.split(":")[0]}: #{Location.find(obs.to_s(["short", "order"]).to_s.split(":")[1].to_i).name}" %></div>
+    <% elsif obs.concept_id == ConceptName.find_by_name("HTC serial number").concept_id %>
+      <div class="encounter"><%=h "#{obs.to_s(["short", "order"]).to_s.split(":")[0]}: #{obs.to_s(["short", "order"]).to_s.split(":")[1].to_i}" %></div>
+    <% else %>
+      <div class="encounter"><%=h obs.to_s(["short", "order"]) %></div>
+    <% end %>
+  </li>
 <% end %>

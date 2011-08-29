@@ -1,0 +1,749 @@
+<%
+case @type
+when "yellow", "blue"
+%>
+  <table width="100%" cellspacing="0" style="">
+    <tr>
+      <td style="width: 50%; height: 220px; vertical-align: top;">
+        <table width="100%" cellspacing="0" cellpadding="3" style="font-size: 0.8em;
+               <% if @type == "blue" %> border-bottom: 1px solid #000; <% end %>">
+          <tr>
+            <th colspan="14" align="left" style="font-size: 1.5em; font-weight: normal;">
+              Status at ART Initiation
+            </th>
+          </tr>
+          <tr>
+            <td style="width: 35px;">
+              WHO clinical conditions
+            </td>
+            <td colspan="13" style="border-top: 1px solid #000; border-bottom: 1px solid #000; border-left: 1px solid #000;">
+              <div style="font-style: italic;"><%= @mastercard.who_clinical_conditions %>&nbsp;</div>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              Clin Stage
+            </td>
+            <td style="border-left: 1px solid #000; text-align: center;">
+              <b>1</b>
+            </td>
+            <td style="text-align: center;">
+              <b>2</b>
+            </td>
+            <td style="text-align: center;">
+              <b>3</b>
+            </td>
+            <td style="text-align: center;">
+              <b>4</b>
+            </td>
+            <td style="text-align: center;" colspan="2">
+              <b>P</b><span style="font-size: 0.9em">SHD</span>
+            </td>
+            <td style="border-left: 1px solid #000; ">
+              TB Status<br />at Initiation
+            </td>
+            <td style="border-left: 1px solid #000; text-align: center;" colspan="6">
+              <b><%= @mastercard.tb_status_at_initiation rescue "&nbsp;" %>&nbsp;</b>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              CD4 / <br />TLC
+            </td>
+            <td colspan="3" style="border-left: 1px solid #000; border-top: 1px solid #000;
+                font-style: italic;" align="center">
+              <%= @mastercard.cd4_count.to_i rescue "&nbsp;" %>&nbsp;
+            </td>
+            <td colspan="3" style="border-left: 1px solid #000; border-top: 1px solid #000; font-style: italic;"
+                align="right">
+              <%= @mastercard.tlc.to_i rescue "&nbsp;" %>&nbsp;<b>%</b>
+            </td>
+            <td style="border-left: 1px solid #000;">
+              KS
+            </td>
+            <td colspan="6" style="border-left: 1px solid #000; border-top: 1px solid #000;font-style: italic;"
+                align="center">
+              <%= @mastercard.ks.upcase == "YES" ? "<b>Y</b>" : "<b>N</b>" rescue "<b>N</b>" %>&nbsp;
+            </td>
+          </tr>
+          <tr>
+            <td>
+              C<span style="font-size: 0.6em">D4</span>/T<span style="font-size: 0.6em">LC</span> Date
+            </td>
+            <td colspan="6" style="border-left: 1px solid #000; border-top: 1px solid #000;
+                font-style: italic;" align="center">
+              <%= @mastercard.cd4_count_date.strftime("%d-%b-%Y") rescue (
+                @mastercard.tlc_date.strftime("%d-%b-%Y") rescue "&nbsp;") %>&nbsp;
+            </td>
+            <td style="border-left: 1px solid #000; ">
+              Pregnant/ Lactating
+            </td>
+            <td style="border-left: 1px solid #000; text-align: center; border-top: 1px solid #000;" colspan="6">
+              <b><%= @mastercard.pregnant rescue "&nbsp;" %>&nbsp;</b>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              Height,Wt.
+            </td>
+            <td colspan="3" style="border-left: 1px solid #000; border-top: 1px solid #000;">
+              <sup style="float: left">cm</sup>
+              <div style="float: right; margin-top: 15px;"><%= @mastercard.init_ht rescue "&nbsp;" %></div>
+            </td>
+            <td colspan="3" style="border-left: 1px solid #000; border-top: 1px solid #000;" align="left">
+              <sup style="float: left">kg</sup>
+              <div style="float: right; font-style: italic; margin-top: 15px;"><%= @mastercard.init_wt rescue "&nbsp;" %></div>
+            </td>
+            <td style="border-left: 1px solid #000;">
+              Ever<span style="color: <%= (@type == "yellow" ? "#fff99f" : "#ccf") %>">_</span>taken ARVs
+            </td>
+            <td colspan="6" style="border-left: 1px solid #000; border-top: 1px solid #000;" align="center">
+              <b><%= (@mastercard.ever_received_art.upcase == "YES" ? "Y" : "N") rescue "N" %></b>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              Age at Init.
+            </td>
+            <td colspan="6" style="border-left: 1px solid #000; border-top: 1px solid #000; height: 37px;" align="center">
+              <%= @patient.age_at_initiation(@patient.art_start_date) rescue "" %>&nbsp;
+            </td>
+            <td style="border-left: 1px solid #000; ">
+              Last ARVs<br/>(drug,date)
+            </td>
+            <td style="border-left: 1px solid #000; text-align: center; border-top: 1px solid #000;" colspan="6">
+              <%= @mastercard.last_art_drugs_taken rescue "&nbsp;" %>&nbsp;<br />
+              <%= @mastercard.last_art_drugs_date_taken.strftime("%d-%b-%Y") rescue "&nbsp;" %>
+            </td>
+          </tr>
+        </table>
+      </td>
+      <td style="width: 50%; border-left: 2px solid #000; vertical-align: top;">
+
+        <% if @type == "yellow" %>
+
+          <table width="100%" border="0" cellspacing="0" cellpadding="5">
+            <tr>
+              <th align="left" style="font-size: 1.2em; font-weight: normal; padding: 0px;
+                  padding-top: 3px;  padding-bottom: 3px;" colspan="5">
+                <span style="text-decoration: underline;">Confirmatory</span> HIV Test before ART Start
+              </th>
+            </tr>
+            <tr>
+              <td style="width: 60px;">
+                Site,HTC Serial No.
+              </td>
+              <td style="border-top: 1px solid #000; border-left: 1px solid #000; font-style: italic;" colspan="4">
+                <%= @mastercard.first_positive_hiv_test_site + ", " rescue "" %>&nbsp;
+                <%= @mastercard.first_positive_hiv_test_arv_number rescue "" %>
+              </td>
+            </tr>
+            <tr>
+              <td style="width: 60px;">
+                Test Date
+              </td>
+              <td style="border-top: 1px solid #000; border-left: 1px solid #000;
+                  width: 35%; font-style: italic;"
+                  colspan="2" align="center">
+                <%= @mastercard.first_positive_hiv_test_date.strftime("%d-%b-%Y") rescue "" %>&nbsp;
+              </td>
+              <td style="border-top: 1px solid #000; border-left: 1px solid #000;" align="center">
+                <b>R</b>apid
+              </td>
+              <td style="border-top: 1px solid #000; border-left: 1px solid #000;" align="center">
+                <b>P</b>CR
+              </td>
+            </tr>
+            <tr>
+              <td style="width: 60px;">
+                <b>ART</b>educat. done
+              </td>
+              <td style="border-top: 1px solid #000; border-left: 1px solid #000;" align="center">
+                <b>N</b>
+              </td>
+              <td style="border-top: 1px solid #000; border-left: 1px solid #000;" align="center">
+                <b>Y</b>
+              </td>
+              <td style="border-top: 1px solid #000; border-left: 1px solid #000;" colspan="2">
+                &nbsp;
+              </td>
+            </tr>
+            <tr>
+              <td style="width: 60px;">
+                <b>TB treatm.</b>
+              </td>
+              <td style="border-top: 1px solid #000; border-left: 1px solid #000;" colspan="2">
+                <sup style="float: left;">Reg.<br />No.</sup>&nbsp;
+              </td>
+              <td style="border-top: 1px solid #000; border-left: 1px solid #000;" colspan="2">
+                <sup style="float: left;">Start<br />Date</sup>&nbsp;
+              </td>
+            </tr>
+            <tr>
+              <td style="width: 60px; vertical-align: top;" rowspan="3">
+                <b>ART Regimens</b>
+              </td>
+              <td style="border-top: 1px solid #000; border-left: 1px solid #000;" colspan="2">
+                <sup style="float: left;">sup.<br />No.</sup>&nbsp;
+              </td>
+              <td style="border-top: 1px solid #000; border-left: 1px solid #000;" colspan="2">
+                <sup style="float: left;">Start<br />Date</sup>&nbsp;
+              </td>
+            </tr>
+            <tr>
+              <td style="border-top: 1px solid #000; border-left: 1px solid #000; height: 35px;" colspan="2">
+                &nbsp;
+              </td>
+              <td style="border-top: 1px solid #000; border-left: 1px solid #000;" colspan="2">
+                &nbsp;
+              </td>
+            </tr>
+          </table>
+
+        <% elsif @type == "blue" %>
+
+          <table width="100%" border="0" cellspacing="0" cellpadding="5">
+            <tr>
+              <th align="left" style="font-size: 1.2em; font-weight: normal; padding: 0px;
+                  padding-top: 1px;  padding-bottom: 1px;">
+                <span style="text-decoration: underline;">Confirmatory</span> HIV Tests
+              </th>
+              <td colspan="2" align="center" style="vertical-align: bottom; width:40px;">
+                HTC Serial No
+              </td>
+              <td colspan="2" align="center" style="vertical-align: bottom;">
+                Dates
+              </td>
+            </tr>
+            <tr>
+              <td style="width: 60px;">
+                1) ART <b>start</b>
+              </td>
+              <td style="border-top: 1px solid #000; border-left: 1px solid #000;" colspan="2">
+                &nbsp;<sup style="float: right; text-align: right;">Rapid<br />PCR</sup>
+              </td>
+              <td style="border-top: 1px solid #000; border-left: 1px solid #000;" colspan="2">
+                &nbsp;
+              </td>
+            </tr>
+            <tr>
+              <td style="width: 60px;">
+                2)Age<b>12</b> mths
+              </td>
+              <td style="border-top: 1px solid #000; border-left: 1px solid #000;" colspan="2">
+                &nbsp;<sup style="float: right; text-align: right;">Rapid<br />PCR</sup>
+              </td>
+              <td style="border-top: 1px solid #000; border-left: 1px solid #000;" colspan="2">
+                &nbsp;
+              </td>
+            </tr>
+            <tr>
+              <td style="width: 60px;">
+                3)Age<b>24</b> mths
+              </td>
+              <td style="border-top: 1px solid #000; border-left: 1px solid #000;" colspan="2">
+                &nbsp;
+              </td>
+              <td style="border-top: 1px solid #000; border-left: 1px solid #000;" colspan="2">
+                &nbsp;
+              </td>
+            </tr>
+            <tr>
+              <td style="width: 60px;">
+                <b>ART</b>educat. done
+              </td>
+              <td style="border-top: 1px solid #000; border-left: 1px solid #000;" align="center">
+                <b>N</b>
+              </td>
+              <td style="border-top: 1px solid #000; border-left: 1px solid #000;" align="center">
+                <b>Y</b>
+              </td>
+              <td style="border-top: 1px solid #000; border-left: 1px solid #000;" colspan="2">
+                &nbsp;
+              </td>
+            </tr>
+            <tr>
+              <td style="width: 60px;">
+                <b>TB treatm.</b>
+              </td>
+              <td style="border-top: 1px solid #000; border-left: 1px solid #000;" colspan="2">
+                <sup style="float: left;">Reg.<br />No.</sup>&nbsp;
+              </td>
+              <td style="border-top: 1px solid #000; border-left: 1px solid #000;" colspan="2">
+                <sup style="float: left;">Start<br />Date</sup>&nbsp;
+              </td>
+            </tr>
+            <tr>
+              <td style="width: 60px; vertical-align: top;" rowspan="3">
+                <b>ART Regimens</b>
+              </td>
+              <td style="border-top: 1px solid #000; border-left: 1px solid #000;" colspan="2">
+                &nbsp;
+              </td>
+              <td style="border-top: 1px solid #000; border-left: 1px solid #000;" colspan="2">
+                &nbsp;
+              </td>
+            </tr>
+            <tr>
+              <td style="border-top: 1px solid #000; border-left: 1px solid #000; height: 35px;" colspan="2">
+                &nbsp;
+              </td>
+              <td style="border-top: 1px solid #000; border-left: 1px solid #000;" colspan="2">
+                &nbsp;
+              </td>
+            </tr>
+          </table>
+
+        <% end %>
+
+      </td>
+    </tr>
+  </table>
+
+<% when "green" %>
+
+  <table width="100%" border="0" style="" cellspacing="0" cellpadding="5">
+    <tr>
+      <td style="font-size: 1.5em; width: 200px;" colspan="2">
+        Status at Enrolment
+      </td>
+      <td style="vertical-align: bottom;" colspan="2">
+        Testing Site
+      </td>
+      <td style="vertical-align: bottom;" colspan="2" align="center">
+        HTC Serial No
+      </td>
+      <td style="vertical-align: bottom;" align="center">
+        Test Date
+      </td>
+      <td style="vertical-align: bottom;" colspan="2" align="center">
+        Test Type
+      </td>
+    </tr>
+    <tr>
+      <td style="width: 160px;">
+        <span style="text-decoration: underline;">Confirmatory</span> HIV Test
+      </td>
+      <td colspan="3" style="border-top: 1px solid #000; border-left: 1px solid #000; 
+          border-right: 1px dotted #000; font-style: italic;">
+        <%= @mastercard.first_positive_hiv_test_site rescue "" %>&nbsp;
+      </td>
+      <td colspan="2" style="border-top: 1px solid #000; border-right: 1px dotted #000; font-style: italic;">
+        <%= @mastercard.first_positive_hiv_test_arv_number rescue "" %>&nbsp;
+      </td>
+      <td style="border-top: 1px solid #000; border-right: 1px solid #000; font-style: italic;" align="center">
+        <%= @mastercard.first_positive_hiv_test_date.strftime("%d-%b-%Y") rescue "" %>&nbsp;
+      </td>
+      <td style="border-top: 1px solid #000;" align="center">
+        <b>R</b>apid
+      </td>
+      <td style="border-top: 1px solid #000;" align="center">
+        <b>PCR</b>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        Clinical Conditions
+      </td>
+      <td colspan="5" style="border-top: 1px solid #000; border-left: 1px solid #000; font-style: italic;
+          border-right: 1px solid #000;  border-bottom: 1px solid #000; vertical-align: top;" rowspan="2">
+        <%= @mastercard.who_clinical_conditions rescue "" %>&nbsp;
+      </td>
+      <td style="border-top: 1px solid #000; border-right: 1px solid #000;" align="center">
+        WHO stage
+      </td>
+      <td style="border-top: 1px solid #000;" align="center">
+        <b>1</b>
+      </td>
+      <td style="border-top: 1px solid #000;" align="center">
+        <b>2</b>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        &nbsp;
+      </td>
+      <!--td colspan="5" style="border-top: 1px solid #000; border-left: 1px solid #000;
+          border-right: 1px solid #000; border-bottom: 1px solid #000;">
+        &nbsp;
+      </td-->
+      <td style="border-right: 1px solid #000;" align="center">
+        Age
+      </td>
+      <td style="border-top: 1px solid #000; border-bottom: 1px solid #000;" align="center">
+        <%= @patient.person.age rescue "&nbsp;" %>&nbsp;
+      </td>
+      <td style="border-top: 1px solid #000; border-bottom: 1px solid #000;" align="center">
+        &nbsp;
+      </td>
+    </tr>
+    <tr>
+      <td colspan="3">
+        &nbsp;
+      </td>
+      <td colspan="2" align="center">
+        Date last taken
+      </td>
+      <td colspan="4">
+        &nbsp;
+      </td>
+    </tr>
+    <tr>
+      <td>
+        Ever taken IPT
+      </td>
+      <td style="border-top: 1px solid #000; border-left: 1px solid #000; width: 45px;" align="center">
+        <b>N</b>
+      </td>
+      <td style="border-top: 1px solid #000; border-left: 1px solid #000;
+          border-right: 1px solid #000; width: 45px;" align="center">
+        <b>Y</b>
+      </td>
+      <td style="border-top: 1px solid #000; border-right: 1px solid #000;" colspan="2">
+        &nbsp;
+      </td>
+      <td colspan="4">
+        &nbsp;
+      </td>
+    </tr>
+    <tr>
+      <td>
+        Ever taken TB treatm.
+      </td>
+      <td style="border-top: 1px solid #000; border-left: 1px solid #000; width: 45px;" align="center">
+        <b>N</b>
+      </td>
+      <td style="border-top: 1px solid #000; border-left: 1px solid #000;
+          border-right: 1px solid #000; width: 45px;" align="center">
+        <b>Y</b>
+      </td>
+      <td style="border-top: 1px solid #000; border-right: 1px dotted #000;" colspan="2">
+        &nbsp;
+      </td>
+      <td colspan="4" style="border-top: 1px solid #000;">
+        <sup>TB Reg No.</sup>&nbsp;
+      </td>
+    </tr>
+    <tr>
+      <td>
+        Ever taken any ARVs
+      </td>
+      <td style="border-top: 1px solid #000; border-left: 1px solid #000; width: 45px;" align="center" colspan="2">
+        <%= "<b>Y</b>" if @mastercard.last_art_drugs_taken rescue "&nbsp;" %>&nbsp;
+      </td>
+      <td style="border-top: 1px solid #000; border-right: 1px dotted #000; font-style: italic;" colspan="2">
+        <%= @mastercard.last_art_drugs_date_taken.strftime("%d-%b-%Y") rescue "&nbsp;" %>&nbsp;
+      </td>
+      <td colspan="4" style="border-top: 1px solid #000; font-style: italic;">
+        <sup>ARV type</sup>&nbsp;&nbsp;<%= @mastercard.last_art_drugs_taken rescue "&nbsp;" %>&nbsp;
+      </td>
+    </tr>
+  </table>
+
+<% when "pink" %>
+  <style>
+    table {
+      font-size: 0.8em;
+    }
+  </style>
+
+  <table width="100%" border="0" cellspacing="0" cellpadding="5">
+    <tr>
+      <td>
+        &nbsp;
+      </td>
+      <td align="center" colspan="6">
+        <span style="font-size: 1.2em; vertical-align: bottom;">PMTCT History at Enrolment</span>
+      </td>
+      <td>
+        &nbsp;
+      </td>
+      <td align="center" colspan="6">
+        <span style="font-size: 1.2em; vertical-align: bottom;">Status at Enrolment</span>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        ARVs in Pregnancy
+      </td>
+      <td style="border-left: 2px solid #000; border-top: 2px solid #000;" align="center">
+        None
+      </td>
+      <td style="border-top: 2px solid #000;" align="center">
+        AZT<br />0-3w
+      </td>
+      <td style="border-top: 2px solid #000;" align="center">
+        AZT<br />4+w
+      </td>
+      <td style="border-top: 2px solid #000;" align="center">
+        ART<br />0-3w
+      </td>
+      <td style="border-top: 2px solid #000;" align="center">
+        ART<br />4+w
+      </td>
+      <td style="border-top: 2px solid #000; border-right: 2px solid #000;" align="center">
+        Unk
+      </td>
+      <td style="width: 70px;">
+        Age at Enrolment
+      </td>
+      <td colspan="5" style="border-left: 2px solid #000; border-top: 2px solid #000; border-right: 2px solid #000;">
+        &nbsp;
+      </td>
+    </tr>
+    <tr>
+      <td>
+        ARVs in Labour
+      </td>
+      <td style="border-left: 2px solid #000; border-top: 1px solid #000;" align="center">
+        None
+      </td>
+      <td style="border-top: 1px solid #000;" align="center">
+        sdNVP
+      </td>
+      <td style="border-top: 1px solid #000;" align="center">
+        A<span style="font-size: 0.6em">ZT</span>3<span style="font-size: 0.6em">TC</span>
+      </td>
+      <td style="border-top: 1px solid #000;" align="center">
+        NVP<br />A<span style="font-size: 0.6em">ZT</span>3<span style="font-size: 0.6em">TC</span>
+      </td>
+      <td style="border-top: 1px solid #000;" align="center">
+        ART
+      </td>
+      <td style="border-top: 1px solid #000; border-right: 2px solid #000;" align="center">
+        Unk
+      </td>
+      <td>
+        Child Rapid Test
+      </td>
+      <td style="border-left: 2px solid #000; border-top: 1px solid #000;">
+        Not<br />Done
+      </td>
+      <td style="border-top: 1px solid #000;">
+        Neg
+      </td>
+      <td style="border-top: 1px solid #000;">
+        Pos
+      </td>
+      <td style="border-top: 1px solid #000;">
+        Inc
+      </td>
+      <td style="border-left: 1px solid #000; border-top: 1px solid #000; border-right: 2px solid #000; width: 60px;">
+        <sup>Age</sup>&nbsp;
+      </td>
+    </tr>
+    <tr>
+      <td>
+        Baby ARVs at Birth
+      </td>
+      <td style="border-left: 2px solid #000; border-top: 1px solid #000;" align="center">
+        None
+      </td>
+      <td style="border-top: 1px solid #000;" align="center">
+        NVP
+      </td>
+      <td style="border-top: 1px solid #000;" align="center" colspan="2">
+        NVP<br />AZT
+      </td>
+      <td style="border-top: 1px solid #000;" align="center">
+        AZT
+      </td>
+      <td style="border-top: 1px solid #000; border-right: 2px solid #000;" align="center">
+        Unk
+      </td>
+      <td>
+        Child PCR
+      </td>
+      <td style="border-left: 2px solid #000; border-top: 1px solid #000;">
+        Not<br />Done
+      </td>
+      <td style="border-top: 1px solid #000;">
+        Neg
+      </td>
+      <td style="border-top: 1px solid #000;">
+        Pos
+      </td>
+      <td style="border-top: 1px solid #000;">
+        Inc
+      </td>
+      <td style="border-left: 1px solid #000; border-top: 1px solid #000; border-right: 2px solid #000; width: 60px;">
+        <sup>Age</sup>&nbsp;
+      </td>
+    </tr>
+    <tr>
+      <td>
+        Baby ARVs cont'd
+      </td>
+      <td style="border-left: 2px solid #000; border-top: 1px solid #000;" align="center">
+        None
+      </td>
+      <td style="border-top: 1px solid #000;" align="center" colspan="2">
+        NVP
+      </td>
+      <td style="border-top: 1px solid #000;" align="center" colspan="2">
+        AZT
+      </td>
+      <td style="border-top: 1px solid #000; border-right: 2px solid #000;" align="center">
+        Unk
+      </td>
+      <td>
+        <i>Conclusion</i><br />HIV infection
+      </td>
+      <td style="border-left: 2px solid #000; border-top: 1px solid #000;" colspan="2">
+        Not Confirmed
+      </td>
+      <td style="border-top: 1px solid #000; border-right: 2px solid #000;" colspan="4">
+        Confirmed -> <i>start ART!</i>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        Baby ARVs Adherence
+      </td>
+      <td style="border-left: 2px solid #000; border-right: 2px solid #000; border-top: 1px solid #000;"colspan="6">
+        <sup>No. of weeks<br />ARVs taken</sup>
+      </td>
+      <td>
+        Mother Status
+      </td>
+      <td style="border-left: 2px solid #000; border-top: 1px solid #000;" colspan="2">
+        Alive<br />NoART
+      </td>
+      <td style="border-top: 1px solid #000;">
+        Alive<br />OnART
+      </td>
+      <td style="border-top: 1px solid #000;">
+        Died
+      </td>
+      <td style="border-top: 1px solid #000; border-right: 2px solid #000;" align="center">
+        Unk
+      </td>
+    </tr>
+    <tr>
+      <td>
+        Delivery Place
+      </td>
+      <td colspan="6" style="border-top: 1px solid #000; border-right: 2px solid #000;
+          border-bottom: 2px solid #000; border-left: 2px solid #000;">
+        &nbsp;
+      </td>
+      <td>
+        Mother ART<br />Reg. no.
+      </td>
+      <td colspan="6" style="border-top: 1px solid #000; border-right: 2px solid #000;
+          border-left: 2px solid #000; border-bottom: 2px solid #000;">
+        &nbsp;
+      </td>
+    </tr>
+  </table>
+
+  <div style="border-top: 1px solid #66f; border-right: 1px solid #66f; border-bottom: 1px solid #66f;
+       margin-top: 4px; background-color: #f99; margin-bottom: 10px;">
+    <table id="dna_pcr" width="85%" style="margin-top: 20px; margin-left: 115px; display: none; margin-bottom: 21px;" cellspacing="0" cellpadding="5">
+      <tr>
+        <td colspan="2" style="font-size: 1.2em;">
+          DNA - PCR Testing
+        </td>
+        <td align="center" colspan="3">
+          Result received from lab
+        </td>
+        <td align="center" colspan="2">
+          Result given to guardian
+        </td>
+      </tr>
+      <tr>
+        <td align="center">
+          Sample Date
+        </td>
+        <td align="center">
+          Sample ID
+        </td>
+        <td align="center">
+          Date
+        </td>
+        <td align="center" colspan="2">
+          Result
+        </td>
+        <td align="center">
+          Date
+        </td>
+        <td align="center">
+          Age
+        </td>
+      </tr>
+      <tr>
+        <td style="border: 2px solid #000">
+          &nbsp;
+        </td>
+        <td style="border-top: 2px solid #000; border-bottom: 2px solid #000">
+          &nbsp;
+        </td>
+        <td style="border: 2px solid #000">
+          &nbsp;
+        </td>
+        <td style="border-top: 2px solid #000; border-bottom: 2px solid #000">
+          Neg
+        </td>
+        <td style="border: 2px solid #000">
+          Pos
+        </td>
+        <td style="border-top: 2px solid #000; border-bottom: 2px solid #000">
+          &nbsp;
+        </td>
+        <td style="border: 2px solid #000">
+          &nbsp;
+        </td>
+      </tr>
+      <tr>
+        <td style="border: 2px solid #000; border-top: 0px solid #000;">
+          &nbsp;
+        </td>
+        <td style="border-bottom: 2px solid #000">
+          &nbsp;
+        </td>
+        <td style="border: 2px solid #000; border-top: 0px solid #000;">
+          &nbsp;
+        </td>
+        <td style="border-bottom: 2px solid #000">
+          Neg
+        </td>
+        <td style="border: 2px solid #000; border-top: 0px solid #000;">
+          Pos
+        </td>
+        <td style="border-bottom: 2px solid #000">
+          &nbsp;
+        </td>
+        <td style="border: 2px solid #000; border-top: 0px solid #000;">
+          &nbsp;
+        </td>
+        <td>
+          &nbsp;
+        </td>
+      </tr>
+      <tr>
+        <td style="border: 2px solid #000; border-top: 0px solid #000;">
+          &nbsp;
+        </td>
+        <td style="border-bottom: 2px solid #000">
+          &nbsp;
+        </td>
+        <td style="border: 2px solid #000; border-top: 0px solid #000;">
+          &nbsp;
+        </td>
+        <td style="border-bottom: 2px solid #000">
+          Neg
+        </td>
+        <td style="border: 2px solid #000; border-top: 0px solid #000;">
+          Pos
+        </td>
+        <td style="border-bottom: 2px solid #000">
+          &nbsp;
+        </td>
+        <td style="border: 2px solid #000; border-top: 0px solid #000;">
+          &nbsp;
+        </td>
+      </tr>
+    </table>
+  </div>
+
+<% end %>

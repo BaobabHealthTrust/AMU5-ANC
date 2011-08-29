@@ -27,14 +27,20 @@ class SessionsController < ApplicationController
     # First try by id, then by name
     location = Location.find(params[:location]) rescue nil
     location ||= Location.find_by_name(params[:location]) rescue nil
-    
-    unless location
+
+    valid_location = (generic_locations.include?(location.name)) rescue false
+
+    unless location and valid_location
       flash[:error] = "Invalid workstation location"
       render :action => 'location'
       return    
     end
     self.current_location = location
-    redirect_to '/clinic'
+    if use_user_selected_activities and not location.name.match(/Outpatient/i)
+      redirect_to "/user/activities/#{User.current_user.id}"
+    else
+      redirect_to '/clinic'
+    end
   end
 
   def destroy

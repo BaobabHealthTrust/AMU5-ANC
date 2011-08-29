@@ -17,7 +17,7 @@
 </script>
 <div id="tab">
   <div class="panel" style="width:980px">
-    <h2>Relationships</h2>
+    <h2>Guardians</h2>
     <ul id="relationships" class="list" style="height:450px;width:100%;">
       <% for rel in @relationships do %>
         <li class="data <%= cycle('even', 'odd') %>" relationship="<%= rel.id %>">
@@ -26,9 +26,9 @@
         </li>  
       <% end %>
       <% if @relationships.blank? %>        
-        <li class="data">No relationships have been created for this patient</li>
+        <li class="data">No guardians have been created for this patient</li>
       <% end %>
     </ul>
-    <button id="relate" class="silver" style="float:right;margin-top:10px;"><span>New Relationship</span></button>    
+    <button id="relate" class="silver" style="float:right;margin-top:10px;"><span>New Guardian</span></button>    
   </div>
 </div>

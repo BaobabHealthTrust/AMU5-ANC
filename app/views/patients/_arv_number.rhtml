@@ -4,7 +4,7 @@
 </style>
 <script>
 
-  var assigned_arv_number
+  var assigned_arv_number = []
   
   function arv_number(){
     suggest_arv_number = "<%=GlobalProperty.find_by_property('suggest_arv_number').property_value rescue 'true' %>"
@@ -14,7 +14,7 @@
     style.value = "position: absolute; z-index: 100; left: 47px; font-size: 44px;"
     prefix.setAttributeNode(style)
     inputElement.setAttribute("style","text-align:right;width:924px;")
-    prefix.innerHTML = "<%=Location.current_arv_code rescue nil %>"
+    prefix.innerHTML = "<%=PatientIdentifier.site_prefix rescue nil %>"
     inputElement.parentNode.insertBefore(prefix, inputElement)
     style.value+= 'left:35px;'
     prefix.setAttributeNode(style)
@@ -44,11 +44,11 @@
       if (arv_numbers == "[]")
         arv_numbers = []
 
-        assigned_arv_number = arv_numbers
+        assigned_arv_number = eval(arv_numbers)
     }})
   }
 </script>
-
+<%#= raise "this is: #{site_prefix} " %>
 <%= touch_identifier_tag @patient, "ARV Number", nil,
     {:id => "art_number",
      :optional => false,

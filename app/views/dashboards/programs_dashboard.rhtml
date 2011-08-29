@@ -1,0 +1,80 @@
+<html>
+  <head>
+    <title>Patient Programs Dashboard</title>
+    <script type="text/javascript" language="javascript"
+    src="/touchscreentoolkit/lib/javascripts/touchScreenToolkit.js" defer  ></script>
+    <meta http-equiv='content-type' content='text/html;charset=UTF-8' />
+    <script language="javascript">
+      tstUsername = "";
+      tstCurrentDate = "<%= @date %>";
+      //tt_cancel_destination = '/patients/show/<%= @patient.id %>';
+      tt_cancel_show = '/patients/show/<%= @patient.id %>';
+
+      var message = '<%= params[:error] rescue "" %>';
+
+      //setTimeout("confirmOperation('" + message + "', null, true)", 300);
+      
+    </script>
+  </head>
+  <body><div id='content'>
+      <div id='description' style='color:#777;position:absolute;margin-top:-70px;'></div><center>
+        <form id = 'dashboard' action='/clinic'>
+
+          <% unless flash[:notice].nil? %>
+            <p id="flash_notice" style="color: green"><%= flash[:notice] %></p>
+          <% end %>
+          <% unless flash[:error].nil? %>
+            <p id="flash_error" style="color: red"><%= flash[:error] %></p>
+          <% end %>
+            
+          <table cellpadding=10>
+            <tr>
+              <th colspan=2>Patient Programs Dashboard</th>
+            </tr>
+            <h1 id='project_name'>
+              BART
+            </h1>
+            <span id='patient_name'><%= @patient.name rescue "" %></span>
+            <span id='patient_id'><%= @patient.national_id_with_dashes rescue "" %></span>
+            <span id='patient_residence'><%= @patient.person.addresses.last.city_village rescue "" %></span>
+            <span id='patient_age'><%= @patient.person.age rescue "" %></span>
+            <span id='patient_gender'><%= @patient.gender rescue "" %></span>
+
+            <div id="patient_card">
+              <% if (@patient.reason_for_art_eligibility rescue nil) != nil && (@patient.reason_for_art_eligibility) != "" %>
+
+                 <span value="<%= @patient.reason_for_art_eligibility rescue "" %>">Reason for Starting</span>
+               <% end %>
+
+               <% if (@patient.arv_number rescue nil) != nil && (@patient.arv_number) != " " %>
+
+                  <span value="<%= @patient.arv_number rescue "" %>">ARV Number</span>
+
+               <% end %>
+               <% if (@patient.eid_number rescue nil) != nil && (@patient.eid_number) != " " %>
+
+                 <span value="<%= @patient.eid_number rescue "" %>">EID Number</span>
+
+               <% end %>
+               <% if (@patient.pre_art_number rescue nil) != nil && (@patient.pre_art_number) != " " %>
+
+                <span value="<%= @patient.pre_art_number rescue "" %>">Pre-ART Number</span>
+
+               <% end %>
+            </div>
+            <select id="tabs">
+              <option value='/patients/programs?patient_id=<%= @patient.id %>'>Outcomes</option>
+            </select>
+            <select id="links">
+            </select>
+            <tr>
+              <td align='center'>
+                <input type='submit' value='Finish' />
+              </td>
+            </tr>
+          </table>
+        </form>
+      </center>
+    </div>
+  </body>
+</html>

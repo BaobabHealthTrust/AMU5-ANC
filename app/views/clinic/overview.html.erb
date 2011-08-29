@@ -1,86 +1,41 @@
-<%#= render :partial => 'clinic/nav', :locals => {:active => 'overview', :label => ""} %>
-<!--script type="text/javascript">
+<%= render :partial => 'clinic/nav', :locals => {:active => 'overview', :label => ""} %>
+<script type="text/javascript">
   jQuery(document).ready(function($) {
   }) 
-</script-->
+</script>
 <style type="text/css">
-  body {
-    -moz-user-select:none;
-  }
-
   #stats {
     width:98%;
-    border:1px solid #eee;
-    margin:10px;
-    margin-top: 0px;
+    border:1px solid black;
+    margin:10px;    
     background:white;
-  }
+  } 
   #stats td, #stats th {
     text-align:center;
   }
-  .odd {
-    background-color: #eeeef7;
-  }
-  .even {
-    background-color: #fff;
-  }
-
-  #table_div {
-    overflow:auto;
-    height: 320px;
-    background-color: white;
-    border: solid 1px #eee;
-    border-width: 1px;
-    overflow: hidden;
-  }
-
-  .btn {
-    min-height: 50px;
-    margin: 0px;
-    margin-bottom: 5px;
-    font-size: 1.2em;
-    background-color: #6281a7;
-    color: #FFF;
-    font-weight: normal;
-    border: 5px outset #000;
-    padding: 10px;
-    cursor: pointer;
-    background:url(../images/btn_blue.png) right repeat;
-    -moz-user-select:none;
-    -moz-user-focus:disabled;
-  }
-
-  .btn:hover {
-    background:url(../images/btn_blue_hover.png) right repeat;
-    -moz-user-select:none;
-    -moz-user-focus:disabled;
-  }
-
-  .btn:active {
-    background:url(../images/btn_yellow.png) right repeat;
-    border: 3px inset #000;
-  }
-
 </style>
-<div id="tab" style="background-color: #fff; border-top: 1px #fff solid; margin-top: 0px;">
-  <h2 style="text-align: center; color: #6281a7; margin-top: -2px; margin-bottom: 0px;">Current Patient Statistics</h2>
-  <table id="stats" style="height: 315px; margin-bottom: 8px;" cellpadding="5">
-    <tr style="color: #fff; background-color: #6281a7;">
-      <th style="text-align:left;">Task Type</th>
-      <th>Me</th>
-      <th>Today</th>
-      <th>This Year</th>
-      <th>Total to Date</th>
-    </tr>
-    <% @types.each do |type| %>
-      <tr class="<%= cycle('even', 'odd') %>">
-        <td style="text-align:left;"><%= (type == "HIV STATUS" ? "HIV Status" :
-              (type == "PMTCT MANAGEMENT" ? "PMTCT Management" : type.titleize)) %></td>
-        <td><%= @me[type] %></td>
-        <td><%= @today[type] %></td>
-        <td><%= @year[type] %></td>
-        <td><%= @ever[type] %></td>
+<div id="tab" style="height: 461px;">
+  <div class="panel" style="width:980px">
+    <h2>Current Patient Statistics</h2>
+    <div style="height:970px;overflow:auto;">
+    <table id="stats" style="height: 400px;" cellpadding="10">
+      <tr>
+        <th style="text-align:left;">Encounter Type</th>
+        <th>Me</th>
+        <th>Today</th>
+        <th>This Year</th>
+        <th>Total to Date</th>
       </tr>
-    <% end %>
-  </table>
+      <% @types.each do |type| %>
+        <tr class="<%= cycle('even', 'odd') %>">
+          <td style="text-align:left;"><%= type %></td>
+          <td><%= @me[type] %></td>
+          <td><%= @today[type] %></td>
+          <td><%= @year[type] %></td>
+          <td><%= @ever[type] %></td>
+        </tr>
+      <% end %>        
+    </table>
+    </div>
+  </div>        
 </div>

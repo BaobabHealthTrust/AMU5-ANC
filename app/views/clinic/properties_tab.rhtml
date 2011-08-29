@@ -1,0 +1,74 @@
+
+<style type="text/css">
+  #stats {
+    width:98%;
+    margin:10px;
+    background:white;
+  }
+
+  #stats a {
+    background-color: grey;
+    border-bottom: 1px outset #eee;
+    border-style: outset;
+    border-top: 1px outset #eee;
+    color: white;
+    display: block;
+    padding: 10px 16px 10px 10px;
+    text-align: center;
+    text-decoration: none;
+  }
+
+  #stats td {
+    width: 310px;
+  }
+
+  #table_div {
+    overflow:auto;
+    height: 320px;
+    background-color: white;
+    border: 1px #eee solid;
+    border-width: 1px;
+  }
+
+</style>
+
+<script>
+  function setInnerHtmlData(id,result,path) {
+    td = document.getElementById(id);
+    td.innerHTML = "<a href =" + path + ">" +  result + "</a>"
+  }
+</script>
+<base target="_parent">
+<div id="tab">
+  <h2>Set system properties</h2>
+  <div id="table_div">
+
+    <table id="stats">
+      <% count = @settings.length  unless @settings.blank? %>
+      <% (@settings || []).each do |name,path|
+        count_up = 0
+        count = 0 if @settings.blank?
+      %>
+        <% while count_up < count %>
+          <tr>
+            <td id = "<%=count_up+= 1%>"></td>
+            <td id = "<%=count_up+= 1%>"></td>
+            <td id = "<%=count_up+= 1%>"></td>
+          </tr>
+        <%end unless @settings.blank?%>
+      <%end%>
+    </table>
+
+
+    <%
+    count = @settings.length  unless @settings.blank?
+    @settings.sort.reverse.map do | name , path | %>
+      <script>
+        setInnerHtmlData("<%=count%>","<%=name%>","<%=path%>");
+      </script>
+      <%count-=1%>
+    <%end%>
+
+  </div>
+</div>
+</base>

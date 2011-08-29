@@ -27,15 +27,36 @@ module ApplicationHelper
   def ask_home_village
     GlobalProperty.find_by_property("demographics.home_village").property_value == "yes" rescue false
   end
-  
+
+  def site_prefix
+    site_prefix = GlobalProperty.find_by_property("site_prefix").property_value rescue false
+    return site_prefix
+  end
+
   def ask_mothers_surname
     GlobalProperty.find_by_property("demographics.mothers_surname").property_value == "yes" rescue false
   end
   
+  def ask_middle_name
+    GlobalProperty.find_by_property("demographics.middle_name").property_value == "yes" rescue false
+  end
+
+  def ask_visit_home_for_TB_therapy
+    GlobalProperty.find_by_property("demographics.visit_home_for_treatment").property_value == "yes" rescue false
+  end
+  
+  def ask_sms_for_TB_therapy
+    GlobalProperty.find_by_property("demographics.sms_for_TB_therapy").property_value == "yes" rescue false
+  end
+
+  def ask_ground_phone
+    GlobalProperty.find_by_property("demographics.ground_phone").property_value == "yes" rescue false
+  end
+
   def ask_blood_pressure
     GlobalProperty.find_by_property("vitals.blood_pressure").property_value == "yes" rescue false
   end
-  
+
   def ask_temperature
     GlobalProperty.find_by_property("vitals.temperature").property_value == "yes" rescue false
   end  
@@ -43,6 +64,22 @@ module ApplicationHelper
   def ask_standard_art_side_effects
     GlobalProperty.find_by_property("art_visit.standard_art_side_effects").property_value == "yes" rescue false
   end  
+
+  def show_lab_results
+    GlobalProperty.find_by_property('show.lab.results').property_value == "yes" rescue false
+  end
+  
+  def use_filing_number
+    GlobalProperty.find_by_property('use.filing.number').property_value == "yes" rescue false
+  end
+
+  def use_user_selected_activities
+    GlobalProperty.find_by_property('use.user.selected.activities').property_value == "yes" rescue false
+  end
+
+  def use_extended_staging_questions
+    GlobalProperty.find_by_property('use.extended.staging.questions').property_value == "yes" rescue false
+  end
 
   def month_name_options
     i=0
@@ -82,15 +119,25 @@ module ApplicationHelper
   def patient_image(patient) 
     @patient.person.gender == 'M' ? "<img src='/images/male.gif' alt='Male' height='30px' style='margin-bottom:-4px;'>" : "<img src='/images/female.gif' alt='Female' height='30px' style='margin-bottom:-4px;'>"
   end
-  
-  def relationship_options(patient)
-    rels = @patient.relationships.all
-    # filter out voided relationship target
+
+  # include (patient, :names => true) to list registered guardians
+  def relationship_options(patient, options={})
     options_array = []
-    rels.each do |rel|
-      options_array << [rel.relation.name + " (#{rel.type.b_is_to_a})", rel.relation.name] unless rel.relation.blank?
+    if options[:names] # show names of guardians as options
+      rels = patient.relationships.all
+      # filter out voided relationship target
+      rels.each do |rel|
+        unless rel.relation.blank?
+          options_array << [rel.relation.name + " (#{rel.type.b_is_to_a})",
+                            rel.relation.name]
+        end
+      end
+      options_array << ['None', 'None']
+    else
+      options_array << ['Yes', 'Yes']
+      options_array << ['No', 'No']
     end
-   # options_array = rels.map{|rel| next if rel.relation.blank? [rel.relation.name + " (#{rel.type.b_is_to_a})", rel.relation.name]}
+    options_array << ['Unknown', 'Unknown']
     options_for_select(options_array)  
   end
   
@@ -109,7 +156,27 @@ module ApplicationHelper
     options_for_select(options)
   end
   
+   def concept_set(concept_name)
+    concept_id = ConceptName.find(:first,:joins =>"INNER JOIN concept USING (concept_id)",
+                                  :conditions =>["retired = 0 AND name = ?",concept_name]).concept_id
+    set = ConceptSet.find_all_by_concept_set(concept_id, :order => 'sort_weight')
+    options = set.map{|item|next if item.concept.blank? ; [item.concept.fullname] }
+    return options
+  end
+
   def development_environment?
     ENV['RAILS_ENV'] == 'development'
   end
+
+  def generic_locations
+    Location.workstation_locations
+  end
+  
+  def concept_sets(concept_name)
+    concept_id = ConceptName.find(:first,:joins =>"INNER JOIN concept USING (concept_id)",
+                                  :conditions =>["retired = 0 AND name = ?",concept_name]).concept_id
+    set = ConceptSet.find_all_by_concept_set(concept_id, :order => 'sort_weight')
+    set.map{|item|next if item.concept.blank? ; item.concept.fullname }
+  end
+
 end
