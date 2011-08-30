@@ -5,6 +5,17 @@
   tt_cancel_destination = "/patients/current_visit/?patient_id=<%= @patient.patient_id %>";
   var timedEvent;
 
+  function preEclampsiaAlert() {
+    var urineProtein = $("enter_urine_protein").value;
+    var diastolicBloodPressure = "<%= "#{@diastolic_blood_pressure}" %>";
+
+    if((urineProtein == "++++") && (diastolicBloodPressure >= 90)){
+      showPreEclampsiaMessage = true;
+    }else{
+      showPreEclampsiaMessage = false;
+    }
+    return showPreEclampsiaMessage;
+  }
   //-->
 </script>
 
@@ -53,7 +64,7 @@
     {:id => "enter_urine_protein",
     :helptext => "Urine Protein" } %>
 
-  <%= text_field_tag :summary, nil, { :tt_onLoad => '$("preEclampsia").style.display = "block";$("nextButton").innerHTML = "<span>Finish</span>";', :optional => "true", :tt_pageStyleClass => "NoControls", :helpText => 'Pre-eclampsia', :condition => '($("enter_urine_protein").value == "++");'} %>
+  <%= text_field_tag :summary, nil, { :tt_onLoad => '$("preEclampsia").style.display = "block";$("nextButton").innerHTML = "<span>Finish</span>";', :optional => "true", :tt_pageStyleClass => "NoControls", :helpText => 'Pre-eclampsia', :condition => 'preEclampsiaAlert() == true;'} %>
 
   <%= submit_tag 'Finish' %>
 <% end %>

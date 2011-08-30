@@ -232,6 +232,7 @@ class EncountersController < ApplicationController
      @answer_array = regimen_options(hiv_program.regimens, @patient.person.age)
      @answer_array += [['Other', 'Other'], ['Unknown', 'Unknown']]
 
+    @diastolic_blood_pressure = @patient.diastolic_blood_pressure
     @hiv_status = @patient.hiv_status
     @hiv_test_date = @patient.hiv_test_date
     @lab_activities = Encounter.lab_activities
