@@ -646,8 +646,8 @@ class PatientsController < ApplicationController
 # AMU 5 Patient dashboard tabs 
   def tab_visit_summary
     @patient = Patient.find(params[:patient_id]  || params[:id] || session[:patient_id]) rescue nil
-    @encounters = @patient.encounters.current.active rescue []
-    @encounter_names = @patient.encounters.current.active.map{|encounter| encounter.name}.uniq rescue []
+    @encounters = @patient.encounters.current rescue []
+    @encounter_names = @patient.encounters.current.map{|encounter| encounter.name}.uniq rescue []
 
     render :layout => false
   end
@@ -657,43 +657,43 @@ class PatientsController < ApplicationController
     
     @deliveries = Observation.find(:last,
       :conditions => ["person_id = ? AND encounter_id IN (?) AND concept_id = ?", @patient.id,
-        Encounter.active.find(:all).collect{|e| e.encounter_id},
+        Encounter.find(:all).collect{|e| e.encounter_id},
         ConceptName.find_by_name('PARITY').concept_id]).answer_string.to_i rescue 0
 
     @abortions = Observation.find(:last,
       :conditions => ["person_id = ? AND encounter_id IN (?) AND concept_id = ?", @patient.id,
-        Encounter.active.find(:all).collect{|e| e.encounter_id},
+        Encounter.find(:all).collect{|e| e.encounter_id},
         ConceptName.find_by_name('NUMBER OF ABORTIONS').concept_id]).answer_string.to_i rescue 0
 
     @stillbirths = Observation.find(:last,
       :conditions => ["person_id = ? AND encounter_id IN (?) AND concept_id = ?", @patient.id,
-        Encounter.active.find(:all).collect{|e| e.encounter_id},
-        ConceptName.find_by_name('STILL BIRTH').concept_id]).answer_string rescue nil
+        Encounter.find(:all).collect{|e| e.encounter_id},
+        ConceptName.find_by_name('STILL BIRTH').concept_id]).answer_string.strip rescue nil
 
     @csections = Observation.find(:last,
       :conditions => ["person_id = ? AND encounter_id IN (?) AND concept_id = ?", @patient.id,
-        Encounter.active.find(:all).collect{|e| e.encounter_id},
-        ConceptName.find_by_name('Caesarean section').concept_id]).answer_string rescue nil
+        Encounter.find(:all).collect{|e| e.encounter_id},
+        ConceptName.find_by_name('Caesarean section').concept_id]).answer_string.strip rescue nil
 
     @vacuum = Observation.find(:last,
       :conditions => ["person_id = ? AND encounter_id IN (?) AND concept_id = ?", @patient.id,
-        Encounter.active.find(:all).collect{|e| e.encounter_id},
-        ConceptName.find_by_name('Vacuum extraction delivery').concept_id]).answer_string rescue nil
+        Encounter.find(:all).collect{|e| e.encounter_id},
+        ConceptName.find_by_name('Vacuum extraction delivery').concept_id]).answer_string.strip rescue nil
 
     @symphosio = Observation.find(:last,
       :conditions => ["person_id = ? AND encounter_id IN (?) AND concept_id = ?", @patient.id,
-        Encounter.active.find(:all).collect{|e| e.encounter_id},
-        ConceptName.find_by_name('SYMPHYSIOTOMY').concept_id]).answer_string rescue nil
+        Encounter.find(:all).collect{|e| e.encounter_id},
+        ConceptName.find_by_name('SYMPHYSIOTOMY').concept_id]).answer_string.strip rescue nil
 
     @haemorrhage = Observation.find(:last,
       :conditions => ["person_id = ? AND encounter_id IN (?) AND concept_id = ?", @patient.id,
-        Encounter.active.find(:all).collect{|e| e.encounter_id},
-        ConceptName.find_by_name('HEMORRHAGE').concept_id]).answer_string rescue nil
+        Encounter.find(:all).collect{|e| e.encounter_id},
+        ConceptName.find_by_name('HEMORRHAGE').concept_id]).answer_string.strip rescue nil
 
     @preeclampsia = Observation.find(:last,
       :conditions => ["person_id = ? AND encounter_id IN (?) AND concept_id = ?", @patient.id,
-        Encounter.active.find(:all).collect{|e| e.encounter_id},
-        ConceptName.find_by_name('PRE-ECLAMPSIA').concept_id]).answer_string rescue nil
+        Encounter.find(:all).collect{|e| e.encounter_id},
+        ConceptName.find_by_name('PRE-ECLAMPSIA').concept_id]).answer_string.strip rescue nil
     render :layout => false
   end
 
@@ -701,32 +701,32 @@ class PatientsController < ApplicationController
     @patient = Patient.find(params[:patient_id]  || params[:id] || session[:patient_id]) rescue nil
     
     @asthma = Observation.find(:last, :conditions => ["person_id = ? AND encounter_id IN (?) AND concept_id = ?",
-        @patient.id, Encounter.active.find(:all).collect{|e| e.encounter_id},
-        ConceptName.find_by_name('ASTHMA').concept_id]).answer_string rescue nil
+        @patient.id, Encounter.find(:all).collect{|e| e.encounter_id},
+        ConceptName.find_by_name('ASTHMA').concept_id]).answer_string.strip rescue nil
 
     @hyper = Observation.find(:last, :conditions => ["person_id = ? AND encounter_id IN (?) AND concept_id = ?",
-        @patient.id, Encounter.active.find(:all).collect{|e| e.encounter_id},
-        ConceptName.find_by_name('HYPERTENSION').concept_id]).answer_string rescue nil
+        @patient.id, Encounter.find(:all).collect{|e| e.encounter_id},
+        ConceptName.find_by_name('HYPERTENSION').concept_id]).answer_string.strip rescue nil
 
     @diabetes = Observation.find(:last, :conditions => ["person_id = ? AND encounter_id IN (?) AND concept_id = ?",
-        @patient.id, Encounter.active.find(:all).collect{|e| e.encounter_id},
-        ConceptName.find_by_name('DIABETES').concept_id]).answer_string rescue nil
+        @patient.id, Encounter.find(:all).collect{|e| e.encounter_id},
+        ConceptName.find_by_name('DIABETES').concept_id]).answer_string.strip rescue nil
 
     @epilepsy = Observation.find(:last, :conditions => ["person_id = ? AND encounter_id IN (?) AND concept_id = ?",
-        @patient.id, Encounter.active.find(:all).collect{|e| e.encounter_id},
-        ConceptName.find_by_name('EPILEPSY').concept_id]).answer_string rescue nil
+        @patient.id, Encounter.find(:all).collect{|e| e.encounter_id},
+        ConceptName.find_by_name('EPILEPSY').concept_id]).answer_string.strip rescue nil
 
     @renal = Observation.find(:last, :conditions => ["person_id = ? AND encounter_id IN (?) AND concept_id = ?",
-        @patient.id, Encounter.active.find(:all).collect{|e| e.encounter_id},
-        ConceptName.find_by_name('RENAL DISEASE').concept_id]).answer_string rescue nil
+        @patient.id, Encounter.find(:all).collect{|e| e.encounter_id},
+        ConceptName.find_by_name('RENAL DISEASE').concept_id]).answer_string.strip rescue nil
 
     @fistula = Observation.find(:last, :conditions => ["person_id = ? AND encounter_id IN (?) AND concept_id = ?",
-        @patient.id, Encounter.active.find(:all).collect{|e| e.encounter_id},
-        ConceptName.find_by_name('FISTULA REPAIR').concept_id]).answer_string rescue nil
+        @patient.id, Encounter.find(:all).collect{|e| e.encounter_id},
+        ConceptName.find_by_name('FISTULA REPAIR').concept_id]).answer_string.strip rescue nil
 
     @deform = Observation.find(:last, :conditions => ["person_id = ? AND encounter_id IN (?) AND concept_id = ?",
-        @patient.id, Encounter.active.find(:all).collect{|e| e.encounter_id},
-        ConceptName.find_by_name('SPINE OR LEG DEFORM').concept_id]).answer_string rescue nil
+        @patient.id, Encounter.find(:all).collect{|e| e.encounter_id},
+        ConceptName.find_by_name('SPINE OR LEG DEFORM').concept_id]).answer_string.strip rescue nil
 
     @age = @patient.age rescue 0
 
@@ -739,11 +739,11 @@ class PatientsController < ApplicationController
     @height = @patient.current_height.to_i
 
     @multiple = Observation.find(:last, :conditions => ["person_id = ? AND encounter_id IN (?) AND concept_id = ?",
-        @patient.id, Encounter.active.find(:all).collect{|e| e.encounter_id},
+        @patient.id, Encounter.find(:all).collect{|e| e.encounter_id},
         ConceptName.find_by_name('EVER HAD A MULTIPLE PREGNANCY?').concept_id]).answer_string rescue nil
 
     @who = Observation.find(:last, :conditions => ["person_id = ? AND encounter_id IN (?) AND concept_id = ?",
-        @patient.id, Encounter.active.find(:all).collect{|e| e.encounter_id},
+        @patient.id, Encounter.find(:all).collect{|e| e.encounter_id},
         ConceptName.find_by_name('WHO CLINICAL STAGE').concept_id]).answer_string.to_i rescue nil
 
     render :layout => false
@@ -753,19 +753,19 @@ class PatientsController < ApplicationController
     @patient = Patient.find(params[:patient_id]  || params[:id] || session[:patient_id]) rescue nil
 
     @syphilis = Observation.find(:last, :conditions => ["person_id = ? AND encounter_id IN (?) AND concept_id = ?",
-        @patient.id, Encounter.active.find(:all).collect{|e| e.encounter_id},
+        @patient.id, Encounter.find(:all).collect{|e| e.encounter_id},
         ConceptName.find_by_name('Syphilis Test Result').concept_id]).answer_string rescue nil
 
     @syphilis_date = Observation.find(:last, :conditions => ["person_id = ? AND encounter_id IN (?) AND concept_id = ?",
-        @patient.id, Encounter.active.find(:all).collect{|e| e.encounter_id},
+        @patient.id, Encounter.find(:all).collect{|e| e.encounter_id},
         ConceptName.find_by_name('Syphilis Test Result Date').concept_id]).answer_string rescue nil
 
         @hb_test_result = Observation.find(:last, :conditions => ["person_id = ? AND encounter_id IN (?) AND concept_id = ?",
-        @patient.id, Encounter.active.find(:all).collect{|e| e.encounter_id},
+        @patient.id, Encounter.find(:all).collect{|e| e.encounter_id},
         ConceptName.find_by_name('HB Test Result').concept_id]).answer_string rescue nil
 
         @hb_test_date = Observation.find(:last, :conditions => ["person_id = ? AND encounter_id IN (?) AND concept_id = ?",
-            @patient.id, Encounter.active.find(:all).collect{|e| e.encounter_id},
+            @patient.id, Encounter.find(:all).collect{|e| e.encounter_id},
             ConceptName.find_by_name('HB Test Result Date').concept_id]).answer_string rescue nil
 
         @hiv_status = @patient.hiv_status
@@ -821,7 +821,7 @@ class PatientsController < ApplicationController
 	def current_visit
 		@patient = Patient.find(params[:patient_id] || session[:patient_id])
 
-		@encounters = @patient.encounters.active.find(:all, :conditions => ["encounter_type IN (?) AND " + 
+		@encounters = @patient.encounters.find(:all, :conditions => ["encounter_type IN (?) AND " + 
 			  "DATE_FORMAT(encounter_datetime, '%Y-%m-%d') = ?",
 			EncounterType.find(:all, :conditions => ["name in ('OBSERVATIONS', 'VITALS', 'TREATMENT', 'LAB RESULTS', " +
 				  "'DIAGNOSIS', 'APPOINTMENT')"]).collect{|t| t.id}, Date.today.strftime("%Y-%m-%d")]).collect{|e|
@@ -848,7 +848,7 @@ class PatientsController < ApplicationController
 	def outcome
 		@patient = Patient.find(params[:patient_id]) rescue nil
 	end
-
+=begin
 	def current_visit
 		@patient = Patient.find(params[:patient_id] || session[:patient_id])
 
@@ -860,7 +860,7 @@ class PatientsController < ApplicationController
 		}.join(", ") rescue ""
 
 	end
-
+=end
 	def demographics
 		@patient = Patient.find(params[:patient_id]  || params[:id] || session[:patient_id]) rescue nil
 		@national_id = @patient.national_id_with_dashes rescue nil
@@ -895,7 +895,7 @@ class PatientsController < ApplicationController
 	def patient_history
      @patient = Patient.find(params[:patient_id] || session[:patient_id])
 
-    @encounters = @patient.encounters.active.find(:all, :conditions => ["encounter_type IN (?) AND " +
+    @encounters = @patient.encounters.find(:all, :conditions => ["encounter_type IN (?) AND " +
           "DATE_FORMAT(encounter_datetime, '%Y-%m-%d') = ?",
         EncounterType.find(:all, :conditions => ["name in ('OBSTETRIC HISTORY', 'MEDICAL HISTORY', 'SOCIAL HISTORY', " +
               "'SURGICAL HISTORY')"]).collect{|t| t.id}, Date.today.strftime("%Y-%m-%d")]).collect{|e|
