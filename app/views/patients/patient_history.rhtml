@@ -33,7 +33,7 @@
       <h1>Patient History</h1>
     </div>
     <div style="display: table; -moz-border-radius: 30px;
-         border: 1px solid #eee; padding: 15px; width: 95%; margin-top: 100px;">
+         border: 1px solid #eee; padding: 15px; width: 95%; margin-top: 150px;">
       <div style="display: table-row">
         <div style="display: table-cell">
           &nbsp;
@@ -46,14 +46,14 @@
         <div style="display: table-cell">
           <button class="<%= (@encounters.include?("OBSTETRIC HISTORY") ? "gray" : "blue") %>"
                   onclick="<%= (@encounters.include?("OBSTETRIC HISTORY") ? "" :
-                      "window.location = '/encounters/new/obstetric_history/?patient_id=#{@patient.id}'") %> ">
+                      "parent.location = '/encounters/new/obstetric_history/?patient_id=#{@patient.id}'") %> ">
             <span>Obstetric History</span>
           </button>
         </div>
         <div style="display: table-cell">
           <button class="<%= (@encounters.include?("MEDICAL HISTORY") ? "gray" : "blue") %>"
                   onclick="<%= (@encounters.include?("MEDICAL HISTORY") ? "" :
-                      "window.location = '/encounters/new/medical_history/?patient_id=#{@patient.id}'") %> ">
+                      "parent.location = '/encounters/new/medical_history/?patient_id=#{@patient.id}'") %> ">
             <span>Medical History</span>
           </button>
         </div>
@@ -62,14 +62,14 @@
         <div style="display: table-cell">
           <button class="<%= (@encounters.include?("SOCIAL HISTORY") ? "gray" : "blue") %>"
                   onclick="<%= (@encounters.include?("SOCIAL HISTORY") ? "" :
-                      "window.location = '/encounters/new/social_history/?patient_id=#{@patient.id}'") %> ">
+                      "parent.location = '/encounters/new/social_history/?patient_id=#{@patient.id}'") %> ">
             <span>Social History</span>
           </button>
         </div>
         <div style="display: table-cell">
           <button class="<%= (@encounters.include?("SURGICAL HISTORY") ? "gray" : "blue") %>"
                   onclick="<%= (@encounters.include?("SURGICAL HISTORY") ? "" :
-                      "window.location = '/encounters/new/surgical_history/?patient_id=#{@patient.id}'") %> ">
+                      "parent.location = '/encounters/new/surgical_history/?patient_id=#{@patient.id}'") %> ">
             <span>Surgical History</span>
           </button>
         </div>
@@ -77,13 +77,13 @@
     </div>
   </center>
   <div id="nav">
-    <button class="green" onclick="window.location = '/patients/show/<%= @patient.id %>'"
+    <button class="green" onclick="parent.location = '/patients/show/<%= @patient.id %>'"
             style="float: right; margin: 10px;">
       <span>
         Finish
       </span>
     </button>
-    <!--button class="green" onclick="window.location = '/encounters/diagnoses_index?patient_id=<%= @patient.id %>'"
+    <!--button class="green" onclick="parent.location = '/encounters/diagnoses_index?patient_id=<%= @patient.id %>'"
             style="float: right; margin: 10px;">
       <span>
         Finish

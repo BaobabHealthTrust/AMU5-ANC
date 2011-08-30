@@ -35,7 +35,7 @@
 <%= javascript_include_tag "prototype"%>
 
 <script>
-  var tt_cancel_destination = "/patients/current_visit/?patient_id=<%= @patient.patient_id %>";
+  var tt_cancel_destination = "/patients/current_visit_dashboard/<%= @patient.patient_id -%>";
   var number_of_days_to_add = <%= @patient.number_of_days_to_add_to_next_appointment_date(session[:datetime] || Date.today) %>;
   var clinic_days = "<%= GlobalProperty.find_by_property('clinic.days').property_value rescue 'Monday,Tuesday,Wednesday,Thursday,Friday' %>";
   var peads_clinic_days = "<%= GlobalProperty.find_by_property('peads.clinic.days').property_value rescue '' %>";

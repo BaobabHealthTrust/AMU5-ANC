@@ -32,7 +32,7 @@
               <th colspan=2>Patient Programs Dashboard</th>
             </tr>
             <h1 id='project_name'>
-              BART
+              anc
             </h1>
             <span id='patient_name'><%= @patient.name rescue "" %></span>
             <span id='patient_id'><%= @patient.national_id_with_dashes rescue "" %></span>
@@ -63,7 +63,7 @@
                <% end %>
             </div>
             <select id="tabs">
-              <option value='/patients/current_visit?patient_id=<%= @patient.id %>'>Outcomes</option>
+              <option value='/patients/current_visit?patient_id=<%= @patient.id %>'>Current Visit Activities</option>
             </select>
             <select id="links">
             </select>
