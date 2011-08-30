@@ -33,7 +33,7 @@
       <h1>Current Visit Activities</h1>
     </div>
     <div style="display: table; -moz-border-radius: 30px;
-         border: 1px solid #eee; padding: 15px; width: 95%; margin-top: 100px;">
+         border: 1px solid #eee; padding: 15px; width: 95%; margin-top: 150px;">
       <div style="display: table-row">
         <div style="display: table-cell">
           &nbsp;
@@ -46,14 +46,14 @@
         <div style="display: table-cell">
           <button class="<%= (@encounters.include?("VITALS") ? "gray" : "blue") %>"
                   onclick="<%= (@encounters.include?("VITALS") ? "" :
-                      "window.location = '/encounters/new/vitals?patient_id=#{@patient.id}'") %> ">
+                      "parent.location = '/encounters/new/vitals?patient_id=#{@patient.id}'") %> ">
             <span>Vitals</span>
           </button>
         </div>
         <div style="display: table-cell">
           <button class="<%= (@encounters.include?("DIAGNOSIS") ? "gray" : "blue") %>"
                   onclick="<%= (@encounters.include?("DIAGNOSIS") ? "" :
-                      "window.location = '/encounters/new/outpatient_diagnosis?patient_id=#{@patient.id}'") %> ">
+                      "parent.location = '/encounters/new/outpatient_diagnosis?patient_id=#{@patient.id}'") %> ">
             <span>Diagnosis</span>
           </button>
         </div>
@@ -62,14 +62,14 @@
         <div style="display: table-cell">
           <button class="<%= (@encounters.include?("LAB RESULTS") ? "gray" : "blue") %>"
                   onclick="<%= (@encounters.include?("LAB RESULTS") ? "" :
-                      "window.location = '/encounters/new/maternity_lab_results?patient_id=#{@patient.id}'") %> ">
+                      "parent.location = '/encounters/new/maternity_lab_results?patient_id=#{@patient.id}'") %> ">
             <span>Lab Results</span>
           </button>
         </div>
         <div style="display: table-cell">
           <button class="<%= (@encounters.include?("TREATMENT") ? "gray" : "blue") %>"
                   onclick="<%= (@encounters.include?("TREATMENT") ? "" :
-                      "window.location = '/patients/treatment_dashboard/#{@patient.id}'") %> ">
+                      "parent.location = '/patients/treatment_dashboard/#{@patient.id}'") %> ">
             <span>Give Drugs</span>
           </button>
         </div>
@@ -78,14 +78,14 @@
         <div style="display: table-cell">
           <button class="<%= (@encounters.include?("OBSERVATIONS") ? "gray" : "blue") %>"
                   onclick="<%= (@encounters.include?("OBSERVATIONS") ? "" :
-                      "window.location = '/patients/observations/?patient_id=#{@patient.id}'") %> ">
+                      "parent.location = '/encounters/new/anc_examination/?patient_id=#{@patient.id}'") %> ">
             <span>ANC Examinations</span>
           </button>
         </div>
         <div style="display: table-cell">
           <button class="<%= (@encounters.include?("PLAN") || @encounters.include?("APPOINTMENT") ? "gray" : "blue") %>"
                   onclick="<%= (@encounters.include?("PLAN") || @encounters.include?("APPOINTMENT") ? "" :
-                      "window.location = '/encounters/new/appointment?patient_id=#{@patient.id}'") %> ">
+                      "parent.location = '/encounters/new/appointment?patient_id=#{@patient.id}'") %> ">
             <span>Next ANC Visit</span>
           </button>
         </div>
@@ -93,13 +93,13 @@
     </div>
   </center>
   <div id="nav">
-    <button class="green" onclick="window.location = '/patients/show/<%= @patient.id %>'"
+    <button class="green" onclick="parent.location = '/patients/show/<%= @patient.id %>'"
             style="float: right; margin: 10px;">
       <span>
         Finish
       </span>
     </button>
-    <!--button class="green" onclick="window.location = '/encounters/diagnoses_index?patient_id=<%= @patient.id %>'"
+    <!--button class="green" onclick="parent.location = '/encounters/diagnoses_index?patient_id=<%= @patient.id %>'"
             style="float: right; margin: 10px;">
       <span>
         Finish

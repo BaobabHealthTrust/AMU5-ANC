@@ -1,5 +1,5 @@
 <script>
-  var tt_cancel_destination = "/patients/show/<%= @patient.patient_id %>";
+  var tt_cancel_destination = "/patients/current_visit_dashboard/<%= @patient.patient_id %>";
 </script>
   <style type="text/css">
     #summary {
@@ -128,7 +128,7 @@
  
 </script>
 <script>
-  var tt_cancel_destination = "/encounters/new/observations/?patient_id=<%=  @patient.id %>"
+  var tt_cancel_destination = "/patients/current_visit_dashboard/<%= @patient.patient_id %>";
   var timedEvent;
 
   function calculateBP(pos){

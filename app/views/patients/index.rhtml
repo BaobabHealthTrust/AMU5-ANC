@@ -53,8 +53,8 @@
 					</select>
 				 <% else %>
 					<select id="links">
-						<option value='/patients/current_visit/?patient_id=<%= @patient.id  %>'>Current Visit</option>
-						<option value='/patients/patient_history/?patient_id=<%= @patient.id  %>'>Patient History</option>
+						<option value='/patients/current_visit_dashboard/?patient_id=<%= @patient.id  %>'>Current Visit</option>
+						<option value='/patients/patient_history_dashboard/?patient_id=<%= @patient.id  %>'>Patient History</option>
 						<option value='/encounters/new/current_pregnancy/?patient_id=<%= @patient.id  %>'>Current Pregnancy</option>
 						<option value='/encounters/new/update_hiv_status/?patient_id=<%= @patient.id  %>'>HIV Status</option>
 						<option value='/encounters/new/outcome/?patient_id=<%= @patient.id  %>'>Update Outcome</option>

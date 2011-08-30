@@ -401,18 +401,21 @@ class EncountersController < ApplicationController
   def obstetric_history
 	  @patient = Patient.find(params[:patient_id]) rescue nil
   end
+
+  def medical_history
+    @patient = Patient.find(params[:patient_id]) rescue nil
+  end
+
+  def current_pregnancy
+    @patient = Patient.find(params[:patient_id]) rescue nil
+  end
+
+  def outcome
+   @patient = Patient.find(params[:patient_id]) rescue nil
+  end
   
-	def medical_history
-		@patient = Patient.find(params[:patient_id]) rescue nil
-	end
-	
-	def current_pregnancy
-		@patient = Patient.find(params[:patient_id]) rescue nil
-	end
-	
-	def outcome
+	def anc_examination
 		@patient = Patient.find(params[:patient_id]) rescue nil
 	end
 
-  
 end

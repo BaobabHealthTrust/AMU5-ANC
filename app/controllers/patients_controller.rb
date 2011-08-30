@@ -817,19 +817,6 @@ class PatientsController < ApplicationController
 
     render :layout => false
   end
-	#AMU 5 Encounters
-	def current_visit
-		@patient = Patient.find(params[:patient_id] || session[:patient_id])
-
-		@encounters = @patient.encounters.active.find(:all, :conditions => ["encounter_type IN (?) AND " + 
-			  "DATE_FORMAT(encounter_datetime, '%Y-%m-%d') = ?",
-			EncounterType.find(:all, :conditions => ["name in ('OBSERVATIONS', 'VITALS', 'TREATMENT', 'LAB RESULTS', " +
-				  "'DIAGNOSIS', 'APPOINTMENT')"]).collect{|t| t.id}, Date.today.strftime("%Y-%m-%d")]).collect{|e|
-		  e.type.name
-		}.join(", ") rescue ""
-		
-	end
-
 
 
 	def examinations_management
@@ -848,6 +835,14 @@ class PatientsController < ApplicationController
 	def outcome
 		@patient = Patient.find(params[:patient_id]) rescue nil
 	end
+	
+	def current_visit_dashboard
+      render :template => 'dashboards/current_visit_dashboard', :layout => 'dashboard'
+	end
+	
+	def patient_history_dashboard
+      render :template => 'dashboards/patient_history_dashboard', :layout => 'dashboard'
+	end
 
 	def current_visit
 		@patient = Patient.find(params[:patient_id] || session[:patient_id])
@@ -858,7 +853,6 @@ class PatientsController < ApplicationController
 				  "'OUTPATIENT DIAGNOSIS', 'APPOINTMENT')"]).collect{|t| t.id}, Date.today.strftime("%Y-%m-%d")]).collect{|e|
 		  e.type.name
 		}.join(", ") rescue ""
-
 	end
 
 	def demographics
@@ -905,9 +899,5 @@ class PatientsController < ApplicationController
 
 	def pregnancy_history
 
-	end
-
-	def observations
-		@patient = Patient.find(params[:patient_id]) rescue nil
 	end
 end
