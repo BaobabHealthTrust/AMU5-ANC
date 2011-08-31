@@ -233,7 +233,7 @@ class EncountersController < ApplicationController
      @answer_array = regimen_options(hiv_program.regimens, @patient.person.age)
      @answer_array += [['Other', 'Other'], ['Unknown', 'Unknown']]
 
-    @diastolic_blood_pressure = @patient.diastolic_blood_pressure
+    @diastolic_blood_pressure = self.diastolic_blood_pressure
     @hiv_status = @patient.hiv_status
     @hiv_test_date = @patient.hiv_test_date
     @lab_activities = Encounter.lab_activities
@@ -260,6 +260,12 @@ class EncountersController < ApplicationController
 	else
     	render :action => params[:encounter_type] if params[:encounter_type]
 	end
+  end
+
+  def diastolic_blood_pressure
+    @patient = Patient.find(params[:patient_id] || session[:patient_id])
+    diastolic_bp = Observation.find(:last, :conditions => ["person_id = ? AND concept_id = ?", @patient.id, ConceptName.find_by_name("Diastolic blood pressure").concept_id]).value_numeric rescue 0
+    return diastolic_bp
   end
 
   def diagnoses
