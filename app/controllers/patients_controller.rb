@@ -193,7 +193,19 @@ class PatientsController < ApplicationController
   def print_registration
     print_and_redirect("/patients/national_id_label/?patient_id=#{@patient.id}", next_task(@patient))  
   end
+
+  def print_obstetric_history
+    print_and_redirect("/patients/obstetric_history_label/?patient_id=#{params[:id]}", next_task(@patient))
+  end
   
+  def print_social_history
+    print_and_redirect("/patients/social_history_label/?patient_id=#{params[:id]}", "/patients/patient_history_dashboard?patient_id=#{@patient.id}")
+  end
+
+  def print_medical_history
+    print_and_redirect("/patients/medical_history_label/?patient_id=#{params[:id]}", next_task(@patient))  
+  end
+
   def dashboard_print_national_id
     unless params[:redirect].blank?
       redirect = "/#{params[:redirect]}/#{params[:id]}"
@@ -259,6 +271,22 @@ class PatientsController < ApplicationController
   def visit_label
     print_string = @patient.visit_label rescue (raise "Unable to find patient (#{params[:patient_id]}) or generate a visit label for that patient")
     send_data(print_string,:type=>"application/label; charset=utf-8", :stream=> false, :filename=>"#{params[:patient_id]}#{rand(10000)}.lbl", :disposition => "inline")
+  end
+
+  def obstetric_history_label
+    print_string = @patient.obstetric_history_label rescue (raise "Unable to find patient (#{params[:patient_id]}) or generate a visit label for that patient")
+    send_data(print_string,:type=>"application/label; charset=utf-8", :stream=> false, :filename=>"#{params[:patient_id]}#{rand(10000)}.lbl", :disposition => "inline")
+  end
+
+  def medical_history_label
+    print_string = @patient.medical_history_label rescue (raise "Unable to find patient (#{params[:patient_id]}) or generate a visit label for that patient")
+    send_data(print_string,:type=>"application/label; charset=utf-8", :stream=> false, :filename=>"#{params[:patient_id]}#{rand(10000)}.lbl", :disposition => "inline")
+  end
+
+   def social_history_label
+    patient = Patient.find(@patient.id)
+    label_commands = patient.social_history_label
+    send_data(label_commands.to_s,:type=>"application/label; charset=utf-8", :stream=> false, :filename=>"#{patient.id}#{rand(10000)}.lbl", :disposition => "inline")
   end
 
   def mastercard_record_label
@@ -852,7 +880,11 @@ class PatientsController < ApplicationController
 	def current_visit_dashboard
       render :template => 'dashboards/current_visit_dashboard', :layout => 'dashboard'
 	end
-	
+
+	def pregnancy_history_dashboard
+      render :template => 'dashboards/pregnancy_history_dashboard', :layout => 'dashboard'
+	end
+
 	def patient_history_dashboard
       render :template => 'dashboards/patient_history_dashboard', :layout => 'dashboard'
 	end

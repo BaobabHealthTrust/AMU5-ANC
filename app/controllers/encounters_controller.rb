@@ -186,7 +186,8 @@ class EncountersController < ApplicationController
      if params['encounter']['encounter_type_name'] == "LAB ORDERS"
        redirect_to"/patients/print_lab_orders/?patient_id=#{@patient.id}"
      else
-      redirect_to "/patients/current_visit?patient_id=#{@patient.id}" and return if ((encounter.type.name.upcase rescue "") ==
+
+      redirect_to "/patients/current_visit_dashboard?patient_id=#{@patient.id}" and return if ((encounter.type.name.upcase rescue "") ==
 
       "VITALS" || (encounter.type.name.upcase rescue "") == "LAB RESULTS" ||
       (encounter.type.name.upcase rescue "") == "OBSERVATIONS" ||
@@ -194,7 +195,7 @@ class EncountersController < ApplicationController
       (encounter.type.name.upcase rescue "") == "TREATMENT" ||
       (encounter.type.name.upcase rescue "") == "APPOINTMENT")
 
-      redirect_to "/patients/patient_history?patient_id=#{@patient.id}" and return if ((encounter.type.name.upcase rescue "") == "OBSTETRIC HISTORY" ||
+      redirect_to "/patients/patient_history_dashboard?patient_id=#{@patient.id}" and return if ((encounter.type.name.upcase rescue "") == "OBSTETRIC HISTORY" ||
       (encounter.type.name.upcase rescue "") == "MEDICAL HISTORY" ||
       (encounter.type.name.upcase rescue "") == "SOCIAL HISTORY" ||
       (encounter.type.name.upcase rescue "") == "SURGICAL HISTORY")

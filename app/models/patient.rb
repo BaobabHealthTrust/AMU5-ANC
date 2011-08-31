@@ -107,6 +107,9 @@ class Patient < ActiveRecord::Base
     alerts << "HIV Status : #{hiv_status}" if "#{hiv_status.gsub(" ",'')}" == 'Unknown'
     alerts << "Lab: Expecting submission of sputum" unless self.sputum_orders_without_submission.empty?
     alerts << "Lab: Waiting for sputum results" if self.sputum_submissions_waiting_for_results.empty? &&   !self.recent_sputum_submissions.empty?
+    
+    #AMU5-ANC alerts
+    alerts << "Pre-eclampsia" if self.diastolic_blood_pressure >= 90 
 
     alerts
   end
@@ -351,6 +354,60 @@ class Patient < ActiveRecord::Base
       label.print(1)
     end
   end
+  
+  def social_history_label
+    social_history = Encounter.find(:last,:conditions =>["encounter_type = ? and patient_id = ?",
+        EncounterType.find_by_name("SOCIAL HISTORY").id,self.id]).observations rescue []
+
+    if !social_history.empty?
+      label = ZebraPrinter::StandardLabel.new
+      label.font_size = 3
+      label.font_horizontal_multiplier = 1
+      label.font_vertical_multiplier = 1
+      label.left_margin = 50
+
+      social_history.each {|encounter|
+        label.draw_multi_text("#{encounter.to_s}", :font_reverse => false)
+      }
+      label.print(1)
+    end
+  end
+  
+  def medical_history_label
+    medical_history = Encounter.find(:last,:conditions =>["encounter_type = ? and patient_id = ?",
+        EncounterType.find_by_name("MEDICAL HISTORY").id,self.id]).observations rescue []
+
+    if !medical_history.empty?
+      label = ZebraPrinter::StandardLabel.new
+      label.font_size = 3
+      label.font_horizontal_multiplier = 1
+      label.font_vertical_multiplier = 1
+      label.left_margin = 50
+
+      medical_history.each {|encounter|
+        label.draw_multi_text("#{encounter.to_s}", :font_reverse => false)
+      }
+      label.print(1)
+    end
+  end
+  
+  def obstetric_history_label
+    obstetric_history = Encounter.find(:last,:conditions =>["encounter_type = ? and patient_id = ?",
+        EncounterType.find_by_name("OBSTETRIC HISTORY").id,self.id]).observations rescue []
+
+    if !obstetric_history.empty?
+      label = ZebraPrinter::StandardLabel.new
+      label.font_size = 3
+      label.font_horizontal_multiplier = 1
+      label.font_vertical_multiplier = 1
+      label.left_margin = 50
+
+      obstetric_history.each {|encounter|
+        label.draw_multi_text("#{encounter.to_s}", :font_reverse => false)
+      }
+      label.print(1)
+    end
+  end
 
   def get_identifier(type = 'National id')
     identifier_type = PatientIdentifierType.find_by_name(type)
@@ -360,6 +417,13 @@ class Patient < ActiveRecord::Base
     identifiers.map{|i|i.identifier}[0] rescue nil
   end
 
+  def diastolic_blood_pressure
+    diastolic_bloood_pressure = Observation.find(:last,
+      :conditions => ["person_id = ? AND encounter_id IN (?) AND concept_id = ?", @patient.id,
+        Encounter.find(:all).collect{|e| e.encounter_id},
+        ConceptName.find_by_name('Diastolic blood pressure').concept_id]).answer_string.to_i rescue 0
+  end
+  
   def current_weight
     obs = person.observations.recent(1).question("WEIGHT (KG)").all
     obs.first.value_numeric rescue 0
@@ -1169,6 +1233,12 @@ EOF
     test_date = Observation.find(:last, :conditions => ["person_id = ? AND concept_id = ?", self.id, ConceptName.find_by_name("HIV test date").concept_id]).value_datetime rescue nil
     return test_date
   end
+
+  def diastolic_blood_pressure
+    diastolic_bp = Observation.find(:last, :conditions => ["person_id = ? AND concept_id = ?", self.id, ConceptName.find_by_name("Diastolic blood pressure").concept_id]).value_numeric rescue 0
+    return diastolic_bp
+  end
+  
   
   def months_since_last_hiv_test
     today = Date.today
@@ -1223,7 +1293,7 @@ EOF
   def recent_sputum_submissions
     sputum_concept_names = ["AAFB(1st)", "AAFB(2nd)", "AAFB(3rd)", "Culture(1st)", "Culture(2nd)"]
     sputum_concept_ids = ConceptName.find(:all, :conditions => ["name IN (?)", sputum_concept_names]).map(&:concept_id)
-    Observation.find(:all, :conditions => ["person_id = ? AND concept_id = ? AND (value_coded in (?) OR value_text in (?))", self.id, ConceptName.find_by_name('Sputum submission').concept_id, sputum_concept_ids, sputum_concept_names], :order => "obs_datetime desc", :limit => 3)
+    Observation.find(:all, :conditions => ["person_id = ? AND concept_id = ? AND (value_coded in (?) OR value_text in (?))", self.id, ConceptName.find_by_name('Sputum submission').concept_id, sputum_concept_ids, sputum_concept_names], :order => "obs_datetime desc", :limit => 3) rescue []
   end
 
   def sputum_submissions_waiting_for_results
