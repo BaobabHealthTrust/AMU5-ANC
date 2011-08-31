@@ -1,7 +1,8 @@
 # surgical_history.rhtml
 
 <script type="text/javascript" language="javascript">
-  var tt_cancel_destination = "/patients/patient_history_dashboard/<%= @patient.patient_id -%>";
+  tt_cancel_show = "/patients/patient_history_dashboard/<%= @patient.id %>";
+  tt_cancel_destination = "/patients/patient_history_dashboard/<%= @patient.patient_id -%>";
 </script>
 
 <% form_tag :controller => "encounters", :action => "create" do %>
