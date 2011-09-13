@@ -17,7 +17,7 @@
 
 			<form id = 'dashboard' action='/clinic'>
 				<div id='project_name'>
-					anc</span></h1>
+					anc<span/><h1/>
 				</div>
 				<span id='patient_name'><%= @patient.name rescue "" %></span>
 				<span id='patient_id'><%= @patient.national_id_with_dashes rescue "" %></span>
@@ -33,7 +33,8 @@
 				</select-->
 
 				<select id="tabs">
-					<option value='/patients/tab_visit_summary?patient_id=<%= @patient.id  %>'>Visit Summary</option>
+                   	<option value='/patients/tab_visit_summary?patient_id=<%= @patient.id  %>'>Current Visit</option>
+                    <option value='/patients/past_visits_summary?patient_id=<%= @patient.id  %>'>Past Visits</option>
 					<option value='/patients/tab_obstetric_history?patient_id=<%= @patient.id  %>'>Obstetric History</option>
 					<option value='/patients/tab_medical_history?patient_id=<%= @patient.id  %>'>Medical History</option>
 					<option value='/patients/tab_examinations_management?patient_id=<%= @patient.id  %>'>Examinations Management</option>
