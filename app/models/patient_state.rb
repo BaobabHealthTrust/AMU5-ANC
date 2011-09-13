@@ -16,7 +16,7 @@ class PatientState < ActiveRecord::Base
   
   def to_s
 	workflow_state = ProgramWorkflowState.find_state state
-	s = workflow_state.concept.fullname
+	s = workflow_state.concept.concept_names.typed("SHORT").first.name rescue workflow_state.concept.fullname
     if start_date
       s = s + " #{start_date.strftime('%d/%b/%Y')}"
     end

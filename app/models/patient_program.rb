@@ -37,7 +37,7 @@ class PatientProgram < ActiveRecord::Base
   end
 
   def to_s
-    "#{self.program.concept.fullname rescue nil} (at #{location.name rescue nil})"
+    "#{self.program.concept.concept_names.typed("SHORT").first.name rescue program.concept.concept_names.first.name} (at #{location.name rescue nil})"
   end
   
   def transition(params)

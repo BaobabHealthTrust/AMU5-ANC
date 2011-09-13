@@ -62,16 +62,19 @@ class Patient < ActiveRecord::Base
     alert
   end
     
-  def alerts
+  def alerts(session_date = Date.today) 
     # next appt
     # adherence
     # drug auto-expiry
     # cd4 due
     
     alerts = []
+
+    alerts << "Next task: #{(Task.next_task(Location.current_location, self, session_date).encounter_type || 'None').humanize.gsub('Hiv','HIV').gsub('Art','ART').gsub('Tb','TB')  rescue 'None'}"
+
     type = EncounterType.find_by_name("APPOINTMENT")
     next_appt = self.encounters.find_last_by_encounter_type(type.id, :order => "encounter_datetime").observations.last.to_s rescue nil
-    alerts << ('Latest ' + next_appt).capitalize unless next_appt.blank?
+    alerts << ('Next ' + next_appt).capitalize unless next_appt.blank?
 
     encounter_dates = Encounter.find_by_sql("SELECT * FROM encounter WHERE patient_id = #{self.id} AND encounter_type IN (" +
         ("SELECT encounter_type_id FROM encounter_type WHERE name IN ('VITALS', 'TREATMENT', " +
@@ -101,12 +104,20 @@ class Patient < ActiveRecord::Base
       bmi_alert = self.current_bmi_alert
       alerts << bmi_alert if bmi_alert
     end
+    
+    program_id = Program.find_by_name("HIV PROGRAM").id
+    location_id = Location.current_health_center.location_id
+    
+    patient_hiv_program = PatientProgram.find(:all,:conditions =>["voided = 0 AND patient_id = ? AND program_id = ? AND location_id = ?", self.id , program_id, location_id])
 
     hiv_status = self.hiv_status
-    alerts << "HIV Status : #{hiv_status} more than 3 months" if ("#{hiv_status.gsub(" ",'')}" == 'Negative' && self.months_since_last_hiv_test > 3)
-    alerts << "HIV Status : #{hiv_status}" if "#{hiv_status.gsub(" ",'')}" == 'Unknown'
+    alerts << "HIV Status : #{hiv_status} more than 3 months" if ("#{hiv_status.strip}" == 'Negative' && self.months_since_last_hiv_test > 3)
+    alerts << "Patient not on ART" if (("#{hiv_status.strip}" == 'Positive') && !self.patient_programs.current.local.map(&:program).map(&:name).include?('HIV PROGRAM')) ||
+                                                          ((self.patient_programs.current.local.map(&:program).map(&:name).include?('HIV PROGRAM')) && (ProgramWorkflowState.find_state(patient_hiv_program.last.patient_states.last.state).concept.fullname != "On antiretrovirals"))
+    alerts << "HIV Status : #{hiv_status}" if "#{hiv_status.strip}" == 'Unknown'
     alerts << "Lab: Expecting submission of sputum" unless self.sputum_orders_without_submission.empty?
-    alerts << "Lab: Waiting for sputum results" if self.sputum_submissions_waiting_for_results.empty? &&   !self.recent_sputum_submissions.empty?
+    alerts << "Lab: Waiting for sputum results" if self.recent_sputum_results.empty? && !self.recent_sputum_submissions.empty?
+    alerts << "Lab: Results not given to patient" if self.sputum_results_given.empty? && !self.recent_sputum_results.empty?
 
     alerts
   end
@@ -139,7 +150,7 @@ class Patient < ActiveRecord::Base
     tb_within_last_two_yrs = "tb within last 2 yrs" unless demographics.tb_within_last_two_yrs.blank?
     eptb = "eptb" unless demographics.eptb.blank?
     pulmonary_tb = "Pulmonary tb" unless demographics.pulmonary_tb.blank?
- 
+
     cd4_count_date = nil ; cd4_count = nil ; pregnant = 'N/A'
 
     (hiv_staging.observations).map do | obs |
@@ -299,7 +310,7 @@ class Patient < ActiveRecord::Base
           label.draw_multi_text("#{self.person.name.titleize.delete("'")} #{self.national_id_with_dashes}")
           label.draw_multi_text("#{lab_orders[i].name rescue nil}")
           label.draw_multi_text("#{accession_number rescue nil}")
-          label.draw_multi_text("#{DateTime.now.strftime("%d-%b-%Y %H:%M")}")
+          label.draw_multi_text("#{lab_orders[i].obs_datetime.strftime("%d-%b-%Y %H:%M")}")
           labels << label
           end
           i = i + 1
@@ -347,63 +358,6 @@ class Patient < ActiveRecord::Base
       encs.each {|encounter|
         next if encounter.name.humanize == "Registration"
         label.draw_multi_text("#{encounter.name.humanize}: #{encounter.to_s}", :font_reverse => false)
-      }
-      label.print(1)
-    end
-  end
-
-  #specific to AMU
-  def social_history_label
-    social_history = Encounter.find(:last,:conditions =>["encounter_type = ? and patient_id = ?",
-        EncounterType.find_by_name("SOCIAL HISTORY").id,self.id]).observations rescue []
-
-    if !social_history.empty?
-      label = ZebraPrinter::StandardLabel.new
-      label.font_size = 3
-      label.font_horizontal_multiplier = 1
-      label.font_vertical_multiplier = 1
-      label.left_margin = 50
-
-      social_history.each {|encounter|
-        label.draw_multi_text("#{encounter.to_s}", :font_reverse => false)
-      }
-      label.print(1)
-    end
-  end
-
-  #specific to AMU
-  def medical_history_label
-    medical_history = Encounter.find(:last,:conditions =>["encounter_type = ? and patient_id = ?",
-        EncounterType.find_by_name("MEDICAL HISTORY").id,self.id]).observations rescue []
-
-    if !medical_history.empty?
-      label = ZebraPrinter::StandardLabel.new
-      label.font_size = 3
-      label.font_horizontal_multiplier = 1
-      label.font_vertical_multiplier = 1
-      label.left_margin = 50
-
-      medical_history.each {|encounter|
-        label.draw_multi_text("#{encounter.to_s}", :font_reverse => false)
-      }
-      label.print(1)
-    end
-  end
-
-  #specific to AMU
-  def obstetric_history_label
-    obstetric_history = Encounter.find(:last,:conditions =>["encounter_type = ? and patient_id = ?",
-        EncounterType.find_by_name("OBSTETRIC HISTORY").id,self.id]).observations rescue []
-
-    if !obstetric_history.empty?
-      label = ZebraPrinter::StandardLabel.new
-      label.font_size = 3
-      label.font_horizontal_multiplier = 1
-      label.font_vertical_multiplier = 1
-      label.left_margin = 50
-
-      obstetric_history.each {|encounter|
-        label.draw_multi_text("#{encounter.to_s}", :font_reverse => false)
       }
       label.print(1)
     end
@@ -462,7 +416,7 @@ class Patient < ActiveRecord::Base
   def max_height
     WeightHeight.max_height(person.gender, person.age_in_months).to_f
   end
-
+  
   def given_arvs_before?
     self.orders.each{|order|
       drug_order = order.drug_order
@@ -1226,9 +1180,12 @@ EOF
     test_date = Observation.find(:last, :conditions => ["person_id = ? AND concept_id = ?", self.id, ConceptName.find_by_name("HIV test date").concept_id]).value_datetime rescue nil
     return test_date
   end
-  
+
   def months_since_last_hiv_test
-    today = Date.today
+    #this can be done better
+    session_date = Observation.find(:last, :conditions => ["person_id = ? AND concept_id = ?", self.id, ConceptName.find_by_name("HIV test date").concept_id]).obs_datetime rescue Date.today
+
+    today =  session_date
     hiv_test_date = self.hiv_test_date
     months = (today.year * 12 + today.month) - (hiv_test_date.year * 12 + hiv_test_date.month) rescue nil
     return months
@@ -1261,6 +1218,16 @@ EOF
   def sputum_orders_without_submission
     self.recent_sputum_orders.collect{|order| order unless Observation.find(:all, :conditions => ["person_id = ? AND concept_id = ?", self.id, Concept.find_by_name("Sputum submission")]).map{|o| o.accession_number}.include?(order.accession_number)}.compact rescue []
   end
+  
+  def recent_sputum_results
+    sputum_concept_names = ["AAFB(1st) results", "AAFB(2nd) results", "AAFB(3rd) results", "Culture(1st) Results", "Culture-2 Results"]
+    sputum_concept_ids = ConceptName.find(:all, :conditions => ["name IN (?)", sputum_concept_names]).map(&:concept_id)
+    obs = Observation.find(:all, :conditions => ["person_id = ? AND concept_id IN (?)", self.id, sputum_concept_ids], :order => "obs_datetime desc", :limit => 3)
+  end
+
+  def sputum_results_not_given
+    self.recent_sputum_results.collect{|order| order unless Observation.find(:all, :conditions => ["person_id = ? AND concept_id = ?", self.id, Concept.find_by_name("Lab test result").concept_id]).map{|o| o.accession_number}.include?(order.accession_number)}.compact 
+  end
 
   def sputum_submissons_with_no_results
     sputum_concept_names = ["AAFB(1st)", "AAFB(2nd)", "AAFB(3rd)", "Culture(1st)", "Culture(2nd)"]
@@ -1281,14 +1248,6 @@ EOF
     sputum_concept_names = ["AAFB(1st)", "AAFB(2nd)", "AAFB(3rd)", "Culture(1st)", "Culture(2nd)"]
     sputum_concept_ids = ConceptName.find(:all, :conditions => ["name IN (?)", sputum_concept_names]).map(&:concept_id)
     Observation.find(:all, :conditions => ["person_id = ? AND concept_id = ? AND (value_coded in (?) OR value_text in (?))", self.id, ConceptName.find_by_name('Sputum submission').concept_id, sputum_concept_ids, sputum_concept_names], :order => "obs_datetime desc", :limit => 3) rescue []
-  end
-
-  def sputum_submissions_waiting_for_results
-    sputum_concept_names = ["AAFB(1st) results", "AAFB(2nd) results", "AAFB(3rd) results", "Culture(1st) Results", "Culture-2 Results"]
-    sputum_concept_ids = ConceptName.find(:all, :conditions => ["name IN (?)", sputum_concept_names]).map(&:concept_id)
-
-   Encounter.find(:last,:conditions =>["encounter_type = ? and patient_id = ?",
-        EncounterType.find_by_name("LAB RESULTS").id,self.id]).observations.map{|o| o if sputum_concept_ids.include?(o.concept_id)}.join' ' rescue []
   end
 
   def is_first_visit?
@@ -1372,5 +1331,16 @@ EOF
 	def age
 		patient = Person.find(self.id)
 		return patient.age
-	end  
+	end 
+
+  def sputum_results_given
+   given_results = Encounter.find(:last,:conditions =>["encounter_type = ? and patient_id = ?",
+        EncounterType.find_by_name("GIVE LAB RESULTS").id,self.id]).observations.map{|o| o if self.recent_sputum_orders.collect{|observation| observation.accession_number}.include?(o.accession_number)} rescue []
+  end
+  
+  def recent_lab_results
+   Encounter.find(:last,:conditions =>["encounter_type = ? and patient_id = ?",
+        EncounterType.find_by_name("LAB RESULTS").id,self.id]).observations.map{|o| o }
+  end
+
 end

@@ -215,7 +215,7 @@ class EncountersController < ApplicationController
             ["voided = 0 AND patient_id = ? AND location_id = ? AND (program_id = ? OR program_id = ?)", @patient.id, Location.current_health_center.id, Program.find_by_name('TB PROGRAM').id, Program.find_by_name('MDR-TB PROGRAM').id]).last.closed? rescue true
     
     @ipt_contacts = @patient.tb_contacts.collect{|person| person unless person.age > 6}.compact rescue []
-    @select_options = Encounter.select_options
+    @select_options = select_options
     @months_since_last_hiv_test = @patient.months_since_last_hiv_test
     @tb_patient = @patient.tb_patient?
     @art_patient = @patient.art_patient?
@@ -425,5 +425,214 @@ class EncountersController < ApplicationController
 	def anc_examination
 		@patient = Patient.find(params[:patient_id]) rescue nil
 	end
+  def select_options
+    select_options = {
+     'reason_for_tb_clinic_visit' => [
+        ['',''],
+        ['Clinical review (Children, Smear-, HIV+)','CLINICAL REVIEW'],
+        ['Smear Positive (HIV-)','SMEAR POSITIVE'],
+        ['X-ray result interpretation','X-RAY RESULT INTERPRETATION']
+      ],
+     'tb_clinic_visit_type' => [
+        ['',''],
+        ['Lab analysis','Lab follow-up'],
+        ['Follow-up','Follow-up'],
+        ['Clinical review (Clinician visit)','Clinical review']
+      ],
+     'family_planning_methods' => [
+       ['',''],
+       ['Oral contraceptive pills', 'ORAL CONTRACEPTIVE PILLS'],
+       ['Depo-Provera', 'DEPO-PROVERA'],
+       ['IUD-Intrauterine device/loop', 'INTRAUTERINE CONTRACEPTION'],
+       ['Contraceptive implant', 'CONTRACEPTIVE IMPLANT'],
+       ['Male condoms', 'MALE CONDOMS'],
+       ['Female condoms', 'FEMALE CONDOMS'],
+       ['Rhythm method', 'RYTHM METHOD'],
+       ['Withdrawal', 'WITHDRAWAL'],
+       ['Abstinence', 'ABSTINENCE'],
+       ['Tubal ligation', 'TUBAL LIGATION'],
+       ['Vasectomy', 'VASECTOMY']
+      ],
+     'male_family_planning_methods' => [
+       ['',''],
+       ['Male condoms', 'MALE CONDOMS'],
+       ['Withdrawal', 'WITHDRAWAL'],
+       ['Rhythm method', 'RYTHM METHOD'],
+       ['Abstinence', 'ABSTINENCE'],
+       ['Vasectomy', 'VASECTOMY'],
+       ['Other','OTHER']
+      ],
+     'female_family_planning_methods' => [
+       ['',''],
+       ['Oral contraceptive pills', 'ORAL CONTRACEPTIVE PILLS'],
+       ['Depo-Provera', 'DEPO-PROVERA'],
+       ['IUD-Intrauterine device/loop', 'INTRAUTERINE CONTRACEPTION'],
+       ['Contraceptive implant', 'CONTRACEPTIVE IMPLANT'],
+       ['Female condoms', 'FEMALE CONDOMS'],
+       ['Withdrawal', 'WITHDRAWAL'],
+       ['Rhythm method', 'RYTHM METHOD'],
+       ['Abstinence', 'ABSTINENCE'],
+       ['Tubal ligation', 'TUBAL LIGATION'],
+       ['Emergency contraception', 'EMERGENCY CONTRACEPTION'],
+       ['Other','OTHER']
+      ],
+     'drug_list' => [
+          ['',''],
+          ["Rifampicin Isoniazid Pyrazinamide and Ethambutol", "RHEZ (RIF, INH, Ethambutol and Pyrazinamide tab)"],
+          ["Rifampicin Isoniazid and Ethambutol", "RHE (Rifampicin Isoniazid and Ethambutol -1-1-mg t"],
+          ["Rifampicin and Isoniazid", "RH (Rifampin and Isoniazid tablet)"],
+          ["Stavudine Lamivudine and Nevirapine", "D4T+3TC+NVP"],
+          ["Stavudine Lamivudine + Stavudine Lamivudine and Nevirapine", "D4T+3TC/D4T+3TC+NVP"],
+          ["Zidovudine Lamivudine and Nevirapine", "AZT+3TC+NVP"]
+      ],
+        'presc_time_period' => [
+          ["",""],
+          ["1 month", "30"],
+          ["2 months", "60"],
+          ["3 months", "90"],
+          ["4 months", "120"],
+          ["5 months", "150"],
+          ["6 months", "180"],
+          ["7 months", "210"],
+          ["8 months", "240"]
+      ],
+        'continue_treatment' => [
+          ["",""],
+          ["Yes", "YES"],
+          ["DHO DOT site","DHO DOT SITE"],
+          ["Transfer Out", "TRANSFER OUT"]
+      ],
+        'hiv_status' => [
+          ['',''],
+          ['Negative','NEGATIVE'],
+          ['Positive','POSITIVE'],
+          ['Unknown','UNKNOWN']
+      ],
+      'who_stage1' => [
+        ['',''],
+        ['Asymptomatic','ASYMPTOMATIC'],
+        ['Persistent generalised lymphadenopathy','PERSISTENT GENERALISED LYMPHADENOPATHY'],
+        ['Unspecified stage 1 condition','UNSPECIFIED STAGE 1 CONDITION']
+      ],
+      'who_stage2' => [
+        ['',''],
+        ['Unspecified stage 2 condition','UNSPECIFIED STAGE 2 CONDITION'],
+        ['Angular cheilitis','ANGULAR CHEILITIS'],
+        ['Popular pruritic eruptions / Fungal nail infections','POPULAR PRURITIC ERUPTIONS / FUNGAL NAIL INFECTIONS']
+      ],
+      'who_stage3' => [
+        ['',''],
+        ['Oral candidiasis','ORAL CANDIDIASIS'],
+        ['Oral hairly leukoplakia','ORAL HAIRLY LEUKOPLAKIA'],
+        ['Pulmonary tuberculosis','PULMONARY TUBERCULOSIS'],
+        ['Unspecified stage 3 condition','UNSPECIFIED STAGE 3 CONDITION']
+      ],
+      'who_stage4' => [
+        ['',''],
+        ['Toxaplasmosis of the brain','TOXAPLASMOSIS OF THE BRAIN'],
+        ["Kaposi's Sarcoma","KAPOSI'S SARCOMA"],
+        ['Unspecified stage 4 condition','UNSPECIFIED STAGE 4 CONDITION'],
+        ['HIV encephalopathy','HIV ENCEPHALOPATHY']
+      ],
+      'tb_xray_interpretation' => [
+        ['',''],
+        ['Consistent of TB','Consistent of TB'],
+        ['Not Consistent of TB','Not Consistent of TB']
+      ],
+      'lab_orders' =>{
+        "Blood" => ["Full blood count", "Malaria parasite", "Group & cross match", "Urea & Electrolytes", "CD4 count", "Resistance",
+            "Viral Load", "Cryptococcal Antigen", "Lactate", "Fasting blood sugar", "Random blood sugar", "Sugar profile",
+            "Liver function test", "Hepatitis test", "Sickling test", "ESR", "Culture & sensitivity", "Widal test", "ELISA",
+            "ASO titre", "Rheumatoid factor", "Cholesterol", "Triglycerides", "Calcium", "Creatinine", "VDRL", "Direct Coombs",
+            "Indirect Coombs", "Blood Test NOS"],
+        "CSF" => ["Full CSF analysis", "Indian ink", "Protein & sugar", "White cell count", "Culture & sensitivity"],
+        "Urine" => ["Urine microscopy", "Urinanalysis", "Culture & sensitivity"],
+        "Aspirate" => ["Full aspirate analysis"],
+        "Stool" => ["Full stool analysis", "Culture & sensitivity"],
+        "Sputum-AAFB" => ["AAFB(1st)", "AAFB(2nd)", "AAFB(3rd)"],
+        "Sputum-Culture" => ["Culture(1st)", "Culture(2nd)"],
+        "Swab" => ["Microscopy", "Culture & sensitivity"]
+      },
+      'tb_symptoms_short' => [
+        ['',''],
+        ["Bloody cough", "Hemoptysis"],
+        ["Chest pain", "Chest pain"],
+        ["Cough", "Cough lasting more than three weeks"],
+        ["Fatigue", "Fatigue"],
+        ["Fever", "Relapsing fever"],
+        ["Loss of appetite", "Loss of appetite"],
+        ["Night sweats","Night sweats"],
+        ["Shortness of breath", "Shortness of breath"],
+        ["Weight loss", "Weight loss"],
+        ["Other", "Other"]
+      ],
+      'tb_symptoms_all' => [
+        ['',''],
+        ["Bloody cough", "Hemoptysis"],
+        ["Bronchial breathing", "Bronchial breathing"],
+        ["Crackles", "Crackles"],
+        ["Cough", "Cough lasting more than three weeks"],
+        ["Failure to thrive", "Failure to thrive"],
+        ["Fatigue", "Fatigue"],
+        ["Fever", "Relapsing fever"],
+        ["Loss of appetite", "Loss of appetite"],
+        ["Meningitis", "Meningitis"],
+        ["Night sweats","Night sweats"],
+        ["Peripheral neuropathy", "Peripheral neuropathy"],
+        ["Shortness of breath", "Shortness of breath"],
+        ["Weight loss", "Weight loss"],
+        ["Other", "Other"]
+      ],
+      'drug_related_side_effects' => [
+        ['',''],
+        ["Confusion", "Confusion"],
+        ["Deafness", "Deafness"],
+        ["Dizziness", "Dizziness"],
+        ["Peripheral neuropathy","Peripheral neuropathy"],
+        ["Skin itching/purpura", "Skin itching"],
+        ["Visual impairment", "Visual impairment"],
+        ["Vomiting", "Vomiting"],
+        ["Yellow eyes", "Jaundice"],
+        ["Other", "Other"]
+      ],
+      'tb_patient_categories' => [
+        ['',''],
+        ["New", "New patient"],
+        ["Failure", "Failed - TB"],
+        ["Relapse", "Relapse MDR-TB patient"],
+        ["Retreatment after default", "Treatment after default MDR-TB patient"],
+        ["Other", "Other"]
+      ],
+      'duration_of_current_cough' => [
+        ['',''],
+        ["1 Week", "1 week"],
+        ["2 Weeks", "2 weeks"],
+        ["3 Weeks", "3 weeks"],
+        ["4 Weeks", "4 weeks"],
+        ["More than 4 Weeks", "More than 4 weeks"]
+      ],
+      'eptb_classification'=> [
+        ['',''],
+        ['Pulmonary effusion', 'Pulmonary effusion'],
+        ['Lymphadenopathy', 'Lymphadenopathy'],
+        ['Pericardial effusion', 'Pericardial effusion'],
+        ['Ascites', 'Ascites'],
+        ['Spinal disease', 'Spinal disease'],
+        ['Meningitis','Meningitis'],
+        ['Other', 'Other']
+      ],
+      'tb_types' => [
+        ['',''],
+        ['Susceptible', 'Susceptible to tuberculosis drug'],
+        ['Multi-drug resistant (MDR)', 'Multi-drug resistant tuberculosis'],
+        ['Extreme drug resistant (XDR)', 'Extreme drug resistant tuberculosis']
+      ],
+      'tb_classification' => [
+        ['',''],
+        ['Pulmonary tuberculosis (PTB)', 'Pulmonary tuberculosis'],
+        ['Extrapulmonary tuberculosis (EPTB)', 'Extrapulmonary tuberculosis (EPTB)']
+      ]
+    }
+  end
 
 end
