@@ -53,10 +53,12 @@
   <%= touch_numeric_tag "FUNDUS", @patient, nil,
     {:id => "enter_fundal_height",
     :helptext => "Fundus (weeks)",
+    :min => 12,
+    :max => 42,
     :tt_pageStyleClass => "NumbersWithUnknownAndDecimal" } %>
 
   <%# @presentation = ["", "Compound", "Cephalic", "Breech", "Face", "Footling", "Cord", "Brow"] %>
-  <% @presentation = ["", "Cephalic", "Breech", "Brow"] %>
+  <% @presentation = ["", "Cephalic", "Breech", "Ball"] %>
 
   <%= touch_select_tag "PRESENTATION", @patient, options_for_select(@presentation),
     {:id => "presentation",
@@ -70,7 +72,7 @@
   <%= touch_select_tag "POSITION", @patient, options_for_select(@position),
     {:id => "position",
     :helptext => "Enter Position",
-    :condition => '$("presentation").value != "Brow"',
+    :condition => '$("presentation").value != "Ball"',
     :tt_pageStyleClass => "NoKeyboard" } %>
 
 
@@ -135,7 +137,7 @@
 
   <%#--------------------------------------------------------%>
 
-<%= touch_select_tag "FETAL HEART BEAT", @patient, options_for_select([["", ""], ["Yes", "Yes"], ["No", "No"]]),
+<%= touch_select_tag "FETAL HEART BEAT", @patient, options_for_select([["", ""], ["Yes", "Yes"], ["No", "No"], ["Unknown", "UnKnown"]]),
     {:id => "enter_fetal_heart",
     :helptext => "Fetal Heart Beat" } %>
 
@@ -146,6 +148,17 @@
   <%#= touch_date_tag "DATE RESULT GIVEN", @patient, nil,
     {:id => "enter_date_result_given",
     :helptext => "Enter Date Result Given" } %>
+
+  <% options = {
+    :helpText => 'Diagnosis',
+    :allowFreeText => 'false',
+    :multiple => 'true',
+    :ajaxURL => "/encounters/diagnoses?search_string=",
+    :textCase => "upper"} %>
+
+<%= touch_select_tag "Diagnosis", @patient,nil, options,
+    {:id => "maternal_signs_and_symptoms",
+    :helptext => "Diagnosis" } %>
 
   <%= submit_tag 'Finish' %>
 <% end %>
