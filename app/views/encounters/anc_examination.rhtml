@@ -44,7 +44,7 @@
 </style>
 
 <% form_tag :controller => "encounters", :action => "create" do |f| %>
-  <%= hidden_field_tag "encounter[encounter_type_name]", "OBSERVATIONS" %>
+  <%= hidden_field_tag "encounter[encounter_type_name]", "ANC EXAMINATION" %>
   <%= hidden_field_tag "encounter[patient_id]", @patient.id %>
   <%= hidden_field_tag "encounter[encounter_datetime]", DateTime.now() %>
   <%= hidden_field_tag "encounter[provider_id]", session[:user_id] %>
@@ -107,7 +107,6 @@
     :condition => "$('position').value.trim().toUpperCase() == 'BREECH';",
     :tt_pageStyleClass => "NoKeyboard" } %>
 
-
   <% @face = ["", "Left Mento Anterior",
     "Left Mento Transverse",
     "Left Mento Posterior",
@@ -121,7 +120,6 @@
     :field_type => "text",
     :condition => "$('position').value.trim().toUpperCase() == 'FACE';",
     :tt_pageStyleClass => "NoKeyboard" } %>
-
 
   <% @shoulder = ["", "Left Acromion Dorsal Anterior",
     "Left Acromion Dorsal Posterior",
@@ -149,14 +147,27 @@
     {:id => "enter_date_result_given",
     :helptext => "Enter Date Result Given" } %>
 
-  <% options = {
+  <%= touch_yes_no_unknown_tag "SYMPTOMATIC", @patient, nil,
+            {:id => "symptomatic",
+            :optional => false,
+            :helpText => "Any signs?" } %>
+
+  <%= touch_select_tag "DIAGNOSIS", @patient, concept_set_options('MATERNITY DIAGNOSIS LIST'),
+    {:id => "diagnosis",
+     :multiple => true,
+     :optional => true,
+     :condition => "$('symptomatic').value == 'YES'",
+     :helpText => "Select admission diagnosis",
+     :tt_pageStyleClass => "NoKeyboard NoInput small"  } %>
+
+  <%# options = {
     :helpText => 'Diagnosis',
     :allowFreeText => 'false',
     :multiple => 'true',
     :ajaxURL => "/encounters/diagnoses?search_string=",
     :textCase => "upper"} %>
 
-<%= touch_select_tag "Diagnosis", @patient,nil, options,
+<%#= touch_select_tag "Diagnosis", @patient,nil, options,
     {:id => "maternal_signs_and_symptoms",
     :helptext => "Diagnosis" } %>
 

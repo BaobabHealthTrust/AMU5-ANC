@@ -105,6 +105,14 @@ class Observation < ActiveRecord::Base
     formatted_name ||= self.concept.concept_names.first.name rescue 'Unknown concept name'
     "#{self.answer_string(tags)}"
   end
+  
+  def formated_concept_name(tags=[])
+    formatted_name = self.concept_name.tagged(tags).name rescue nil
+    formatted_name ||= self.concept_name.name rescue nil
+    formatted_name ||= self.concept.concept_names.tagged(tags).first.name rescue nil
+    formatted_name ||= self.concept.concept_names.first.name rescue 'Unknown concept name'
+    "#{formatted_name.upcase}" rescue nil
+  end
 
   def answer_string(tags=[])
     coded_answer_name = self.answer_concept.concept_names.typed(tags).first.name rescue nil
