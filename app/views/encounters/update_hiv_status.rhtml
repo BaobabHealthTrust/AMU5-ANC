@@ -1,44 +1,71 @@
 <%= javascript_include_tag "date" %>
 <script>
   var tt_cancel_destination = "/patients/show/<%= @patient.patient_id -%>";
+  <% @session_date = "#{session[:datetime].to_date rescue Date.today}" %>
+  <% @todayDate = @session_date.to_date  %>
+  <% @alert_date = @session_date.to_date - 90.days %>
+  var todayDate = createDate("<%= @todayDate.year %>","<%= @todayDate.month %>","<%= @todayDate.day %>");
+  var alertDate = createDate("<%= @alert_date.year %>","<%= @alert_date.month %>","<%= @alert_date.day %>");
+  var testDate = null;
 
+
+  /* validate test date - checks if the test date 
+   * is not greater than the session date */
   function checkTestDate (){
-    var dateCheck = "";
-
-    var testDate = new Date($('hiv_test_year').value, $('hiv_test_month').value - 1, $('hiv_test_day').value);
-    <% @session_date = "#{session[:datetime]} rescue #{Date.today}" %>
-
-    var sessionDate = "<%="#{@session_date.to_date.year},#{@session_date.to_date.month},#{@session_date.to_date.day}"%>";
-    var todayDate = new Date(sessionDate);
- 
-    if (testDate <= todayDate){
-      dateCheck = 'true'
-      }else {
-      dateCheck = 'false'
-    }
-    return dateCheck
+    testDate = createDate($('hiv_test_year').value, $('hiv_test_month').value, $('hiv_test_day').value);
+    return (testDate <= todayDate);
   }
   
+  //checks if the patient needs to be referred to HTC basesd on the test date 
   function updateTestDate(){
-    var testDate = new Date($('hiv_test_year').value, $('hiv_test_month').value - 1, $('hiv_test_day').value);
+    testDate = createDate($('hiv_test_year').value, $('hiv_test_month').value , $('hiv_test_day').value);
     $('hiv_test_date').value = testDate;
+    return isTestOverDue(testDate,alertDate);
+  }
 
-    if ((3).months().ago() > testDate){
-      showNegativeTestReminder = true
-      }else {
-      showNegativeTestReminder = false
+  function isTestOverDue(testDate,alertDate) {
+    if (testDate <= alertDate){
+      return true;
+    }else {
+      return false;
     }
-    return showNegativeTestReminder
+  }
+  
+
+  function createDate(year,month,day) {
+    date_str = year
+
+    if(month.length == 1)                                                       
+      month = '0' + month                                                       
+                                                                                
+    date_str+='-' + month                                                       
+                                                                                
+    if(day.length == 1)                                                         
+      day = '0' + day                                                           
+                                                                                
+    date_str+='-' + day                                                         
+                                                                                
+    intyear = 0 ; intmonth = 0 ; intday = 0;                                    
+    intyear = parseInt(date_str.substring(0,4))                                 
+    intmonth = (parseInt(date_str.substring(5,7)) - 1)                          
+    intday = (parseInt(date_str.substring(8,10)))                               
+                                                                                
+    if (intmonth == -1)                                                         
+      intmonth = (parseInt(date_str.substring(5,7).substring(1,2)) - 1)         
+                                                                                
+    if (intday == 0)                                                            
+      intday = parseInt(date_str.substring(8,10).substring(1,2))                
+                                                                                
+    return new Date(intyear,intmonth,intday); 
   }
 
-  function showTaskName(){
-    $('inputFrame'+tstCurrentPage).innerHTML = '<div id="summary"><div><span class="title" style="font-size:40px;">Next Task: Update HIV Status</span></div></div>' 
-  }
 </script>
 
 <style>
-   .tt_controls_hiv_test_year #char { display: none; }
-
+  .tt_controls_hiv_test_year #char { display: none; }
+  .tt_controls_htc_serial_number #char { display:none; }
+  .tt_controls_htc_serial_number #Unknown { display:block; }
+  
   .tt_controls_hiv_test_month .keyboard { display:none; }
   #tt_page_hiv_test_month .options{height:550px;}
   #tt_page_hiv_test_month .options li{font-size:35px;}
@@ -56,8 +83,6 @@
   Skip logic
   -->
 
- <%= text_field_tag :task_name, nil, { :tt_onLoad => "showTaskName()", :optional => "true", :tt_pageStyleClass => "NoControls", :helpText => 'Task'} %>
-
  <%= touch_select_tag "HIV STATUS", @patient, options_for_select(@select_options['hiv_status']),
     {:id => "hiv_status",
      :tt_pageStyleClass => "NoKeyboard",
@@ -70,14 +95,14 @@
   <%= text_field_tag "hiv_test_day",  nil, 
     {:field_type => 'number', 
       :helpText => 'HIV test day',
-      :validationCode => "checkTestDate() == 'true'",
+      :validationCode => "checkTestDate();",
       :validationMessage => "HIV test date greater than #{session[:datetime].to_date rescue Date.today.to_date}",
       :condition => '($("hiv_test_year").value != "Unknown") && ($("hiv_test_month").value != "Unknown") && ($("hiv_status").value != "UNKNOWN")', 
       :tt_onLoad => "getDayOfMonthPicker($('hiv_test_year').value, $('hiv_test_month').value)", 
       :tt_onUnload=> "updateTestDate();"
   } %>
 
-  <%= text_field_tag :summary, nil, { :tt_onLoad => '$("hivTestReminder").style.display = "block";$("nextButton").innerHTML = "<span>Finish</span>";', :optional => "true", :tt_pageStyleClass => "NoControls", :helpText => 'HTC Reminder', :condition => '(updateTestDate() == true && $("hiv_status").value == "NEGATIVE") || ($("hiv_status").value == "UNKNOWN");'} %>
+  <%= text_field_tag :summary, nil, { :tt_onLoad => '$("hivTestReminder").style.display = "block";$("nextButton").innerHTML = "<span>Finish</span>";', :optional => "true", :tt_pageStyleClass => "NoControls", :helpText => 'HTC Reminder', :condition => '(updateTestDate() && $("hiv_status").value == "Negative") || ($("hiv_status").value == "Unknown");'} %>
 
   <%= touch_location_tag "LOCATION OF HIV TEST", @patient, nil,
     {:id => "location_of_hiv_test",
@@ -87,6 +112,7 @@
  <%= touch_numeric_tag "HTC SERIAL NUMBER", @patient, nil,
    {:id => "htc_serial_number",
      :condition => '$("hiv_status").value == "POSITIVE"',
+     :tt_pageStyleClass => "Numeric NumbersOnly",
      :helpText => "HTC serial number" } %>
      
 <%unless @art_patient%>     
@@ -99,8 +125,28 @@
 
  <%= touch_hidden_tag "HIV TEST DATE", @patient, nil, {:id => "hiv_test_date", :value_datetime => true}%>
 
-     <%= submit_tag "Finish" %>    
+<% if !@referred_to_htc.nil?  && ('YES' == @referred_to_htc.squish.upcase) %> 
+  <%= hidden_field_tag("observations[][value_coded_or_text]", "NO") %>
+  <%= hidden_field_tag("observations[][concept_name]", "Refer to HTC") %>
+  <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
+<%else%>
+  <% unless Location.current_location.name == "TB HTC" %>
+    <%= touch_yes_no_unknown_tag "Refer to HTC", @patient, nil,
+      {:id => "refer_to_htc",
+      :condition => '$("hiv_status").value != "POSITIVE" && updateTestDate()',
+      :tt_pageStyleClass => "NoKeyboard",
+      :helpText => "Patient has been -ve for more than 3 months. Refer patient to HTC?" } %>
+  <%end%>
+<%end%>
 
+<% session_date = session[:datetime].to_date rescue nil                       
+    if session_date %>                                                          
+      <%= touch_select_tag "Provider", @patient, options_for_select([]),        
+        { :id => "provider",                                                    
+          :ajaxURL => '/user/username?username=',                               
+          :helpText => "Staff who provided the information (Provider)"} %>      
+    <%end%> 
+<%= submit_tag "Finish" %>    
    </form>
 
 <div id='hivTestReminder' class='messageBar' style='display:none'>

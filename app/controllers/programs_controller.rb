@@ -63,7 +63,14 @@ class ProgramsController < ApplicationController
   
   def locations
     #@locations = Location.most_common_program_locations(params[:q] || '')
-    @locations = Location.most_common_locations(params[:q] || '')
+    if params[:transfer_type].blank? || params[:transfer_type].nil?
+        @locations = Location.most_common_locations(params[:q] || '')
+    else
+        search = params[:q] || ''
+        location_tag_id = LocationTag.find_by_name("#{params[:transfer_type]}").id
+        location_ids = LocationTagMap.find(:all,:conditions => ["location_tag_id = (?)",location_tag_id]).map{|e|e.location_id}
+        @locations = Location.find(:all, :conditions=>["location.retired = 0 AND location_id IN (?) AND name LIKE ?", location_ids, "#{search}%"])
+    end
     @names = @locations.map do | location | 
       next if generic_locations.include?(location.name)
       "<li value='#{location.location_id}'>#{location.name}</li>" 
@@ -83,9 +90,9 @@ class ProgramsController < ApplicationController
     else
        @states = ProgramWorkflowState.all(:conditions => ['program_workflow_id = ?', params[:workflow]], :include => :concept)
     end
-
+    
     @names = @states.map{|state|
-      name = state.concept.fullname rescue nil
+      name = state.concept.concept_names.typed("SHORT").first.name rescue state.concept.fullname
       next if name.blank? 
       "<li value='#{state.id}'>#{name}</li>" unless name == params[:current_state]
     }
@@ -181,6 +188,9 @@ class ProgramsController < ApplicationController
           PatientProgram.update_all "date_completed = '#{date_completed.strftime('%Y-%m-%d %H:%M:%S')}'",
                                      "patient_program_id = #{patient_program.patient_program_id}"
         else
+          person = patient_program.patient.person
+          person.dead = 0
+          person.save
           date_completed = nil
           PatientProgram.update_all "date_completed = NULL",
                                      "patient_program_id = #{patient_program.patient_program_id}"

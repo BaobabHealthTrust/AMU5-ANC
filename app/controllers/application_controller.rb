@@ -12,12 +12,16 @@ class ApplicationController < ActionController::Base
   def rescue_action_in_public(exception)
     @message = exception.message
     @backtrace = exception.backtrace.join("\n") unless exception.nil?
+    logger.info @message
+    logger.info @backtrace
     render :file => "#{RAILS_ROOT}/app/views/errors/error.rhtml", :layout=> false, :status => 404
   end if RAILS_ENV == 'development' || RAILS_ENV == 'test'
 
   def rescue_action(exception)
     @message = exception.message
     @backtrace = exception.backtrace.join("\n") unless exception.nil?
+    logger.info @message
+    logger.info @backtrace
     render :file => "#{RAILS_ROOT}/app/views/errors/error.rhtml", :layout=> false, :status => 404
   end if RAILS_ENV == 'production'
 
@@ -69,6 +73,14 @@ class ApplicationController < ActionController::Base
   def use_user_selected_activities
     GlobalProperty.find_by_property('use.user.selected.activities').property_value == "yes" rescue false
   end
+  
+  def tb_dot_sites_tag
+    GlobalProperty.find_by_property('tb_dot_sites_tag').property_value rescue nil
+  end
+
+  def create_from_remote                                                        
+    GlobalProperty.find_by_property('create.from.remote').property_value == "yes" rescue false
+  end
 
   # Convert a list +Concept+s of +Regimen+s for the given +Patient+ <tt>age</tt>
   # into select options. See also +EncountersController#arv_regimen_answers+
@@ -78,10 +90,11 @@ class ApplicationController < ActionController::Base
        (r.concept_names.typed("SHORT").first ||
         r.concept_names.typed("FULLY_SPECIFIED").first).name]
     }
-
-    options.collect{ |opt|
+	
+    suffixed_options = options.collect{ |opt|
       opt_reg = Regimen.find(:all,
                              :select => 'regimen_index',
+							 :order => 'regimen_index',
                              :conditions => ['concept_id = ?', opt[0]]
                             ).uniq.first
       if age >= 15
@@ -92,11 +105,12 @@ class ApplicationController < ActionController::Base
 
       #[opt[0], "#{opt_reg.regimen_index}#{suffix} - #{opt[1]}"]
 		if opt_reg.regimen_index > -1
-      		["#{opt_reg.regimen_index}#{suffix} - #{opt[1]}", opt[0]]
+      		["#{opt_reg.regimen_index}#{suffix} - #{opt[1]}", opt[0], opt_reg.regimen_index.to_i]
 		else
-      		["#{opt[1]}", opt[0]]
+      		["#{opt[1]}", opt[0], opt_reg.regimen_index.to_i]
 		end
-    }.sort_by{|opt| opt[1]}
+    }.sort_by{|opt| opt[2]}
+
   end
 
 private

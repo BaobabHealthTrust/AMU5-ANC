@@ -72,7 +72,7 @@ class PeopleController < ApplicationController
         # TODO - figure out how to write a test for this
         # This is sloppy - creating something as the result of a GET
         found_person_data = Person.find_remote_by_identifier(params[:identifier])
-        found_person =  Person.create_from_form(found_person_data) unless found_person_data.nil?
+        found_person =  Person.create_from_form(found_person_data['person']) unless found_person_data.nil?
       end
       if found_person
         #redirect_to search_complete_url(found_person.id, params[:relation]) and return
@@ -105,18 +105,27 @@ class PeopleController < ApplicationController
   end
  
   def create
+    success = false
     Person.session_datetime = session[:datetime].to_date rescue Date.today
-    person = Person.create_from_form(params[:person])
+
+    #for now BART2 will use BART1 for patient/person creation until we upgrade BART1 to 2
+    #if GlobalProperty.find_by_property('create.from.remote') and property_value == 'yes'
+    #then we create person from remote machine
+
     
-    if person
-        # Encounter handling
-        params[:encounter][:patient_id] = person.id
-        encounter = Encounter.new(params[:encounter])
-        encounter.encounter_datetime = session[:datetime] unless session[:datetime].blank?
-        encounter.save
+    if create_from_remote
+      person_from_remote = Person.create_remote(params)
+      person = Person.create_from_form(person_from_remote["person"]) unless person_from_remote.blank?
+      if !person.blank?
+        success = true
+        person.patient.remote_national_id
+      end
+    else
+      success = true
+      person = Person.create_from_form(params[:person])
     end
-    
-    if params[:person][:patient]
+
+    if params[:person][:patient] && success
       person.patient.national_id_label
       unless (params[:relation].blank?)
         redirect_to search_complete_url(person.id, params[:relation]) and return
@@ -218,6 +227,14 @@ class PeopleController < ApplicationController
     render :text => districts.join('') and return
   end
 
+  def tb_initialization_district
+    districts = District.find(:all, :order => 'name')
+    districts = districts.map do |d|
+      "<li value='#{d.name}'>#{d.name}</li>"
+    end
+    render :text => districts.join('') and return
+  end
+
     # Villages containing the string given in params[:value]
   def village
     traditional_authority_id = TraditionalAuthority.find_by_name("#{params[:filter_value]}").id
@@ -246,7 +263,13 @@ private
       # Notice this swaps them!
       new_relationship_url(:patient_id => primary_person_id, :relation => found_person_id)
     else
-      url_for(:controller => :encounters, :action => :new, :patient_id => found_person_id)
+		#
+		# Hack reversed to continue testing overnight
+		#
+		# TODO: This needs to be redesigned!!!!!!!!!!!
+		#
+      #url_for(:controller => :encounters, :action => :new, :patient_id => found_person_id)
+      url_for(:controller => :people, :action => :confirm , :found_person_id =>found_person_id)
     end
   end
 end

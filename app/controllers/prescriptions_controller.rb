@@ -23,9 +23,9 @@ class PrescriptionsController < ApplicationController
     @suggestions = params[:suggestion] || ['New Prescription']
     @patient = Patient.find(params[:patient_id] || session[:patient_id]) rescue nil
     unless params[:location]
-      session_date = session[:datetime] || params[:imported_date_created] || Time.now()
+      session_date = session[:datetime] || params[:encounter_datetime] || Time.now()
     else
-      session_date = params[:imported_date_created] #Use date_created passed during import
+      session_date = params[:encounter_datetime] #Use encounter_datetime passed during import
     end
     # set current location via params if given
     Location.current_location = Location.find(params[:location]) if params[:location]
@@ -173,17 +173,5 @@ class PrescriptionsController < ApplicationController
       :conditions => ["name LIKE ?", '%' + search_string + '%'])
     render :text => "<li>" + @drugs.map{|drug| drug.name }.join("</li><li>") + "</li>"
   end
-
-# AMU5 methods
-  def give_drugs
-    @patient = Patient.find(params[:patient_id] || session[:patient_id]) rescue nil
-    @generics = Drug.generic
-    @frequencies = Drug.frequencies
-    @diagnosis = @patient.current_diagnoses["DIAGNOSIS"] rescue []
-  end 
-
-  def load_frequencies_and_dosages
-    @drugs = Drug.drugs(params[:concept_id]).to_json
-    render :text => @drugs
-  end 
+  
 end

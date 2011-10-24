@@ -1,6 +1,7 @@
 class DispensationsController < ApplicationController
   def new
     @patient = Patient.find(params[:patient_id] || session[:patient_id]) rescue nil
+
     #@prescriptions = @patient.orders.current.prescriptions.all
     type = EncounterType.find_by_name('TREATMENT')
     session_date = session[:datetime].to_date rescue Date.today
@@ -10,7 +11,7 @@ class DispensationsController < ApplicationController
                      type.id,@patient.id,session_date]) 
     @options = @prescriptions.map{|presc| [presc.drug_order.drug.name, presc.drug_order.drug_inventory_id]}
   end
-  
+
   def create
     if (params[:identifier])
       params[:drug_id] = params[:identifier].match(/^\d+/).to_s
@@ -20,7 +21,7 @@ class DispensationsController < ApplicationController
     unless params[:location]
       session_date = session[:datetime] || Time.now()
     else
-      session_date = params[:imported_date_created] #Use date_created passed during import
+      session_date = params[:encounter_datetime] #Use date_created passed during import
     end
 
     @drug = Drug.find(params[:drug_id]) rescue nil
@@ -52,7 +53,7 @@ class DispensationsController < ApplicationController
       @drug_value = @order.drug_order.drug_inventory_id
     end
     #assign the order_id and  drug_inventory_id
-    # Try to dispense the drug    
+    # Try to dispense the drug
       
     obs = Observation.new(
       :concept_name => "AMOUNT DISPENSED",
@@ -65,8 +66,14 @@ class DispensationsController < ApplicationController
     if obs.save
       @patient.patient_programs.find_last_by_program_id(Program.find_by_name("HIV PROGRAM")).transition(
                :state => "On antiretrovirals",:start_date => session[:datetime] || Time.now()) if @drug.arv? rescue nil
-      @patient.patient_programs.find_last_by_program_id(Program.find_by_name("TB PROGRAM")).transition(
-               :state => "Currently in treatment",:start_date => session[:datetime] || Time.now()) if @drug.tb_medication? rescue nil
+
+    @tb_programs = @patient.patient_programs.in_uncompleted_programs(['TB PROGRAM', 'MDR-TB PROGRAM'])
+
+      if !@tb_programs.blank?
+        @patient.patient_programs.find_last_by_program_id(Program.find_by_name("TB PROGRAM")).transition(
+               :state => "Currently in treatment",:start_date => session[:datetime] || Time.now()) if   @drug.tb_medication? rescue nil
+      end
+
       unless @order.blank?
         @order.drug_order.total_drug_supply(@patient, @encounter,session_date.to_date)
 
@@ -74,8 +81,11 @@ class DispensationsController < ApplicationController
         complete = dispension_complete(@patient,@encounter,@patient.current_treatment_encounter(session_date))
         if complete
           unless params[:location]
-            redirect_to :controller => 'encounters',:action => 'new',:start_date => @order.start_date.to_date,
-              :patient_id => @patient.id,:id =>"show",:encounter_type => "appointment" ,:end_date => @order.auto_expire_date.to_date
+            start_date , end_date = DrugOrder.prescription_dates(@patient,session_date.to_date)
+            redirect_to :controller => 'encounters',:action => 'new',
+              :start_date => start_date,
+              :patient_id => @patient.id,:id =>"show",:encounter_type => "appointment" ,
+              :end_date => end_date
           else
             render :text => 'complete' and return
           end
@@ -119,17 +129,15 @@ class DispensationsController < ApplicationController
 
   def dispension_complete(patient,encounter,prescription)
     complete = false
-    prescription.orders.each do | order |
-      if (order.drug_order.amount_needed <= 0)
-        complete = true
-      else
-        complete = false and break
-      end 
+    prescription.drug_orders.each do | drug_order |
+      complete = (drug_order.amount_needed <= 0)
+      complete = false and break if not complete
     end
 
     if complete
       dispension_completed = patient.set_received_regimen(encounter,prescription) 
     end
-    return complete
+    return DrugOrder.all_orders_complete(patient,encounter.encounter_datetime.to_date)
   end
+
 end

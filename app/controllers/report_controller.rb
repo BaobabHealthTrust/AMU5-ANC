@@ -229,4 +229,61 @@ class ReportController < ApplicationController
     end
   end
 
+  def data_cleaning_tab
+      @reports = {
+                    'Missing Prescriptions'=>'dispensations_without_prescriptions',
+                    'Missing Dispensations'=>'prescriptions_without_dispensations',
+                    'Multiple Start Reasons at Different times'=>'patients_with_multiple_start_reasons',
+                    'Out of range ARV number'=>'out_of_range_arv_number',
+                    'Data Consistency Check'=>'data_consistency_check'
+                 }
+    @landing_dashboard = params[:dashboard]
+    
+    render :layout => false
+  end
+
+  def age_group_select
+    @options = ["","< 6 months",
+                "6 months to < 1 yr",
+                "1 to < 5","5 to 14",
+                "> 14 to < 20","20 to < 30",
+                "30 to < 40","40 to < 50",
+                "50 and above","none"]
+                
+    @start_date = params[:start_date]
+    @end_date = params[:end_date]
+    @report = params[:type] 
+    render :layout => 'application'
+  end
+
+  def opd
+    @diagnosis = params[:diagnosis]
+    @start_date = params[:start_date].to_date
+    @end_date = params[:end_date].to_date
+    @report = params[:report]
+    @report = params[:type] if not params[:type].blank? and @report.blank?
+    @age_group = params[:age_group]
+    if @report == 'diagnosis_by_address'
+      @data = Report.opd_diagnosis_by_location(@diagnosis , @start_date,@end_date,@age_group)
+    elsif @report == 'diagnosis'
+      @data = Report.opd_diagnosis(@start_date,@end_date,@age_group)
+    elsif @report == 'diagnosis_by_demographics'
+      @data = Report.opd_diagnosis_plus_demographics(@diagnosis , @start_date,@end_date,@age_group)
+    elsif @report == 'disaggregated_diagnosis'
+      @data = Report.opd_disaggregated_diagnosis(@start_date,@end_date,@age_group)
+    elsif @report == 'referrals'
+      @data = Report.opd_referrals(@start_date,@end_date)
+    end
+    render :layout => 'menu'
+  end
+
+  def recorded_diagnosis
+    concept_id = ConceptName.find_by_name("DIAGNOSIS").concept_id
+    @names = Observation.find(:all,:joins => "INNER JOIN concept_name c ON obs.value_coded_name_id = c.concept_name_id",
+                              :select => "name",
+                              :conditions => ["obs.concept_id = ? AND name LIKE (?)",
+                              concept_id,"%#{params[:search_string]}%"],:group =>'name').map{|c|c.name}
+    render :text => "<li>" + @names.map{|n| n } .join("</li><li>") + "</li>"
+  end
+
 end

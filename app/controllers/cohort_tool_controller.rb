@@ -11,7 +11,7 @@ class CohortToolController < ApplicationController
       @arv_number_end   = params[:arv_number_end]
     end
 
-  start_date  = Encounter.initial_encounter.encounter_datetime
+  start_date  = Encounter.initial_encounter.encounter_datetime rescue Date.today
   end_date    = Date.today
 
   @cohort_quarters  += Report.generate_cohort_quarters(start_date, end_date)

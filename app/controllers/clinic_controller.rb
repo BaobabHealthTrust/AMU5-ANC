@@ -21,9 +21,14 @@ class ClinicController < ApplicationController
   end
 
   def reports
-    @reports = [['Reports','/report/select/']]
-    # render :template => 'clinic/reports', :layout => 'clinic'
-    render :layout => false
+    @reports = [
+      ["Cohort","/cohort_tool/cohort_menu"],
+      ["Supervision","/clinic/supervision"],
+      ["Data Cleaning Tools", "/report/data_cleaning"],
+      ["Stock report","/drug/date_select"]
+    ]
+
+    render :template => 'clinic/reports', :layout => 'clinic' 
   end
 
   def supervision
@@ -85,6 +90,7 @@ class ClinicController < ApplicationController
     @today = Encounter.statistics(@types, :conditions => ['DATE(encounter_datetime) = DATE(NOW())'])
     @year = Encounter.statistics(@types, :conditions => ['YEAR(encounter_datetime) = YEAR(NOW())'])
     @ever = Encounter.statistics(@types)
+    @user = User.find(session[:user_id]).name rescue ""
 
     simple_overview = GlobalProperty.find_by_property("simple_application_dashboard").property_value rescue nil
     if simple_overview != nil
@@ -131,23 +137,23 @@ class ClinicController < ApplicationController
 
   def properties_tab
     @settings = [
-      ["Set clinic days","/properties/clinic_days"],
-      ["View clinic holidays","/properties/clinic_holidays"],
-      ["Set clinic holidays","/properties/set_clinic_holidays"],
-      ["Set site code", "/properties/site_code"],
-      ["Manage roles", "/properties/set_role_privileges"],
-      ["Use extended staging format", "/properties/creation?value=use_extended_staging_format"],
-      ["Use user selected task(s)", "/properties/creation?value=use_user_selected_activities"],
-      ["Use filing numbers", "/properties/creation?value=use_filing_numbers"],
-      ["Show lab results", "/properties/creation?value=show_lab_results"],
-      ["Set appointment limit", "/properties/set_appointment_limit"]
+      ["Set Clinic Days","/properties/clinic_days"],
+      ["View Clinic Holidays","/properties/clinic_holidays"],
+      ["Set Clinic Holidays","/properties/set_clinic_holidays"],
+      ["Set Site Code", "/properties/site_code"],
+      ["Manage Roles", "/properties/set_role_privileges"],
+      ["Use Extended Staging Format", "/properties/creation?value=use_extended_staging_format"],
+      ["Use User Selected Task(s)", "/properties/creation?value=use_user_selected_activities"],
+      ["Use Filing Numbers", "/properties/creation?value=use_filing_numbers"],
+      ["Show Lab Results", "/properties/creation?value=show_lab_results"],
+      ["Set Appointment Limit", "/properties/set_appointment_limit"]
     ]
     render :layout => false
   end
 
   def administration_tab
     @reports =  [
-                  ['/clinic/users_tab','User accounts/settings'],
+                  ['/clinic/users_tab','User Accounts/Settings'],
                   ['/clinic/location_management_tab','Location Management']
                 ]
     if User.current_user.admin?
@@ -202,6 +208,17 @@ class ClinicController < ApplicationController
       ["Stock report","date_select"]
     ]
     render :layout => false
+  end
+  
+  def lab_tab
+    #only applicable in the sputum submission area
+    enc_date = session[:datetime].to_date rescue Date.today
+    @types = ['LAB ORDERS', 'SPUTUM SUBMISSION', 'LAB RESULTS', 'GIVE LAB RESULTS']
+    @me = Encounter.statistics(@types, :conditions => ['DATE(encounter_datetime) = ? AND encounter.creator = ?', enc_date, User.current_user.user_id])
+    @today = Encounter.statistics(@types, :conditions => ['DATE(encounter_datetime) = ?', enc_date])
+    @user = User.find(session[:user_id]).name rescue ""
+
+    render :template => 'clinic/lab_tab.rhtml' , :layout => false
   end
 
 end

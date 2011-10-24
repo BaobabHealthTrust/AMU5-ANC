@@ -237,9 +237,9 @@
   <%= hidden_field_tag "person[patient]", "" %>
 
   <%= hidden_field_tag "relation", params[:relation] %>
-  
+
   <%= hidden_field_tag :identifier, params[:identifier] %>
-  
+
   <%= hidden_field_tag "encounter[encounter_type_name]", "REGISTRATION" %>
   <%= hidden_field_tag "encounter[patient_id]", ""%>
   <%= hidden_field_tag "encounter[encounter_datetime]", DateTime.now() %>
