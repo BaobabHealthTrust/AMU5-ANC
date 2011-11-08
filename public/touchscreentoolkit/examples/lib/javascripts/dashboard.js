@@ -419,8 +419,9 @@ function generateDashboard(){
     gender.id = "gendercell";
     if(__$('patient_gender')){
         gender.innerHTML = "<div id='gender'><img src='/images/" +
-        (__$('patient_gender').innerHTML.toLowerCase().trim() == "female" ? "female" : "male") +
-        ".gif' height='25px' width='25px' style='padding-left: 3px; padding-top: 2px;' /></div>";
+        (__$('patient_gender').innerHTML.toLowerCase().trim() == "female" ? "female" : "male") + ".gif' alt\'" + 
+        (__$('patient_gender').innerHTML.toLowerCase().trim() == "female" ? "F" : "M") +
+        "\' height='25px' width='25px' style='padding-left: 3px; padding-top: 2px;' /></div>";
     }
 
     topicRow.appendChild(gender);
@@ -734,21 +735,19 @@ function generateGeneralDashboard(){
 
     nav.appendChild(finish);
 
-    if(tt_cancel_show){
-        var logout = document.createElement("button");
-        logout.id = "btnCancel";
-        logout.innerHTML = "<span>Cancel</span>";
-        logout.className = "red";
-        logout.style.cssFloat = "left";
-        logout.style.margin = "10px";
-        logout.onclick = function(){
-            if(tt_cancel_show){
-                window.location = tt_cancel_show;
-            }
+    var logout = document.createElement("button");
+    logout.id = "btnCancel";
+    logout.innerHTML = "<span>Cancel</span>";
+    logout.className = "red";
+    logout.style.cssFloat = "left";
+    logout.style.margin = "10px";
+    logout.onclick = function(){
+        if(tt_cancel_show){
+            window.location = tt_cancel_show;
         }
-
-        nav.appendChild(logout);
     }
+
+    nav.appendChild(logout);
 
     main.innerHTML += page;
 
